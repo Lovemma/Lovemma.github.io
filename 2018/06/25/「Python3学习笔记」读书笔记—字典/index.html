@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="字典是内置类型中唯一的映射（Mapping）结构，基于哈希表存储键值对数据。 值可以是任意类型的数据，但主键必须是可哈希的类型。常见的可变类型，如列表、集合等都不能作为主键使用。即便是元组等不可变类型，也不能引用可变类型元素，即元组中不能含有可变类型的元素。">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「Python3学习笔记」读书笔记—字典">
+<meta property="og:url" content="https://blog.m-in.ooo/2018/06/25/「Python3学习笔记」读书笔记—字典/index.html">
+<meta property="og:site_name" content="M-in&#39;s Blog">
+<meta property="og:description" content="字典是内置类型中唯一的映射（Mapping）结构，基于哈希表存储键值对数据。 值可以是任意类型的数据，但主键必须是可哈希的类型。常见的可变类型，如列表、集合等都不能作为主键使用。即便是元组等不可变类型，也不能引用可变类型元素，即元组中不能含有可变类型的元素。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2018-06-25T15:01:21.808Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「Python3学习笔记」读书笔记—字典">
+<meta name="twitter:description" content="字典是内置类型中唯一的映射（Mapping）结构，基于哈希表存储键值对数据。 值可以是任意类型的数据，但主键必须是可哈希的类型。常见的可变类型，如列表、集合等都不能作为主键使用。即便是元组等不可变类型，也不能引用可变类型元素，即元组中不能含有可变类型的元素。">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="M-in's Blog" type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://blog.m-in.ooo/2018/06/25/「Python3学习笔记」读书笔记—字典/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>「Python3学习笔记」读书笔记—字典 | M-in's Blog</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=[object Object]"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-96620668-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">M-in's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+  
+
+  
+
+  <a href="https://github.com/Lovemma" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.m-in.ooo/2018/06/25/「Python3学习笔记」读书笔记—字典/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="M-in">
+      <meta itemprop="description" content="君子藏器于身，待时而动；天下有道则见，无道则隐。">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="M-in's Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">「Python3学习笔记」读书笔记—字典
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-06-25 22:59:09 / 修改时间：23:01:21" itemprop="dateCreated datePublished" datetime="2018-06-25T22:59:09+08:00">2018-06-25</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+              
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2018/06/25/「Python3学习笔记」读书笔记—字典/#SOHUCS" itemprop="discussionUrl">
+                  <span id="changyan_count_unit" class="post-comments-count hc-comment-count" data-xid="2018/06/25/「Python3学习笔记」读书笔记—字典/" itemprop="commentCount"></span>
+                </a>
+              
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </span></div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>字典是内置类型中唯一的映射（Mapping）结构，基于哈希表存储键值对数据。</p>
+<p>值可以是任意类型的数据，但主键必须是可哈希的类型。常见的可变类型，如列表、集合等都不能作为主键使用。即便是元组等不可变类型，也不能引用可变类型元素，即元组中不能含有可变类型的元素。</p>
+<a id="more"></a>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import collections</span><br><span class="line">&gt;&gt;&gt; issubclass(list, collections.Hashable)</span><br><span class="line">False</span><br><span class="line">&gt;&gt;&gt; issubclass(int, collections.Hashable)</span><br><span class="line">True</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; hash((1, 2, 3))</span><br><span class="line">2528502973977326415</span><br><span class="line">&gt;&gt;&gt; hash((1, 2, [1, 2]))		# 包含可变类型</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;</span><br><span class="line">TypeError: unhashable type: &apos;list&apos;</span><br></pre></td></tr></table></figure>
+<p>哈希计算通过调用 __hash__ 方法返回整数值，用来快速比较内容是否相同。某些类型虽然有该方法，但实际无法执行，故不能作为主键使用。另外，主键对象的哈希值必须恒定不变，否则无法查找键值，甚至会引发错误。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; callable(list().__hash__)</span><br><span class="line">False</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>自定义类型默认实现了 __hash__ 和 __eq__ 方法，用与哈希和相等比较操作。前者为每个实例返回随机值；后者除非与自己比较，否则总是返回 <strong>False</strong>。这两个方法可根据需要进行重载。  </p>
+</blockquote>
+<p>作为常用的数据结构，又因为命名空间的缘故，字典的使用频率非常高。Python 开发团队也一直致力于改进其数据结构和算法，这其中自然也包括惯用的缓存复用。</p>
+<blockquote>
+<p>Python 3.6 借鉴 PyPy 字典设计，采用更紧凑的存储结构。keys.entries 和 values 用数组按添加顺序存储主键和值引用。实际哈希表由 keys.indices 数组承担，通过计算主键哈希值找到合适的位置，然后在该位置存储主键在 key.entries 的实际索引。如此一来，只要通过 indices 获取实际索引后，就可读取主键和值信息了。  </p>
+<p>虽然该版本按添加顺序存储元素，但内部实现不能作为依赖条件。在后续版本中，可能有其他变化。如有明确顺序需求，建议使用 collections.OrderDict。  </p>
+<p>系统分别缓存复用 80 个 dict 和 keys，其中包括长度为 8 的 entries 内存。对于大量小字典对象而言，直接使用，无须任何内存分配操作。回收时，凡内存被扩张过的都会被放弃。  </p>
+<p>从开发地址法（open-address）实现方式来看，它并不适合处理大数据。轻量级方案可选用 shelve、dbm 等标准库模块，也可直接采用 SQLite、LevelDB 等专业数据库。  </p>
+</blockquote>
+<h2 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h2><p>创建字典对象可以使用大括号键值对方式创建，或调用类型构造。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &#123;&quot;a&quot;: 1, &quot;b&quot;: 2&#125;</span><br><span class="line">&#123;&apos;a&apos;: 1, &apos;b&apos;: 2&#125;</span><br><span class="line">&gt;&gt;&gt; dict(a=1, b=2)</span><br><span class="line">&#123;&apos;a&apos;: 1, &apos;b&apos;: 2&#125;</span><br></pre></td></tr></table></figure></p>
+<p>初始化键值参数也可以用元组、列表等可迭代对象的方式提供。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; kvs = ((&quot;a&quot;, 1), [&quot;b&quot;, 2])</span><br><span class="line">&gt;&gt;&gt; dict(kvs)</span><br><span class="line">&#123;&apos;a&apos;: 1, &apos;b&apos;: 2&#125;</span><br></pre></td></tr></table></figure></p>
+<p>基于动态数据创建时，多以 zip、map 函数或推导式完成。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; dict(zip(&quot;abc&quot;, range(3)))</span><br><span class="line">&#123;&apos;a&apos;: 0, &apos;b&apos;: 1, &apos;c&apos;: 2&#125;</span><br><span class="line">&gt;&gt;&gt; dict(map(lambda k, v: (k, v + 10), &quot;abc&quot;, range(3)))</span><br><span class="line">&#123;&apos;a&apos;: 10, &apos;b&apos;: 11, &apos;c&apos;: 12&#125;</span><br><span class="line">&gt;&gt;&gt; &#123;k: v + 10 for k, v in zip(&quot;abc&quot;, range(3))&#125;</span><br><span class="line">&#123;&apos;a&apos;: 10, &apos;b&apos;: 11, &apos;c&apos;: 12&#125;</span><br></pre></td></tr></table></figure></p>
+<p>除了直接提供内容外，某些时候，还须根据一定条件初始化字典对象。比如，基于已有字典内容扩展，或初始化零值等。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a = &#123;&quot;a&quot;: 1&#125;</span><br><span class="line">&gt;&gt;&gt; b = dict(a, b=1)		# 在复制 a 内容的基础上，新增键值对</span><br><span class="line">&gt;&gt;&gt; b</span><br><span class="line">&#123;&apos;a&apos;: 1, &apos;b&apos;: 1&#125;</span><br><span class="line">&gt;&gt;&gt; c = dict.fromkeys(b, 0)		# 仅用 b 的主键，内容另设</span><br><span class="line">&gt;&gt;&gt; c</span><br><span class="line">&#123;&apos;a&apos;: 0, &apos;b&apos;: 0&#125;</span><br><span class="line">&gt;&gt;&gt; d = dict.fromkeys((&quot;counter1&quot;, &quot;counter2&quot;), 0)	# 显示提供主键</span><br><span class="line">&gt;&gt;&gt; d</span><br><span class="line">&#123;&apos;counter1&apos;: 0, &apos;counter2&apos;: 0&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>相比于 fromkeys 方法，推导式可完成更复杂的操作，比如额外的 if 过滤条件。  </p>
+</blockquote>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>字典不是序列类型，不支持序号访问，可以使用主键（键值）读取、新增或删除内容。<br>若主键（键值）不存在，会引发 <strong>KeyError</strong> 异常，可以先用 in、not in 语句判断是否存在该主键（键值），或用 get 方法返回默认值。</p>
+<blockquote>
+<p>get 方法默认值参数仅返回，不影响字典内容。但某些时候，我们还须向字典插入默认值，比如用字典存储多个计数器，那么在第一次取值时延迟初始化很有必要。在字典内有零值内容代表该计数曾被使用，没有则无法记录该行为。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; x = &#123;&#125;</span><br><span class="line">&gt;&gt;&gt; x.setdefault(&quot;a&quot;, 0)		# 如果有 a，那么返回实际内容，否则新增&#123;a:0&#125;键值对</span><br><span class="line">0</span><br><span class="line">&gt;&gt;&gt; x</span><br><span class="line">&#123;&apos;a&apos;: 0&#125;</span><br><span class="line">&gt;&gt;&gt; x[&quot;a&quot;] = 100</span><br><span class="line">&gt;&gt;&gt; x.setdefault(&quot;a&quot;, 0)</span><br><span class="line">100</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>字典不支持加法、乘法、大小等运算，但可比较内容是否相同。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &#123;&quot;a&quot;: 1, &quot;b&quot;: 2&#125; == &#123;&quot;a&quot;: 1, &quot;b&quot;: 2&#125;</span><br><span class="line">True</span><br></pre></td></tr></table></figure></p>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>与早期版本复制数据并返回列表不同，Python 3 默认以视图关联字典内容。如此一来，既能避免复制开销，还能同步观察字典变化。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; x = dict(a = 1, b = 2)</span><br><span class="line">&gt;&gt;&gt; ks = x.keys()		# 主键视图</span><br><span class="line">&gt;&gt;&gt; for k in ks: print(k, x[k])		# 利用视图迭代字典</span><br><span class="line">a 1</span><br><span class="line">b 2</span><br></pre></td></tr></table></figure></p>
+<p><u>::这一段代码不是很明白，迭代获取值还是从原来的字典中获取的，为什么会叫视图呢？::</u></p>
+<p>字典没有独立的只读版本，无论传递引用还是复制品，都存在弊端：</p>
+<ul>
+<li>直接引用有被接收方修改内容的风险</li>
+<li>复制品仅是一次快照，无法获知字典的变化</li>
+</ul>
+<p>视图则不同，它能同步读取字典内容，却无法修改。且可选择不同粒度的内容进行传递，如此可将接收方限定为指定模式下的观察员。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test</span><span class="params">(d)</span>:</span>		<span class="comment"># 传递键值视图（items），只能读取，无法修改</span></span><br><span class="line">    <span class="keyword">for</span> k, v <span class="keyword">in</span> d:</span><br><span class="line">        print(k, v)</span><br></pre></td></tr></table></figure></p>
+<p>视图还支持集合操作，以弥补字典功能上的不足。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a = dict(a = 1, b = 2)</span><br><span class="line">&gt;&gt;&gt; b = dict(c = 3, b = 2)</span><br><span class="line">&gt;&gt;&gt; ka = a.keys()</span><br><span class="line">&gt;&gt;&gt; kb = b.keys()</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; ka &amp; kb		# 交集：在 a、b 中同时存在</span><br><span class="line">&#123;&apos;b&apos;&#125;</span><br><span class="line">&gt;&gt;&gt; ka | kb		# 并集：在 a 或 b 中存在</span><br><span class="line">&#123;&apos;b&apos;, &apos;a&apos;, &apos;c&apos;&#125;</span><br><span class="line">&gt;&gt;&gt; ka - kb		# 差集：仅在 a 中存在</span><br><span class="line">&#123;&apos;a&apos;&#125;</span><br><span class="line">&gt;&gt;&gt; ka ^ kb		# 对称差集：仅在 a 或仅在 b 中出现，相当于“并集-交集”</span><br><span class="line">&#123;&apos;a&apos;, &apos;c&apos;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>利用视图的集合运算，可简化某些操作。例如，只更新，不新增。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a = dict(a = 1, b = 2)</span><br><span class="line">&gt;&gt;&gt; b = dict(b = 20, c = 3)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; ks = a.keys() &amp; b.keys()		# 交集，也就是 a 中必须存在的主键</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; a.update(&#123;k: b[k] for k in ks&#125;)	# 利用交集结果提取待更新的内容</span><br><span class="line">&gt;&gt;&gt; a</span><br><span class="line">&#123;&apos;a&apos;: 1, &apos;b&apos;: 20&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="拓展"><a href="#拓展" class="headerlink" title="拓展"></a>拓展</h2><p>在标准库中，还有几个扩展类型的字典可供使用。</p>
+<p>默认字典（defaultdict）类似于 setdefault 方法的包装。当主键不存在时，调用构造参数提供的工厂函数返回默认值。</p>
+<blockquote>
+<p>将字典直接作为对外接口时，无法保证用户是否会调用 setdefault 或 get 方法。这样，默认字典的内置初始化行为就好于对用户做额外要求。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; import collections</span><br><span class="line">&gt;&gt;&gt; d = collections.defaultdict(lambda : 100)</span><br><span class="line">&gt;&gt;&gt; d[&quot;a&quot;]</span><br><span class="line">100</span><br><span class="line">&gt;&gt;&gt; d[&quot;b&quot;] += 1</span><br><span class="line">&gt;&gt;&gt; d</span><br><span class="line">defaultdict(&lt;function &lt;lambda&gt; at 0x10bfb4f28&gt;, &#123;&apos;a&apos;: 100, &apos;b&apos;: 101&#125;)</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>与内部实现无关，有序字典（OrderedDict）明确记录主键首次插入的次序。</p>
+<blockquote>
+<p>任何时候都要避免依赖内部实现，或者说遵循“显式优于隐式”的规则。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; d = collections.OrderedDict()</span><br><span class="line">&gt;&gt;&gt; d[&quot;z&quot;] = 1</span><br><span class="line">&gt;&gt;&gt; d[&quot;a&quot;] = 2</span><br><span class="line">&gt;&gt;&gt; d[&quot;x&quot;] = 3</span><br><span class="line">&gt;&gt;&gt; for k, v in d.items(): print(k, v)</span><br><span class="line">z 1</span><br><span class="line">a 2</span><br><span class="line">x 3</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>与前面所说不同，计数器（Counter）对于不存在的主键返回零，但不会新增，即将主键添加到字典中。</p>
+<blockquote>
+<p>可通过继承并重载 __miss__ 方法新增键值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; d = collections.Counter()</span><br><span class="line">&gt;&gt;&gt; d[&quot;a&quot;]</span><br><span class="line">0</span><br><span class="line">&gt;&gt;&gt; d[&quot;b&quot;] += 1</span><br><span class="line">&gt;&gt;&gt; d</span><br><span class="line">Counter(&#123;&apos;b&apos;: 1&#125;)</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p>链式字典（ChainMap）以单一接口访问多个字典内容，其自身并不存储数据。读操作按参数顺序依次查找各字典，但修改操作（新增、更新、删除）仅针对第一字典。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; a = dict(a = 1, b =2)</span><br><span class="line">&gt;&gt;&gt; a = dict(a = 1, b = 2)</span><br><span class="line">&gt;&gt;&gt; b = dict(b = 20, c = 30)</span><br><span class="line">&gt;&gt;&gt; x = collections.ChainMap(a, b)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; x[&quot;b&quot;], x[&quot;c&quot;]		# 按顺序命中</span><br><span class="line">(2, 30)</span><br><span class="line">&gt;&gt;&gt; for k, v in x.items(): print(k, v)		# 遍历所有字典</span><br><span class="line">b 2</span><br><span class="line">a 1</span><br><span class="line">c 30</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; x[&quot;b&quot;] = 999		# 更新，命中第一字典</span><br><span class="line">&gt;&gt;&gt; x[&quot;z&quot;] = 888		# 新增，命中第一字典</span><br><span class="line">&gt;&gt;&gt; x</span><br><span class="line">ChainMap(&#123;&apos;a&apos;: 1, &apos;b&apos;: 999, &apos;z&apos;: 888&#125;, &#123;&apos;b&apos;: 20, &apos;c&apos;: 30&#125;)</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>可利用链式字典设计多层次的上下文（context）结构。  </p>
+<p>合理的上下文类型，须具备两个基本特征。首先是继承，所有设置可被调用链的后续函数读取；其次是修改仅针对当前和后续逻辑，不应向无关的父级传递。如此，链式字典查找次序本身就是继承的体现，而修改操作被限制在当前第一字典中中，自然也不会影响父级字典的同名主键设置。  </p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/22/「Python3学习笔记」读书笔记—列表/" rel="next" title="「Python3学习笔记」读书笔记—列表">
+                <i class="fa fa-chevron-left"></i> 「Python3学习笔记」读书笔记—列表
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/29/「Python3学习笔记」读书笔记—集合/" rel="prev" title="「Python3学习笔记」读书笔记—集合">
+                「Python3学习笔记」读书笔记—集合 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="SOHUCS"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="M-in">
+            
+              <p class="site-author-name" itemprop="name">M-in</p>
+              <p class="site-description motion-element" itemprop="description">君子藏器于身，待时而动；天下有道则见，无道则隐。</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">41</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/Lovemma" title="GitHub &rarr; https://github.com/Lovemma" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:dependence.letgo@gmail.com" title="E-Mail &rarr; mailto:dependence.letgo@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#构建"><span class="nav-number">1.</span> <span class="nav-text">构建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作"><span class="nav-number">2.</span> <span class="nav-text">操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图"><span class="nav-number">3.</span> <span class="nav-text">视图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展"><span class="nav-number">4.</span> <span class="nav-text">拓展</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">M-in</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.1"></script>
+
+
+  
+  
+  
+  <script>
+  (function() {
+    var appid = 'cytwTjnUp';
+    var conf = 'b7ecce9edce97034fd0198527d102954';
+    var width = window.innerWidth || document.documentElement.clientWidth;
+    if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>');
+    }
+    else {
+      var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})});
+    }
+  })();
+  </script>
+  <script src="https://assets.changyan.sohu.com/upload/plugins/plugins.count.js"></script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
