@@ -335,7 +335,7 @@
 
   
 
-  <a href="https://github.com/Lovemma" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL0xvdmVtbWE=" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></span>
 
 
 
@@ -379,11 +379,11 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MySQL中 only_full_group_by 问题
+          <h2 class="post-title" itemprop="name headline">MySQL中 only_full_group_by 问题
 
               
             
-          </h1>
+          </h2>
         
 
         <div class="post-meta">
@@ -482,12 +482,12 @@
 </blockquote>
 <a id="more"></a>
 <p>意思就是说，你写的 SQL 语句在sql_mode=only_full_group_by模式下是不兼容的，非聚类列‘xxx’没有出现在 GROUP_BY 子句中。</p>
-<p>用Google搜了下，在官方文档上发现了这个问题的详细说明，具体请看：<a href="https://dev.mysql.com/doc/refman/5.7/en/group-by-handling.html" target="_blank" rel="noopener">MySQL :: MySQL 5.7 Reference Manual :: 12.19.3 MySQL Handling of GROUP BY</a></p>
+<p>用Google搜了下，在官方文档上发现了这个问题的详细说明，具体请看：<span class="exturl" data-url="aHR0cHM6Ly9kZXYubXlzcWwuY29tL2RvYy9yZWZtYW4vNS43L2VuL2dyb3VwLWJ5LWhhbmRsaW5nLmh0bWw=" title="https://dev.mysql.com/doc/refman/5.7/en/group-by-handling.html">MySQL :: MySQL 5.7 Reference Manual :: 12.19.3 MySQL Handling of GROUP BY<i class="fa fa-external-link"></i></span></p>
 <blockquote>
 <p>MySQL 5.7.5 and up implements detection of functional dependence. If the ONLY_FULL_GROUP_BY SQL mode is enabled (which it is by default), MySQL rejects queries for which the select list, HAVING condition, or ORDER BY list refer to nonaggregated columns that are neither named in the GROUP BY clause nor are functionally dependent on them. (Before 5.7.5, MySQL does not detect functional dependency and ONLY_FULL_GROUP_BY is not enabled by default. For a description of pre-5.7.5 behavior, see the MySQL 5.6 Reference Manual.)  </p>
 </blockquote>
 <p>大致就是在 MySQL 5.7.5 版本之前，遵循 SQL92 标准的 ONLY_FULL_GROUP_BY 模式在默认情况下是关闭的，MySQL 并未强行按照 SQL92 标准编写查询语句，而在 5.7.5 之后的版本中，ONLY_FULL_GROUP_BY  的含义改变了，由于遵循了 SQL99 标准，现在将实现更为复杂的功能。也就是说，有时候写的代码变少了，也同样可以实现查询功能。</p>
-<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="1-关闭-ONLY-FULL-GROUP-BY-模式"><a href="#1-关闭-ONLY-FULL-GROUP-BY-模式" class="headerlink" title="1.关闭 ONLY_FULL_GROUP_BY 模式"></a>1.关闭 ONLY_FULL_GROUP_BY 模式</h3><p><a href="https://stackoverflow.com/questions/37951742/1055-expression-of-select-list-is-not-in-group-by-clause-and-contains-nonaggr/42183702" target="_blank" rel="noopener">关闭 ONLY_FULL_GROUP_BY 方法</a><br>这个方法最简单粗暴，但也同样有着问题，在文档中给出了相关的说明，当 ONLY_FULL_GROUP_BY 模式被禁用时，查询出来的每个组中值是随机选取的，这就导致结果可能不符合你的预期。</p>
+<h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><h3 id="1-关闭-ONLY-FULL-GROUP-BY-模式"><a href="#1-关闭-ONLY-FULL-GROUP-BY-模式" class="headerlink" title="1.关闭 ONLY_FULL_GROUP_BY 模式"></a>1.关闭 ONLY_FULL_GROUP_BY 模式</h3><p><span class="exturl" data-url="aHR0cHM6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvMzc5NTE3NDIvMTA1NS1leHByZXNzaW9uLW9mLXNlbGVjdC1saXN0LWlzLW5vdC1pbi1ncm91cC1ieS1jbGF1c2UtYW5kLWNvbnRhaW5zLW5vbmFnZ3IvNDIxODM3MDI=" title="https://stackoverflow.com/questions/37951742/1055-expression-of-select-list-is-not-in-group-by-clause-and-contains-nonaggr/42183702">关闭 ONLY_FULL_GROUP_BY 方法<i class="fa fa-external-link"></i></span><br>这个方法最简单粗暴，但也同样有着问题，在文档中给出了相关的说明，当 ONLY_FULL_GROUP_BY 模式被禁用时，查询出来的每个组中值是随机选取的，这就导致结果可能不符合你的预期。</p>
 <h3 id="2-使用-ANY-VALUE"><a href="#2-使用-ANY-VALUE" class="headerlink" title="2.使用 ANY_VALUE"></a>2.使用 ANY_VALUE</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span>, address, <span class="keyword">MAX</span>(age) <span class="keyword">FROM</span> t <span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">name</span>;</span><br></pre></td></tr></table></figure>
 <p>这么一条查询语句在不禁用 ONLY_FULL_GROUP_BY 模式的情况下，也会出现最开始的错误。<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span>, ANY_VALUE(address), <span class="keyword">MAX</span>(age) <span class="keyword">FROM</span> t <span class="keyword">GROUP</span> <span class="keyword">BY</span> <span class="keyword">name</span>;</span><br></pre></td></tr></table></figure></p>
 <p>而使用 ANY_VALUE 函数后，则不会，ANY_VALUE 同样是随机选取值。</p>
@@ -716,7 +716,7 @@
                   
                     
                   
-                  <a href="https://github.com/Lovemma" title="GitHub &rarr; https://github.com/Lovemma" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0xvdmVtbWE=" title="GitHub &rarr; https://github.com/Lovemma"><i class="fa fa-fw fa-github"></i>GitHub</span>
                 </span>
               
                 <span class="links-of-author-item">
@@ -727,7 +727,7 @@
                   
                     
                   
-                  <a href="mailto:dependence.letgo@gmail.com" title="E-Mail &rarr; mailto:dependence.letgo@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <span class="exturl" data-url="bWFpbHRvOmRlcGVuZGVuY2UubGV0Z29AZ21haWwuY29t" title="E-Mail &rarr; mailto:dependence.letgo@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</span>
                 </span>
               
             </div>
@@ -790,7 +790,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> 强力驱动</div>
 
 
 
@@ -798,7 +798,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a></div>
+  <div class="theme-info">主题 – <span class="exturl theme-link" data-url="aHR0cHM6Ly90aGVtZS1uZXh0Lm9yZw==">NexT.Muse</span></div>
 
 
 
@@ -963,6 +963,8 @@
   
 
   
+  <script src="/js/src/exturl.js?v=7.0.1"></script>
+
 
   
 

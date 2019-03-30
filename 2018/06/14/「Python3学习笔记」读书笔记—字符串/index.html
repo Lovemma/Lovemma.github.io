@@ -335,7 +335,7 @@
 
   
 
-  <a href="https://github.com/Lovemma" class="github-corner" title="Follow me on GitHub" aria-label="Follow me on GitHub" rel="noopener" target="_blank"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></a>
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL0xvdmVtbWE=" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></span>
 
 
 
@@ -379,11 +379,11 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">「Python3学习笔记」读书笔记—字符串
+          <h2 class="post-title" itemprop="name headline">「Python3学习笔记」读书笔记—字符串
 
               
             
-          </h1>
+          </h2>
         
 
         <div class="post-meta">
@@ -490,7 +490,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; open(r&quot;c:\windows\readme.txt”)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; import re</span><br><span class="line">&gt;&gt;&gt; re.findall(r&quot;\b\d+\b&quot;, &quot;a10 100&quot;)</span><br><span class="line">[&apos;100&apos;]</span><br></pre></td></tr></table></figure>
 <h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>字符串支持用加法或乘法运算符拼接字符串。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s = &quot;hello&quot;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; s += &quot;, world&quot;</span><br><span class="line">&gt;&gt;&gt; &quot;-&quot; * 10</span><br><span class="line">&apos;----------&apos;</span><br></pre></td></tr></table></figure></p>
 <p><strong>编译器会尝试在编译期直接计算出字面量拼接结果，可避免运行时的内存开销。不可此类优化程度有限，并不总是有效。</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; def test():</span><br><span class="line">...     a = &quot;x&quot; + &quot;y&quot; + &quot;z&quot;</span><br><span class="line">...     b = &quot;a&quot; * 10</span><br><span class="line">...     return a, b</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; import dis</span><br><span class="line">&gt;&gt;&gt; dis.dis(test)</span><br><span class="line">  2           0 LOAD_CONST               7 (&apos;xyz&apos;)	# 直接给出结果，省略加法结果</span><br><span class="line">              2 STORE_FAST               0 (a)</span><br><span class="line"></span><br><span class="line">  3           4 LOAD_CONST               8 (&apos;aaaaaaaaaa&apos;)	# 省略乘法运算</span><br><span class="line">              6 STORE_FAST               1 (b)</span><br><span class="line"></span><br><span class="line">  4           8 LOAD_FAST                0 (a)</span><br><span class="line">             10 LOAD_FAST                1 (b)</span><br><span class="line">             12 BUILD_TUPLE              2</span><br><span class="line">             14 RETURN_VALUE</span><br></pre></td></tr></table></figure></p>
-<p>多个动态字符串拼接，应优先考虑 join 或 format 方式，而不是使用 + 号操作符直接拼接，这是因为相比于多次加法运算和多次内存分配（字符串是不可变对象），join 这类函数（方法）可预先计算出总长度，一次性分配内存，随后直接复制内存数据填充。另一方面，将固定模版内容与变量分离的 format，更易阅读和维护，可参考以前的这篇记录<a href="https://m-in.coding.me/2018/02/28/Python%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8join%E8%80%8C%E4%B8%8D%E6%98%AF/" target="_blank" rel="noopener">Python连接字符串优先使用join而不是+ | M-in’s Blog</a>。</p>
+<p>多个动态字符串拼接，应优先考虑 join 或 format 方式，而不是使用 + 号操作符直接拼接，这是因为相比于多次加法运算和多次内存分配（字符串是不可变对象），join 这类函数（方法）可预先计算出总长度，一次性分配内存，随后直接复制内存数据填充。另一方面，将固定模版内容与变量分离的 format，更易阅读和维护，可参考以前的这篇记录<span class="exturl" data-url="aHR0cHM6Ly9tLWluLmNvZGluZy5tZS8yMDE4LzAyLzI4L1B5dGhvbiVFOCVCRiU5RSVFNiU4RSVBNSVFNSVBRCU5NyVFNyVBQyVBNiVFNCVCOCVCMiVFNCVCQyU5OCVFNSU4NSU4OCVFNCVCRCVCRiVFNyU5NCVBOGpvaW4lRTglODAlOEMlRTQlQjglOEQlRTYlOTglQUYv" title="https://m-in.coding.me/2018/02/28/Python%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8join%E8%80%8C%E4%B8%8D%E6%98%AF/">Python连接字符串优先使用join而不是+ | M-in’s Blog<i class="fa fa-external-link"></i></span>。</p>
 <p>编写代码时除保持简单外，还应具备良好的可读性。比如：判断是否包含子字符串，in、not in 操作符就比 find 方法自然，更贴近日常阅读习惯。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; &quot;py&quot; in &quot;python&quot;</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; &quot;py&quot; not in &quot;python&quot;</span><br><span class="line">False</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; &quot;python&quot;.find(&quot;py&quot;)</span><br><span class="line">0</span><br></pre></td></tr></table></figure></p>
 <p>作为序列类型，可使用索引序号访问字符串的单个字符或某一片段（<strong>切片</strong>）。Python 3 支持负索引，也就是反向从尾部以 -1 开始（索引 0 表示正向第一个字符）。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s = &quot;0123456789&quot;</span><br><span class="line">&gt;&gt;&gt; s[2]</span><br><span class="line">&apos;2&apos;</span><br><span class="line">&gt;&gt;&gt; s[-1]</span><br><span class="line">&apos;9&apos;</span><br><span class="line">&gt;&gt;&gt; s[2:6]</span><br><span class="line">&apos;2345&apos;</span><br><span class="line">&gt;&gt;&gt; s[2:-2]</span><br><span class="line">&apos;234567&apos;</span><br></pre></td></tr></table></figure>
@@ -503,7 +503,7 @@
 <p>使用 f 前缀标志，Python 解释器在解析大括号内的字段或表达式时，在上下文命名空间（namespace）查找同名对象进行值替换。  </p>
 </blockquote>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; x = 10</span><br><span class="line">&gt;&gt;&gt; y = 20</span><br><span class="line">&gt;&gt;&gt; f&quot;&#123;x&#125; + &#123;y&#125; = &#123;x + y&#125;&quot;</span><br><span class="line">&apos;10 + 20 = 30&apos;</span><br><span class="line"></span><br><span class="line"># 除运算符外，还可以是函数调用。</span><br><span class="line">&gt;&gt;&gt; f&quot;&#123;type(x)&#125;&quot;</span><br><span class="line">&quot;&lt;class &apos;int&apos;&gt;&quot;</span><br></pre></td></tr></table></figure>
-<p>完整的 format 格式化以位置序号或字段名匹配参数进行值替换，可添加对齐、填充、精度等控制。具体请参考官方文档<a href="https://docs.python.org/3/library/string.html?highlight=string#format-string-syntax" target="_blank" rel="noopener">6.1.3. Format String Syntax</a></p>
+<p>完整的 format 格式化以位置序号或字段名匹配参数进行值替换，可添加对齐、填充、精度等控制。具体请参考官方文档<span class="exturl" data-url="aHR0cHM6Ly9kb2NzLnB5dGhvbi5vcmcvMy9saWJyYXJ5L3N0cmluZy5odG1sP2hpZ2hsaWdodD1zdHJpbmcjZm9ybWF0LXN0cmluZy1zeW50YXg=" title="https://docs.python.org/3/library/string.html?highlight=string#format-string-syntax">6.1.3. Format String Syntax<i class="fa fa-external-link"></i></span></p>
 <h2 id="池化"><a href="#池化" class="headerlink" title="池化"></a>池化</h2><p>因为无处不在的名字就是字符串实例，导致字符串可能是进程里实例数量最多的类型之一。</p>
 <p>鉴于相同的名字会出现在不同的命名空间里，那么有必要共享实例。内容相同，且不可变，共享内存不会导致任何问题。关键是节约内存，且可省去创建新实例的开销。</p>
 <p>对此，Python 的做法是实现一个字符串池（ intern ）。</p>
@@ -740,7 +740,7 @@
                   
                     
                   
-                  <a href="https://github.com/Lovemma" title="GitHub &rarr; https://github.com/Lovemma" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                  <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0xvdmVtbWE=" title="GitHub &rarr; https://github.com/Lovemma"><i class="fa fa-fw fa-github"></i>GitHub</span>
                 </span>
               
                 <span class="links-of-author-item">
@@ -751,7 +751,7 @@
                   
                     
                   
-                  <a href="mailto:dependence.letgo@gmail.com" title="E-Mail &rarr; mailto:dependence.letgo@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  <span class="exturl" data-url="bWFpbHRvOmRlcGVuZGVuY2UubGV0Z29AZ21haWwuY29t" title="E-Mail &rarr; mailto:dependence.letgo@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</span>
                 </span>
               
             </div>
@@ -814,7 +814,7 @@
 </div>
 
 
-  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动</div>
+  <div class="powered-by">由 <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> 强力驱动</div>
 
 
 
@@ -822,7 +822,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a></div>
+  <div class="theme-info">主题 – <span class="exturl theme-link" data-url="aHR0cHM6Ly90aGVtZS1uZXh0Lm9yZw==">NexT.Muse</span></div>
 
 
 
@@ -987,6 +987,8 @@
   
 
   
+  <script src="/js/src/exturl.js?v=7.0.1"></script>
+
 
   
 
