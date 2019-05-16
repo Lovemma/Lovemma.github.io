@@ -1,3 +1,4 @@
+https://blog.m-in.ooo/2019/05/16/Huey-每日定时任务的坑/
 https://blog.m-in.ooo/2019/03/25/Flask-的-Context-机制/
 https://blog.m-in.ooo/2018/11/29/帮助理解encode和decode的小技巧/
 https://blog.m-in.ooo/2018/11/28/Python函数传参问题/
@@ -7,4 +8,3 @@ https://blog.m-in.ooo/2018/11/25/MySQL中不同存储引擎的索引的实现方
 https://blog.m-in.ooo/2018/11/20/在数据库中为什么尽量不使用长事务/
 https://blog.m-in.ooo/2018/10/31/模板模式/
 https://blog.m-in.ooo/2018/10/31/策略模式/
-https://blog.m-in.ooo/2018/10/30/状态模式/

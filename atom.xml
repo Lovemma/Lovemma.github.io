@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.m-in.ooo/"/>
-  <updated>2019-03-30T03:34:46.586Z</updated>
+  <updated>2019-05-16T08:00:55.649Z</updated>
   <id>https://blog.m-in.ooo/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Huey 每日定时任务的坑</title>
+    <link href="https://blog.m-in.ooo/2019/05/16/Huey-%E6%AF%8F%E6%97%A5%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%9D%91/"/>
+    <id>https://blog.m-in.ooo/2019/05/16/Huey-每日定时任务的坑/</id>
+    <published>2019-05-16T07:40:59.000Z</published>
+    <updated>2019-05-16T08:00:55.649Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近别人推荐了个轻量级任务队列 Huey，然后我就去试了下，挺好用的，但却碰了文档未说明的坑。</p><a id="more"></a><p>我要做一个每日执行一次的任务，文档只给出每三分钟执行一次的例子：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> huey <span class="keyword">import</span> SqliteHuey</span><br><span class="line"><span class="keyword">from</span> huey <span class="keyword">import</span> crontab</span><br><span class="line"></span><br><span class="line">huey = SqliteHuey(filename=<span class="string">'/tmp/demo.db'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@huey.periodic_task(crontab(minute='*/3'))</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">every_three_minutes</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'This task runs every three minutes'</span>)</span><br></pre></td></tr></table></figure><p>我以为每日执行一次可以这样写：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@huey.periodic_task(crontab(day='*/1'))</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_in_a_day</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'-- PERIODIC TASK -- THIS RUNS EVERY 1 DAYS --'</span>)</span><br></pre></td></tr></table></figure><p>结果它每一分钟就执行了一次，我：？？？</p><p>最后发现还需要设置执行小时和分钟：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@huey.periodic_task(crontab(day='*/1', hour='0', minute='0'))</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_in_a_day</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'-- PERIODIC TASK -- THIS RUNS EVERY 1 DAYS --'</span>)</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近别人推荐了个轻量级任务队列 Huey，然后我就去试了下，挺好用的，但却碰了文档未说明的坑。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.m-in.ooo/categories/Python/"/>
+    
+    
+      <category term="Huey" scheme="https://blog.m-in.ooo/tags/Huey/"/>
+    
+  </entry>
   
   <entry>
     <title>Flask 的 Context 机制</title>
@@ -519,31 +541,6 @@
 &lt;p&gt;与继承相比，通常应该优先选择组合，因为继承使得代码更难复用，继承关系是静态的，并且应用于整个类以及这个类的所有实例。&lt;/p&gt;
 &lt;p&gt;设计模式为我们提供了第四种可选的方法，以支持动态的扩展一个对象的功能，这种方法就是装饰器。&lt;/p&gt;
 &lt;p&gt;装饰器有很多用途，比如数据校验，事务处理，缓存，日志等。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="设计模式" scheme="https://blog.m-in.ooo/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
-    
-      <category term="设计模式" scheme="https://blog.m-in.ooo/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>设计模式之适配器模式</title>
-    <link href="https://blog.m-in.ooo/2018/10/16/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://blog.m-in.ooo/2018/10/16/设计模式之适配器模式/</id>
-    <published>2018-10-16T02:15:28.000Z</published>
-    <updated>2018-10-16T02:16:46.464Z</updated>
-    
-    <content type="html"><![CDATA[<p>适配器模式（Adapter pattern）是一种结构型设计模式，帮助我们实现两个不兼容接口之间的兼容。不兼容接口的含义：如果我们希望把一个老组件用于一个新系统中，或者把一个新组件用于一个老系统中，不对代码进行任何修改两者就能够通信的情况很少见。但又并非总是能修改代码，或因为我们无法访问这些代码（例如，组件以外部库的方式提供），或因为修改代码本身就不切实际。在这些情况下，我们可以编写一个额外的代码层，该代码层包含让两个接口之间能够通信需要进行的所有修改。这个代码层就叫适配器。</p><p>现实中最好的例子就是手机充电口，不同型号安卓手机都可以用同样的充电线充电。</p><a id="more"></a><h2 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h2><p>适配器模式的好处：1）不要求访问他方接口的源代码。2）不违反开放/封闭原则。</p><h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>使用 Python 实现适配器模式有多种方式，可以通过继承的方式来实现适配器，也可以通过<code>class</code>的<code>__dict__</code>来实现。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># external.py</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Synthesizer</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'the &#123;&#125; synthesizer'</span>.format(self.name)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">play</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'is playing an electronic song'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Human</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'&#123;&#125; the human'</span>.format(self.name)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">speak</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'say hello'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># adapter.py</span></span><br><span class="line"><span class="keyword">from</span> external <span class="keyword">import</span> Synthesizer, Human</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Computer</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, name)</span>:</span></span><br><span class="line">        self.name = name</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'the &#123;&#125; computer'</span>.format(self.name)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">execute</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">'executes a program.'</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Adapter</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, obj, adapted_methods)</span>:</span></span><br><span class="line">        self.obj = obj</span><br><span class="line">        self.__dict__.update(adapted_methods)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> str(self.obj)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    objects = [Computer(<span class="string">'Asus'</span>)]</span><br><span class="line">    synth = Synthesizer(<span class="string">'moog'</span>)</span><br><span class="line">    objects.append(Adapter(synth, dict(execute=synth.play)))</span><br><span class="line">    human = Human(<span class="string">'Bob'</span>)</span><br><span class="line">    objects.append(Adapter(human, dict(execute=human.speak)))</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> objects:</span><br><span class="line">        print(<span class="string">'&#123;&#125; &#123;&#125;'</span>.format(str(i), i.execute()))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;适配器模式（Adapter pattern）是一种结构型设计模式，帮助我们实现两个不兼容接口之间的兼容。不兼容接口的含义：如果我们希望把一个老组件用于一个新系统中，或者把一个新组件用于一个老系统中，不对代码进行任何修改两者就能够通信的情况很少见。但又并非总是能修改代码，或因为我们无法访问这些代码（例如，组件以外部库的方式提供），或因为修改代码本身就不切实际。在这些情况下，我们可以编写一个额外的代码层，该代码层包含让两个接口之间能够通信需要进行的所有修改。这个代码层就叫适配器。&lt;/p&gt;
-&lt;p&gt;现实中最好的例子就是手机充电口，不同型号安卓手机都可以用同样的充电线充电。&lt;/p&gt;
     
     </summary>
     
