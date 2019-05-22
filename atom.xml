@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.m-in.ooo/"/>
-  <updated>2019-05-16T08:00:55.649Z</updated>
+  <updated>2019-05-22T16:00:37.219Z</updated>
   <id>https://blog.m-in.ooo/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>通过list()和[]创建空列表的差异</title>
+    <link href="https://blog.m-in.ooo/2019/05/22/%E9%80%9A%E8%BF%87list-%E5%92%8C-%E5%88%9B%E5%BB%BA%E7%A9%BA%E5%88%97%E8%A1%A8%E7%9A%84%E5%B7%AE%E5%BC%82/"/>
+    <id>https://blog.m-in.ooo/2019/05/22/通过list-和-创建空列表的差异/</id>
+    <published>2019-05-22T15:26:39.000Z</published>
+    <updated>2019-05-22T16:00:37.219Z</updated>
+    
+    <content type="html"><![CDATA[<p>我们想创建一个空列表，可以使用如下两种方式：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># option A</span></span><br><span class="line">empty_list = list()</span><br><span class="line"></span><br><span class="line"><span class="comment"># option B</span></span><br><span class="line">empty_list = []</span><br></pre></td></tr></table></figure><p>但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？</p><a id="more"></a><p>最近，看文章碰到了这个问题，就研究了一下，通过命令测试下它们的效率，结果如图</p><p><img src="Jietu20190522-232506.png" alt="list[]和[]的效率差别"></p><p>可以看到通过 <code>[]</code> 创建列表明显要比 <code>list()</code> 快，这是为什么呢？</p><p>用 <code>list()</code> 方法构造一个空列表使用的是 <code>class list([iterable])</code> 的类型构造器，参数可以是一个<code>iterable</code>，如果没有给出参数，构造器将创建一个空列表 <code>[]</code>，相比较而言多了一步 <code>class</code> 调用和参数判断，所以用 <code>[]</code> 直接构造一个空列表的方法速度更快。</p><p><strong>简而言之，主要的区别在于 <code>list()</code> 是一个 function call，Python 的 function call 会创建 stack，并且进行一系列参数检查的操作，中间的开销相对而言就更大了，而 <code>[]</code> 是一个内置的 C 函数，可以直接被调用，因此效率高。</strong></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;我们想创建一个空列表，可以使用如下两种方式：&lt;/p&gt;
+&lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# option A&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;empty_list = list()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# option B&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;empty_list = []&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Python" scheme="https://blog.m-in.ooo/categories/Python/"/>
+    
+    
+      <category term="内部探究" scheme="https://blog.m-in.ooo/tags/%E5%86%85%E9%83%A8%E6%8E%A2%E7%A9%B6/"/>
+    
+  </entry>
   
   <entry>
     <title>Huey 每日定时任务的坑</title>
@@ -57,9 +81,9 @@
       <category term="Python" scheme="https://blog.m-in.ooo/categories/Python/"/>
     
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
-    
       <category term="Flask" scheme="https://blog.m-in.ooo/tags/Flask/"/>
+    
+      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
     
   </entry>
   
@@ -509,38 +533,6 @@
     
       &lt;p&gt;一个系统会随着演进而变得非常复杂，最终形成大量的（并且有时是令人迷惑的）类和交互，这种情况并不少见。&lt;/p&gt;
 &lt;p&gt;但许多情况下，我们并不想把这种复杂性暴露给客户端。而外观设计模式有助于隐藏系统的内部复杂性，并通过一个简化的接口向客户端暴露必要的部分。本质上，外观模式是在已有的系统上实现的一个抽象层。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="设计模式" scheme="https://blog.m-in.ooo/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-    
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
-    
-      <category term="设计模式" scheme="https://blog.m-in.ooo/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>设计模式之装饰器模式</title>
-    <link href="https://blog.m-in.ooo/2018/10/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://blog.m-in.ooo/2018/10/17/设计模式之装饰器模式/</id>
-    <published>2018-10-17T01:14:34.000Z</published>
-    <updated>2018-10-17T01:16:07.330Z</updated>
-    
-    <content type="html"><![CDATA[<p>当我们想对一个已有的对象添加额外的功能时，可以使用如下方法：</p><ol><li>如果合理，可以直接将功能添加到对象所属的类（例如，添加一个新的方法）。</li><li>使用组合</li><li>使用继承</li></ol><p>与继承相比，通常应该优先选择组合，因为继承使得代码更难复用，继承关系是静态的，并且应用于整个类以及这个类的所有实例。</p><p>设计模式为我们提供了第四种可选的方法，以支持动态的扩展一个对象的功能，这种方法就是装饰器。</p><p>装饰器有很多用途，比如数据校验，事务处理，缓存，日志等。</p><a id="more"></a><p>这里以装饰器实现斐波那契数列缓存为例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> functools</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">memoize</span><span class="params">(fn)</span>:</span></span><br><span class="line">    known = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">    @functools.wraps(fn)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">decorator</span><span class="params">(args)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> args <span class="keyword">not</span> <span class="keyword">in</span> known:</span><br><span class="line">            known[args] = fn(args)</span><br><span class="line">        <span class="keyword">return</span> known[args]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> decorator</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@memoize</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fibonacci</span><span class="params">(n)</span>:</span></span><br><span class="line">    <span class="string">'''返回斐波那契数列的第n个数'''</span></span><br><span class="line">    <span class="keyword">assert</span> (n &gt;= <span class="number">0</span>), <span class="string">'n must be &gt;= 0'</span></span><br><span class="line">    <span class="keyword">return</span> n <span class="keyword">if</span> n <span class="keyword">in</span> (<span class="number">0</span>, <span class="number">1</span>) <span class="keyword">else</span> fibonacci(n - <span class="number">1</span>) + fibonacci(n - <span class="number">2</span>)</span><br></pre></td></tr></table></figure></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;当我们想对一个已有的对象添加额外的功能时，可以使用如下方法：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;如果合理，可以直接将功能添加到对象所属的类（例如，添加一个新的方法）。&lt;/li&gt;
-&lt;li&gt;使用组合&lt;/li&gt;
-&lt;li&gt;使用继承&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;与继承相比，通常应该优先选择组合，因为继承使得代码更难复用，继承关系是静态的，并且应用于整个类以及这个类的所有实例。&lt;/p&gt;
-&lt;p&gt;设计模式为我们提供了第四种可选的方法，以支持动态的扩展一个对象的功能，这种方法就是装饰器。&lt;/p&gt;
-&lt;p&gt;装饰器有很多用途，比如数据校验，事务处理，缓存，日志等。&lt;/p&gt;
     
     </summary>
     
