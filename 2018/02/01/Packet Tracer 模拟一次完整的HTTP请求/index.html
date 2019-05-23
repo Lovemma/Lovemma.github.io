@@ -106,10 +106,26 @@
 <meta property="og:site_name" content="M-in&#39;s Blog">
 <meta property="og:description" content="Q：当我们在浏览器中访问一个网址的时候 ，浏览器背后到底发生了什么呢？A：DNS域名解析 –&amp;gt; 发起TCP的3次握手 –&amp;gt; 建立TCP连接后发起http请求 –&amp;gt; 服务器响应http请求，浏览器得到html代码 –&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&amp;gt; 浏览器对页面进行渲染呈现给用户 –&amp;gt; 进行TCP的4次挥手">
 <meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151107@2x.jpg">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-152119@2x.jpg">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151318@2x.jpg">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151410@2x.jpg">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/3985563-f2fe3775bd2678c2.png">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151447@2x.jpg">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151507@2x.jpg">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151619@2x.jpg">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151646@2x.jpg">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-153714@2x.jpg">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-153904@2x.jpg">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/3985563-c1c59148f8b26c43.png">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151717@2x.jpg">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-152055@2x.jpg">
+<meta property="og:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-154551@2x.jpg">
 <meta property="og:updated_time" content="2018-02-28T05:08:01.650Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Packet Tracer 模拟一次完整的HTTP请求">
 <meta name="twitter:description" content="Q：当我们在浏览器中访问一个网址的时候 ，浏览器背后到底发生了什么呢？A：DNS域名解析 –&amp;gt; 发起TCP的3次握手 –&amp;gt; 建立TCP连接后发起http请求 –&amp;gt; 服务器响应http请求，浏览器得到html代码 –&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） –&amp;gt; 浏览器对页面进行渲染呈现给用户 –&amp;gt; 进行TCP的4次挥手">
+<meta name="twitter:image" content="https://blog.m-in.ooo/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151107@2x.jpg">
 
 
 
@@ -494,15 +510,15 @@
 <blockquote>
 <p>这里我在Packet Tracer中模拟一次简单的HTTP请求</p>
 </blockquote>
-<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>网络拓扑图如下：<br></p>
-<h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p>首先浏览器会向DNS服务器发送DNS数据包，请求访问域名所对应的IP地址，这里以在PC1中的浏览器访问<span class="exturl" data-url="aHR0cDovL3d3dy50ZXN0LmNvbeS4uuS+i+OAguaooeaLn+aooeW8j+S4reWPr+S7peeci+WIsFBDMeS6p+eUn+eahEROU+aVsOaNruWMheS7peWPikROU+acjeWKoeWZqOWTjeW6lOeahOaVsOaNruWMhe+8mg==" title="http://www.test.com为例。模拟模式中可以看到PC1产生的DNS数据包以及DNS服务器响应的数据包：">www.test.com为例。模拟模式中可以看到PC1产生的DNS数据包以及DNS服务器响应的数据包：<i class="fa fa-external-link"></i></span><br>  </p>
-<h2 id="发起TCP的三次握手"><a href="#发起TCP的三次握手" class="headerlink" title="发起TCP的三次握手"></a>发起TCP的三次握手</h2><p>得到域名对应的IP地址之后，浏览器会向web服务器发起TCP连接请求，web服务器收到请求后发出响应，过程如下：<br><br>TCP数据包内容如下：<br><br><br></p>
-<h2 id="建立TCP连接后发起http请求"><a href="#建立TCP连接后发起http请求" class="headerlink" title="建立TCP连接后发起http请求"></a>建立TCP连接后发起http请求</h2><p>经过TCP的3次握手之后，浏览器发起了http的请求，使用的http的方法 GET 方法，请求的URL是 / ,协议是HTTP/1.1<br></p>
-<h2 id="服务器端响应http请求，浏览器得到html代码"><a href="#服务器端响应http请求，浏览器得到html代码" class="headerlink" title="服务器端响应http请求，浏览器得到html代码"></a>服务器端响应http请求，浏览器得到html代码</h2><p>服务器端WEB程序接收到http请求以后，就开始处理该请求，处理之后就返回给浏览器html文件。<br></p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><p>网络拓扑图如下：<br><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151107@2x.jpg" title="网络拓扑图"></p>
+<h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p>首先浏览器会向DNS服务器发送DNS数据包，请求访问域名所对应的IP地址，这里以在PC1中的浏览器访问<span class="exturl" data-url="aHR0cDovL3d3dy50ZXN0LmNvbeS4uuS+i+OAguaooeaLn+aooeW8j+S4reWPr+S7peeci+WIsFBDMeS6p+eUn+eahEROU+aVsOaNruWMheS7peWPikROU+acjeWKoeWZqOWTjeW6lOeahOaVsOaNruWMhe+8mg==" title="http://www.test.com为例。模拟模式中可以看到PC1产生的DNS数据包以及DNS服务器响应的数据包：">www.test.com为例。模拟模式中可以看到PC1产生的DNS数据包以及DNS服务器响应的数据包：<i class="fa fa-external-link"></i></span><br><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-152119@2x.jpg"> <img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151318@2x.jpg"> <img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151410@2x.jpg"></p>
+<h2 id="发起TCP的三次握手"><a href="#发起TCP的三次握手" class="headerlink" title="发起TCP的三次握手"></a>发起TCP的三次握手</h2><p>得到域名对应的IP地址之后，浏览器会向web服务器发起TCP连接请求，web服务器收到请求后发出响应，过程如下：<br><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/3985563-f2fe3775bd2678c2.png"><br>TCP数据包内容如下：<br><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151447@2x.jpg"><br><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151507@2x.jpg"><br><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151619@2x.jpg"></p>
+<h2 id="建立TCP连接后发起http请求"><a href="#建立TCP连接后发起http请求" class="headerlink" title="建立TCP连接后发起http请求"></a>建立TCP连接后发起http请求</h2><p>经过TCP的3次握手之后，浏览器发起了http的请求，使用的http的方法 GET 方法，请求的URL是 / ,协议是HTTP/1.1<br><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151646@2x.jpg"></p>
+<h2 id="服务器端响应http请求，浏览器得到html代码"><a href="#服务器端响应http请求，浏览器得到html代码" class="headerlink" title="服务器端响应http请求，浏览器得到html代码"></a>服务器端响应http请求，浏览器得到html代码</h2><p>服务器端WEB程序接收到http请求以后，就开始处理该请求，处理之后就返回给浏览器html文件。<br><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-153714@2x.jpg"></p>
 <h2 id="浏览器解析html代码，并请求html代码中的资源"><a href="#浏览器解析html代码，并请求html代码中的资源" class="headerlink" title="浏览器解析html代码，并请求html代码中的资源"></a>浏览器解析html代码，并请求html代码中的资源</h2><p>浏览器拿到服务器返回的html文件后，就开始解析其中的html代码，遇到js/css/image等静态资源时，就向服务器端去请求下载。</p>
-<h2 id="浏览器对页面进行渲染呈现给用户"><a href="#浏览器对页面进行渲染呈现给用户" class="headerlink" title="浏览器对页面进行渲染呈现给用户"></a>浏览器对页面进行渲染呈现给用户</h2><p>这里的html很简单就只有一行文本<br></p>
-<h2 id="进行TCP的4次挥手"><a href="#进行TCP的4次挥手" class="headerlink" title="进行TCP的4次挥手"></a>进行TCP的4次挥手</h2><p>当数据传送完毕，浏览器会发起断开连接请求，这就有了TCP的4次挥手的过程。<br></p>
-<p>这里不知道是Packet Tracer版本还是其他什么问题，服务器在收到客户端断开连接请求的时候，只发了FIN+ACK的TCP数据包，没有先发送含有ACK的TCP数据包。<br></p>
+<h2 id="浏览器对页面进行渲染呈现给用户"><a href="#浏览器对页面进行渲染呈现给用户" class="headerlink" title="浏览器对页面进行渲染呈现给用户"></a>浏览器对页面进行渲染呈现给用户</h2><p>这里的html很简单就只有一行文本<br><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-153904@2x.jpg"></p>
+<h2 id="进行TCP的4次挥手"><a href="#进行TCP的4次挥手" class="headerlink" title="进行TCP的4次挥手"></a>进行TCP的4次挥手</h2><p>当数据传送完毕，浏览器会发起断开连接请求，这就有了TCP的4次挥手的过程。<br><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/3985563-c1c59148f8b26c43.png"></p>
+<p>这里不知道是Packet Tracer版本还是其他什么问题，服务器在收到客户端断开连接请求的时候，只发了FIN+ACK的TCP数据包，没有先发送含有ACK的TCP数据包。<br><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-151717@2x.jpg"><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-152055@2x.jpg"><img src="/2018/02/01/Packet%20Tracer%20模拟一次完整的HTTP请求/Jietu20180201-154551@2x.jpg"></p>
 <p>至此就完成了一次简单的HTTP请求，这里只是简单的描述一下，实际中要比模拟出来的复杂很多。</p>
 
       

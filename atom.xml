@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://blog.m-in.ooo/"/>
-  <updated>2019-05-22T16:00:37.219Z</updated>
+  <updated>2019-05-23T01:10:12.228Z</updated>
   <id>https://blog.m-in.ooo/</id>
   
   <author>
@@ -21,9 +21,9 @@
     <link href="https://blog.m-in.ooo/2019/05/22/%E9%80%9A%E8%BF%87list-%E5%92%8C-%E5%88%9B%E5%BB%BA%E7%A9%BA%E5%88%97%E8%A1%A8%E7%9A%84%E5%B7%AE%E5%BC%82/"/>
     <id>https://blog.m-in.ooo/2019/05/22/通过list-和-创建空列表的差异/</id>
     <published>2019-05-22T15:26:39.000Z</published>
-    <updated>2019-05-22T16:00:37.219Z</updated>
+    <updated>2019-05-23T01:10:12.228Z</updated>
     
-    <content type="html"><![CDATA[<p>我们想创建一个空列表，可以使用如下两种方式：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># option A</span></span><br><span class="line">empty_list = list()</span><br><span class="line"></span><br><span class="line"><span class="comment"># option B</span></span><br><span class="line">empty_list = []</span><br></pre></td></tr></table></figure><p>但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？</p><a id="more"></a><p>最近，看文章碰到了这个问题，就研究了一下，通过命令测试下它们的效率，结果如图</p><p><img src="Jietu20190522-232506.png" alt="list[]和[]的效率差别"></p><p>可以看到通过 <code>[]</code> 创建列表明显要比 <code>list()</code> 快，这是为什么呢？</p><p>用 <code>list()</code> 方法构造一个空列表使用的是 <code>class list([iterable])</code> 的类型构造器，参数可以是一个<code>iterable</code>，如果没有给出参数，构造器将创建一个空列表 <code>[]</code>，相比较而言多了一步 <code>class</code> 调用和参数判断，所以用 <code>[]</code> 直接构造一个空列表的方法速度更快。</p><p><strong>简而言之，主要的区别在于 <code>list()</code> 是一个 function call，Python 的 function call 会创建 stack，并且进行一系列参数检查的操作，中间的开销相对而言就更大了，而 <code>[]</code> 是一个内置的 C 函数，可以直接被调用，因此效率高。</strong></p>]]></content>
+    <content type="html"><![CDATA[<p>我们想创建一个空列表，可以使用如下两种方式：</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># option A</span></span><br><span class="line">empty_list = list()</span><br><span class="line"></span><br><span class="line"><span class="comment"># option B</span></span><br><span class="line">empty_list = []</span><br></pre></td></tr></table></figure><p>但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？</p><a id="more"></a><p>最近，看文章碰到了这个问题，就研究了一下，通过命令测试下它们的效率，结果如图</p><p><img src="Jietu20190522-232506.png" alt="list[]和[]的效率差别"></p><p>可以看到通过 <code>[]</code> 创建列表明显要比 <code>list()</code> 快，这是为什么呢？</p><p>用 <code>list()</code> 方法构造一个空列表使用的是 <code>class list([iterable])</code> 的类型构造器，参数可以是一个<code>iterable</code>，如果没有给出参数，构造器将创建一个空列表 <code>[]</code>，相比较而言多了一步 <code>class</code> 调用和参数判断，所以用 <code>[]</code> 直接构造一个空列表的方法速度更快。</p><p><strong>简而言之，主要的区别在于 <code>list()</code> 是一个 function call，Python 的 function call 会创建 stack，并且进行一系列参数检查的操作，中间的开销相对而言就更大了，而 <code>[]</code> 是一个内置的 C 函数，可以直接被调用，因此效率高。</strong></p><p>PS：字典（dict）、元组（tuple）等的创建也是如此。</p>]]></content>
     
     <summary type="html">
     

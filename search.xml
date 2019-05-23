@@ -3,7 +3,7 @@
   <entry>
     <title><![CDATA[通过list()和[]创建空列表的差异]]></title>
     <url>%2F2019%2F05%2F22%2F%E9%80%9A%E8%BF%87list-%E5%92%8C-%E5%88%9B%E5%BB%BA%E7%A9%BA%E5%88%97%E8%A1%A8%E7%9A%84%E5%B7%AE%E5%BC%82%2F</url>
-    <content type="text"><![CDATA[我们想创建一个空列表，可以使用如下两种方式： 12345# option Aempty_list = list()# option Bempty_list = [] 但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？ 最近，看文章碰到了这个问题，就研究了一下，通过命令测试下它们的效率，结果如图 可以看到通过 [] 创建列表明显要比 list() 快，这是为什么呢？ 用 list() 方法构造一个空列表使用的是 class list([iterable]) 的类型构造器，参数可以是一个iterable，如果没有给出参数，构造器将创建一个空列表 []，相比较而言多了一步 class 调用和参数判断，所以用 [] 直接构造一个空列表的方法速度更快。 简而言之，主要的区别在于 list() 是一个 function call，Python 的 function call 会创建 stack，并且进行一系列参数检查的操作，中间的开销相对而言就更大了，而 [] 是一个内置的 C 函数，可以直接被调用，因此效率高。]]></content>
+    <content type="text"><![CDATA[我们想创建一个空列表，可以使用如下两种方式： 12345# option Aempty_list = list()# option Bempty_list = [] 但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？ 最近，看文章碰到了这个问题，就研究了一下，通过命令测试下它们的效率，结果如图 可以看到通过 [] 创建列表明显要比 list() 快，这是为什么呢？ 用 list() 方法构造一个空列表使用的是 class list([iterable]) 的类型构造器，参数可以是一个iterable，如果没有给出参数，构造器将创建一个空列表 []，相比较而言多了一步 class 调用和参数判断，所以用 [] 直接构造一个空列表的方法速度更快。 简而言之，主要的区别在于 list() 是一个 function call，Python 的 function call 会创建 stack，并且进行一系列参数检查的操作，中间的开销相对而言就更大了，而 [] 是一个内置的 C 函数，可以直接被调用，因此效率高。 PS：字典（dict）、元组（tuple）等的创建也是如此。]]></content>
       <categories>
         <category>Python</category>
       </categories>
