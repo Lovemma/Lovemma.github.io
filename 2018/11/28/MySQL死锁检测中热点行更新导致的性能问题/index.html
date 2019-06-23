@@ -102,8 +102,8 @@
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL死锁检测中热点行更新导致的性能问题">
-<meta property="og:url" content="https://blog.m-in.ooo/2018/11/28/MySQL死锁检测中热点行更新导致的性能问题/index.html">
-<meta property="og:site_name" content="M-in&#39;s Blog">
+<meta property="og:url" content="https://lovemma.github.io/2018/11/28/MySQL死锁检测中热点行更新导致的性能问题/index.html">
+<meta property="og:site_name" content="茂林修竹">
 <meta property="og:description" content="有一个电影票在线交易业务，顾客 A 要在影院 B 购买电影票。这个业务涉及到以下操作：  从顾客 A 的账户余额中扣除电影票价； 给影院 B 的账户余额中增加这张电影的票价； 记录一条交易日志。  也就是说，要完成这个交易，我们需要 update 两条记录，并 insert 一条记录。当然，为了保证交易的原子性，我们要把这三个操作一个事务中。那么，你会怎样安排这三个语句在事务中的顺序呢？ 试想如果">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://static001.geekbang.org/resource/image/4d/52/4d0eeec7b136371b79248a0aed005a52.jpg">
@@ -115,12 +115,12 @@
 
 
 
-  <link rel="alternate" href="/atom.xml" title="M-in's Blog" type="application/atom+xml">
+  <link rel="alternate" href="/atom.xml" title="茂林修竹" type="application/atom+xml">
 
 
 
 
-  <link rel="canonical" href="https://blog.m-in.ooo/2018/11/28/MySQL死锁检测中热点行更新导致的性能问题/">
+  <link rel="canonical" href="https://lovemma.github.io/2018/11/28/MySQL死锁检测中热点行更新导致的性能问题/">
 
 
 
@@ -130,7 +130,7 @@
   };
 </script>
 
-  <title>MySQL死锁检测中热点行更新导致的性能问题 | M-in's Blog</title>
+  <title>MySQL死锁检测中热点行更新导致的性能问题 | 茂林修竹</title>
   
 
 
@@ -200,7 +200,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">M-in's Blog</span>
+        <span class="site-title">茂林修竹</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -366,16 +366,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.m-in.ooo/2018/11/28/MySQL死锁检测中热点行更新导致的性能问题/">
+    <link itemprop="mainEntityOfPage" href="https://lovemma.github.io/2018/11/28/MySQL死锁检测中热点行更新导致的性能问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="M-in">
+      <meta itemprop="name" content="COldish">
       <meta itemprop="description" content="君子藏器于身，待时而动；天下有道则见，无道则隐。">
       <meta itemprop="image" content="/images/avatar.jpg">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="M-in's Blog">
+      <meta itemprop="name" content="茂林修竹">
     </span>
 
     
@@ -615,9 +615,9 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="M-in">
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="COldish">
             
-              <p class="site-author-name" itemprop="name">M-in</p>
+              <p class="site-author-name" itemprop="name">COldish</p>
               <p class="site-description motion-element" itemprop="description">君子藏器于身，待时而动；天下有道则见，无道则隐。</p>
           </div>
 
@@ -785,7 +785,7 @@
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">M-in</span>
+  <span class="author" itemprop="copyrightHolder">COldish</span>
 
   
 

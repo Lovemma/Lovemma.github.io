@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>M-in&#39;s Blog</title>
+  <title>茂林修竹</title>
   
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="https://blog.m-in.ooo/"/>
+  <link href="https://lovemma.github.io/"/>
   <updated>2019-06-23T13:42:48.592Z</updated>
-  <id>https://blog.m-in.ooo/</id>
+  <id>https://lovemma.github.io/</id>
   
   <author>
-    <name>M-in</name>
+    <name>COldish</name>
     
   </author>
   
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Python 如何流式读取大文件</title>
-    <link href="https://blog.m-in.ooo/2019/06/23/Python-%E5%A6%82%E4%BD%95%E6%B5%81%E5%BC%8F%E8%AF%BB%E5%8F%96%E5%A4%A7%E6%96%87%E4%BB%B6/"/>
-    <id>https://blog.m-in.ooo/2019/06/23/Python-如何流式读取大文件/</id>
+    <link href="https://lovemma.github.io/2019/06/23/Python-%E5%A6%82%E4%BD%95%E6%B5%81%E5%BC%8F%E8%AF%BB%E5%8F%96%E5%A4%A7%E6%96%87%E4%BB%B6/"/>
+    <id>https://lovemma.github.io/2019/06/23/Python-如何流式读取大文件/</id>
     <published>2019-06-23T13:28:52.000Z</published>
     <updated>2019-06-23T13:42:48.592Z</updated>
     
@@ -40,17 +40,17 @@
     
     </summary>
     
-      <category term="Python" scheme="https://blog.m-in.ooo/categories/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/categories/Python/"/>
     
     
-      <category term="Python技巧" scheme="https://blog.m-in.ooo/tags/Python%E6%8A%80%E5%B7%A7/"/>
+      <category term="Python技巧" scheme="https://lovemma.github.io/tags/Python%E6%8A%80%E5%B7%A7/"/>
     
   </entry>
   
   <entry>
     <title>MySQL如何在给定场景下为一个用户授权?</title>
-    <link href="https://blog.m-in.ooo/2019/05/24/MySQL%E5%A6%82%E4%BD%95%E5%9C%A8%E7%BB%99%E5%AE%9A%E5%9C%BA%E6%99%AF%E4%B8%8B%E4%B8%BA%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83/"/>
-    <id>https://blog.m-in.ooo/2019/05/24/MySQL如何在给定场景下为一个用户授权/</id>
+    <link href="https://lovemma.github.io/2019/05/24/MySQL%E5%A6%82%E4%BD%95%E5%9C%A8%E7%BB%99%E5%AE%9A%E5%9C%BA%E6%99%AF%E4%B8%8B%E4%B8%BA%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83/"/>
+    <id>https://lovemma.github.io/2019/05/24/MySQL如何在给定场景下为一个用户授权/</id>
     <published>2019-05-24T07:16:35.000Z</published>
     <updated>2019-05-24T08:07:57.182Z</updated>
     
@@ -78,17 +78,17 @@
     
     </summary>
     
-      <category term="数据库" scheme="https://blog.m-in.ooo/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+      <category term="数据库" scheme="https://lovemma.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
     
-      <category term="MySQL用户授权" scheme="https://blog.m-in.ooo/tags/MySQL%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83/"/>
+      <category term="MySQL用户授权" scheme="https://lovemma.github.io/tags/MySQL%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83/"/>
     
   </entry>
   
   <entry>
     <title>通过list()和[]创建空列表的差异</title>
-    <link href="https://blog.m-in.ooo/2019/05/22/%E9%80%9A%E8%BF%87list-%E5%92%8C-%E5%88%9B%E5%BB%BA%E7%A9%BA%E5%88%97%E8%A1%A8%E7%9A%84%E5%B7%AE%E5%BC%82/"/>
-    <id>https://blog.m-in.ooo/2019/05/22/通过list-和-创建空列表的差异/</id>
+    <link href="https://lovemma.github.io/2019/05/22/%E9%80%9A%E8%BF%87list-%E5%92%8C-%E5%88%9B%E5%BB%BA%E7%A9%BA%E5%88%97%E8%A1%A8%E7%9A%84%E5%B7%AE%E5%BC%82/"/>
+    <id>https://lovemma.github.io/2019/05/22/通过list-和-创建空列表的差异/</id>
     <published>2019-05-22T15:26:39.000Z</published>
     <updated>2019-05-23T01:10:12.228Z</updated>
     
@@ -102,17 +102,17 @@
     
     </summary>
     
-      <category term="Python" scheme="https://blog.m-in.ooo/categories/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/categories/Python/"/>
     
     
-      <category term="内部探究" scheme="https://blog.m-in.ooo/tags/%E5%86%85%E9%83%A8%E6%8E%A2%E7%A9%B6/"/>
+      <category term="内部探究" scheme="https://lovemma.github.io/tags/%E5%86%85%E9%83%A8%E6%8E%A2%E7%A9%B6/"/>
     
   </entry>
   
   <entry>
     <title>Huey 每日定时任务的坑</title>
-    <link href="https://blog.m-in.ooo/2019/05/16/Huey-%E6%AF%8F%E6%97%A5%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%9D%91/"/>
-    <id>https://blog.m-in.ooo/2019/05/16/Huey-每日定时任务的坑/</id>
+    <link href="https://lovemma.github.io/2019/05/16/Huey-%E6%AF%8F%E6%97%A5%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%9D%91/"/>
+    <id>https://lovemma.github.io/2019/05/16/Huey-每日定时任务的坑/</id>
     <published>2019-05-16T07:40:59.000Z</published>
     <updated>2019-05-16T08:00:55.649Z</updated>
     
@@ -124,17 +124,17 @@
     
     </summary>
     
-      <category term="Python" scheme="https://blog.m-in.ooo/categories/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/categories/Python/"/>
     
     
-      <category term="Huey" scheme="https://blog.m-in.ooo/tags/Huey/"/>
+      <category term="Huey" scheme="https://lovemma.github.io/tags/Huey/"/>
     
   </entry>
   
   <entry>
     <title>Flask 的 Context 机制</title>
-    <link href="https://blog.m-in.ooo/2019/03/25/Flask-%E7%9A%84-Context-%E6%9C%BA%E5%88%B6/"/>
-    <id>https://blog.m-in.ooo/2019/03/25/Flask-的-Context-机制/</id>
+    <link href="https://lovemma.github.io/2019/03/25/Flask-%E7%9A%84-Context-%E6%9C%BA%E5%88%B6/"/>
+    <id>https://lovemma.github.io/2019/03/25/Flask-的-Context-机制/</id>
     <published>2019-03-25T07:10:38.000Z</published>
     <updated>2019-03-30T03:34:46.586Z</updated>
     
@@ -147,19 +147,19 @@
     
     </summary>
     
-      <category term="Python" scheme="https://blog.m-in.ooo/categories/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/categories/Python/"/>
     
     
-      <category term="Flask" scheme="https://blog.m-in.ooo/tags/Flask/"/>
+      <category term="Flask" scheme="https://lovemma.github.io/tags/Flask/"/>
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>帮助理解encode和decode的小技巧</title>
-    <link href="https://blog.m-in.ooo/2018/11/29/%E5%B8%AE%E5%8A%A9%E7%90%86%E8%A7%A3encode%E5%92%8Cdecode%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/"/>
-    <id>https://blog.m-in.ooo/2018/11/29/帮助理解encode和decode的小技巧/</id>
+    <link href="https://lovemma.github.io/2018/11/29/%E5%B8%AE%E5%8A%A9%E7%90%86%E8%A7%A3encode%E5%92%8Cdecode%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/"/>
+    <id>https://lovemma.github.io/2018/11/29/帮助理解encode和decode的小技巧/</id>
     <published>2018-11-29T06:29:40.000Z</published>
     <updated>2018-11-29T06:30:16.051Z</updated>
     
@@ -175,17 +175,17 @@
     
     </summary>
     
-      <category term="Python" scheme="https://blog.m-in.ooo/categories/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/categories/Python/"/>
     
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>Python函数传参问题</title>
-    <link href="https://blog.m-in.ooo/2018/11/28/Python%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/"/>
-    <id>https://blog.m-in.ooo/2018/11/28/Python函数传参问题/</id>
+    <link href="https://lovemma.github.io/2018/11/28/Python%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/"/>
+    <id>https://lovemma.github.io/2018/11/28/Python函数传参问题/</id>
     <published>2018-11-28T15:15:54.000Z</published>
     <updated>2018-12-04T06:14:46.205Z</updated>
     
@@ -200,17 +200,17 @@
     
     </summary>
     
-      <category term="Python" scheme="https://blog.m-in.ooo/categories/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/categories/Python/"/>
     
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/tags/Python/"/>
     
   </entry>
   
   <entry>
     <title>MySQL死锁检测中热点行更新导致的性能问题</title>
-    <link href="https://blog.m-in.ooo/2018/11/28/MySQL%E6%AD%BB%E9%94%81%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%83%AD%E7%82%B9%E8%A1%8C%E6%9B%B4%E6%96%B0%E5%AF%BC%E8%87%B4%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98/"/>
-    <id>https://blog.m-in.ooo/2018/11/28/MySQL死锁检测中热点行更新导致的性能问题/</id>
+    <link href="https://lovemma.github.io/2018/11/28/MySQL%E6%AD%BB%E9%94%81%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%83%AD%E7%82%B9%E8%A1%8C%E6%9B%B4%E6%96%B0%E5%AF%BC%E8%87%B4%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98/"/>
+    <id>https://lovemma.github.io/2018/11/28/MySQL死锁检测中热点行更新导致的性能问题/</id>
     <published>2018-11-28T09:33:47.000Z</published>
     <updated>2018-11-28T09:34:25.273Z</updated>
     
@@ -231,17 +231,17 @@
     
     </summary>
     
-      <category term="数据库" scheme="https://blog.m-in.ooo/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+      <category term="数据库" scheme="https://lovemma.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
     
-      <category term="MySQL" scheme="https://blog.m-in.ooo/tags/MySQL/"/>
+      <category term="MySQL" scheme="https://lovemma.github.io/tags/MySQL/"/>
     
   </entry>
   
   <entry>
     <title>在mysql如何挑选索引列</title>
-    <link href="https://blog.m-in.ooo/2018/11/27/%E5%9C%A8mysql%E5%A6%82%E4%BD%95%E6%8C%91%E9%80%89%E7%B4%A2%E5%BC%95%E5%88%97/"/>
-    <id>https://blog.m-in.ooo/2018/11/27/在mysql如何挑选索引列/</id>
+    <link href="https://lovemma.github.io/2018/11/27/%E5%9C%A8mysql%E5%A6%82%E4%BD%95%E6%8C%91%E9%80%89%E7%B4%A2%E5%BC%95%E5%88%97/"/>
+    <id>https://lovemma.github.io/2018/11/27/在mysql如何挑选索引列/</id>
     <published>2018-11-27T06:54:52.000Z</published>
     <updated>2018-11-27T07:27:17.437Z</updated>
     
@@ -258,17 +258,17 @@
     
     </summary>
     
-      <category term="数据库" scheme="https://blog.m-in.ooo/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+      <category term="数据库" scheme="https://lovemma.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
     
-      <category term="MySQL" scheme="https://blog.m-in.ooo/tags/MySQL/"/>
+      <category term="MySQL" scheme="https://lovemma.github.io/tags/MySQL/"/>
     
   </entry>
   
   <entry>
     <title>MySQL中不同存储引擎的索引的实现方式</title>
-    <link href="https://blog.m-in.ooo/2018/11/25/MySQL%E4%B8%AD%E4%B8%8D%E5%90%8C%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%9A%84%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/"/>
-    <id>https://blog.m-in.ooo/2018/11/25/MySQL中不同存储引擎的索引的实现方式/</id>
+    <link href="https://lovemma.github.io/2018/11/25/MySQL%E4%B8%AD%E4%B8%8D%E5%90%8C%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%9A%84%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/"/>
+    <id>https://lovemma.github.io/2018/11/25/MySQL中不同存储引擎的索引的实现方式/</id>
     <published>2018-11-25T08:34:17.000Z</published>
     <updated>2018-11-25T08:35:07.042Z</updated>
     
@@ -285,17 +285,17 @@
     
     </summary>
     
-      <category term="数据库" scheme="https://blog.m-in.ooo/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+      <category term="数据库" scheme="https://lovemma.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
     
-      <category term="MySQL" scheme="https://blog.m-in.ooo/tags/MySQL/"/>
+      <category term="MySQL" scheme="https://lovemma.github.io/tags/MySQL/"/>
     
   </entry>
   
   <entry>
     <title>在数据库中为什么尽量不使用长事务?</title>
-    <link href="https://blog.m-in.ooo/2018/11/20/%E5%9C%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E5%B0%BD%E9%87%8F%E4%B8%8D%E4%BD%BF%E7%94%A8%E9%95%BF%E4%BA%8B%E5%8A%A1/"/>
-    <id>https://blog.m-in.ooo/2018/11/20/在数据库中为什么尽量不使用长事务/</id>
+    <link href="https://lovemma.github.io/2018/11/20/%E5%9C%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E5%B0%BD%E9%87%8F%E4%B8%8D%E4%BD%BF%E7%94%A8%E9%95%BF%E4%BA%8B%E5%8A%A1/"/>
+    <id>https://lovemma.github.io/2018/11/20/在数据库中为什么尽量不使用长事务/</id>
     <published>2018-11-20T05:59:30.000Z</published>
     <updated>2018-11-25T08:20:33.403Z</updated>
     
@@ -315,17 +315,17 @@
     
     </summary>
     
-      <category term="数据库" scheme="https://blog.m-in.ooo/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+      <category term="数据库" scheme="https://lovemma.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
     
-      <category term="MySQL" scheme="https://blog.m-in.ooo/tags/MySQL/"/>
+      <category term="MySQL" scheme="https://lovemma.github.io/tags/MySQL/"/>
     
   </entry>
   
   <entry>
     <title>模板模式</title>
-    <link href="https://blog.m-in.ooo/2018/10/31/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://blog.m-in.ooo/2018/10/31/模板模式/</id>
+    <link href="https://lovemma.github.io/2018/10/31/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://lovemma.github.io/2018/10/31/模板模式/</id>
     <published>2018-10-31T05:58:04.000Z</published>
     <updated>2018-10-31T06:37:54.401Z</updated>
     
@@ -341,19 +341,19 @@
     
     </summary>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/tags/Python/"/>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>策略模式</title>
-    <link href="https://blog.m-in.ooo/2018/10/31/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://blog.m-in.ooo/2018/10/31/策略模式/</id>
+    <link href="https://lovemma.github.io/2018/10/31/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://lovemma.github.io/2018/10/31/策略模式/</id>
     <published>2018-10-31T02:42:27.000Z</published>
     <updated>2018-10-31T02:43:04.105Z</updated>
     
@@ -367,19 +367,19 @@
     
     </summary>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/tags/Python/"/>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>状态模式</title>
-    <link href="https://blog.m-in.ooo/2018/10/30/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://blog.m-in.ooo/2018/10/30/状态模式/</id>
+    <link href="https://lovemma.github.io/2018/10/30/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://lovemma.github.io/2018/10/30/状态模式/</id>
     <published>2018-10-30T13:18:49.000Z</published>
     <updated>2018-10-30T13:19:28.463Z</updated>
     
@@ -393,19 +393,19 @@
     
     </summary>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/tags/Python/"/>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>观察者模式</title>
-    <link href="https://blog.m-in.ooo/2018/10/29/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://blog.m-in.ooo/2018/10/29/观察者模式/</id>
+    <link href="https://lovemma.github.io/2018/10/29/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://lovemma.github.io/2018/10/29/观察者模式/</id>
     <published>2018-10-29T12:04:55.000Z</published>
     <updated>2018-10-29T12:05:49.358Z</updated>
     
@@ -417,19 +417,19 @@
     
     </summary>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/tags/Python/"/>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>设计模式:解释器模式</title>
-    <link href="https://blog.m-in.ooo/2018/10/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://blog.m-in.ooo/2018/10/28/设计模式-解释器模式/</id>
+    <link href="https://lovemma.github.io/2018/10/28/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://lovemma.github.io/2018/10/28/设计模式-解释器模式/</id>
     <published>2018-10-28T07:06:34.000Z</published>
     <updated>2018-10-28T07:07:26.896Z</updated>
     
@@ -443,19 +443,19 @@
     
     </summary>
     
-      <category term="解释器模式" scheme="https://blog.m-in.ooo/categories/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
+      <category term="解释器模式" scheme="https://lovemma.github.io/categories/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
     
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/tags/Python/"/>
     
-      <category term="解释器模式" scheme="https://blog.m-in.ooo/tags/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
+      <category term="解释器模式" scheme="https://lovemma.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>设计模式之命令模式</title>
-    <link href="https://blog.m-in.ooo/2018/10/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://blog.m-in.ooo/2018/10/24/设计模式之命令模式/</id>
+    <link href="https://lovemma.github.io/2018/10/24/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://lovemma.github.io/2018/10/24/设计模式之命令模式/</id>
     <published>2018-10-24T14:33:54.000Z</published>
     <updated>2018-10-24T14:34:26.448Z</updated>
     
@@ -469,19 +469,19 @@
     
     </summary>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/tags/Python/"/>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>设计模式之责任链模式</title>
-    <link href="https://blog.m-in.ooo/2018/10/23/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://blog.m-in.ooo/2018/10/23/设计模式之责任链模式/</id>
+    <link href="https://lovemma.github.io/2018/10/23/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://lovemma.github.io/2018/10/23/设计模式之责任链模式/</id>
     <published>2018-10-23T12:02:16.000Z</published>
     <updated>2018-10-23T12:02:42.145Z</updated>
     
@@ -494,19 +494,19 @@
     
     </summary>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/tags/Python/"/>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>设计模式之代理模式</title>
-    <link href="https://blog.m-in.ooo/2018/10/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://blog.m-in.ooo/2018/10/22/设计模式之代理模式/</id>
+    <link href="https://lovemma.github.io/2018/10/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://lovemma.github.io/2018/10/22/设计模式之代理模式/</id>
     <published>2018-10-22T14:06:07.000Z</published>
     <updated>2018-10-22T14:07:03.486Z</updated>
     
@@ -525,19 +525,19 @@
     
     </summary>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/tags/Python/"/>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
   <entry>
     <title>设计模式之MVC模式</title>
-    <link href="https://blog.m-in.ooo/2018/10/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8BMVC%E6%A8%A1%E5%BC%8F/"/>
-    <id>https://blog.m-in.ooo/2018/10/22/设计模式之MVC模式/</id>
+    <link href="https://lovemma.github.io/2018/10/22/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8BMVC%E6%A8%A1%E5%BC%8F/"/>
+    <id>https://lovemma.github.io/2018/10/22/设计模式之MVC模式/</id>
     <published>2018-10-22T02:34:29.000Z</published>
     <updated>2018-10-22T02:36:54.911Z</updated>
     
@@ -550,12 +550,12 @@
     
     </summary>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
     
-      <category term="Python" scheme="https://blog.m-in.ooo/tags/Python/"/>
+      <category term="Python" scheme="https://lovemma.github.io/tags/Python/"/>
     
-      <category term="设计模式" scheme="https://blog.m-in.ooo/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+      <category term="设计模式" scheme="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
     
   </entry>
   
