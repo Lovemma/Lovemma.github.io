@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://lovemma.github.io/2019/09/18/Memory-Leak-in-Celery-4-2/</loc>
+    
+    <lastmod>2019-09-18T06:03:53.738Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://lovemma.github.io/2019/06/23/Python-%E5%A6%82%E4%BD%95%E6%B5%81%E5%BC%8F%E8%AF%BB%E5%8F%96%E5%A4%A7%E6%96%87%E4%BB%B6/</loc>
     
     <lastmod>2019-06-23T13:42:48.592Z</lastmod>
