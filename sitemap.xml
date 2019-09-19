@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://lovemma.github.io/2019/09/19/debugging-with-ipdb/</loc>
+    
+    <lastmod>2019-09-19T15:02:32.255Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://lovemma.github.io/2019/09/18/Memory-Leak-in-Celery-4-2/</loc>
     
     <lastmod>2019-09-18T06:03:53.738Z</lastmod>

@@ -98,18 +98,18 @@
 
 
 
-  <meta name="description" content="最近别人推荐了个轻量级任务队列 Huey，然后我就去试了下，挺好用的，但却碰了文档未说明的坑。">
-<meta name="keywords" content="Huey">
+  <meta name="description" content="ipdb（IPython debugger）, 与 pdb 类似,  是一款集成了 IPython 的 Python 代码命令行调试工具，支持 Tab 键补全，语法高亮等。 安装ipdb 是 Python 的第三方库，使用 pip 即可安装1pip install ipdb 使用与 pdb 类似, ipdb 的使用主要分为两种方式： 集成到代码中在调试位置插入断点即可。如下所示:123x = 1i">
+<meta name="keywords" content="Python,ipdb">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Huey 每日定时任务的坑">
-<meta property="og:url" content="https://lovemma.github.io/2019/05/16/Huey-每日定时任务的坑/index.html">
+<meta property="og:title" content="优秀的调试工具：ipdb">
+<meta property="og:url" content="https://lovemma.github.io/2019/09/19/debugging-with-ipdb/index.html">
 <meta property="og:site_name" content="茂林修竹">
-<meta property="og:description" content="最近别人推荐了个轻量级任务队列 Huey，然后我就去试了下，挺好用的，但却碰了文档未说明的坑。">
+<meta property="og:description" content="ipdb（IPython debugger）, 与 pdb 类似,  是一款集成了 IPython 的 Python 代码命令行调试工具，支持 Tab 键补全，语法高亮等。 安装ipdb 是 Python 的第三方库，使用 pip 即可安装1pip install ipdb 使用与 pdb 类似, ipdb 的使用主要分为两种方式： 集成到代码中在调试位置插入断点即可。如下所示:123x = 1i">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-05-16T08:00:55.649Z">
+<meta property="og:updated_time" content="2019-09-19T15:02:32.255Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Huey 每日定时任务的坑">
-<meta name="twitter:description" content="最近别人推荐了个轻量级任务队列 Huey，然后我就去试了下，挺好用的，但却碰了文档未说明的坑。">
+<meta name="twitter:title" content="优秀的调试工具：ipdb">
+<meta name="twitter:description" content="ipdb（IPython debugger）, 与 pdb 类似,  是一款集成了 IPython 的 Python 代码命令行调试工具，支持 Tab 键补全，语法高亮等。 安装ipdb 是 Python 的第三方库，使用 pip 即可安装1pip install ipdb 使用与 pdb 类似, ipdb 的使用主要分为两种方式： 集成到代码中在调试位置插入断点即可。如下所示:123x = 1i">
 
 
 
@@ -118,7 +118,7 @@
 
 
 
-  <link rel="canonical" href="https://lovemma.github.io/2019/05/16/Huey-每日定时任务的坑/">
+  <link rel="canonical" href="https://lovemma.github.io/2019/09/19/debugging-with-ipdb/">
 
 
 
@@ -128,7 +128,7 @@
   };
 </script>
 
-  <title>Huey 每日定时任务的坑 | 茂林修竹</title>
+  <title>优秀的调试工具：ipdb | 茂林修竹</title>
   
 
 
@@ -364,7 +364,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://lovemma.github.io/2019/05/16/Huey-每日定时任务的坑/">
+    <link itemprop="mainEntityOfPage" href="https://lovemma.github.io/2019/09/19/debugging-with-ipdb/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="COldish">
@@ -381,7 +381,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Huey 每日定时任务的坑
+          <h2 class="post-title" itemprop="name headline">优秀的调试工具：ipdb
 
               
             
@@ -407,7 +407,7 @@
                 
               
 
-              <time title="创建时间：2019-05-16 15:40:59 / 修改时间：16:00:55" itemprop="dateCreated datePublished" datetime="2019-05-16T15:40:59+08:00">2019-05-16</time>
+              <time title="创建时间：2019-09-19 22:58:10 / 修改时间：23:02:32" itemprop="dateCreated datePublished" datetime="2019-09-19T22:58:10+08:00">2019-09-19</time>
             
 
             
@@ -417,24 +417,6 @@
             
           </span>
 
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Python/" itemprop="url" rel="index"><span itemprop="name">Python</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -448,8 +430,8 @@
                 </span>
             
                 <span class="post-meta-item-text">评论数：</span>
-                <a href="/2019/05/16/Huey-每日定时任务的坑/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/05/16/Huey-每日定时任务的坑/" itemprop="commentCount"></span>
+                <a href="/2019/09/19/debugging-with-ipdb/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/19/debugging-with-ipdb/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -477,15 +459,34 @@
       
 
       
-        <p>最近别人推荐了个轻量级任务队列 Huey，然后我就去试了下，挺好用的，但却碰了文档未说明的坑。</p>
-<a id="more"></a>
-<p>我要做一个每日执行一次的任务，文档只给出每三分钟执行一次的例子：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> huey <span class="keyword">import</span> SqliteHuey</span><br><span class="line"><span class="keyword">from</span> huey <span class="keyword">import</span> crontab</span><br><span class="line"></span><br><span class="line">huey = SqliteHuey(filename=<span class="string">'/tmp/demo.db'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">@huey.periodic_task(crontab(minute='*/3'))</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">every_three_minutes</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'This task runs every three minutes'</span>)</span><br></pre></td></tr></table></figure>
-<p>我以为每日执行一次可以这样写：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@huey.periodic_task(crontab(day='*/1'))</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_in_a_day</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'-- PERIODIC TASK -- THIS RUNS EVERY 1 DAYS --'</span>)</span><br></pre></td></tr></table></figure>
-<p>结果它每一分钟就执行了一次，我：？？？</p>
-<p>最后发现还需要设置执行小时和分钟：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@huey.periodic_task(crontab(day='*/1', hour='0', minute='0'))</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">print_in_a_day</span><span class="params">()</span>:</span></span><br><span class="line">    print(<span class="string">'-- PERIODIC TASK -- THIS RUNS EVERY 1 DAYS --'</span>)</span><br></pre></td></tr></table></figure>
+        <p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2dvdGNoYS9pcGRi" title="https://github.com/gotcha/ipdb">ipdb<i class="fa fa-external-link"></i></span>（IPython debugger）, 与 <span class="exturl" data-url="aHR0cHM6Ly9kb2NzLnB5dGhvbi5vcmcvMy9saWJyYXJ5L3BkYi5odG1s" title="https://docs.python.org/3/library/pdb.html">pdb<i class="fa fa-external-link"></i></span> 类似,  是一款集成了 IPython 的 Python 代码命令行调试工具，支持 <strong>Tab 键补全</strong>，<strong>语法高亮</strong>等。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>ipdb 是 Python 的第三方库，使用 pip 即可安装<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install ipdb</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>与 pdb 类似, ipdb 的使用主要分为两种方式：</p>
+<h3 id="集成到代码中"><a href="#集成到代码中" class="headerlink" title="集成到代码中"></a>集成到代码中</h3><p>在调试位置插入断点即可。如下所示:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="number">1</span></span><br><span class="line"><span class="keyword">import</span> ipdb; ipdb.set_trace();</span><br><span class="line">y = <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<p>程序会在执行完 <code>x = 1</code> 这条语句之后停下来, 并展开 IPython 环境, 此时就可以进行调试了。</p>
+<h3 id="命令式"><a href="#命令式" class="headerlink" title="命令式"></a>命令式</h3><p>将 ipdb 集成到代码中很方便，但是也有不灵活的缺点。对于一段比较棘手的代码，我们可能需要按步执行，边运行边跟踪代码流并进行调试，这时候使用交互式的命令式调试方法更加有效。启动 ipdb 调试环境的方法也很简单：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m ipdb your_code.py</span><br></pre></td></tr></table></figure></p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>ipdb 的命令与 pdb 命令差不多┑(￣Д ￣)┍</p>
+<h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><p>使用 <code>h</code> 即可调出 ipdb 的帮助。可以使用 help command 的方法查询特定命令的具体用法。</p>
+<h3 id="执行下一条语句"><a href="#执行下一条语句" class="headerlink" title="执行下一条语句"></a>执行下一条语句</h3><p>使用 <code>n</code>(next) 执行下一条语句。</p>
+<blockquote>
+<p>注意: 一个函数调用也是一个语句。</p>
+</blockquote>
+<h3 id="进入函数内部"><a href="#进入函数内部" class="headerlink" title="进入函数内部"></a>进入函数内部</h3><p>使用 <code>s</code>(step into) 进入函数调用的内部。</p>
+<h3 id="打断电"><a href="#打断电" class="headerlink" title="打断电"></a>打断电</h3><p>使用 <code>b line_number</code>(break) 的方式给指定的行号位置加上断点。使用 <code>b file_name:line_number</code> 的方法给指定的文件（还没执行到的代码可能在外部文件中）中指定行号位置打上断点。</p>
+<h3 id="继续执行到下一个断点处"><a href="#继续执行到下一个断点处" class="headerlink" title="继续执行到下一个断点处"></a>继续执行到下一个断点处</h3><p>使用 <code>c</code>(continue) 执行代码到下一个断点处或将程序执行完毕。</p>
+<h3 id="继续执行直到返回"><a href="#继续执行直到返回" class="headerlink" title="继续执行直到返回"></a>继续执行直到返回</h3><p>使用 <code>r</code>(return) 执行代码直到当前所在的这个函数返回。</p>
+<h3 id="跳过某段代码"><a href="#跳过某段代码" class="headerlink" title="跳过某段代码"></a>跳过某段代码</h3><p>使用 <code>j line_number</code>(jump)可以跳过某段代码，直接执行指定行号所在的代码。</p>
+<h3 id="更多的上下文"><a href="#更多的上下文" class="headerlink" title="更多的上下文"></a>更多的上下文</h3><p>在 ipdb 调试环境中，默认只显示当前执行的代码行，以及其上下各一行的代码。如果想要看到更多的上下文代码，可以使用 <code>l first[, second]</code>(list)命令。</p>
+<p>其中 first 指向上最多显示的行号，second 指向下最多显示的行号（可以省略）。当 second 小于 first 时，second 指的是从 first 开始的向下的行数（相对值 vs 绝对值）。</p>
+<p>另外, 还可以通过修改 ipdb 的源码，一劳永逸的改变上下文的行数。可以看这篇文章: <span class="exturl" data-url="aHR0cHM6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvNjI0MDg4Ny9ob3ctY2FuLWktbWFrZS1pcGRiLXNob3ctbW9yZS1saW5lcy1vZi1jb250ZXh0LXdoaWxlLWRlYnVnZ2luZw==" title="https://stackoverflow.com/questions/6240887/how-can-i-make-ipdb-show-more-lines-of-context-while-debugging">How can I make ipdb show more lines of context while debugging?<i class="fa fa-external-link"></i></span></p>
+<h3 id="我在哪"><a href="#我在哪" class="headerlink" title="我在哪"></a>我在哪</h3><p>有时我们可能会忘了自己目前所在的行号。例如在打印了若干变量值后，屏幕完全被这些值占据。使用 <code>w</code> 或者 <code>where</code> 可以打印出目前所在的行号位置以及上下文信息。</p>
+<h3 id="这是啥"><a href="#这是啥" class="headerlink" title="这是啥"></a>这是啥</h3><p>可以使用 <code>whatis variable_name</code> 的方法，查看变量的类别（感觉有点鸡肋，用 <code>type</code> 也可以办到）。</p>
+<h3 id="列出当前函数的全部参数"><a href="#列出当前函数的全部参数" class="headerlink" title="列出当前函数的全部参数"></a>列出当前函数的全部参数</h3><p>当调试到一个函数内部的时候，可以使用 <code>a</code>(argument) 打印出传入函数的所有参数的值。</p>
+<h3 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h3><p>使用 <code>p</code>(print) 和 <code>pp</code>(pretty print) 可以打印表达式的值。</p>
+<h3 id="清除断点"><a href="#清除断点" class="headerlink" title="清除断点"></a>清除断点</h3><p>使用 <code>cl</code> 或者 <code>clear  file:line_number</code> 清除断点。如果没有参数，则清除所有断点。</p>
+<h3 id="再来一次"><a href="#再来一次" class="headerlink" title="再来一次"></a>再来一次</h3><p>使用 <code>restart</code> 重新启动调试器，断点等信息都会保留。restart 实际是 run 的别名，使用 <code>run args</code> 的方式传入参数。</p>
+<h3 id="退出"><a href="#退出" class="headerlink" title="退出"></a>退出</h3><p>使用 <code>q</code> 退出调试，并清除所有信息。</p>
+<p>这并不是 ipdb 的全部, 其他的命令还请参照帮助文档。</p>
 
       
     </div>
@@ -509,7 +510,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Huey/" rel="tag"># Huey</a>
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+            <a href="/tags/ipdb/" rel="tag"># ipdb</a>
           
         </div>
       
@@ -522,8 +525,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/25/Flask-的-Context-机制/" rel="next" title="Flask 的 Context 机制">
-                <i class="fa fa-chevron-left"></i> Flask 的 Context 机制
+              <a href="/2019/09/18/Memory-Leak-in-Celery-4-2/" rel="next" title="Celery 4.2 内存泄漏问题">
+                <i class="fa fa-chevron-left"></i> Celery 4.2 内存泄漏问题
               </a>
             
           </div>
@@ -531,10 +534,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/05/22/通过list-和-创建空列表的差异/" rel="prev" title="通过list()和[]创建空列表的差异">
-                通过list()和[]创建空列表的差异 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -585,8 +584,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -758,6 +766,23 @@
       </div>
 
       
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用"><span class="nav-number">2.</span> <span class="nav-text">使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#集成到代码中"><span class="nav-number">2.1.</span> <span class="nav-text">集成到代码中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#命令式"><span class="nav-number">2.2.</span> <span class="nav-text">命令式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用命令"><span class="nav-number">3.</span> <span class="nav-text">常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#帮助"><span class="nav-number">3.1.</span> <span class="nav-text">帮助</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#执行下一条语句"><span class="nav-number">3.2.</span> <span class="nav-text">执行下一条语句</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进入函数内部"><span class="nav-number">3.3.</span> <span class="nav-text">进入函数内部</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打断电"><span class="nav-number">3.4.</span> <span class="nav-text">打断电</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继续执行到下一个断点处"><span class="nav-number">3.5.</span> <span class="nav-text">继续执行到下一个断点处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继续执行直到返回"><span class="nav-number">3.6.</span> <span class="nav-text">继续执行直到返回</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跳过某段代码"><span class="nav-number">3.7.</span> <span class="nav-text">跳过某段代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更多的上下文"><span class="nav-number">3.8.</span> <span class="nav-text">更多的上下文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我在哪"><span class="nav-number">3.9.</span> <span class="nav-text">我在哪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#这是啥"><span class="nav-number">3.10.</span> <span class="nav-text">这是啥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列出当前函数的全部参数"><span class="nav-number">3.11.</span> <span class="nav-text">列出当前函数的全部参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打印"><span class="nav-number">3.12.</span> <span class="nav-text">打印</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清除断点"><span class="nav-number">3.13.</span> <span class="nav-text">清除断点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#再来一次"><span class="nav-number">3.14.</span> <span class="nav-text">再来一次</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#退出"><span class="nav-number">3.15.</span> <span class="nav-text">退出</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
 
       
 
@@ -904,9 +929,9 @@
 
 <script>
   var disqus_config = function() {
-    this.page.url = "https://lovemma.github.io/2019/05/16/Huey-每日定时任务的坑/";
-    this.page.identifier = "2019/05/16/Huey-每日定时任务的坑/";
-    this.page.title = 'Huey 每日定时任务的坑';
+    this.page.url = "https://lovemma.github.io/2019/09/19/debugging-with-ipdb/";
+    this.page.identifier = "2019/09/19/debugging-with-ipdb/";
+    this.page.title = '优秀的调试工具：ipdb';
     };
   function loadComments() {
     var d = document, s = d.createElement('script');

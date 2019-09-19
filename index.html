@@ -363,6 +363,189 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lovemma.github.io/2019/09/19/debugging-with-ipdb/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="COldish">
+      <meta itemprop="description" content="君子藏器于身，待时而动；天下有道则见，无道则隐。">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="茂林修竹">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/09/19/debugging-with-ipdb/" class="post-title-link" itemprop="url">优秀的调试工具：ipdb</a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-09-19 22:58:10 / 修改时间：23:02:32" itemprop="dateCreated datePublished" datetime="2019-09-19T22:58:10+08:00">2019-09-19</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">评论数：</span>
+                <a href="/2019/09/19/debugging-with-ipdb/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2019/09/19/debugging-with-ipdb/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2dvdGNoYS9pcGRi" title="https://github.com/gotcha/ipdb">ipdb<i class="fa fa-external-link"></i></span>（IPython debugger）, 与 <span class="exturl" data-url="aHR0cHM6Ly9kb2NzLnB5dGhvbi5vcmcvMy9saWJyYXJ5L3BkYi5odG1s" title="https://docs.python.org/3/library/pdb.html">pdb<i class="fa fa-external-link"></i></span> 类似,  是一款集成了 IPython 的 Python 代码命令行调试工具，支持 <strong>Tab 键补全</strong>，<strong>语法高亮</strong>等。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>ipdb 是 Python 的第三方库，使用 pip 即可安装<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install ipdb</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>与 pdb 类似, ipdb 的使用主要分为两种方式：</p>
+<h3 id="集成到代码中"><a href="#集成到代码中" class="headerlink" title="集成到代码中"></a>集成到代码中</h3><p>在调试位置插入断点即可。如下所示:<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">x = <span class="number">1</span></span><br><span class="line"><span class="keyword">import</span> ipdb; ipdb.set_trace();</span><br><span class="line">y = <span class="number">2</span></span><br></pre></td></tr></table></figure></p>
+<p>程序会在执行完 <code>x = 1</code> 这条语句之后停下来, 并展开 IPython 环境, 此时就可以进行调试了。</p>
+<h3 id="命令式"><a href="#命令式" class="headerlink" title="命令式"></a>命令式</h3><p>将 ipdb 集成到代码中很方便，但是也有不灵活的缺点。对于一段比较棘手的代码，我们可能需要按步执行，边运行边跟踪代码流并进行调试，这时候使用交互式的命令式调试方法更加有效。启动 ipdb 调试环境的方法也很简单：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m ipdb your_code.py</span><br></pre></td></tr></table></figure></p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>ipdb 的命令与 pdb 命令差不多┑(￣Д ￣)┍</p>
+<h3 id="帮助"><a href="#帮助" class="headerlink" title="帮助"></a>帮助</h3><p>使用 <code>h</code> 即可调出 ipdb 的帮助。可以使用 help command 的方法查询特定命令的具体用法。</p>
+<h3 id="执行下一条语句"><a href="#执行下一条语句" class="headerlink" title="执行下一条语句"></a>执行下一条语句</h3><p>使用 <code>n</code>(next) 执行下一条语句。</p>
+<blockquote>
+<p>注意: 一个函数调用也是一个语句。</p>
+</blockquote>
+<h3 id="进入函数内部"><a href="#进入函数内部" class="headerlink" title="进入函数内部"></a>进入函数内部</h3><p>使用 <code>s</code>(step into) 进入函数调用的内部。</p>
+<h3 id="打断电"><a href="#打断电" class="headerlink" title="打断电"></a>打断电</h3><p>使用 <code>b line_number</code>(break) 的方式给指定的行号位置加上断点。使用 <code>b file_name:line_number</code> 的方法给指定的文件（还没执行到的代码可能在外部文件中）中指定行号位置打上断点。</p>
+<h3 id="继续执行到下一个断点处"><a href="#继续执行到下一个断点处" class="headerlink" title="继续执行到下一个断点处"></a>继续执行到下一个断点处</h3><p>使用 <code>c</code>(continue) 执行代码到下一个断点处或将程序执行完毕。</p>
+<h3 id="继续执行直到返回"><a href="#继续执行直到返回" class="headerlink" title="继续执行直到返回"></a>继续执行直到返回</h3><p>使用 <code>r</code>(return) 执行代码直到当前所在的这个函数返回。</p>
+<h3 id="跳过某段代码"><a href="#跳过某段代码" class="headerlink" title="跳过某段代码"></a>跳过某段代码</h3><p>使用 <code>j line_number</code>(jump)可以跳过某段代码，直接执行指定行号所在的代码。</p>
+<h3 id="更多的上下文"><a href="#更多的上下文" class="headerlink" title="更多的上下文"></a>更多的上下文</h3><p>在 ipdb 调试环境中，默认只显示当前执行的代码行，以及其上下各一行的代码。如果想要看到更多的上下文代码，可以使用 <code>l first[, second]</code>(list)命令。</p>
+<p>其中 first 指向上最多显示的行号，second 指向下最多显示的行号（可以省略）。当 second 小于 first 时，second 指的是从 first 开始的向下的行数（相对值 vs 绝对值）。</p>
+<p>另外, 还可以通过修改 ipdb 的源码，一劳永逸的改变上下文的行数。可以看这篇文章: <span class="exturl" data-url="aHR0cHM6Ly9zdGFja292ZXJmbG93LmNvbS9xdWVzdGlvbnMvNjI0MDg4Ny9ob3ctY2FuLWktbWFrZS1pcGRiLXNob3ctbW9yZS1saW5lcy1vZi1jb250ZXh0LXdoaWxlLWRlYnVnZ2luZw==" title="https://stackoverflow.com/questions/6240887/how-can-i-make-ipdb-show-more-lines-of-context-while-debugging">How can I make ipdb show more lines of context while debugging?<i class="fa fa-external-link"></i></span></p>
+<h3 id="我在哪"><a href="#我在哪" class="headerlink" title="我在哪"></a>我在哪</h3><p>有时我们可能会忘了自己目前所在的行号。例如在打印了若干变量值后，屏幕完全被这些值占据。使用 <code>w</code> 或者 <code>where</code> 可以打印出目前所在的行号位置以及上下文信息。</p>
+<h3 id="这是啥"><a href="#这是啥" class="headerlink" title="这是啥"></a>这是啥</h3><p>可以使用 <code>whatis variable_name</code> 的方法，查看变量的类别（感觉有点鸡肋，用 <code>type</code> 也可以办到）。</p>
+<h3 id="列出当前函数的全部参数"><a href="#列出当前函数的全部参数" class="headerlink" title="列出当前函数的全部参数"></a>列出当前函数的全部参数</h3><p>当调试到一个函数内部的时候，可以使用 <code>a</code>(argument) 打印出传入函数的所有参数的值。</p>
+<h3 id="打印"><a href="#打印" class="headerlink" title="打印"></a>打印</h3><p>使用 <code>p</code>(print) 和 <code>pp</code>(pretty print) 可以打印表达式的值。</p>
+<h3 id="清除断点"><a href="#清除断点" class="headerlink" title="清除断点"></a>清除断点</h3><p>使用 <code>cl</code> 或者 <code>clear  file:line_number</code> 清除断点。如果没有参数，则清除所有断点。</p>
+<h3 id="再来一次"><a href="#再来一次" class="headerlink" title="再来一次"></a>再来一次</h3><p>使用 <code>restart</code> 重新启动调试器，断点等信息都会保留。restart 实际是 run 的别名，使用 <code>run args</code> 的方式传入参数。</p>
+<h3 id="退出"><a href="#退出" class="headerlink" title="退出"></a>退出</h3><p>使用 <code>q</code> 退出调试，并清除所有信息。</p>
+<p>这并不是 ipdb 的全部, 其他的命令还请参照帮助文档。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://lovemma.github.io/2019/09/18/Memory-Leak-in-Celery-4-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2026,191 +2209,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://lovemma.github.io/2018/11/27/在mysql如何挑选索引列/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="COldish">
-      <meta itemprop="description" content="君子藏器于身，待时而动；天下有道则见，无道则隐。">
-      <meta itemprop="image" content="/images/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="茂林修竹">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/2018/11/27/在mysql如何挑选索引列/" class="post-title-link" itemprop="url">在mysql如何挑选索引列</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
-
-              <time title="创建时间：2018-11-27 14:54:52 / 修改时间：15:27:17" itemprop="dateCreated datePublished" datetime="2018-11-27T14:54:52+08:00">2018-11-27</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <span class="post-meta-item-text">评论数：</span>
-                <a href="/2018/11/27/在mysql如何挑选索引列/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2018/11/27/在mysql如何挑选索引列/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <ol>
-<li><p><strong>为用于搜索、排序或分组的列创建索引，而对于用作输出显示的列则不用创建索引。</strong>这意味着最佳索引候选列是那些出现在 WHERE 子句中的列、连接子句中的列或者出现在 ORDER BY 或 GROUP BY 子句中的列。而那些只是出现在 SELECT 关键字后面的输出列表里的列，则不是很好的索引候选列。</p>
-</li>
-<li><p><strong>认真考虑数据列基数。</strong>列的基数(cardinality)是指它所容纳的所有非重复值的个数，例如，某个列包含值 1、3、7、4、7、3，那么它的基数为 4。相对于表里面行的总数来说，列的基数越高(也就就是说，它包含的唯一值多，重复值少)，索引的使用效果越好。对于包含许多不同年龄值的列，索引可以很容易地将各个行区分开来。但是对于记录性别的列，其中只会包含两个值：’M’和’F’，索引操作毫无用处。如果这两个值出现的频率大致一样，那么不管搜索哪个值，你得到的都是近乎一半的行。在这种情况下，索引可能根本无法使用，因为当查询优化程序确定出某个值在表的行里出现频率很大时，它会跳过索引，直接执行全表扫描操作。</p>
-</li>
-</ol>
-          <!--noindex-->
-          
-            <div class="post-button text-center">
-              <a class="btn" href="/2018/11/27/在mysql如何挑选索引列/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -2259,7 +2257,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2339,7 +2337,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">19</span>
+                      
+                    
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
