@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content=" 本文转载自公众号「Python之禅」，原文链接：https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA
+ 在一个应用服务中，对于时效性要求没那么高的业务场景，我们没必要等到所有任务执行完才返回结果，例如用户注册场景中，保存了用户账号密码之后，就可以立即返回，后续的账号激活邮件，可以用一种异步的形式去处理，这种异步操作可以用队列服务来实现。否则，如果等到邮件发送成功可能几秒过去了。
+"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/0%E5%88%B01celery%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%87%BA%E5%AE%B6/"/>
+
+  
+
+  <title>0到1，Celery从入门到出家 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/0%E5%88%B01celery%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%87%BA%E5%AE%B6/'>0到1，Celery从入门到出家</a></h2>
+          <span class="date">2018.09.28</span>
+        </div>
+        <div class="post_content markdown"><blockquote>
+<p>本文转载自公众号「Python之禅」，原文链接：<a href="https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA">https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA</a></p>
+</blockquote>
+
+<p>在一个应用服务中，对于时效性要求没那么高的业务场景，我们没必要等到所有任务执行完才返回结果，例如用户注册场景中，保存了用户账号密码之后，就可以立即返回，后续的账号激活邮件，可以用一种异步的形式去处理，这种异步操作可以用队列服务来实现。否则，如果等到邮件发送成功可能几秒过去了。</p>
+
+<h2 id="celery是什么">Celery是什么？</h2>
+
+<p>Celery（中文是芹菜的意思）是Python语言实现的分布式队列服务，除了支持即时任务，还支持定时任务，Celery 有5个核心角色。</p>
+
+<h3 id="task">Task</h3>
+
+<p>任务(Task)就是你要做的事情，例如一个注册流程里面有很多任务，给用户发验证邮件就是一个任务，这种耗时的任务就可以交给Celery去处理，还有一种任务是定时任务，比如每天定时统计网站的注册人数，这个也可以交给Celery周期性的处理。</p>
+
+<h3 id="broker">Broker</h3>
+
+<p>Broker 的中文意思是经纪人，指为市场上买卖双方提供中介服务的人。在Celery中这个角色相当于数据结构中的队列，介于生产者和消费者之间经纪人。例如一个Web系统中，生产者是主程序，它生产任务，将任务发送给 Broker，消费者是 Worker，是专门用于执行任务的后台服务。Celery本身不提供队列服务，一般用Redis或者RabbitMQ来实现队列服务。</p>
+
+<h3 id="worker">Worker</h3>
+
+<p>Worker 就是那个一直在后台执行任务的人，也成为任务的消费者，它会实时地监控队列中有没有任务，如果有就立即取出来执行。</p>
+
+<h3 id="beat">Beat</h3>
+
+<p>Beat 是一个定时任务调度器，它会根据配置定时将任务发送给 Broker，等待 Worker 来消费。</p>
+
+<h3 id="backend">Backend</h3>
+
+<p>Backend 用于保存任务的执行结果，每个任务都有返回值，比如发送邮件的服务会告诉我们有没有发送成功，这个结果就是存在Backend中，当然我们并不总是要关心任务的执行结果。</p>
+
+<p><img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/celery-info.webp" alt="" /></p>
+
+<p>记住这5个角色后面理解Celery就轻松了。</p>
+
+<h2 id="快速入门">快速入门</h2>
+
+<p>接触任何新东西，没有什么比实际动手学得更快了。假设我们选择Redis作为broker，你需要安装redis并且已经启动了redis服务（这个步骤请自行借用搜索引擎解决）</p>
+
+<pre><code class="language-shell">pip install -U &quot;celery[redis]&quot;
+</code></pre>
+
+<h3 id="1-创建celery实例">1.创建Celery实例</h3>
+
+<pre><code class="language-python"># tasks.py
+from celery import Celery
+
+app = Celery('tasks', broker='redis://localhost:6379/0')
+</code></pre>
+
+<h3 id="2-创建任务">2.创建任务</h3>
+
+<p>假设这个发送邮件的任务需要5秒钟才能执行完</p>
+
+<pre><code class="language-python"># task.py
+@app.task
+def send_mail(mail):
+    print(&quot;send mail to &quot;, email)
+    import time
+    time.sleep(5)
+    return &quot;success&quot;
+</code></pre>
+
+<p>在没有Celery的情况下，程序顺序执行，每个步骤都需要等上一步执行完成。</p>
+
+<ol>
+<li>插入记录到数据库</li>
+<li>发邮件</li>
+<li>注册成功</li>
+</ol>
+
+<p>我们可以把2放在一个任务中交给celery去执行，这样我们就不需要等待发邮件完成，你只需要安排celery去处理帮我去完成就好了。代码就变成了</p>
+
+<ol>
+<li>插入记录到数据库</li>
+<li>Celery 帮我发邮件</li>
+<li>注册成功</li>
+</ol>
+
+<p>第二步是非常快的，它只需要把任务放进队列里面去，并不会等任务真正执行完。这跟生活是完全贴切的，例如我们很多事情都不是自己亲历其为去做，而是将一个不太重要或即时性没那么高的事情转交给别人处理。</p>
+
+<p>### 3.启动Worker</p>
+
+<p>启动Worker，监听 Broker 中是否有任务，命令：<code>celery worker</code>，你可能需要指定参数</p>
+
+<pre><code class="language-shell">celery -A tasks worker --loglevel=info
+</code></pre>
+
+<p>-A： 指定 celery 实例所在哪个模块中，例子中，celery实例在tasks.py文件中，启动成功后，能看到信息</p>
+
+<p><img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/worker-info.webp" alt="" /></p>
+
+<p>函数用app.task 装饰器修饰之后，就会成为Celery中的一个Task。</p>
+
+<h3 id="4-调用任务">4.调用任务</h3>
+
+<p>在主程序中调用任务，调任务发送给 Broker，而不是真正执行该任务</p>
+
+<pre><code class="language-python"># user.py
+from tasks import send_mail
+
+def register():
+    import time
+    start = time.time()
+    print(&quot;1. 插入记录到数据库&quot;)
+    print(&quot;2. celery 帮我发邮件&quot;)
+    send_mail.delay(&quot;xx@gmail.com&quot;)
+    print(&quot;3. 告诉用户注册成功&quot;)
+    print(&quot;耗时：%s 秒 &quot; % (time.time() - start))
+
+if __name__ == '__main__':
+    register()
+</code></pre>
+
+<p>在主程序中，调用函数的<code>.delay</code>方法</p>
+
+<p>目录结构：</p>
+
+<blockquote>
+<p>── celery_test
+   ├── tasks.py
+   └── user.py</p>
+</blockquote>
+
+<p>运行 python user.py， 启动应用程序</p>
+
+<pre><code>1. 插入记录到数据库
+2. celery 帮我发邮件
+3. 告诉用户注册成功
+耗时：0.22688984870910645 秒
+</code></pre>
+
+<p>程序花了不到0.23秒就执行完成，如果按照正常的同步逻辑去执行，至少需要5秒钟，因为发邮件的任务就花了5秒。
+在worker服务窗口看日志信息
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/log-info.webp" alt="" /></p>
+
+<h3 id="注意">注意</h3>
+
+<ol>
+<li><p>celery worker 启动时，如果是 root 用户，需要设置环境变量：</p>
+
+<pre><code class="language-shell">export C_FORCE_ROOT='true'
+</code></pre></li>
+
+<li><p>Celery4.x 开始不再支持Windows平台，如果需要在Windows开发，请使用3.x的版本。</p></li>
+
+<li><p>使用 RabbitMQ 或 Redis 作为 Broker，生产环境永远不要使用关系数据库</p></li>
+
+<li><p>不要使用复杂对象作为任务函数的参数</p>
+
+<pre><code class="language-python"># Good
+@app.task
+def my_task(user_id):
+user = User.objects.get(id=user_id)
+print(user.name)
+# ...
+    
+# Bad
+@app.task
+def my_task(user):
+print(user.name)
+# ...
+</code></pre></li>
+</ol>
+
+<h2 id="小结">小结</h2>
+
+<p>学习Celery，首先需要知道它的应用场景，然后是Celery中的常见角色，最后按照步骤感受一下Celery是如何跑起来的。</p>
+
+<p>参考链接：</p>
+
+<ul>
+<li><a href="http://funhacks.net/2016/12/13/celery/">http://funhacks.net/2016/12/13/celery/</a></li>
+<li><a href="https://celery.readthedocs.io/en/latest/userguide/tasks.html#tips-and-best-practices">https://celery.readthedocs.io/en/latest/userguide/tasks.html#tips-and-best-practices</a></li>
+<li><a href="http://celerytaskschecklist.com/">http://celerytaskschecklist.com/</a></li>
+</ul></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/celery/">Celery</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="我们想创建一个空列表，可以使用如下两种方式：
+# option A empty_list = list() # option B empty_list = []  但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？
+"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/%E9%80%9A%E8%BF%87list-%E5%92%8C-%E5%88%9B%E5%BB%BA%E7%A9%BA%E5%88%97%E8%A1%A8%E7%9A%84%E5%B7%AE%E5%BC%82/"/>
+
+  
+
+  <title>通过list()和[]创建空列表的差异 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/%E9%80%9A%E8%BF%87list-%E5%92%8C-%E5%88%9B%E5%BB%BA%E7%A9%BA%E5%88%97%E8%A1%A8%E7%9A%84%E5%B7%AE%E5%BC%82/'>通过list()和[]创建空列表的差异</a></h2>
+          <span class="date">2019.05.22</span>
+        </div>
+        <div class="post_content markdown"><p>我们想创建一个空列表，可以使用如下两种方式：</p>
+
+<pre><code class="language-python"># option A
+empty_list = list()
+
+# option B
+empty_list = []
+</code></pre>
+
+<p>但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？</p>
+
+<p>最近，看文章碰到了这个问题，就研究了一下，通过命令测试下它们的效率，结果如图</p>
+
+<p><img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20190522-232506.png" alt="list[]和[]的效率差别" /></p>
+
+<p>可以看到通过 <code>[]</code> 创建列表明显要比 <code>list()</code> 快，这是为什么呢？</p>
+
+<p>用 <code>list()</code> 方法构造一个空列表使用的是 <code>class list([iterable])</code> 的类型构造器，参数可以是一个<code>iterable</code>，如果没有给出参数，构造器将创建一个空列表 <code>[]</code>，相比较而言多了一步 <code>class</code> 调用和参数判断，所以用 <code>[]</code> 直接构造一个空列表的方法速度更快。</p>
+
+<p><strong>简而言之，主要的区别在于 <code>list()</code> 是一个 function call，Python 的 function call 会创建 stack，并且进行一系列参数检查的操作，中间的开销相对而言就更大了，而 <code>[]</code> 是一个内置的 C 函数，可以直接被调用，因此效率高。</strong></p>
+
+<p>PS：字典（dict）、元组（tuple）等的创建也是如此。</p></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/%E5%86%85%E9%83%A8%E6%8E%A2%E7%A9%B6/">内部探究</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

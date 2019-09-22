@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="命令设计模式帮助我们将一个操作（撤销、重做、复制、粘贴等）封装成一个对象，通常是创建一个包含Operation所有逻辑和方法的类。
+当我们去餐馆吃饭时，会叫服务员来点单。他们用来做记录的账单（通常是纸质的）就是命令模式的一个例子。在记录好订单后，服务员将其放入账单队列，厨师会照着单子去做。每个账单都是独立的，并且可用来执行许多不同命令，例如，一个命令对应一个将要烹饪的菜品。
+通过命令模式可以控制命令的执行时间和过程，还可以用来组织事务。
+"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/"/>
+
+  
+
+  <title>设计模式之命令模式 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/'>设计模式之命令模式</a></h2>
+          <span class="date">2018.10.24</span>
+        </div>
+        <div class="post_content markdown"><p>命令设计模式帮助我们将一个操作（撤销、重做、复制、粘贴等）封装成一个对象，通常是创建一个包含Operation所有逻辑和方法的类。</p>
+
+<p>当我们去餐馆吃饭时，会叫服务员来点单。他们用来做记录的账单（通常是纸质的）就是命令模式的一个例子。在记录好订单后，服务员将其放入账单队列，厨师会照着单子去做。每个账单都是独立的，并且可用来执行许多不同命令，例如，一个命令对应一个将要烹饪的菜品。</p>
+
+<p>通过命令模式可以控制命令的执行时间和过程，还可以用来组织事务。</p>
+
+<p>这里用一些文件操作类来说明命令模式的使用:</p>
+
+<pre><code class="language-python">import os
+
+verbose = True
+
+
+class RenameFile:
+
+    def __init__(self, path_src, path_dest):
+        self.src, self.dest = path_src, path_dest
+
+    def execute(self):
+        if verbose:
+            print(&quot;[renaming '{}' to '{}']&quot;.format(self.src, self.dest))
+        os.rename(self.src, self.dest)
+
+    def undo(self):
+        if verbose:
+            print(&quot;[renaming '{}' back to '{}']&quot;.format(self.dest, self.src))
+        os.rename(self.dest, self.src)
+
+
+class CreateFile:
+
+    def __init__(self, path, txt='hello world\n'):
+        self.path, self.txt = path, txt
+
+    def execute(self):
+        if verbose:
+            print(&quot;[creating file '{}']&quot;.format(self.path))
+        with open(self.path, mode='w', encoding='utf-8') as out_file:
+            out_file.write(self.txt)
+
+    def undo(self):
+        delete_file(self.path)
+
+
+class ReadFile:
+
+    def __init__(self, path):
+        self.path = path
+
+    def execute(self):
+        if verbose:
+            print(&quot;[reading file '{}']&quot;.format(self.path))
+
+        with open(self.path, mode='r', encoding='utf-8') as in_file:
+            print(in_file.read(), end='')
+
+
+def delete_file(path):
+    if verbose:
+        print(&quot;deleting file '{}'&quot;.format(path))
+    os.remove(path)
+
+
+def main():
+    orig_name, new_name = 'file1', 'file2'
+    commands = []
+    for cmd in CreateFile(orig_name), ReadFile(orig_name), RenameFile(orig_name, new_name):
+        commands.append(cmd)
+    [c.execute() for c in commands]
+
+    answer = input('reverse the executed commands? [y/n] ')
+    if answer not in 'yY':
+        print(&quot;the result is {}&quot;.format(new_name))
+        exit()
+    for c in reversed(commands):
+        try:
+            c.undo()
+        except AttributeError as e:
+            pass
+
+
+if __name__ == '__main__':
+    main()
+</code></pre></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                
+                <a href="https://lovemma.github.io/tags/python/">Python</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

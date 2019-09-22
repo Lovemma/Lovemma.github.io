@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="最近在试用 MySQL 数据库做查询时，遇到了这么个问题，当我使用 GROUP_BY对要查询的数据进行分组的时候，抛出了一个InternalError的错误，当时我：？？？
+ 1055, &amp;quot;Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column ‘xxx’ which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by&amp;quot;
+"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/mysql%E4%B8%AD-only-full-group-by-%E9%97%AE%E9%A2%98/"/>
+
+  
+
+  <title>MySQL中 only_full_group_by 问题 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/mysql%E4%B8%AD-only-full-group-by-%E9%97%AE%E9%A2%98/'>MySQL中 only_full_group_by 问题</a></h2>
+          <span class="date">2018.08.08</span>
+        </div>
+        <div class="post_content markdown"><p>最近在试用 MySQL 数据库做查询时，遇到了这么个问题，当我使用 <code>GROUP_BY</code>对要查询的数据进行分组的时候，抛出了一个<code>InternalError</code>的错误，当时我：？？？</p>
+
+<blockquote>
+<p>1055, &quot;Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column ‘xxx’ which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by&quot;</p>
+</blockquote>
+
+<p>意思就是说，你写的 SQL 语句在sql_mode=only_full_group_by模式下是不兼容的，非聚类列‘xxx’没有出现在 GROUP_BY 子句中。</p>
+
+<p>用Google搜了下，在官方文档上发现了这个问题的详细说明，具体请看：<a href="https://dev.mysql.com/doc/refman/5.7/en/group-by-handling.html">MySQL :: MySQL 5.7 Reference Manual :: 12.19.3 MySQL Handling of GROUP BY</a></p>
+
+<blockquote>
+<p>MySQL 5.7.5 and up implements detection of functional dependence. If the ONLY_FULL_GROUP_BY SQL mode is enabled (which it is by default), MySQL rejects queries for which the select list, HAVING condition, or ORDER BY list refer to nonaggregated columns that are neither named in the GROUP BY clause nor are functionally dependent on them. (Before 5.7.5, MySQL does not detect functional dependency and ONLY_FULL_GROUP_BY is not enabled by default. For a description of pre-5.7.5 behavior, see the MySQL 5.6 Reference Manual.)</p>
+</blockquote>
+
+<p>大致就是在 MySQL 5.7.5 版本之前，遵循 SQL92 标准的 ONLY_FULL_GROUP_BY 模式在默认情况下是关闭的，MySQL 并未强行按照 SQL92 标准编写查询语句，而在 5.7.5 之后的版本中，ONLY_FULL_GROUP_BY  的含义改变了，由于遵循了 SQL99 标准，现在将实现更为复杂的功能。也就是说，有时候写的代码变少了，也同样可以实现查询功能。</p>
+
+<h2 id="解决方法">解决方法</h2>
+
+<h3 id="1-关闭-only-full-group-by-模式">1.关闭 ONLY_FULL_GROUP_BY 模式</h3>
+
+<p><a href="https://stackoverflow.com/questions/37951742/1055-expression-of-select-list-is-not-in-group-by-clause-and-contains-nonaggr/42183702">关闭 ONLY_FULL_GROUP_BY 方法</a>
+这个方法最简单粗暴，但也同样有着问题，在文档中给出了相关的说明，当 ONLY_FULL_GROUP_BY 模式被禁用时，查询出来的每个组中值是随机选取的，这就导致结果可能不符合你的预期。</p>
+
+<h3 id="2-使用-any-value">2.使用 ANY_VALUE</h3>
+
+<pre><code class="language-sql">SELECT name, address, MAX(age) FROM t GROUP BY name;
+</code></pre>
+
+<p>这么一条查询语句在不禁用 ONLY_FULL_GROUP_BY 模式的情况下，也会出现最开始的错误。</p>
+
+<pre><code class="language-sql">SELECT name, ANY_VALUE(address), MAX(age) FROM t GROUP BY name;
+</code></pre>
+
+<p>而使用 ANY_VALUE 函数后，则不会，ANY_VALUE 同样是随机选取值。</p>
+
+<h3 id="3-更好的sql查询语句">3.更好的SQL查询语句</h3>
+
+<p>这个还在学习中，以后再做补充</p></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/mysql/">MySQL</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

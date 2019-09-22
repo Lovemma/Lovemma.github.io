@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="几乎所有人都知道，在 Python 里读取文件有一种“标准做法”：首先使用 with open(fine_name) 上下文管理器的方式获得一个文件对象，然后使用 for 循环迭代它，逐行获取文件里的内容。
+"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/python-%E5%A6%82%E4%BD%95%E6%B5%81%E5%BC%8F%E8%AF%BB%E5%8F%96%E5%A4%A7%E6%96%87%E4%BB%B6/"/>
+
+  
+
+  <title>Python 如何流式读取大文件 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/python-%E5%A6%82%E4%BD%95%E6%B5%81%E5%BC%8F%E8%AF%BB%E5%8F%96%E5%A4%A7%E6%96%87%E4%BB%B6/'>Python 如何流式读取大文件</a></h2>
+          <span class="date">2019.06.23</span>
+        </div>
+        <div class="post_content markdown"><p>几乎所有人都知道，在 Python 里读取文件有一种“标准做法”：首先使用 <code>with open(fine_name)</code> 上下文管理器的方式获得一个文件对象，然后使用 <code>for</code> 循环迭代它，逐行获取文件里的内容。</p>
+
+<p>下面是一个使用这种“标准做法”的简单示例函数：</p>
+
+<pre><code class="language-python">def count_nine(fname):
+    &quot;&quot;&quot;计算文件里包含多少个数字 '9'
+    &quot;&quot;&quot;
+    count = 0
+    with open(fname) as file:
+        for line in file:
+            count += line.count('9')
+    return count
+</code></pre>
+
+<p>假如我们有一个文件 <code>small_file.txt</code>，那么使用这个函数可以轻松计算出 9 的数量。</p>
+
+<pre><code class="language-python"># small_file.txt
+feiowe9322nasd9233rl
+aoeijfiowejf8322kaf9a
+
+# OUTPUT: 3
+print(count_nine('small_file.txt'))
+</code></pre>
+
+<p>为什么这种文件读取方式会成为标准？这是因为它有两个好处：</p>
+
+<ol>
+<li><code>with</code> 上下文管理器会自动关闭打开的文件描述符</li>
+<li>在迭代文件对象时，内容是一行一行返回的，不会占用太多内存</li>
+</ol>
+
+<h3 id="标准做法的缺点">标准做法的缺点</h3>
+
+<p>但这套标准做法并非没有缺点。如果被读取的文件里，根本就没有任何换行符，那么上面的第二个好处就不成立了。<strong>当代码执行到 <code>for line in file</code> 时，line 将会变成一个非常巨大的字符串对象，消耗掉非常可观的内存。</strong></p>
+
+<p>让我们来做个试验：有一个 <strong>5GB</strong> 大的文件 <code>big_file.txt</code>，它里面装满了和 <code>small_file.txt</code> 一样的随机字符串。只不过它存储内容的方式稍有不同，所有的文本都被放在了同一行里：</p>
+
+<pre><code class="language-python"># FILE: big_file.txt
+df2if283rkwefh... &lt;剩余 5GB 大小&gt; ...
+</code></pre>
+
+<p>如果我们继续使用前面的 <code>count_nine</code> 函数去统计这个大文件里 <code>9</code> 的个数。那么在我的笔记本上，这个过程会足足花掉 65 秒，并在执行过程中吃掉机器 2GB 内存<sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup></p>
+
+<h3 id="使用-read-方法分块读取">使用 read 方法分块读取</h3>
+
+<p>为了解决这个问题，我们需要暂时把这个“标准做法”放到一边，使用更底层的 <code>file.read()</code> 方法。与直接循环迭代文件对象不同，每次调用 <code>file.read(chunk_size)</code> 会直接返回从当前位置往后读取 <code>chunk_size</code> 大小的文件内容，不必等待任何换行符出现。</p>
+
+<p>所以，如果使用 <code>file.read()</code> 方法，我们的函数可以改写成这样:</p>
+
+<pre><code class="language-python">def count_nine_v2(fname):
+    &quot;&quot;&quot;计算文件里包含多少个数字 '9'，每次读取 8kb
+    &quot;&quot;&quot;
+    count = 0
+    block_size = 1024 * 8
+    with open(fname) as fp:
+        while True:
+            chunk = fp.read(block_size)
+            # 当文件没有更多内容时，read 调用将会返回空字符串 ''
+            if not chunk:
+                break
+            count += chunk.count('9')
+    return count
+</code></pre>
+
+<p>在新函数中，我们使用了一个 <code>while</code> 循环来读取文件内容，每次最多读取 8kb 大小，这样可以避免之前需要拼接一个巨大字符串的过程，把内存占用降低非常多。</p>
+
+<h3 id="利用生成器解耦代码">利用生成器解耦代码</h3>
+
+<p>假如我们在讨论的不是 Python，而是其他编程语言。那么可以说上面的代码已经很好了。但是如果你认真分析一下 <code>count_nine_v2</code> 函数，你会发现在循环体内部，存在着两个独立的逻辑：<strong>数据生成（read 调用与 chunk 判断）</strong> 与 <strong>数据消费</strong>。而这两个独立逻辑被耦合在了一起。</p>
+
+<p>为了提升复用能力，我们可以定义一个新的 <code>chunked_file_reader</code> 生成器函数，由它来负责所有与“数据生成”相关的逻辑。这样 <code>count_nine_v3</code> 里面的主循环就只需要负责计数即可。</p>
+
+<pre><code class="language-python">def chunked_file_reader(fp, block_size=1024 * 8):
+    &quot;&quot;&quot;生成器函数：分块读取文件内容
+    &quot;&quot;&quot;
+    while True:
+        chunk = fp.read(block_size)
+        # 当文件没有更多内容时，read 调用将会返回空字符串 ''
+        if not chunk:
+            break
+        yield chunk
+
+
+def count_nine_v3(fname):
+    count = 0
+    with open(fname) as fp:
+        for chunk in chunked_file_reader(fp):
+            count += chunk.count('9')
+    return count
+</code></pre>
+
+<p>进行到这一步，代码似乎已经没有优化的空间了，但其实不然。<a href="https://docs.python.org/3/library/functions.html#iter">iter(iterable)</a> 是一个用来构造迭代器的内建函数，但它还有一个更少人知道的用法。当我们使用 <code>iter(callable, sentinel)</code> 的方式调用它时，会返回一个特殊的对象，迭代它将不断产生可调用对象 callable 的调用结果，直到结果为 setinel 时，迭代终止。</p>
+
+<pre><code class="language-python">def chunked_file_reader(file, block_size=1024 * 8):
+    &quot;&quot;&quot;生成器函数：分块读取文件内容，使用 iter 函数
+    &quot;&quot;&quot;
+    # 首先使用 partial(fp.read, block_size) 构造一个新的无需参数的函数
+    # 循环将不断返回 fp.read(block_size) 调用结果，直到其为 '' 时终止
+    for chunk in iter(partial(file.read, block_size), ''):
+        yield chunk
+</code></pre>
+
+<p>最终，只需要两行代码，我们就完成了一个可复用的分块文件读取函数。那么，这个函数在性能方面的表现如何呢？</p>
+
+<p>和一开始的 2GB 内存/耗时 65 秒 相比，使用生成器的版本只需要 7MB 内存 / 12 秒就能完成计算。效率提升了接近 4 倍，内存占用更是不到原来的 1%。</p>
+<div class="footnotes">
+
+<hr />
+
+<ol>
+<li id="fn:1">视机器空闲内存而定，可能会耗费更多的内存
+ <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+</ol>
+</div></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/python%E6%8A%80%E5%B7%A7/">Python技巧</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

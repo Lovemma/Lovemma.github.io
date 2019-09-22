@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="virtualenv 是一个创建隔绝的Python环境的 Python 包。当我们遇到几个项目依赖不同版本的包的时候，如：项目A需要 Django 1.10 版本，项目B需要 Django 1.11 版本，这时就可以使用 virtualenv 来解决这个问题。 Virtualenv 安装virtualenv pip install virtualenv 使用方法 mkdir your_project_folder cd your_project_folder virtualenv env # env是你的虚拟环境名称 此时会建立一个带有系统 Python 环境中所有第三方包的 Python 运行环境，若不想带有这些第三方包，命令中加上--no-site-packages这个参数，就可以得到一个不带有任何第"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83virtualenv%E5%92%8Cvirtualenvwrapper%E6%90%AD%E5%BB%BA/"/>
+
+  
+
+  <title>Python虚拟环境Virtualenv和Virtualenvwrapper搭建 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83virtualenv%E5%92%8Cvirtualenvwrapper%E6%90%AD%E5%BB%BA/'>Python虚拟环境Virtualenv和Virtualenvwrapper搭建</a></h2>
+          <span class="date">2018.02.24</span>
+        </div>
+        <div class="post_content markdown">
+
+<p><a href="http://pypi.python.org/pypi/virtualenv">virtualenv</a> 是一个创建隔绝的Python环境的 Python 包。当我们遇到几个项目依赖不同版本的包的时候，如：项目A需要 Django 1.10 版本，项目B需要 Django 1.11 版本，这时就可以使用 virtualenv 来解决这个问题。</p>
+
+<!-- more -->
+
+<h2 id="virtualenv">Virtualenv</h2>
+
+<h3 id="安装virtualenv">安装virtualenv</h3>
+
+<pre><code class="language-python">pip install virtualenv
+</code></pre>
+
+<h3 id="使用方法">使用方法</h3>
+
+<pre><code class="language-python">mkdir your_project_folder
+cd your_project_folder
+virtualenv env 		# env是你的虚拟环境名称
+</code></pre>
+
+<p>此时会建立一个带有系统 Python 环境中所有第三方包的 Python 运行环境，若不想带有这些第三方包，命令中加上<code>--no-site-packages</code>这个参数，就可以得到一个不带有任何第三包的“纯净”的 Python 运行环境。</p>
+
+<pre><code class="language-Python">virtualenv --no-site-packages [虚拟环境名]
+</code></pre>
+
+<p>并且，在创建虚拟 Python 运行环境时，还可以通过<code>-p</code>参数指定 Python 解释器：</p>
+
+<pre><code class="language-python">virtualenv -p /usr/bin/python3 [虚拟环境名]
+</code></pre>
+
+<h3 id="激活虚拟环境">激活虚拟环境</h3>
+
+<pre><code class="language-python">source env/bin/activate
+</code></pre>
+
+<p>运行此命令后，会发现命令提示符前多了一个<code>(env)</code>的前缀，这表明当前环境是一个名为 env 的 Python 运行环境。</p>
+
+<h3 id="退出虚拟环境">退出虚拟环境</h3>
+
+<pre><code class="language-Python">deactivate
+</code></pre>
+
+<p>若不想要该虚拟运行环境了，直接使用<code>rm -rf [虚拟环境名]</code>命令删除即可(简单粗暴)。</p>
+
+<h2 id="virtualenvwrapper">Virtualenvwrapper</h2>
+
+<p>virtualenvwrapper 是 virtualenv 的扩展管理包，virtualenvwrapper提供了一系列命令让虚拟环境在使用时变得愉快许多，它把您所有的虚拟环境都放在一个地方。</p>
+
+<h3 id="安装">安装</h3>
+
+<pre><code class="language-python">pip install virtualenvwrapper
+</code></pre>
+
+<p>安装完成后，还需要运行 virtualenvwrapper.sh 文件才使用 virtualenvwrapper，该文件通常情况下是在<code>/usr/local/bin/</code>目录下，但有时发生意外情况就需要查找该文件了：</p>
+
+<pre><code class="language-python">find / -name virtualenvwrapper.sh
+</code></pre>
+
+<p>该文件中写有安装步骤，按照步骤把环境设置好即可。</p>
+
+<pre><code class="language-shell"># Setup:
+#
+#  1. Create a directory to hold the virtual environments.
+#     (mkdir $HOME/.virtualenvs).
+#  2. Add a line like &quot;export WORKON_HOME=$HOME/.virtualenvs&quot;
+#     to your .bashrc.
+#  3. Add a line like &quot;source /path/to/this/file/virtualenvwrapper.sh&quot;
+#     to your .bashrc.
+#  4. Run: source ~/.bashrc
+#  5. Run: workon
+#  6. A list of environments, empty, is printed.
+#  7. Run: mkvirtualenv temp
+#  8. Run: workon
+#  9. This time, the &quot;temp&quot; environment is included.
+# 10. Run: workon temp
+# 11. The virtual environment is activated.
+</code></pre>
+
+<p>首先是创建一个目录来存放未来创建的所有虚拟环境：</p>
+
+<pre><code class="language-shell">mkdir $HOME/.virtualenvs # 目录名随意，这里用的是.virtualenvs
+</code></pre>
+
+<p>在<code>.bashrc</code>(bash) 或者<code>.zshrc</code>(zsh)，根据使用的shell来定，添加：</p>
+
+<pre><code class="language-Shell">export WORKON_HOME=$HOME/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3 # 设置虚拟环境默认Python解释器版本，可省略
+source /path/to/this/file/virtualenvwrapper.sh
+</code></pre>
+
+<p>激活 shell 配置文件：</p>
+
+<pre><code class="language-Shell">source .bashrc 或者 source .zshrc
+</code></pre>
+
+<h2 id="使用">使用</h2>
+
+<h4 id="查看虚拟环境列表">查看虚拟环境列表</h4>
+
+<pre><code class="language-shell">workon 或者 lsvirtualenv
+</code></pre>
+
+<h4 id="创建虚拟环境">创建虚拟环境</h4>
+
+<pre><code class="language-Shell">mkvirtualenv [虚拟环境名]
+</code></pre>
+
+<h4 id="启动-切换虚拟环境">启动/切换虚拟环境</h4>
+
+<pre><code class="language-shell">workon [虚拟环境名]
+</code></pre>
+
+<h4 id="删除虚拟环境">删除虚拟环境</h4>
+
+<pre><code class="language-shell">rmvirtualenv [虚拟环境名]
+</code></pre>
+
+<h4 id="退出虚拟环境-1">退出虚拟环境</h4>
+
+<pre><code class="language-shell">deactivate
+</code></pre>
+</div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/python/">Python</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

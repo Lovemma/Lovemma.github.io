@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="代理模式是通过一层间接保护层实现更安全的接口访问，例如：访问敏感信息——在允许用户访问敏感信息之前，我们希望确保用户具备足够的权限。
+有四种常用的代理模式： - 远程代理：实际存在于不同地址空间（例如，某个网络服务器）的对象在本地的代理者。使得访问远程对象就像访问本地一样，隐藏了复杂性，如：ORM。 - 虚拟代理：用来实现延迟访问，比如一些需要复杂计算的对象，Python 里可以实现 lazy_property，改善性能。 - 保护/防护代理：用于控制敏感对象的访问。 - 智能(引用)代理：在对象被访问时执行额外的动作。例如引用计数和线程安全检查。
+"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/"/>
+
+  
+
+  <title>设计模式之代理模式 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/'>设计模式之代理模式</a></h2>
+          <span class="date">2018.10.22</span>
+        </div>
+        <div class="post_content markdown"><p>代理模式是通过一层间接保护层实现更安全的接口访问，例如：访问敏感信息——在允许用户访问敏感信息之前，我们希望确保用户具备足够的权限。</p>
+
+<p>有四种常用的代理模式：
+- 远程代理：实际存在于不同地址空间（例如，某个网络服务器）的对象在本地的代理者。使得访问远程对象就像访问本地一样，隐藏了复杂性，如：ORM。
+- 虚拟代理：用来实现延迟访问，比如一些需要复杂计算的对象，Python 里可以实现 lazy_property，改善性能。
+- 保护/防护代理：用于控制敏感对象的访问。
+- 智能(引用)代理：在对象被访问时执行额外的动作。例如引用计数和线程安全检查。</p>
+
+<h2 id="延迟初始化">延迟初始化</h2>
+
+<p>我们先创建一个<code>LazyProperty</code>类，用作一个装饰器。当它修饰某个特性时，<code>LazyProperty</code> 惰性地（首次使用时）加载特性，而不是立即进行。</p>
+
+<pre><code class="language-python">class LazyProperty:
+    def __init__(self, method):
+        self.method = method
+        self.method_name = method.__name__
+
+    def __get__(self, instance, owner):
+        if not instance:
+            return None
+        value = self.method(instance)
+        setattr(owner, self.method_name, value)
+        return value
+
+
+class Test:
+    def __init__(self):
+        self.x = 'foo'
+        self.y = 'bar'
+        self._resource = None
+
+    @LazyProperty
+    def resource(self):
+        # 构造函数里没有初始化，第一次访问才会被调用
+        print('initializing self._resource which is: {}'.format(self._resource))
+        self._resource = tuple(range(5))  # 模拟一次耗时计算
+        return self._resource
+
+
+def main():
+    t = Test()
+    print(t.x)
+    print(t.y)
+    # 访问LazyProperty, resource里的print语句只执行一次，实现了延迟加载和一次执行
+    print(t.resource)
+    print(t.resource)
+
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+
+<p>LazyProperty类实际上是一个描述符。 描述符（descriptor）是Python中重写类属性访问方法（<code>__get__()</code>、 <code>__set__()</code>和<code>__delete__()</code>）的默认行为要使用的一种推荐机制。
+Test类演示了我们可以如何使用LazyProperty类。其中有三个属性， x、 y 和 _resource。我们想懒加载 _resource 变量，因此将其初始化为None。</p>
+
+<p>在OOP中有两种基本的、不同类型的懒加载，如下所示：
+ - 在实例级：这意味着会一个对象的特性进行懒初始化，但该特性有一个对象作用域。同一个类的每个实例（对象）都有自己的（不同的）特性副本。
+ - 在类级或模块级：在这种情况下，我们不希望每个实例都有一个不同的特性副本，而是所有实例共享同一个特性，而特性是懒初始化的。</p>
+
+<h2 id="保护代理">保护代理</h2>
+
+<p>这里实现一个简单的保护代理来查看和添加用户，该服务提供以下两个选项：
+  - 查看用户列表：这一操作不要求特殊权限。
+  - 添加新用户：这一操作要求客户端提供一个特殊的密码。</p>
+
+<pre><code class="language-python">class SensitiveInfo:
+    def __init__(self):
+        self.users = ['nick', 'tom', 'ben', 'mike']
+
+    def read(self):
+        result = 'There are {} users: {}'
+        print(result.format(len(self.users), ' '.join(self.users)))
+
+    def add(self, user):
+        self.users.append(user)
+        print('Added user {}'.format(user))
+
+
+class Info:
+    def __init__(self):
+        self.protected = SensitiveInfo()
+        self.secret = '0xdeadbeef'
+
+    def read(self):
+        self.protected.read()
+
+    def add(self, user):
+        sec = input('what is the secret? ')
+        self.protected.add(user) if sec == self.secret else print(&quot;That's wrong!&quot;)
+
+
+def main():
+    info = Info()
+    while True:
+        print('1. read list |==| 2. add user |==| 3. quit')
+        key = input('choose option: ')
+        if key == '1':
+            info.read()
+        elif key == '2':
+            name = input('choose username: ')
+            info.add(name)
+        elif key == '3':
+            exit()
+        else:
+            print('unknown option: {}'.format(key))
+
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+
+<p>该示例有几个重大的安全缺陷：
+1. 没有什么能阻止客户端代码通过直接创建一个 SensitiveInfo 实例来绕过应用的安全设置，疑使用 <strong>abc</strong> 模块来禁止直接实例化 SensitiveInfo。
+2. 密钥直接写死在代码里，应该用安全性较高密钥写到配置或者环境变量里。</p>
+
+<p>这里使用抽象基类来修复第一个问题，只需要修改类代码而不用修改 main() 函数里面的使用代码：</p>
+
+<pre><code class="language-python">from abc import ABCMeta, abstractmethod
+
+
+class SensitiveInfo(metaclass=ABCMeta):
+    def __init__(self):
+        self.users = ['nick', 'tom', 'ben', 'mike']
+
+    @abstractmethod
+    def read(self):
+        pass
+
+    @abstractmethod
+    def add(self, user):
+        pass
+
+
+class Info(SensitiveInfo):
+    '''protection proxy to SensitiveInfo'''
+    def __init__(self):
+        # self.protected = SensitiveInfo()
+        super().__init__()
+        self.secret = '0xdeadbeef'    # 为了方便示例这里直接写死在代码里
+
+    def read(self):
+        print('There are {} users: {}'.format(len(self.users), ' '.join(self.users)))
+
+    def add(self, user):
+        &quot;&quot;&quot; 给add操作加上密钥验证，保护add操作&quot;&quot;&quot;
+        sec = input('what is the secret? ')
+        self.users.append(user) if sec == self.secret else print(&quot;That's wrong!&quot;)
+</code></pre></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                
+                <a href="https://lovemma.github.io/tags/python/">Python</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

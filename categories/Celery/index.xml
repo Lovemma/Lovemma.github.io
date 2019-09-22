@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Celery on I&#39;m Groooooot</title>
+    <link>https://lovemma.github.io/categories/celery/</link>
+    <description>Recent content in Celery on I&#39;m Groooooot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 28 Sep 2018 10:06:12 +0000</lastBuildDate>
+    
+	<atom:link href="https://lovemma.github.io/categories/celery/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>0到1，Celery从入门到出家</title>
+      <link>https://lovemma.github.io/posts/0%E5%88%B01celery%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%87%BA%E5%AE%B6/</link>
+      <pubDate>Fri, 28 Sep 2018 10:06:12 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/0%E5%88%B01celery%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%87%BA%E5%AE%B6/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;本文转载自公众号「Python之禅」，原文链接：&lt;a href=&#34;https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA&#34;&gt;https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在一个应用服务中，对于时效性要求没那么高的业务场景，我们没必要等到所有任务执行完才返回结果，例如用户注册场景中，保存了用户账号密码之后，就可以立即返回，后续的账号激活邮件，可以用一种异步的形式去处理，这种异步操作可以用队列服务来实现。否则，如果等到邮件发送成功可能几秒过去了。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

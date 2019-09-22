@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="本文为「Python3学习笔记」一书的读书总结，以后每学习完一小节做一次记录。 在Python中 float 类型默认存储双精度浮点数（也就是其他语言中的 double ），可一表达16到17位浮点数。 &amp;gt;&amp;gt;&amp;gt; 1/3 0.3333333333333333 &amp;gt;&amp;gt;&amp;gt; 0.1234567890123456789 0.12345678901234568 从实现方式上来看，浮点数是以二进制的方式来存储十进制数的近似值。这就可能导致执行的结果与预期不符合，造成不一致缺陷。所以，在对精度有严格要求的场合，应该选择使用固定精度类型，如：decimal.Decimal 。 可通"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-float%E7%B1%BB%E5%9E%8B/"/>
+
+  
+
+  <title>「Python3学习笔记」读书笔记--float类型 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-float%E7%B1%BB%E5%9E%8B/'>「Python3学习笔记」读书笔记--float类型</a></h2>
+          <span class="date">2018.06.09</span>
+        </div>
+        <div class="post_content markdown">
+
+<p>本文为「Python3学习笔记」一书的读书总结，以后每学习完一小节做一次记录。</p>
+
+<p>在Python中 float 类型默认存储双精度浮点数（也就是其他语言中的 double ），可一表达16到17位浮点数。</p>
+
+<pre><code>&gt;&gt;&gt; 1/3
+0.3333333333333333
+&gt;&gt;&gt; 0.1234567890123456789
+0.12345678901234568
+</code></pre>
+
+<!-- more -->
+
+<p>从实现方式上来看，浮点数是以二进制的方式来存储十进制数的近似值。这就可能导致执行的结果与预期不符合，造成不一致缺陷。所以，在对精度有严格要求的场合，应该选择使用固定精度类型，如：decimal.Decimal 。</p>
+
+<blockquote>
+<p>可通过 float.hex 方法输出实际存储值的十六进制格式的字符串，来查看执行结果为何不同；换句话说，也可以通过改方式实现浮点值的精确传递，避免精度丢失。</p>
+</blockquote>
+
+<pre><code>&gt;&gt;&gt; 0.1 * 3 == 0.3
+False
+&gt;&gt;&gt; (0.1 * 3).hex()
+'0x1.3333333333334p-2'
+&gt;&gt;&gt; (0.3).hex()		# 显然两个存储的内容并不相同
+'0x1.3333333333333p-2'
+</code></pre>
+
+<pre><code>&gt;&gt;&gt; s = (1/3).hex()
+&gt;&gt;&gt; float.fromhex(s)		# 反向转换回浮点数
+0.3333333333333333
+</code></pre>
+
+<p>对于简单的比较操作，可尝试将浮点数的精度限制在有效的精度内，如：使用 <code>round</code>函数，但<code>round</code>函数在实现上有一定的问题，这里更加准确的问题是使用 decimal.Decimal 模块。</p>
+
+<pre><code>&gt;&gt;&gt; round(0.1 * 3, 2) == round(0.3, 2)
+True
+&gt;&gt;&gt; round(0.1, 2) * 3 == round(0.3, 2)
+False
+</code></pre>
+
+<h2 id="decimal-decimal模块">decimal.Decimal模块</h2>
+
+<p>与 float 这种基于硬件的二进制浮点类型相比，decimal.Decimal 是用十进制实现的，它能准确的表达十进制数和运算，不存在二进制相似值的问题，它最高可提供28位有效精度。</p>
+
+<pre><code>&gt;&gt;&gt; (0.1 + 0.1 + 0.1 - 0.3) == 0		# 二进制近似值计算结果与十进制预期不符合
+False
+&gt;&gt;&gt; from decimal import Decimal
+&gt;&gt;&gt; (Decimal('0.1') + Decimal('0.1') + Decimal('0.1') - Decimal('0.3')) == 0
+True
+</code></pre>
+
+<p>而在创建 Decimal 实例的时候，应该传入一个准确数值，如：整数或者字符串等。如果传入的是 float 类型，那么在传入之前，其精度就已经丢失了。</p>
+
+<pre><code>&gt;&gt;&gt; Decimal(0.1)
+Decimal('0.1000000000000000055511151231257827021181583404541015625')
+&gt;&gt;&gt; Decimal('0.1')
+Decimal('0.1')
+</code></pre>
+
+<p>在需要的时候，可以通过上下文修改 Decimal 默认的28位精度或用 <code>localcontext</code>修改某个区域的精度。</p>
+
+<pre><code>&gt;&gt;&gt; from decimal import Decimal, getcontext, localcontext
+
+&gt;&gt;&gt; getcontext()
+Context(prec=28, ...)
+&gt;&gt;&gt; getcontext().prec = 2
+&gt;&gt;&gt; Decimal(1) / Decimal(3)
+Decimal('0.33')
+
+&gt;&gt;&gt; with localcontext() as ctx:
+...     print(getcontext().prec)
+...     getcontext().prec = 3
+...     print(getcontext().prec)
+...     print(Decimal(1) / Decimal(3))
+...
+2
+3
+0.333
+&gt;&gt;&gt; getcontext().prec
+2
+</code></pre>
+
+<blockquote>
+<p>Decimal 虽然有着准确的精度，但它的运算速度会慢很多，所以除非有明确的需求，否则还是不要用 Decimal 代替 float 是用。</p>
+</blockquote>
+
+<h2 id="round-函数">round 函数</h2>
+
+<p>因为精度和近似值问题，在使用<code>round</code>函数对 float 类型的值进行“四舍五入”的操作存在不确定性，结果会有一些不易察觉的陷阱。</p>
+
+<pre><code>&gt;&gt;&gt; round(0.5)		# 五舍
+0
+&gt;&gt;&gt; round(1.5)		# 五入
+2
+</code></pre>
+
+<p>这是因为<code>round</code>函数的算法规则是按临近的数字的距离远近来考虑是否进位的，如：以 0.4 为例，其舍入后相邻的数字分别是 0 和 1 ，从距离上来看自然是离 0 更近一些，所以“四舍五入”的结果为 0。如此一来，“四舍六入”就是确定的，相关问题都集中在两边距离相等的5是否进位上了。</p>
+
+<p>对于5是否进位，首先要考虑的是它后面是否还有小数位。如果有，那么左右距离自然是不想等的，这种情况肯定是会进位的。</p>
+
+<pre><code>&gt;&gt;&gt; round(0.5)
+0
+&gt;&gt;&gt; round(0.500001)
+1
+</code></pre>
+
+<p>如果没有，就要看进位后是整数还是浮点数了。如果是整数，就取临近的偶数。</p>
+
+<pre><code>&gt;&gt;&gt; round(0.5)
+0
+&gt;&gt;&gt; round(1.5)
+2
+</code></pre>
+
+<blockquote>
+<p>不同的Python版本，规则存在着差异性，如：在Python2.7中，round(2.5) 返回的是3.0。</p>
+</blockquote>
+
+<p>而进位后，如果依旧是浮点数的话，那事情就变得有点莫名其妙了。有的文章中说的是要看数字5前一位小数的奇偶行来判断是否进位，而事实上并非如此。</p>
+
+<pre><code>&gt;&gt;&gt; round(1.25, 1)		# 偶舍
+1.2
+&gt;&gt;&gt; round(1.245, 2)		# 偶入
+1.25
+&gt;&gt;&gt; round(2.675, 2)		# 下面都是奇数7，但却有舍有进
+2.67
+&gt;&gt;&gt; round(2.375, 2)
+2.38
+</code></pre>
+
+<blockquote>
+<p>对此，Python官方文档<a href="https://docs.python.org/3/tutorial/floatingpoint.html">Floating Point Arithmetic: Issues and Limitations</a>宣称着并非错误，而是事出有因。我们可以改用 Decimal ，按需选取可控的进位方案。</p>
+</blockquote>
+
+<h2 id="转换">转换</h2>
+
+<p>在 Python 中将整数或字符串转换为浮点数很简单，而且 Python 还会自动处理字符串内的正负号和空白符。只是超出有效精度时，结果与字符串内容存在差异。</p>
+
+<pre><code>&gt;&gt;&gt; float(100)
+100.0
+&gt;&gt;&gt; float('-100.123')
+-100.123
+&gt;&gt;&gt; float('\t -100.123\n')
+-100.123
+&gt;&gt;&gt; float('1.23E2')
+123.0
+&gt;&gt;&gt; float('0.12345678901234567890')		# 超出精度
+0.12345678901234568
+</code></pre>
+
+<p>反过来，将浮点数转换为整数时，有多种方案可供选择。
+1. 可直接截掉小数部分</p>
+
+<pre><code>&gt;&gt;&gt; int(2.6), int(-2.6)
+(2, -2)
+
+&gt;&gt;&gt; from math import trunc
+&gt;&gt;&gt; trunc(2.6), trunc(-2.6)
+(2, -2)
+</code></pre>
+
+<ol>
+<li><p>分别向大小两个方向取临近整数</p>
+
+<pre><code>&gt;&gt;&gt; from math import floor, ceil
+&gt;&gt;&gt; floor(2.6), floor(-2.6)		# 向小数字方向取最近整数
+(2, -3)
+&gt;&gt;&gt; ceil(2.6), ceil(-2.6)			# 向大数字方向取最近整数
+(3, -2)
+</code></pre></li>
+</ol>
+</div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/python/">Python</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

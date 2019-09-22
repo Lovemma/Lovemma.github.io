@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="集合存储的是非重复对象，所谓的非重复对象是指：除了不是同一对象外，值也不能相同。 # Python集合判重公式 (a is b) OR (hash(a) == hash(b) AND a == b) 如果不是同一对象，那么先判断哈希值，然后比较内容。因为受限于哈希算法，不同内容可能返回相同的哈希值（哈希碰撞），那么就有必要继续比较内容是否相同。 那么为什么要先比较哈希值，而不直接比较内容呢？首先，与大多数内容（例如字符串）相比，整数哈希值比较的性能高得多；其次，哈希值不"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E9%9B%86%E5%90%88/"/>
+
+  
+
+  <title>「Python3学习笔记」读书笔记—集合 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E9%9B%86%E5%90%88/'>「Python3学习笔记」读书笔记—集合</a></h2>
+          <span class="date">2018.06.29</span>
+        </div>
+        <div class="post_content markdown">
+
+<p>集合存储的是非重复对象，所谓的非重复对象是指：除了不是同一对象外，值也不能相同。</p>
+
+<pre><code class="language-python"># Python集合判重公式
+(a is b) OR (hash(a) == hash(b) AND a == b)
+</code></pre>
+
+<!-- more -->
+
+<blockquote>
+<p>如果不是同一对象，那么先判断哈希值，然后比较内容。因为受限于哈希算法，不同内容可能返回相同的哈希值（哈希碰撞），那么就有必要继续比较内容是否相同。</p>
+
+<p>那么为什么要先比较哈希值，而不直接比较内容呢？首先，与大多数内容（例如字符串）相比，整数哈希值比较的性能高得多；其次，哈希值不同，内容肯定不同，这时就没必要再继续比较内容了。</p>
+</blockquote>
+
+<p>按操作方式来分的话，集合可分为可变（set）和不可变（frozenset）两个版本，内部实现完全相同。集合使用数组实现的哈希表来存储元素对象的引用，这也意味着集合中的元素必须为可哈希类型。
+&gt; 查找元素对象时，先通过算法定位数组索引，继而比较哈希值和内容。<br />
+&gt;
+&gt; 集合对象自带一个长度为 8 的小数组（small table)，这对多数简单集合运算有益，可避免额外的内存分配。只有超出容量限制时，才分配更大的数组内存（entry table)。集合使用的频率没有列表和字典高，内部没有采用缓存服用策略，其实现方式决定了无序存储，标准库也没有提供有序实现。</p>
+
+<h2 id="创建">创建</h2>
+
+<p>创建一个集合对象可以和字典一样使用大括号的语法，但初始化数据用非键值对；也可以调用类型构建方法，或使用推导式。
+集合允许在不同的版本进行转换。</p>
+
+<pre><code>&gt;&gt;&gt; s = {1}
+&gt;&gt;&gt; f = frozenset(s)
+&gt;&gt;&gt; set(f)
+{1}
+</code></pre>
+
+<h2 id="操作">操作</h2>
+
+<p>集合支持大小、相等运算符。</p>
+
+<pre><code>&gt;&gt;&gt; {1, 2} &gt; {2, 1}
+False
+&gt;&gt;&gt; {1, 2} == {2, 1}
+True
+</code></pre>
+
+<p>但子集判断不能使用 in、not in 语句，因为其只能用来检查是否包含某个元素。</p>
+
+<pre><code>&gt;&gt;&gt; {1, 2} &lt;= {1, 2, 3}	# 子集：issubset
+True
+&gt;&gt;&gt; {1, 2, 3} &gt;= {1, 2}	# 超集：issuperset
+True
+&gt;&gt;&gt; {1, 2} in {1, 2, 3}	# 判断是否包含 {1, 2} 单一元素
+False
+</code></pre>
+
+<p>集合是初等数学中的概念，其重点自然是并差集运算，合理使用这些操作，可简化算法筛选逻辑，使其具备更好的可读性。
+&gt; 交集（&amp;）：同时属于 A、B 两个集合的元素<br />
+&gt; 并集（|）：A、B 的所有元素<br />
+&gt; 差集（-）：仅属于 A、不属于 B 的元素<br />
+&gt; 对称差集（^）：仅属于 A，加上仅属于 B 的元素，相当于“并集-交集”</p>
+
+<p>集合支持删除操作，但 remove 可能会引发异常，可改用 discard。</p>
+
+<pre><code>&gt;&gt;&gt; x = {1, 2}
+&gt;&gt;&gt; x.remove(2)
+&gt;&gt;&gt; x.remove(2)
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
+KeyError: 2
+
+&gt;&gt;&gt; x.discard(2)
+</code></pre>
+
+<h2 id="自定义类型">自定义类型</h2>
+
+<p>自定义类型虽然是可哈希类型，但默认实现并不足以完成集合的去重操作。</p>
+
+<pre><code class="language-python">class User:
+    def __init__(self, uid, name):
+        self.uid = uid
+        self.name = name
+</code></pre>
+
+<pre><code>&gt;&gt;&gt; import collections
+&gt;&gt;&gt; issubclass(User, collections.Hashable)
+True
+
+&gt;&gt;&gt; u1 = User(1, &quot;user1&quot;)
+&gt;&gt;&gt; u2 = User(1, &quot;user1&quot;)
+&gt;&gt;&gt; s = set()
+&gt;&gt;&gt; s.add(u1)
+&gt;&gt;&gt; s.add(u2)
+&gt;&gt;&gt; s
+{&lt;__main__.User object at 0x10bc1df98&gt;, &lt;__main__.User object at 0x10bc29048&gt;}
+</code></pre>
+
+<p>其根本原因是默认实现的<code>__hash__</code>方法返回随机值，而<code>__eq__</code>仅比较自身，为符合逻辑需要，须重载这两个方法。</p>
+
+<pre><code class="language-python">class User:
+    def __init__(self, uid, name):
+        self.uid = uid
+        self.name = name
+
+    def __hash__(self):		# 针对 uid 去重，忽略其他字段
+        return hash(self.uid)
+
+    def __eq__(self, other):
+        return self.uid == other.uid
+</code></pre>
+
+<pre><code>&gt;&gt;&gt; u1 = User(1, &quot;user1&quot;)
+&gt;&gt;&gt; u2 = User(1, &quot;user1&quot;)
+&gt;&gt;&gt; s = set()
+&gt;&gt;&gt; s.add(u1)
+&gt;&gt;&gt; s.add(u2)
+&gt;&gt;&gt; s
+{&lt;__main__.User object at 0x10bc1df98&gt;}
+&gt;&gt;&gt; u1 in s
+True
+&gt;&gt;&gt; u2 in s		# 仅检查 uid 字段
+True
+</code></pre>
+</div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/python/">Python</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

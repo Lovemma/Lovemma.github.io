@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="原型模式（The Prototype Pattern）用于创建对象的完全副本，有点类似与现实生活中的有丝分裂，在 Python 中可以使用内置的copy模块实现。
+拷贝分为深拷贝和浅拷贝： - 深拷贝会递归复制并创建新的对象 - 浅拷贝会利用引用指向同一个对象
+深拷贝的优点是对象之间互不影响，但是会耗费资源，创建比较耗时；如果不会修改对象可以使用浅拷贝，更加节省资源和创建时间。
+"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/"/>
+
+  
+
+  <title>设计模式之原型模式 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/'>设计模式之原型模式</a></h2>
+          <span class="date">2018.10.15</span>
+        </div>
+        <div class="post_content markdown"><p>原型模式（The Prototype Pattern）用于创建对象的完全副本，有点类似与现实生活中的有丝分裂，在 Python 中可以使用内置的<code>copy</code>模块实现。</p>
+
+<p>拷贝分为<code>深拷贝</code>和<code>浅拷贝</code>：
+- 深拷贝会递归复制并创建新的对象
+- 浅拷贝会利用引用指向同一个对象</p>
+
+<p>深拷贝的优点是对象之间互不影响，但是会耗费资源，创建比较耗时；如果不会修改对象可以使用浅拷贝，更加节省资源和创建时间。</p>
+
+<pre><code class="language-python">import copy
+from collections import OrderedDict
+
+
+class Book:
+    def __init__(self, name, authors, price, **rest):
+        self.name = name
+        self.authors = authors
+        self.price = price
+        self.__dict__.update(rest)
+
+    def __str__(self):
+        mylist = []
+        ordered = OrderedDict(sorted(self.__dict__.items()))
+        for i in ordered.keys():
+            mylist.append('{}: {}'.format(i, ordered[i]))
+            if i == 'price':
+                mylist.append('$')
+            mylist.append('\n')
+        return ''.join(mylist)
+
+
+class Prototype:
+
+    def __init__(self):
+        self.objects = dict()
+
+    def register(self, identifier, obj):
+        self.objects[identifier] = obj
+
+    def unregister(self, identifier):
+        del self.objects[identifier]
+
+    def clone(self, identifier, **attr):
+        &quot;&quot;&quot; 实现对象拷贝 &quot;&quot;&quot;
+        found = self.objects.get(identifier)
+        if not found:
+            raise ValueError(
+                'Incorrect object identifier: {}'.format(identifier))
+        obj = copy.deepcopy(found)
+        obj.__dict__.update(attr)  # 实现拷贝时自定义更新
+        return obj
+
+
+def main():
+    b1 = Book('The C Programming Language',
+              ('Brian W. Kernighan', 'Dennis M.Ritchie'),
+              price=118, publisher='Prentice Hall', length=228,
+              publication_date='1978-02-22',
+              tags=('C', 'programming', 'algorithms', 'data structures'))
+    prototype = Prototype()
+    cid = 'k&amp;r-first'
+    prototype.register(cid, b1)
+    b2 = prototype.clone(cid, name='The C Programming Language(ANSI)',
+                         price=48.99,
+                         length=274, publication_date='1988-04-01', edition=2)
+    for i in (b1, b2):
+        print(i)
+    print(&quot;ID b1 : {} != ID b2 : {}&quot;.format(id(b1), id(b2)))
+
+
+if __name__ == '__main__':
+    main()
+
+</code></pre></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                
+                <a href="https://lovemma.github.io/tags/python/">Python</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

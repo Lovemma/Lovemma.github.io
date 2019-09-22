@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>字符串连接 on I&#39;m Groooooot</title>
+    <link>https://lovemma.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9E%E6%8E%A5/</link>
+    <description>Recent content in 字符串连接 on I&#39;m Groooooot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 28 Feb 2018 10:16:43 +0000</lastBuildDate>
+    
+	<atom:link href="https://lovemma.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9E%E6%8E%A5/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python连接字符串优先使用join而不是&#43;</title>
+      <link>https://lovemma.github.io/posts/python%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8join%E8%80%8C%E4%B8%8D%E6%98%AF/</link>
+      <pubDate>Wed, 28 Feb 2018 10:16:43 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8join%E8%80%8C%E4%B8%8D%E6%98%AF/</guid>
+      <description>字符串处理在大多数编程语言中都是不可避免的，而字符串的连接在编程的过程中会经常遇到。Python 中的字符串与其他语言的字符串有点不一样，如：C++，Java，在 Python 中字符串是不可变对象，创建之后便不可以修改了，因此，这个特性会影响到字符串在连接时的效率问题。 常用的字符串连接方法 使用操作符+连接字符串： In [1]: str1, str2, str3 = &#39;string1 &#39;, &#39;string2 &#39;, &#39;string3 &#39; In [2]: str1 + str2 + str3 Out[2]: &#39;string1 string2 string3&#39; 使用join方法连接字符串： In [1]: str1, str2, str3 = &#39;string1 &#39;, &#39;string2 &#39;, &#39;string3 &#39; In</description>
+    </item>
+    
+  </channel>
+</rss>

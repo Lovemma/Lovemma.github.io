@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="当我们编写完成 Django 项目后，可以使用python manager.py runserver来运行 Django 自带的服务器，但这只适合于测试环境使用，项目正式上线时，我们需要一个可以稳定并且持续的服务器，比如Apache, Nginx等。手里吃灰很久的树莓派终于可以派上用场了😂。 准备工作 烧写好系统的树莓派，我这里使用的是基于 Debian 的 Raspbian 系统，理论上后续搭建步骤在 Ubuntu/Debian 上都可以用。 &amp;gt; 注意 2016 年 11 月的新版本系统之后，树莓派默认禁用 SSH，你需要手动开启"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84-nginx-&#43;-uwsgi-&#43;-django/"/>
+
+  
+
+  <title>树莓派搭建简单的 Nginx &#43; uWSGI &#43; Django &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84-nginx-&#43;-uwsgi-&#43;-django/'>树莓派搭建简单的 Nginx &#43; uWSGI &#43; Django</a></h2>
+          <span class="date">2018.02.24</span>
+        </div>
+        <div class="post_content markdown">
+
+<p>当我们编写完成 Django 项目后，可以使用<code>python manager.py runserver</code>来运行 Django 自带的服务器，但这只适合于测试环境使用，项目正式上线时，我们需要一个可以稳定并且持续的服务器，比如Apache, Nginx等。手里吃灰很久的树莓派终于可以派上用场了😂。</p>
+
+<!-- more -->
+
+<h2 id="准备工作">准备工作</h2>
+
+<ul>
+<li>烧写好系统的树莓派，我这里使用的是基于 Debian 的 Raspbian 系统，理论上后续搭建步骤在 Ubuntu/Debian 上都可以用。
+&gt; <em>注意 2016 年 11 月的新版本系统之后，树莓派默认禁用 SSH，你需要手动开启。如果没有屏幕，则在boot分区的根目录下创建一个名为 ssh 的文件即可开启</em></li>
+</ul>
+
+<h2 id="安装nginx">安装Nginx</h2>
+
+<pre><code class="language-shell">sudo apt install nginx
+</code></pre>
+
+<p>安装完成后 nginx 服务器默认就启动了。</p>
+
+<p>nginx 相关命令：</p>
+
+<pre><code class="language-shell">sudo service nginx start # 启动 nginx
+sudo service nginx stop  # 停止 nginx
+sudo service nginx restart # 重启 nginx
+</code></pre>
+
+<h2 id="安装uwsgi">安装uWSGI</h2>
+
+<pre><code class="language-Shell">pip install uwsgi
+</code></pre>
+
+<p>测试 uWSGI 是否正常：</p>
+
+<p>建立一个 test.py 文件，内容如下：</p>
+
+<pre><code class="language-Python">def application(env, start_response):
+    start_response('200 OK', [('Content-Type','text/html')])
+    return &quot;Hello World&quot;
+</code></pre>
+
+<p>然后在命令行运行以下命令：</p>
+
+<pre><code class="language-Shell">uwsgi --http :8000 --wsgi-file test.py
+</code></pre>
+
+<p><code>--http :8000</code>：表示使用的是 http 协议，端口号为8000</p>
+
+<p><code>--wsgi-file test.py</code>：表示要运行的 wsgi 应用程序文件</p>
+
+<p>更多参数使用请看：<a href="http://uwsgi-docs.readthedocs.io/en/latest/Options.html">uWSGI 参数详解</a></p>
+
+<p>uwsgi 命令运行后，在浏览器访问<code>[服务器IP地址]:8000</code>，若看到<code>Hello World</code>则表明 uWSGI 运行正常。</p>
+
+<h2 id="uwsgi配置">uWSGI配置</h2>
+
+<p>uWSGI 支持 ini、xml 等多种配置方式，这里以 ini 配置为例。在<code>/var/www/html/[项目名]</code>目录下创建一个 mysite_uwsgi.ini 文件，内容如下：</p>
+
+<pre><code class="language-shell">[uwsgi]
+
+# Django-related settings
+# the base directory (full path)
+chdir           = /var/www/html/your_project_name
+# Django's wsgi file
+module          = your_project_name.wsgi
+# the virtualenv (full path)
+home            = /path/to/virtualenv
+# process-related settings
+# master
+master          = true
+# maximum number of worker processes
+processes       = 10
+# the socket (use the full path to be safe
+socket          = :8000
+# ... with appropriate permissions - may be needed
+# chmod-socket    = 664
+# clear environment on exit
+vacuum          = true
+# background the process &amp; log
+daemonize = /var/www/html/your_project_name/uwsgi.log
+pidfile		= /tmp/uwsgi.pid
+</code></pre>
+
+<p>然后就可以使用配置文件的方式来使用 uWSGI ：</p>
+
+<pre><code class="language-shell">uwsgi --ini mysite_uwsgi.ini
+</code></pre>
+
+<h2 id="nginx配置">nginx配置</h2>
+
+<p>新建一个名为<code>mysite_nginx.conf</code>的文件，内容如下：</p>
+
+<pre><code># mysite_nginx.conf
+
+# the upstream component nginx needs to connect to
+upstream django {
+    # server unix:///path/to/your/mysite/mysite.sock; # for a file socket
+    server 127.0.0.1:8000; # for a web port socket (we'll use this first)
+}
+
+# configuration of the server
+server {
+    # the port your site will be served on
+    listen      80;
+    # the domain name it will serve for
+    server_name .example.com; # 替换为你的机器的IP地址或者FQDN
+    charset     utf-8;
+
+    # max upload size
+    client_max_body_size 75M;   # adjust to taste
+
+    # Django media
+    location /media  {
+        alias /path/to/your/mysite/media;  # your Django project's media files - amend as required
+    }
+
+    location /static {
+        alias /path/to/your/mysite/static; # your Django project's static files - amend as required
+    }
+
+    # Finally, send all non-media requests to the Django server.
+    location / {
+        uwsgi_pass  django;
+        include     /etc/nginx/uwsgi_params; # the uwsgi_params file you installed
+    }
+}
+</code></pre>
+
+<p>替换完成文件中的相关文件路径后，在<code>/etc/nginx/sites-enabled</code>目录下，建立该文件的符号链接：</p>
+
+<pre><code class="language-Shell">sudo ln -s ~/[你的文件所在路径]/mysite_nginx.conf /etc/nginx/sites-enabled/
+</code></pre>
+
+<p>重启 nginx 服务器：</p>
+
+<pre><code class="language-Shell">sudo service nginx restart
+</code></pre>
+
+<p>最后，将 uWSGI 运行起来，就看到你的 Django 项目已经跑起来了。</p>
+
+<p>参考文章：</p>
+
+<p><a href="http://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html">Setting up Django and your web server with uWSGI and nginx</a></p>
+</div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/django/">Django</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

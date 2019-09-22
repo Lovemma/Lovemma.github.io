@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>浅拷贝 on I&#39;m Groooooot</title>
+    <link>https://lovemma.github.io/tags/%E6%B5%85%E6%8B%B7%E8%B4%9D/</link>
+    <description>Recent content in 浅拷贝 on I&#39;m Groooooot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 25 Jan 2018 14:49:59 +0000</lastBuildDate>
+    
+	<atom:link href="https://lovemma.github.io/tags/%E6%B5%85%E6%8B%B7%E8%B4%9D/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python中的浅拷贝与深拷贝</title>
+      <link>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84%E6%B5%85%E6%8B%B7%E8%B4%9D%E4%B8%8E%E6%B7%B1%E6%8B%B7%E8%B4%9D/</link>
+      <pubDate>Thu, 25 Jan 2018 14:49:59 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84%E6%B5%85%E6%8B%B7%E8%B4%9D%E4%B8%8E%E6%B7%B1%E6%8B%B7%E8%B4%9D/</guid>
+      <description>在面试过程中，经常会被问浅拷贝与深拷贝的区别。所以，在这里记录一下自己的理解，以便以后好复习。 浅拷贝（shallow copy） 所谓“浅拷贝”，是指在复制一个对象时，构建一个新的对象，并将原对象中发现的引用插入到该对象中. 浅拷贝的实现方式常见的有：工厂函数、切片操作、copy模块中的copy函数等 实现如下： &amp;gt;&amp;gt;&amp;gt; a = [1, 2, [3, 4]] &amp;gt;&amp;gt;&amp;gt; b = a[:] &amp;gt;&amp;gt;&amp;gt; id(a) 4505384008 &amp;gt;&amp;gt;&amp;gt; id(b) 4504586056 &amp;gt;&amp;gt;&amp;gt; [id(x) for x in a] [4470102640, 4470102672, 4505384072] &amp;gt;&amp;gt;&amp;gt; [id(x) for x in b] [4470102640, 4470102672, 4505384072] &amp;gt;&amp;gt;&amp;gt; a[2] += [5] &amp;gt;&amp;gt;&amp;gt; a [1, 2, [3, 4, 5]] &amp;gt;&amp;gt;&amp;gt;</description>
+    </item>
+    
+  </channel>
+</rss>

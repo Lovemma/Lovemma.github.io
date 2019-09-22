@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="字符串处理在大多数编程语言中都是不可避免的，而字符串的连接在编程的过程中会经常遇到。Python 中的字符串与其他语言的字符串有点不一样，如：C&#43;&#43;，Java，在 Python 中字符串是不可变对象，创建之后便不可以修改了，因此，这个特性会影响到字符串在连接时的效率问题。 常用的字符串连接方法 使用操作符&#43;连接字符串： In [1]: str1, str2, str3 = &#39;string1 &#39;, &#39;string2 &#39;, &#39;string3 &#39; In [2]: str1 &#43; str2 &#43; str3 Out[2]: &#39;string1 string2 string3&#39; 使用join方法连接字符串： In [1]: str1, str2, str3 = &#39;string1 &#39;, &#39;string2 &#39;, &#39;string3 &#39; In"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/python%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8join%E8%80%8C%E4%B8%8D%E6%98%AF/"/>
+
+  
+
+  <title>Python连接字符串优先使用join而不是&#43; &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/python%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8join%E8%80%8C%E4%B8%8D%E6%98%AF/'>Python连接字符串优先使用join而不是&#43;</a></h2>
+          <span class="date">2018.02.28</span>
+        </div>
+        <div class="post_content markdown">
+
+<p>字符串处理在大多数编程语言中都是不可避免的，而字符串的连接在编程的过程中会经常遇到。Python 中的字符串与其他语言的字符串有点不一样，如：C++，Java，在 Python 中字符串是不可变对象，创建之后便不可以修改了，因此，这个特性会影响到字符串在连接时的效率问题。</p>
+
+<!-- more -->
+
+<h2 id="常用的字符串连接方法">常用的字符串连接方法</h2>
+
+<ol>
+<li><p>使用操作符<code>+</code>连接字符串：</p>
+
+<pre><code>In [1]: str1, str2, str3 = 'string1 ', 'string2 ', 'string3 '
+
+In [2]: str1 + str2 + str3
+Out[2]: 'string1 string2 string3'
+</code></pre></li>
+
+<li><p>使用<code>join</code>方法连接字符串：</p>
+
+<pre><code>In [1]: str1, str2, str3 = 'string1 ', 'string2 ', 'string3 '
+
+In [2]: ''.join([str1, str2, str3])
+Out[2]: 'string1 string2 string3'
+</code></pre></li>
+</ol>
+
+<p>上述两种方式产生了相同的结果，那么除了形式不同外，它们的效率是否一样呢？</p>
+
+<h2 id="性能测试">性能测试</h2>
+
+<pre><code class="language-python">import timeit
+
+# 100000是字符串连接数目，对应后面的测试数据
+str_list = ['this is a long string used for testing.' for n in range(100000)]
+
+
+# 使用 join 方法连接 str_list 中的元素
+def join_test():
+    return ''.join(str_list)
+
+
+# 使用 + 进行字符串连接
+def plus_test():
+    result = ''
+    for item in str_list:
+        result = result + item
+    return result
+
+
+if __name__ == '__main__':
+    join_timer = timeit.Timer('join_test()', 'from __main__ import join_test')
+    print(join_timer.timeit(100))
+    plus_timer = timeit.Timer('plus_test()', 'from __main__ import plus_test')
+    print(plus_timer.timeit(100))
+</code></pre>
+
+<p>给上述代码传入一组测试参数（10，100，1000，10000，100000），用于测试<code>join_test()</code>和<code>plus_test()</code>这两个方法在进行字符串连接时所用时间的变化，分别记录每次测试的结果：</p>
+
+<table>
+<thead>
+<tr>
+<th>连接的字符串数量</th>
+<th align="left">join_test()运行时间</th>
+<th align="left">plus_test()运行时间</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>10</td>
+<td align="left">4.9165013479068875e-05</td>
+<td align="left">0.00016158400103449821</td>
+</tr>
+
+<tr>
+<td>100</td>
+<td align="left">0.00013869800022803247</td>
+<td align="left">0.001382818998536095</td>
+</tr>
+
+<tr>
+<td>1000</td>
+<td align="left">0.0009924670157488436</td>
+<td align="left">0.015010426985099912</td>
+</tr>
+
+<tr>
+<td>10000</td>
+<td align="left">0.01003621399286203</td>
+<td align="left">0.16328153299400583</td>
+</tr>
+
+<tr>
+<td>100000</td>
+<td align="left">0.08696807900560088</td>
+<td align="left">1.762425111985067</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="结果分析">结果分析</h2>
+
+<p>从测试结果可以看到使用<code>join()</code>方法和使用<code>+</code>操作符来连接字符串时，<code>join()</code>方法的效率明显要高于<code>+</code>操作符。那么，造成这种差别的原因在哪里呢？</p>
+
+<p>在使用<code>+</code>操作符时，由于字符串是不可变对象，其工作原理应该是这样：如果要连接如下字符串时：s1 + s2 + s3 + …… + sn，执行一次<code>+</code>操作便会在内存中申请一块新的内存空间，并将上次操作的结果和本次操作的右操作数复制到新申请的内存空间，即当执行 s1 + s2 时，会申请一块内存空间，将 s1、s2 复制到该内存中，执行 s1 + s2 + s3 时，会申请一块内存空间，将 s1 + s2 的结果和 s3 复制到该内存中，依次类推。在 <strong>N</strong> 个字符串的连接过程中，会产生<strong>N-1</strong>个中间结果，每一个中间结果都要申请和复制一次内存，因此严重的影响了执行效率。</p>
+
+<p>而当用<code>joio()</code>方法连接字符串时，会先计算出需要的总的内存空间，然后一次性申请内存空间并将字符串复制到申请的内存空间中，减少了中间结果，所以执行效率较高。</p>
+
+<p>因此，在字符串的连接过程中，特别是大规模字符串的连接，应该优先使用<code>join</code>而不是<code>+</code>。因水平有限，以上分析说的不对还请指出。</p>
+</div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9E%E6%8E%A5/">字符串连接</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

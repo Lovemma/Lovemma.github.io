@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="策略模式是一种非常通用的设计模式，可应用的场景很多。一般来说，不论何时希望动态、透明地应用不同算法，策略模式都是可行之路。这里所说不同算法的意思是，目的相同但实现方案不同的一类算法。这意味着算法结果应该是完全一致的，但每种实现都有不同的性能和代码复杂性（举例来说，对比一下顺序查找和二分查找）。
+策略模式的另一个应用是创建不同的样式表现，为了实现可移植性（例如，不同平台之间断行的不同）或动态地改变数据的表现。
+另一个值得一提的应用是模拟；例如模拟机器人，一些机器人比另一些更有攻击性，一些机器人速度更快，等等。机器人行为中的所有不同之处都可以使用不同的策略来建模。
+"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/"/>
+
+  
+
+  <title>策略模式 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/'>策略模式</a></h2>
+          <span class="date">2018.10.31</span>
+        </div>
+        <div class="post_content markdown"><p>策略模式是一种非常通用的设计模式，可应用的场景很多。一般来说，不论何时希望动态、透明地应用不同算法，策略模式都是可行之路。这里所说不同算法的意思是，目的相同但实现方案不同的一类算法。这意味着算法结果应该是完全一致的，但每种实现都有不同的性能和代码复杂性（举例来说，对比一下顺序查找和二分查找）。</p>
+
+<p>策略模式的另一个应用是创建不同的样式表现，为了实现可移植性（例如，不同平台之间断行的不同）或动态地改变数据的表现。</p>
+
+<p>另一个值得一提的应用是模拟；例如模拟机器人，一些机器人比另一些更有攻击性，一些机器人速度更快，等等。机器人行为中的所有不同之处都可以使用不同的策略来建模。</p>
+
+<p>以排序算法为例子，挑选一个合适的排序算法的时候，需要考虑待排序数组的以下特征：
+- 需要排序的元素数量。大部分排序算法在输入规模很小的时候效率相差不大，只有一部分O(nlogn)平均时间复杂度的算法适合大规模排序。
+- 算法的最佳/平均/最差时间复杂度。这个往往是挑选排序算法时候优先考虑的。
+- 算法的空间复杂度。是不是原地排序(inplace)，需要额外的空间吗？在内存限制苛刻的时候就需要考虑。
+- 算法的稳定性。排序算法是稳定的吗？稳定是指相同大小的值排序后保持相对顺序。
+- 实现复杂度。算法是否容易实现，其他大致相同的情况下，优先考虑易维护的代码。</p>
+
+<p>示例：</p>
+
+<pre><code class="language-python">def f1(seq):
+    pass
+    
+    
+def f2(seq):
+    pass
+    
+    
+def f(seq):
+    if len(seq) &gt;= threshold_value:    # 大于某个阈值
+        f1(seq)    # 在数量较多时候具有良好的效率
+    else:
+        f2(seq)
+</code></pre></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                
+                <a href="https://lovemma.github.io/tags/python/">Python</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

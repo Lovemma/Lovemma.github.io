@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>MySQL on I&#39;m Groooooot</title>
+    <link>https://lovemma.github.io/tags/mysql/</link>
+    <description>Recent content in MySQL on I&#39;m Groooooot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Fri, 24 May 2019 15:16:35 +0000</lastBuildDate>
+    
+	<atom:link href="https://lovemma.github.io/tags/mysql/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MySQL如何在给定场景下为一个用户授权?</title>
+      <link>https://lovemma.github.io/posts/mysql%E5%A6%82%E4%BD%95%E5%9C%A8%E7%BB%99%E5%AE%9A%E5%9C%BA%E6%99%AF%E4%B8%8B%E4%B8%BA%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83/</link>
+      <pubDate>Fri, 24 May 2019 15:16:35 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/mysql%E5%A6%82%E4%BD%95%E5%9C%A8%E7%BB%99%E5%AE%9A%E5%9C%BA%E6%99%AF%E4%B8%8B%E4%B8%BA%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83/</guid>
+      <description>&lt;h3 id=&#34;如何定义-mysql-数据库账号&#34;&gt;如何定义 MySQL 数据库账号？&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;用户名的组成：用户名@可访问控制列表&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;用户名：5.7版本以前，用户名最大只有16个字节；之后的版本为 32 个字节&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;可访问控制列表：用户可以从哪些服务器上对数据库进行访问&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+&lt;li&gt;%：代表可以从所有外部主机进行访问&lt;/li&gt;
+&lt;li&gt;192.168.1.%：可以从 192.168.1 网段进行访问
+
+&lt;ol&gt;
+&lt;li&gt;localhost：DB 服务器本地访问&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用 CREATE USER 命令建立用户&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySQL死锁检测中热点行更新导致的性能问题</title>
+      <link>https://lovemma.github.io/posts/mysql%E6%AD%BB%E9%94%81%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%83%AD%E7%82%B9%E8%A1%8C%E6%9B%B4%E6%96%B0%E5%AF%BC%E8%87%B4%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Wed, 28 Nov 2018 17:33:47 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/mysql%E6%AD%BB%E9%94%81%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%83%AD%E7%82%B9%E8%A1%8C%E6%9B%B4%E6%96%B0%E5%AF%BC%E8%87%B4%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;有一个电影票在线交易业务，顾客 A 要在影院 B 购买电影票。这个业务涉及到以下操作：
+1. 从顾客 A 的账户余额中扣除电影票价；
+2. 给影院 B 的账户余额中增加这张电影的票价；
+3. 记录一条交易日志。&lt;/p&gt;
+
+&lt;p&gt;也就是说，要完成这个交易，我们需要 update 两条记录，并 insert 一条记录。当然，为了保证交易的原子性，我们要把这三个操作一个事务中。那么，你会怎样安排这三个语句在事务中的顺序呢？&lt;/p&gt;
+
+&lt;p&gt;试想如果同时有另一个顾客 C 要在影院 B 买票，那么这两个事务冲突的部分就是语句 2 了。因为它们要更新同一个影院账户的余额，需要修改同一行数据。&lt;/p&gt;
+
+&lt;p&gt;根据两阶段锁协议，不论怎样安排语句顺序，所有的操作需要的行锁都是在事务提交的时候才释放的。所以，如果你把语句 2 安排在最后，比如按照 3、1、2 这样的顺序执行，那么影院账户余额这一行的锁时间就最少。这样就最大程度地减少了事务之间的锁等待，提高了并发度。&lt;/p&gt;
+
+&lt;p&gt;如果这个影院做活动，可以低价预售一年之内所有的电影票，而且这个活动只做一天。于是在活动时间开始的时候，你的 MySQL 就挂了。登上服务器一看，CPU 消耗接近 100%，但整个数据库每秒就只执行不到 100 个事务。这是什么原因呢？&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>在mysql如何挑选索引列</title>
+      <link>https://lovemma.github.io/posts/%E5%9C%A8mysql%E5%A6%82%E4%BD%95%E6%8C%91%E9%80%89%E7%B4%A2%E5%BC%95%E5%88%97/</link>
+      <pubDate>Tue, 27 Nov 2018 14:54:52 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E5%9C%A8mysql%E5%A6%82%E4%BD%95%E6%8C%91%E9%80%89%E7%B4%A2%E5%BC%95%E5%88%97/</guid>
+      <description>&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;为用于搜索、排序或分组的列创建索引，而对于用作输出显示的列则不用创建索引。&lt;/strong&gt;这意味着最佳索引候选列是那些出现在 WHERE 子句中的列、连接子句中的列或者出现在 ORDER BY 或 GROUP BY 子句中的列。而那些只是出现在 SELECT 关键字后面的输出列表里的列，则不是很好的索引候选列。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;认真考虑数据列基数。&lt;/strong&gt;列的基数(cardinality)是指它所容纳的所有非重复值的个数，例如，某个列包含值 1、3、7、4、7、3，那么它的基数为 4。相对于表里面行的总数来说，列的基数越高(也就就是说，它包含的唯一值多，重复值少)，索引的使用效果越好。对于包含许多不同年龄值的列，索引可以很容易地将各个行区分开来。但是对于记录性别的列，其中只会包含两个值：&#39;M&#39;和&#39;F&#39;，索引操作毫无用处。如果这两个值出现的频率大致一样，那么不管搜索哪个值，你得到的都是近乎一半的行。在这种情况下，索引可能根本无法使用，因为当查询优化程序确定出某个值在表的行里出现频率很大时，它会跳过索引，直接执行全表扫描操作。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySQL中不同存储引擎的索引的实现方式</title>
+      <link>https://lovemma.github.io/posts/mysql%E4%B8%AD%E4%B8%8D%E5%90%8C%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%9A%84%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/</link>
+      <pubDate>Sun, 25 Nov 2018 16:34:17 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/mysql%E4%B8%AD%E4%B8%8D%E5%90%8C%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%9A%84%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/</guid>
+      <description>对于不同的 MySQL 存储引擎，索引的具体实现细节也有所不同。 1. 对于 MyISAM 表，其数据行保存在数据文件中，而索引值则保存在索引文件里。一个表可以有多个索引，但它们都保存在同一个索引文件里。索引文件里的每一个索引都由一组有序的关键字行构成，这个组中的关键字行主要用于快速访问数据文件。 2. InnoDB 存储引擎没有按照上面的方法将行和索引值分开放置，尽管它也是把索引值当作是一组有序值。默认情况下，InnoDB 存储引擎只使用一个表空</description>
+    </item>
+    
+    <item>
+      <title>在数据库中为什么尽量不使用长事务?</title>
+      <link>https://lovemma.github.io/posts/%E5%9C%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E5%B0%BD%E9%87%8F%E4%B8%8D%E4%BD%BF%E7%94%A8%E9%95%BF%E4%BA%8B%E5%8A%A1/</link>
+      <pubDate>Tue, 20 Nov 2018 13:59:30 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E5%9C%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E5%B0%BD%E9%87%8F%E4%B8%8D%E4%BD%BF%E7%94%A8%E9%95%BF%E4%BA%8B%E5%8A%A1/</guid>
+      <description>&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;长事务意味着系统里面会存在很老的事务视图。由于这些事务随时可能访问数据库里面的任何数据，所以这个事务提交之前，数据库里面它可能用到的回滚记录都必须保留，这会导致大量的占用存储空间。
+&amp;gt; 在 MySQL 5.5 及以前的版本中，回滚日志跟数据字典一起放在 ibdata 文件里面，即使长事务最终提交，回滚段被清理，文件也不会变小。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;除了对回滚段有影响，长事务还占用锁资源，这也有可能会拖垮整个库。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySQL中 only_full_group_by 问题</title>
+      <link>https://lovemma.github.io/posts/mysql%E4%B8%AD-only-full-group-by-%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Wed, 08 Aug 2018 09:08:47 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/mysql%E4%B8%AD-only-full-group-by-%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;最近在试用 MySQL 数据库做查询时，遇到了这么个问题，当我使用 &lt;code&gt;GROUP_BY&lt;/code&gt;对要查询的数据进行分组的时候，抛出了一个&lt;code&gt;InternalError&lt;/code&gt;的错误，当时我：？？？&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;1055, &amp;quot;Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column ‘xxx’ which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by&amp;quot;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

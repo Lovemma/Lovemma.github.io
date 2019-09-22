@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on I&#39;m Groooooot</title>
+    <link>https://lovemma.github.io/categories/python/</link>
+    <description>Recent content in Python on I&#39;m Groooooot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 23 Jun 2019 21:28:52 +0000</lastBuildDate>
+    
+	<atom:link href="https://lovemma.github.io/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Python 如何流式读取大文件</title>
+      <link>https://lovemma.github.io/posts/python-%E5%A6%82%E4%BD%95%E6%B5%81%E5%BC%8F%E8%AF%BB%E5%8F%96%E5%A4%A7%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Sun, 23 Jun 2019 21:28:52 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python-%E5%A6%82%E4%BD%95%E6%B5%81%E5%BC%8F%E8%AF%BB%E5%8F%96%E5%A4%A7%E6%96%87%E4%BB%B6/</guid>
+      <description>&lt;p&gt;几乎所有人都知道，在 Python 里读取文件有一种“标准做法”：首先使用 &lt;code&gt;with open(fine_name)&lt;/code&gt; 上下文管理器的方式获得一个文件对象，然后使用 &lt;code&gt;for&lt;/code&gt; 循环迭代它，逐行获取文件里的内容。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>通过list()和[]创建空列表的差异</title>
+      <link>https://lovemma.github.io/posts/%E9%80%9A%E8%BF%87list-%E5%92%8C-%E5%88%9B%E5%BB%BA%E7%A9%BA%E5%88%97%E8%A1%A8%E7%9A%84%E5%B7%AE%E5%BC%82/</link>
+      <pubDate>Wed, 22 May 2019 23:26:39 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E9%80%9A%E8%BF%87list-%E5%92%8C-%E5%88%9B%E5%BB%BA%E7%A9%BA%E5%88%97%E8%A1%A8%E7%9A%84%E5%B7%AE%E5%BC%82/</guid>
+      <description>&lt;p&gt;我们想创建一个空列表，可以使用如下两种方式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# option A
+empty_list = list()
+
+# option B
+empty_list = []
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Huey 每日定时任务的坑</title>
+      <link>https://lovemma.github.io/posts/huey-%E6%AF%8F%E6%97%A5%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%9D%91/</link>
+      <pubDate>Thu, 16 May 2019 15:40:59 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/huey-%E6%AF%8F%E6%97%A5%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%9D%91/</guid>
+      <description>&lt;p&gt;最近别人推荐了个轻量级任务队列 Huey，然后我就去试了下，挺好用的，但却碰了文档未说明的坑。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Flask 的 Context 机制</title>
+      <link>https://lovemma.github.io/posts/flask-%E7%9A%84-context-%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Mon, 25 Mar 2019 15:10:38 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/flask-%E7%9A%84-context-%E6%9C%BA%E5%88%B6/</guid>
+      <description>&lt;p&gt;{% cq %}一文带你全面理解 Flask 的 Context 机制。{% endcq %}&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>帮助理解encode和decode的小技巧</title>
+      <link>https://lovemma.github.io/posts/%E5%B8%AE%E5%8A%A9%E7%90%86%E8%A7%A3encode%E5%92%8Cdecode%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Thu, 29 Nov 2018 14:29:40 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E5%B8%AE%E5%8A%A9%E7%90%86%E8%A7%A3encode%E5%92%8Cdecode%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/</guid>
+      <description>最近公司业务需要做网络数据包处理，总是被字符的编码和解码折磨，一直以来我也不怎么搞得清楚什么时候该用.encode(), 什么时候该用.decode()。 现在发现了一个简单的方法，可帮助自己记住.encode()和.decode()的区别: 可以把字节序列想成晦涩难懂的机器码，把 Unicode 字符想象成“人类可读”的文本，那么，把字节序列变成人类可读的文本字符串就是解码，而把字符串变成用于存储或传输的字节序列就是</description>
+    </item>
+    
+    <item>
+      <title>Python函数传参问题</title>
+      <link>https://lovemma.github.io/posts/python%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Wed, 28 Nov 2018 23:15:54 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;Python 唯一支持的参数传递模式是&lt;strong&gt;共享传参(call for sharing)&lt;/strong&gt;。共享传参是指函数的各个形式参数获得实参中各个引用的副本，也就是说，函数内部的形参是实参的别名。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>在字典中将键映射到多个值上</title>
+      <link>https://lovemma.github.io/posts/%E5%9C%A8%E5%AD%97%E5%85%B8%E4%B8%AD%E5%B0%86%E9%94%AE%E6%98%A0%E5%B0%84%E5%88%B0%E5%A4%9A%E4%B8%AA%E5%80%BC%E4%B8%8A/</link>
+      <pubDate>Mon, 15 Oct 2018 21:37:47 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E5%9C%A8%E5%AD%97%E5%85%B8%E4%B8%AD%E5%B0%86%E9%94%AE%E6%98%A0%E5%B0%84%E5%88%B0%E5%A4%9A%E4%B8%AA%E5%80%BC%E4%B8%8A/</guid>
+      <description>&lt;h2 id=&#34;问题&#34;&gt;问题&lt;/h2&gt;
+
+&lt;p&gt;我们想要将一个列表，里面是&lt;code&gt;(key, value)&lt;/code&gt;这样的键值对元组，转换成一个&lt;code&gt;key&lt;/code&gt;相同的&lt;code&gt;value&lt;/code&gt;的字典，如下所示：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;data = [(&#39;a&#39;, 1), (&#39;a&#39;, 2), (&#39;a&#39;, 3), (&#39;b&#39;, 4), (&#39;b&#39;, 5)]
+
+# convert to
+d = {
+    &#39;a&#39;: [1, 2, 3],
+    &#39;b&#39;: [4, 5]
+}
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python连接字符串优先使用join而不是&#43;</title>
+      <link>https://lovemma.github.io/posts/python%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8join%E8%80%8C%E4%B8%8D%E6%98%AF/</link>
+      <pubDate>Wed, 28 Feb 2018 10:16:43 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8join%E8%80%8C%E4%B8%8D%E6%98%AF/</guid>
+      <description>字符串处理在大多数编程语言中都是不可避免的，而字符串的连接在编程的过程中会经常遇到。Python 中的字符串与其他语言的字符串有点不一样，如：C++，Java，在 Python 中字符串是不可变对象，创建之后便不可以修改了，因此，这个特性会影响到字符串在连接时的效率问题。 常用的字符串连接方法 使用操作符+连接字符串： In [1]: str1, str2, str3 = &#39;string1 &#39;, &#39;string2 &#39;, &#39;string3 &#39; In [2]: str1 + str2 + str3 Out[2]: &#39;string1 string2 string3&#39; 使用join方法连接字符串： In [1]: str1, str2, str3 = &#39;string1 &#39;, &#39;string2 &#39;, &#39;string3 &#39; In</description>
+    </item>
+    
+    <item>
+      <title>Python虚拟环境Virtualenv和Virtualenvwrapper搭建</title>
+      <link>https://lovemma.github.io/posts/python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83virtualenv%E5%92%8Cvirtualenvwrapper%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Sat, 24 Feb 2018 21:57:36 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83virtualenv%E5%92%8Cvirtualenvwrapper%E6%90%AD%E5%BB%BA/</guid>
+      <description>virtualenv 是一个创建隔绝的Python环境的 Python 包。当我们遇到几个项目依赖不同版本的包的时候，如：项目A需要 Django 1.10 版本，项目B需要 Django 1.11 版本，这时就可以使用 virtualenv 来解决这个问题。 Virtualenv 安装virtualenv pip install virtualenv 使用方法 mkdir your_project_folder cd your_project_folder virtualenv env # env是你的虚拟环境名称 此时会建立一个带有系统 Python 环境中所有第三方包的 Python 运行环境，若不想带有这些第三方包，命令中加上--no-site-packages这个参数，就可以得到一个不带有任何第</description>
+    </item>
+    
+    <item>
+      <title>树莓派搭建简单的 Nginx &#43; uWSGI &#43; Django</title>
+      <link>https://lovemma.github.io/posts/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84-nginx-&#43;-uwsgi-&#43;-django/</link>
+      <pubDate>Sat, 24 Feb 2018 21:15:02 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84-nginx-&#43;-uwsgi-&#43;-django/</guid>
+      <description>当我们编写完成 Django 项目后，可以使用python manager.py runserver来运行 Django 自带的服务器，但这只适合于测试环境使用，项目正式上线时，我们需要一个可以稳定并且持续的服务器，比如Apache, Nginx等。手里吃灰很久的树莓派终于可以派上用场了😂。 准备工作 烧写好系统的树莓派，我这里使用的是基于 Debian 的 Raspbian 系统，理论上后续搭建步骤在 Ubuntu/Debian 上都可以用。 &amp;gt; 注意 2016 年 11 月的新版本系统之后，树莓派默认禁用 SSH，你需要手动开启</description>
+    </item>
+    
+    <item>
+      <title>Python中的__init__、__new__和__call__</title>
+      <link>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84-init-new-%E5%92%8C-call/</link>
+      <pubDate>Thu, 01 Feb 2018 19:50:17 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84-init-new-%E5%92%8C-call/</guid>
+      <description>__init__、__new__和__call__方法都是python中的魔术方法，通常我们认为__init__方法是类的构造方法，因为表面上看确实是这样：当需要实例化一个对象的时候，使用a = Class(args...)便可以返回一个类的实例，其中args参数与__init__中申明的参数一样，今天在刘志军老师的「Python之禅和朋友们」的知识星球中学习到不是这样的，这里以一个例子来说明一下： class</description>
+    </item>
+    
+    <item>
+      <title>Python中的可变对象与不可变对象</title>
+      <link>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1/</link>
+      <pubDate>Thu, 25 Jan 2018 22:46:22 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1/</guid>
+      <description>Python中一切皆为对象，每一个对象都有一个唯一的标识符（ id( ) ）、类型（type( )）以及值。而对象根据其值是否能够修改分为可变对象和不可变对象： - 数字、字符串和元组属于不可变对象 - 字典、列表和字节数组属于可变对象 对于不可变对象，任何对其中的元素进行修改的操作都会抛出异常。 &amp;gt;&amp;gt;&amp;gt; test_str = &#39;hello world&#39; &amp;gt;&amp;gt;&amp;gt; test_str[5] = &#39;q&#39; ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-2-8e9684bd3ddc&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_str[5] = &#39;q&#39; TypeError: &#39;str&#39; object does not support item assignment &amp;gt;&amp;gt;&amp;gt; test_tuple = (1, 2, 3) &amp;gt;&amp;gt;&amp;gt; test_tuple[1] = 4 ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-4-dba7800e3210&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_tuple[1] = 4 TypeError: &#39;tuple&#39; object does not</description>
+    </item>
+    
+    <item>
+      <title>Python中的浅拷贝与深拷贝</title>
+      <link>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84%E6%B5%85%E6%8B%B7%E8%B4%9D%E4%B8%8E%E6%B7%B1%E6%8B%B7%E8%B4%9D/</link>
+      <pubDate>Thu, 25 Jan 2018 14:49:59 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84%E6%B5%85%E6%8B%B7%E8%B4%9D%E4%B8%8E%E6%B7%B1%E6%8B%B7%E8%B4%9D/</guid>
+      <description>在面试过程中，经常会被问浅拷贝与深拷贝的区别。所以，在这里记录一下自己的理解，以便以后好复习。 浅拷贝（shallow copy） 所谓“浅拷贝”，是指在复制一个对象时，构建一个新的对象，并将原对象中发现的引用插入到该对象中. 浅拷贝的实现方式常见的有：工厂函数、切片操作、copy模块中的copy函数等 实现如下： &amp;gt;&amp;gt;&amp;gt; a = [1, 2, [3, 4]] &amp;gt;&amp;gt;&amp;gt; b = a[:] &amp;gt;&amp;gt;&amp;gt; id(a) 4505384008 &amp;gt;&amp;gt;&amp;gt; id(b) 4504586056 &amp;gt;&amp;gt;&amp;gt; [id(x) for x in a] [4470102640, 4470102672, 4505384072] &amp;gt;&amp;gt;&amp;gt; [id(x) for x in b] [4470102640, 4470102672, 4505384072] &amp;gt;&amp;gt;&amp;gt; a[2] += [5] &amp;gt;&amp;gt;&amp;gt; a [1, 2, [3, 4, 5]] &amp;gt;&amp;gt;&amp;gt;</description>
+    </item>
+    
+  </channel>
+</rss>

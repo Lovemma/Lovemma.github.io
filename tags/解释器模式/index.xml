@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>解释器模式 on I&#39;m Groooooot</title>
+    <link>https://lovemma.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+    <description>Recent content in 解释器模式 on I&#39;m Groooooot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 28 Oct 2018 15:06:34 +0000</lastBuildDate>
+    
+	<atom:link href="https://lovemma.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>设计模式:解释器模式</title>
+      <link>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 28 Oct 2018 15:06:34 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;解释器模式用于为高级用户和领域专家提供一个类编程的框架，但没有暴露出编程语言那样的复杂性。这是通过实现一个DSL来达到目的的。&lt;/p&gt;
+
+&lt;p&gt;DSL是一种针对特定领域、表达能力有限的计算机语言。 DSL有两类，分别是内部DSL和外部DSL。内部DSL构建在一种宿主编程语言之上，依赖宿主编程语言，外部DSL则是从头实现，不依赖某种已有的编程语言。解释器模式仅与内部DSL相关。&lt;/p&gt;
+
+&lt;p&gt;例如：乐谱是一个非软件DSL的例子。音乐演奏者像一个解释器那样，使用乐谱演奏出音乐。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

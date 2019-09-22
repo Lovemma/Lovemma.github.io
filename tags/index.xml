@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on I&#39;m Groooooot</title>
+    <link>https://lovemma.github.io/tags/</link>
+    <description>Recent content in Tags on I&#39;m Groooooot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 19 Sep 2019 22:58:10 +0000</lastBuildDate>
+    
+	<atom:link href="https://lovemma.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>ipdb</title>
+      <link>https://lovemma.github.io/tags/ipdb/</link>
+      <pubDate>Thu, 19 Sep 2019 22:58:10 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/ipdb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python</title>
+      <link>https://lovemma.github.io/tags/python/</link>
+      <pubDate>Thu, 19 Sep 2019 22:58:10 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Celery</title>
+      <link>https://lovemma.github.io/tags/celery/</link>
+      <pubDate>Wed, 18 Sep 2019 10:58:12 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/celery/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Python技巧</title>
+      <link>https://lovemma.github.io/tags/python%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Sun, 23 Jun 2019 21:28:52 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/python%E6%8A%80%E5%B7%A7/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MySQL</title>
+      <link>https://lovemma.github.io/tags/mysql/</link>
+      <pubDate>Fri, 24 May 2019 15:16:35 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/mysql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>内部探究</title>
+      <link>https://lovemma.github.io/tags/%E5%86%85%E9%83%A8%E6%8E%A2%E7%A9%B6/</link>
+      <pubDate>Wed, 22 May 2019 23:26:39 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/%E5%86%85%E9%83%A8%E6%8E%A2%E7%A9%B6/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Huey</title>
+      <link>https://lovemma.github.io/tags/huey/</link>
+      <pubDate>Thu, 16 May 2019 15:40:59 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/huey/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Flask</title>
+      <link>https://lovemma.github.io/tags/flask/</link>
+      <pubDate>Mon, 25 Mar 2019 15:10:38 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/flask/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>设计模式</title>
+      <link>https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 31 Oct 2018 13:58:04 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>解释器模式</title>
+      <link>https://lovemma.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 28 Oct 2018 15:06:34 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>反思</title>
+      <link>https://lovemma.github.io/tags/%E5%8F%8D%E6%80%9D/</link>
+      <pubDate>Sun, 27 May 2018 22:35:06 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/%E5%8F%8D%E6%80%9D/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>字符串连接</title>
+      <link>https://lovemma.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9E%E6%8E%A5/</link>
+      <pubDate>Wed, 28 Feb 2018 10:16:43 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9E%E6%8E%A5/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Django</title>
+      <link>https://lovemma.github.io/tags/django/</link>
+      <pubDate>Sat, 24 Feb 2018 21:15:02 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/django/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>http</title>
+      <link>https://lovemma.github.io/tags/http/</link>
+      <pubDate>Thu, 01 Feb 2018 15:53:23 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/http/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>浅拷贝</title>
+      <link>https://lovemma.github.io/tags/%E6%B5%85%E6%8B%B7%E8%B4%9D/</link>
+      <pubDate>Thu, 25 Jan 2018 14:49:59 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/%E6%B5%85%E6%8B%B7%E8%B4%9D/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>深拷贝</title>
+      <link>https://lovemma.github.io/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/</link>
+      <pubDate>Thu, 25 Jan 2018 14:49:59 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/tags/%E6%B7%B1%E6%8B%B7%E8%B4%9D/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

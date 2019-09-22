@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content=" 模板模式：抽象出算法公共部分从而实现代码复用。
+ 编写优秀代码的一个要素是避免冗余。在面向对象编程中，方法和函数是我们用来避免编写冗余代码的重要工具。
+模板设计模式旨在消除代码重复。如果我们发现结构相近的（多个）算法中有重复代码，则可以把算法的不变（通用）部分留在一个模板方法/函数中，把易变（不同）的部分移到动作/钩子方法/函数中。
+"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/"/>
+
+  
+
+  <title>模板模式 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/'>模板模式</a></h2>
+          <span class="date">2018.10.31</span>
+        </div>
+        <div class="post_content markdown"><blockquote>
+<p>模板模式：抽象出算法公共部分从而实现代码复用。</p>
+</blockquote>
+
+<p>编写优秀代码的一个要素是避免冗余。在面向对象编程中，方法和函数是我们用来避免编写冗余代码的重要工具。</p>
+
+<p>模板设计模式旨在消除代码重复。如果我们发现结构相近的（多个）算法中有重复代码，则可以把算法的不变（通用）部分留在一个模板方法/函数中，把易变（不同）的部分移到动作/钩子方法/函数中。</p>
+
+<p>实际上这种模式在代码重构的时候是经常使用的 ，这里以一个例子来进行说明:</p>
+
+<p>首先安装<code>cowpy</code>(ps: 竟然有人编写这个)：</p>
+
+<pre><code class="language-shell">pip install cowpy
+</code></pre>
+
+<p>代码如下：</p>
+
+<pre><code class="language-python">from cowpy import cow
+
+
+def dots_style(msg):
+    msg = msg.capitalize()
+    msg = '.' * 10 + msg + '.' * 10
+    return msg
+
+
+def admire_style(msg):
+    msg = msg.upper()
+    return '!'.join(msg)
+
+
+def cow_style(msg):
+    msg = cow.milk_random_cow(msg)
+    return msg
+
+
+def generate_banner(msg, style=dots_style):
+    print('-- start of banner --')
+    print(style(msg))
+    print('-- end of banner --\n\n')
+
+
+def main():
+    msg = 'happy coding'
+    [generate_banner(msg, style) for style in (dots_style, admire_style,
+                                            cow_style)]
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</code></pre>
+
+<p>运行结果：</p>
+
+<pre><code>-- start of banner --
+..........Happy coding..........
+-- end of banner --
+
+
+-- start of banner --
+H!A!P!P!Y! !C!O!D!I!N!G
+-- end of banner --
+
+
+-- start of banner --
+______________
+&lt; happy coding &gt;
+--------------
+    o
+    o
+    ^__^         /
+    (**)\_______/  _________
+    (__)\       )=(  ____|_ \_____
+U    ||----w |  \ \     \_____ |
+        ||     ||   ||           ||
+-- end of banner --
+</code></pre></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+                
+                <a href="https://lovemma.github.io/tags/python/">Python</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

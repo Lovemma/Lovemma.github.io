@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="__init__、__new__和__call__方法都是python中的魔术方法，通常我们认为__init__方法是类的构造方法，因为表面上看确实是这样：当需要实例化一个对象的时候，使用a = Class(args...)便可以返回一个类的实例，其中args参数与__init__中申明的参数一样，今天在刘志军老师的「Python之禅和朋友们」的知识星球中学习到不是这样的，这里以一个例子来说明一下： class"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84-init-new-%E5%92%8C-call/"/>
+
+  
+
+  <title>Python中的__init__、__new__和__call__ &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/python%E4%B8%AD%E7%9A%84-init-new-%E5%92%8C-call/'>Python中的__init__、__new__和__call__</a></h2>
+          <span class="date">2018.02.01</span>
+        </div>
+        <div class="post_content markdown"><p><code>__init__</code>、<code>__new__</code>和<code>__call__</code>方法都是python中的魔术方法，通常我们认为<code>__init__</code>方法是类的构造方法，因为表面上看确实是这样：当需要实例化一个对象的时候，使用<code>a = Class(args...)</code>便可以返回一个类的实例，其中args参数与<code>__init__</code>中申明的参数一样，今天在刘志军老师的「Python之禅和朋友们」的知识星球中学习到不是这样的，这里以一个例子来说明一下：
+<!-- more --></p>
+
+<pre><code class="language-python">class A:
+    def __new__(cls, *args, **kwargs):
+        print('__new__')
+        print(cls)
+        print(args)
+        print('-------')
+        return super(A, cls).__new__(cls)
+
+    def __init__(self):
+        print('__init__')
+        print('self is ', self)
+        self.a, self.b = a, b
+
+
+a = A(1, 2)
+print(a.a)
+
+输出：
+__new__
+&lt;class '__main__.A'&gt;
+(1, 2)
+-------
+__init__
+Traceback (most recent call last):
+  File &quot;test.py&quot;, line 14, in &lt;module&gt;
+    a = A(1, 2)
+TypeError: __init__() takes 1 positional argument but 3 were given
+</code></pre>
+
+<p>可以看到这里我们并没有直接调用<code>__new__</code>方法，却先产生了<code>__new__</code>方法的输出并抛出了异常，所以说<code>__init__</code>并不是真正意义上的构造方法，<code>__init__</code>所做的工作是在类的对象创建好之后进行变量的初始化。<code>__new__</code>方法才会真正创建实例，是类的构造方法。</p>
+
+<p><strong>call</strong>方法又是干嘛的呢？
+&gt; Python官方文档中是这样写的：Called when the instance is “called” as a function; if this method is defined, x(arg1, arg2, ...) is a shorthand for x.<strong>call</strong>(arg1, arg2, ...).</p>
+
+<p>即实现了<code>__call__</code>方法的对象的实例就可以像方法、函数一样的被调用执行</p>
+
+<pre><code class="language-python">class A:
+    def __call__(self, *args, **kwargs):
+        print('__call__')
+
+
+a = A()
+a()
+
+输出：__call__
+</code></pre>
+</div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/python/">Python</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

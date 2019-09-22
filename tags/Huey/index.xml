@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Huey on I&#39;m Groooooot</title>
+    <link>https://lovemma.github.io/tags/huey/</link>
+    <description>Recent content in Huey on I&#39;m Groooooot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 16 May 2019 15:40:59 +0000</lastBuildDate>
+    
+	<atom:link href="https://lovemma.github.io/tags/huey/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Huey 每日定时任务的坑</title>
+      <link>https://lovemma.github.io/posts/huey-%E6%AF%8F%E6%97%A5%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%9D%91/</link>
+      <pubDate>Thu, 16 May 2019 15:40:59 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/huey-%E6%AF%8F%E6%97%A5%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%9D%91/</guid>
+      <description>&lt;p&gt;最近别人推荐了个轻量级任务队列 Huey，然后我就去试了下，挺好用的，但却碰了文档未说明的坑。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

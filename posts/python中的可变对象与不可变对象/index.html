@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="Python中一切皆为对象，每一个对象都有一个唯一的标识符（ id( ) ）、类型（type( )）以及值。而对象根据其值是否能够修改分为可变对象和不可变对象： - 数字、字符串和元组属于不可变对象 - 字典、列表和字节数组属于可变对象 对于不可变对象，任何对其中的元素进行修改的操作都会抛出异常。 &amp;gt;&amp;gt;&amp;gt; test_str = &#39;hello world&#39; &amp;gt;&amp;gt;&amp;gt; test_str[5] = &#39;q&#39; ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-2-8e9684bd3ddc&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_str[5] = &#39;q&#39; TypeError: &#39;str&#39; object does not support item assignment &amp;gt;&amp;gt;&amp;gt; test_tuple = (1, 2, 3) &amp;gt;&amp;gt;&amp;gt; test_tuple[1] = 4 ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-4-dba7800e3210&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_tuple[1] = 4 TypeError: &#39;tuple&#39; object does not"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1/"/>
+
+  
+
+  <title>Python中的可变对象与不可变对象 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/python%E4%B8%AD%E7%9A%84%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1/'>Python中的可变对象与不可变对象</a></h2>
+          <span class="date">2018.01.25</span>
+        </div>
+        <div class="post_content markdown">
+
+<p>Python中一切皆为对象，每一个对象都有一个唯一的标识符（ id( ) ）、类型（type( )）以及值。而对象根据其值是否能够修改分为<strong>可变对象</strong>和<strong>不可变对象</strong>：
+- <strong>数字</strong>、<strong>字符串</strong>和<strong>元组</strong>属于不可变对象
+- <strong>字典</strong>、<strong>列表</strong>和<strong>字节数组</strong>属于可变对象</p>
+
+<h2 id="more"><!-- more --></h2>
+
+<p>对于不可变对象，任何对其中的元素进行修改的操作都会抛出异常。</p>
+
+<pre><code class="language-python">	&gt;&gt;&gt; test_str = 'hello world'
+	
+	&gt;&gt;&gt; test_str[5] = 'q'
+	-----------------------------------------------------------------------
+	TypeError                                 Traceback (most recent call last)
+	&lt;ipython-input-2-8e9684bd3ddc&gt; in &lt;module&gt;()
+	&gt; 1 test_str[5] = 'q'
+	
+	TypeError: 'str' object does not support item assignment
+	
+	&gt;&gt;&gt; test_tuple = (1, 2, 3)
+	
+	&gt;&gt;&gt; test_tuple[1] = 4
+	-----------------------------------------------------------------------
+	TypeError                                 Traceback (most recent call last)
+	&lt;ipython-input-4-dba7800e3210&gt; in &lt;module&gt;()
+	&gt; 1 test_tuple[1] = 4
+	
+	TypeError: 'tuple' object does not support item assignment
+</code></pre>
+
+<p>而对于可变对象，对其进行操作需要考虑到浅拷贝和深拷贝的问题。</p>
+</div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/python/">python</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+    <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

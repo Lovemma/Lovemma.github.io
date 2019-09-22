@@ -1,0 +1,585 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>I&#39;m Groooooot</title>
+    <link>https://lovemma.github.io/</link>
+    <description>Recent content on I&#39;m Groooooot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sun, 22 Sep 2019 22:24:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://lovemma.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>About Me</title>
+      <link>https://lovemma.github.io/about/</link>
+      <pubDate>Sun, 22 Sep 2019 22:24:57 +0800</pubDate>
+      
+      <guid>https://lovemma.github.io/about/</guid>
+      <description>Work with tech, belive in magic, live on fun :)
+Daily work:
+ emmmmmmmm, I don’t remember what I did. So, I will tell you if I remembered in next time.  I work with Python (Life is short, I use Python), but always think language is the most trival part in life.
+Be professional, write robust code and useful doc.
+email: dependence dot letgo at gmail dot com</description>
+    </item>
+    
+    <item>
+      <title>优秀的调试工具：ipdb</title>
+      <link>https://lovemma.github.io/posts/debugging-with-ipdb/</link>
+      <pubDate>Thu, 19 Sep 2019 22:58:10 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/debugging-with-ipdb/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/gotcha/ipdb&#34;&gt;ipdb&lt;/a&gt;（IPython debugger）, 与 &lt;a href=&#34;https://docs.python.org/3/library/pdb.html&#34;&gt;pdb&lt;/a&gt; 类似,  是一款集成了 IPython 的 Python 代码命令行调试工具，支持 &lt;strong&gt;Tab 键补全&lt;/strong&gt;，&lt;strong&gt;语法高亮&lt;/strong&gt;等。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Celery 4.2 内存泄漏问题</title>
+      <link>https://lovemma.github.io/posts/memory-leak-in-celery-4-2/</link>
+      <pubDate>Wed, 18 Sep 2019 10:58:12 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/memory-leak-in-celery-4-2/</guid>
+      <description>在使用 Celery 4.2 版本时，遇到了内存泄漏问题，话不多说先上运行环境： Python 版本：2.7.5 Celery 版本：4.2.2 系统：CentOS AsyncTask 的内存泄漏 开发环境跑了一段时间之后，出现发布任务的 service 内存占用很高，而且会出现任务发布不了的情况。但发布任务的 service 并没有做什么太过复杂的操作，经过分析之后，将问题定位在了 chord 函数中会使用了 apply_async 来插入大量的 task。 复现 写了一个简单的测试脚本来测试 chord : # -*- coding: utf-8 -*- import resource from celery import Celery, chord backend_url = &#39;redis://redis:6379/1&#39; broker_url = &#39;pyamqp://rabbitmq:5672//?heartbeat=30&#39; app = Celery(&#39;task&#39;,</description>
+    </item>
+    
+    <item>
+      <title>Python 如何流式读取大文件</title>
+      <link>https://lovemma.github.io/posts/python-%E5%A6%82%E4%BD%95%E6%B5%81%E5%BC%8F%E8%AF%BB%E5%8F%96%E5%A4%A7%E6%96%87%E4%BB%B6/</link>
+      <pubDate>Sun, 23 Jun 2019 21:28:52 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python-%E5%A6%82%E4%BD%95%E6%B5%81%E5%BC%8F%E8%AF%BB%E5%8F%96%E5%A4%A7%E6%96%87%E4%BB%B6/</guid>
+      <description>&lt;p&gt;几乎所有人都知道，在 Python 里读取文件有一种“标准做法”：首先使用 &lt;code&gt;with open(fine_name)&lt;/code&gt; 上下文管理器的方式获得一个文件对象，然后使用 &lt;code&gt;for&lt;/code&gt; 循环迭代它，逐行获取文件里的内容。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySQL如何在给定场景下为一个用户授权?</title>
+      <link>https://lovemma.github.io/posts/mysql%E5%A6%82%E4%BD%95%E5%9C%A8%E7%BB%99%E5%AE%9A%E5%9C%BA%E6%99%AF%E4%B8%8B%E4%B8%BA%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83/</link>
+      <pubDate>Fri, 24 May 2019 15:16:35 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/mysql%E5%A6%82%E4%BD%95%E5%9C%A8%E7%BB%99%E5%AE%9A%E5%9C%BA%E6%99%AF%E4%B8%8B%E4%B8%BA%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E6%8E%88%E6%9D%83/</guid>
+      <description>&lt;h3 id=&#34;如何定义-mysql-数据库账号&#34;&gt;如何定义 MySQL 数据库账号？&lt;/h3&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;用户名的组成：用户名@可访问控制列表&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;用户名：5.7版本以前，用户名最大只有16个字节；之后的版本为 32 个字节&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;可访问控制列表：用户可以从哪些服务器上对数据库进行访问&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ol&gt;
+&lt;li&gt;%：代表可以从所有外部主机进行访问&lt;/li&gt;
+&lt;li&gt;192.168.1.%：可以从 192.168.1 网段进行访问
+
+&lt;ol&gt;
+&lt;li&gt;localhost：DB 服务器本地访问&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+&lt;/ol&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;使用 CREATE USER 命令建立用户&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    
+    <item>
+      <title>通过list()和[]创建空列表的差异</title>
+      <link>https://lovemma.github.io/posts/%E9%80%9A%E8%BF%87list-%E5%92%8C-%E5%88%9B%E5%BB%BA%E7%A9%BA%E5%88%97%E8%A1%A8%E7%9A%84%E5%B7%AE%E5%BC%82/</link>
+      <pubDate>Wed, 22 May 2019 23:26:39 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E9%80%9A%E8%BF%87list-%E5%92%8C-%E5%88%9B%E5%BB%BA%E7%A9%BA%E5%88%97%E8%A1%A8%E7%9A%84%E5%B7%AE%E5%BC%82/</guid>
+      <description>&lt;p&gt;我们想创建一个空列表，可以使用如下两种方式：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# option A
+empty_list = list()
+
+# option B
+empty_list = []
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Huey 每日定时任务的坑</title>
+      <link>https://lovemma.github.io/posts/huey-%E6%AF%8F%E6%97%A5%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%9D%91/</link>
+      <pubDate>Thu, 16 May 2019 15:40:59 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/huey-%E6%AF%8F%E6%97%A5%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E7%9A%84%E5%9D%91/</guid>
+      <description>&lt;p&gt;最近别人推荐了个轻量级任务队列 Huey，然后我就去试了下，挺好用的，但却碰了文档未说明的坑。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Flask 的 Context 机制</title>
+      <link>https://lovemma.github.io/posts/flask-%E7%9A%84-context-%E6%9C%BA%E5%88%B6/</link>
+      <pubDate>Mon, 25 Mar 2019 15:10:38 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/flask-%E7%9A%84-context-%E6%9C%BA%E5%88%B6/</guid>
+      <description>&lt;p&gt;{% cq %}一文带你全面理解 Flask 的 Context 机制。{% endcq %}&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>帮助理解encode和decode的小技巧</title>
+      <link>https://lovemma.github.io/posts/%E5%B8%AE%E5%8A%A9%E7%90%86%E8%A7%A3encode%E5%92%8Cdecode%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/</link>
+      <pubDate>Thu, 29 Nov 2018 14:29:40 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E5%B8%AE%E5%8A%A9%E7%90%86%E8%A7%A3encode%E5%92%8Cdecode%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/</guid>
+      <description>最近公司业务需要做网络数据包处理，总是被字符的编码和解码折磨，一直以来我也不怎么搞得清楚什么时候该用.encode(), 什么时候该用.decode()。 现在发现了一个简单的方法，可帮助自己记住.encode()和.decode()的区别: 可以把字节序列想成晦涩难懂的机器码，把 Unicode 字符想象成“人类可读”的文本，那么，把字节序列变成人类可读的文本字符串就是解码，而把字符串变成用于存储或传输的字节序列就是</description>
+    </item>
+    
+    <item>
+      <title>Python函数传参问题</title>
+      <link>https://lovemma.github.io/posts/python%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Wed, 28 Nov 2018 23:15:54 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E5%87%BD%E6%95%B0%E4%BC%A0%E5%8F%82%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;Python 唯一支持的参数传递模式是&lt;strong&gt;共享传参(call for sharing)&lt;/strong&gt;。共享传参是指函数的各个形式参数获得实参中各个引用的副本，也就是说，函数内部的形参是实参的别名。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySQL死锁检测中热点行更新导致的性能问题</title>
+      <link>https://lovemma.github.io/posts/mysql%E6%AD%BB%E9%94%81%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%83%AD%E7%82%B9%E8%A1%8C%E6%9B%B4%E6%96%B0%E5%AF%BC%E8%87%B4%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Wed, 28 Nov 2018 17:33:47 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/mysql%E6%AD%BB%E9%94%81%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%83%AD%E7%82%B9%E8%A1%8C%E6%9B%B4%E6%96%B0%E5%AF%BC%E8%87%B4%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;有一个电影票在线交易业务，顾客 A 要在影院 B 购买电影票。这个业务涉及到以下操作：
+1. 从顾客 A 的账户余额中扣除电影票价；
+2. 给影院 B 的账户余额中增加这张电影的票价；
+3. 记录一条交易日志。&lt;/p&gt;
+
+&lt;p&gt;也就是说，要完成这个交易，我们需要 update 两条记录，并 insert 一条记录。当然，为了保证交易的原子性，我们要把这三个操作一个事务中。那么，你会怎样安排这三个语句在事务中的顺序呢？&lt;/p&gt;
+
+&lt;p&gt;试想如果同时有另一个顾客 C 要在影院 B 买票，那么这两个事务冲突的部分就是语句 2 了。因为它们要更新同一个影院账户的余额，需要修改同一行数据。&lt;/p&gt;
+
+&lt;p&gt;根据两阶段锁协议，不论怎样安排语句顺序，所有的操作需要的行锁都是在事务提交的时候才释放的。所以，如果你把语句 2 安排在最后，比如按照 3、1、2 这样的顺序执行，那么影院账户余额这一行的锁时间就最少。这样就最大程度地减少了事务之间的锁等待，提高了并发度。&lt;/p&gt;
+
+&lt;p&gt;如果这个影院做活动，可以低价预售一年之内所有的电影票，而且这个活动只做一天。于是在活动时间开始的时候，你的 MySQL 就挂了。登上服务器一看，CPU 消耗接近 100%，但整个数据库每秒就只执行不到 100 个事务。这是什么原因呢？&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>在mysql如何挑选索引列</title>
+      <link>https://lovemma.github.io/posts/%E5%9C%A8mysql%E5%A6%82%E4%BD%95%E6%8C%91%E9%80%89%E7%B4%A2%E5%BC%95%E5%88%97/</link>
+      <pubDate>Tue, 27 Nov 2018 14:54:52 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E5%9C%A8mysql%E5%A6%82%E4%BD%95%E6%8C%91%E9%80%89%E7%B4%A2%E5%BC%95%E5%88%97/</guid>
+      <description>&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;为用于搜索、排序或分组的列创建索引，而对于用作输出显示的列则不用创建索引。&lt;/strong&gt;这意味着最佳索引候选列是那些出现在 WHERE 子句中的列、连接子句中的列或者出现在 ORDER BY 或 GROUP BY 子句中的列。而那些只是出现在 SELECT 关键字后面的输出列表里的列，则不是很好的索引候选列。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;认真考虑数据列基数。&lt;/strong&gt;列的基数(cardinality)是指它所容纳的所有非重复值的个数，例如，某个列包含值 1、3、7、4、7、3，那么它的基数为 4。相对于表里面行的总数来说，列的基数越高(也就就是说，它包含的唯一值多，重复值少)，索引的使用效果越好。对于包含许多不同年龄值的列，索引可以很容易地将各个行区分开来。但是对于记录性别的列，其中只会包含两个值：&#39;M&#39;和&#39;F&#39;，索引操作毫无用处。如果这两个值出现的频率大致一样，那么不管搜索哪个值，你得到的都是近乎一半的行。在这种情况下，索引可能根本无法使用，因为当查询优化程序确定出某个值在表的行里出现频率很大时，它会跳过索引，直接执行全表扫描操作。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySQL中不同存储引擎的索引的实现方式</title>
+      <link>https://lovemma.github.io/posts/mysql%E4%B8%AD%E4%B8%8D%E5%90%8C%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%9A%84%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/</link>
+      <pubDate>Sun, 25 Nov 2018 16:34:17 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/mysql%E4%B8%AD%E4%B8%8D%E5%90%8C%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%9A%84%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/</guid>
+      <description>对于不同的 MySQL 存储引擎，索引的具体实现细节也有所不同。 1. 对于 MyISAM 表，其数据行保存在数据文件中，而索引值则保存在索引文件里。一个表可以有多个索引，但它们都保存在同一个索引文件里。索引文件里的每一个索引都由一组有序的关键字行构成，这个组中的关键字行主要用于快速访问数据文件。 2. InnoDB 存储引擎没有按照上面的方法将行和索引值分开放置，尽管它也是把索引值当作是一组有序值。默认情况下，InnoDB 存储引擎只使用一个表空</description>
+    </item>
+    
+    <item>
+      <title>在数据库中为什么尽量不使用长事务?</title>
+      <link>https://lovemma.github.io/posts/%E5%9C%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E5%B0%BD%E9%87%8F%E4%B8%8D%E4%BD%BF%E7%94%A8%E9%95%BF%E4%BA%8B%E5%8A%A1/</link>
+      <pubDate>Tue, 20 Nov 2018 13:59:30 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E5%9C%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E4%B8%BA%E4%BB%80%E4%B9%88%E5%B0%BD%E9%87%8F%E4%B8%8D%E4%BD%BF%E7%94%A8%E9%95%BF%E4%BA%8B%E5%8A%A1/</guid>
+      <description>&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;长事务意味着系统里面会存在很老的事务视图。由于这些事务随时可能访问数据库里面的任何数据，所以这个事务提交之前，数据库里面它可能用到的回滚记录都必须保留，这会导致大量的占用存储空间。
+&amp;gt; 在 MySQL 5.5 及以前的版本中，回滚日志跟数据字典一起放在 ibdata 文件里面，即使长事务最终提交，回滚段被清理，文件也不会变小。&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;除了对回滚段有影响，长事务还占用锁资源，这也有可能会拖垮整个库。&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    
+    <item>
+      <title>模板模式</title>
+      <link>https://lovemma.github.io/posts/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 31 Oct 2018 13:58:04 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E6%A8%A1%E6%9D%BF%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;模板模式：抽象出算法公共部分从而实现代码复用。&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;编写优秀代码的一个要素是避免冗余。在面向对象编程中，方法和函数是我们用来避免编写冗余代码的重要工具。&lt;/p&gt;
+
+&lt;p&gt;模板设计模式旨在消除代码重复。如果我们发现结构相近的（多个）算法中有重复代码，则可以把算法的不变（通用）部分留在一个模板方法/函数中，把易变（不同）的部分移到动作/钩子方法/函数中。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>策略模式</title>
+      <link>https://lovemma.github.io/posts/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 31 Oct 2018 10:42:27 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;策略模式是一种非常通用的设计模式，可应用的场景很多。一般来说，不论何时希望动态、透明地应用不同算法，策略模式都是可行之路。这里所说不同算法的意思是，目的相同但实现方案不同的一类算法。这意味着算法结果应该是完全一致的，但每种实现都有不同的性能和代码复杂性（举例来说，对比一下顺序查找和二分查找）。&lt;/p&gt;
+
+&lt;p&gt;策略模式的另一个应用是创建不同的样式表现，为了实现可移植性（例如，不同平台之间断行的不同）或动态地改变数据的表现。&lt;/p&gt;
+
+&lt;p&gt;另一个值得一提的应用是模拟；例如模拟机器人，一些机器人比另一些更有攻击性，一些机器人速度更快，等等。机器人行为中的所有不同之处都可以使用不同的策略来建模。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>状态模式</title>
+      <link>https://lovemma.github.io/posts/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Tue, 30 Oct 2018 21:18:49 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;状态模式是一个或多个有限状态机（简称状态机）的实现，用于解决一个特定的软件工程问题。&lt;/p&gt;
+
+&lt;p&gt;状态机是一个抽象机器，具有两个主要部分：状态和转换。状态是指一个系统的当前状况。一个状态机在任意时间点只会有一个激活状态。转换是指从当前状态到一个新状态的切换。在一个转换发生之前或之后通常会执行一个或多个动作。状态机可以使用状态图进行视觉上的展现。&lt;/p&gt;
+
+&lt;p&gt;状态机用于解决许多计算机问题和非计算机问题，其中包括交通灯、停车计时器、硬件设计和编程语言解析等。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>观察者模式</title>
+      <link>https://lovemma.github.io/posts/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 29 Oct 2018 20:04:55 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;观察者模式用在当一个对象的状态变更需要通知其他很多对象的时候，比如rss订阅或者在社交网站上订阅某个频道的更新。事件驱动系统也是一种发布订阅模式，事件作为发布者，监听器作为订阅者，只不过这里多个事件监听器可以监听同一个事件。 我们这里实现一个“Data Formatter”来解释发布订阅模式，一种数据可以有多个格式化Formatter，当数据更新的时候，会通知所有的Formatter格式化新的数据。使用继承来实现。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式:解释器模式</title>
+      <link>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 28 Oct 2018 15:06:34 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;解释器模式用于为高级用户和领域专家提供一个类编程的框架，但没有暴露出编程语言那样的复杂性。这是通过实现一个DSL来达到目的的。&lt;/p&gt;
+
+&lt;p&gt;DSL是一种针对特定领域、表达能力有限的计算机语言。 DSL有两类，分别是内部DSL和外部DSL。内部DSL构建在一种宿主编程语言之上，依赖宿主编程语言，外部DSL则是从头实现，不依赖某种已有的编程语言。解释器模式仅与内部DSL相关。&lt;/p&gt;
+
+&lt;p&gt;例如：乐谱是一个非软件DSL的例子。音乐演奏者像一个解释器那样，使用乐谱演奏出音乐。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式之命令模式</title>
+      <link>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 24 Oct 2018 22:33:54 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;命令设计模式帮助我们将一个操作（撤销、重做、复制、粘贴等）封装成一个对象，通常是创建一个包含Operation所有逻辑和方法的类。&lt;/p&gt;
+
+&lt;p&gt;当我们去餐馆吃饭时，会叫服务员来点单。他们用来做记录的账单（通常是纸质的）就是命令模式的一个例子。在记录好订单后，服务员将其放入账单队列，厨师会照着单子去做。每个账单都是独立的，并且可用来执行许多不同命令，例如，一个命令对应一个将要烹饪的菜品。&lt;/p&gt;
+
+&lt;p&gt;通过命令模式可以控制命令的执行时间和过程，还可以用来组织事务。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式之责任链模式</title>
+      <link>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Tue, 23 Oct 2018 20:02:16 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;责任链（Chain of Responsibility）模式用于让多个对象来处理单个请求，或者用于预先不知道应该由哪个对象（来自某个对象链）来处理某个特定请求。我们可以使用计算机网络的广播来类比责任链模式。&lt;/p&gt;
+
+&lt;p&gt;在责任链模式中，发送方可直接访问链中的首个节点。若首个节点不能处理请求，则转发给下一个节点，如此直到请求被某个节点处理或者整个链遍历结束。这种设计模式用于实现发送方与接收方（多个）之间的解耦。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式之代理模式</title>
+      <link>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 22 Oct 2018 22:06:07 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;代理模式是通过一层间接保护层实现更安全的接口访问，例如：访问敏感信息——在允许用户访问敏感信息之前，我们希望确保用户具备足够的权限。&lt;/p&gt;
+
+&lt;p&gt;有四种常用的代理模式：
+- 远程代理：实际存在于不同地址空间（例如，某个网络服务器）的对象在本地的代理者。使得访问远程对象就像访问本地一样，隐藏了复杂性，如：ORM。
+- 虚拟代理：用来实现延迟访问，比如一些需要复杂计算的对象，Python 里可以实现 lazy_property，改善性能。
+- 保护/防护代理：用于控制敏感对象的访问。
+- 智能(引用)代理：在对象被访问时执行额外的动作。例如引用计数和线程安全检查。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式之MVC模式</title>
+      <link>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8Bmvc%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 22 Oct 2018 10:34:29 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8Bmvc%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;MVC是一个非常重要的设计模式，用于将应用组织成三个部分：模型、视图和控制器。同时，MVC也是一种架构模式，比如流行的 Django 框架就是 MVC(MTV) 模式。&lt;/p&gt;
+
+&lt;p&gt;每个部分都有明确的职责。模型负责访问数据，管理应用的状态。视图是模型的外在表现。视图并非必须是图形化的；文本输出也是一种好视图。控制器是模型与视图之间的连接。 MVC的恰当使用能确保最终产出的应用易于维护、易于扩展。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式之享元模式</title>
+      <link>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Fri, 19 Oct 2018 08:52:13 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;OOP中容易出现对象创建带来的性能和内存占用问题，当我们想要优化内存使用提高应用性能之时，可以使用享元模式。而想要使享元模式有效，需要满足以下几个条件：
+- 需要使用大量对象（Python 中可以使用&lt;code&gt;__slots__&lt;/code&gt;节省内存使用）
+- 对象太多难以存储或解析大量对象
+- 对象识别不是特别重要，共享对象中对象比较会失败&lt;/p&gt;
+
+&lt;p&gt;通常情况下，会使用对象池技术来实现共享对象，比如数据库中经常使用连接池来减少开销，预先建立一些连接池，每次取一个连接和数据库交互。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式之外观模式</title>
+      <link>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 18 Oct 2018 09:58:46 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;一个系统会随着演进而变得非常复杂，最终形成大量的（并且有时是令人迷惑的）类和交互，这种情况并不少见。&lt;/p&gt;
+
+&lt;p&gt;但许多情况下，我们并不想把这种复杂性暴露给客户端。而外观设计模式有助于隐藏系统的内部复杂性，并通过一个简化的接口向客户端暴露必要的部分。本质上，外观模式是在已有的系统上实现的一个抽象层。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式之装饰器模式</title>
+      <link>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Wed, 17 Oct 2018 09:14:34 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;当我们想对一个已有的对象添加额外的功能时，可以使用如下方法：
+1. 如果合理，可以直接将功能添加到对象所属的类（例如，添加一个新的方法）。
+2. 使用组合
+3. 使用继承&lt;/p&gt;
+
+&lt;p&gt;与继承相比，通常应该优先选择组合，因为继承使得代码更难复用，继承关系是静态的，并且应用于整个类以及这个类的所有实例。&lt;/p&gt;
+
+&lt;p&gt;设计模式为我们提供了第四种可选的方法，以支持动态的扩展一个对象的功能，这种方法就是装饰器。&lt;/p&gt;
+
+&lt;p&gt;装饰器有很多用途，比如数据校验，事务处理，缓存，日志等。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式之适配器模式</title>
+      <link>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Tue, 16 Oct 2018 10:15:28 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;适配器模式（Adapter pattern）是一种结构型设计模式，帮助我们实现两个不兼容接口之间的兼容。不兼容接口的含义：如果我们希望把一个老组件用于一个新系统中，或者把一个新组件用于一个老系统中，不对代码进行任何修改两者就能够通信的情况很少见。但又并非总是能修改代码，或因为我们无法访问这些代码（例如，组件以外部库的方式提供），或因为修改代码本身就不切实际。在这些情况下，我们可以编写一个额外的代码层，该代码层包含让两个接口之间能够通信需要进行的所有修改。这个代码层就叫适配器。&lt;/p&gt;
+
+&lt;p&gt;现实中最好的例子就是手机充电口，不同型号安卓手机都可以用同样的充电线充电。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>在字典中将键映射到多个值上</title>
+      <link>https://lovemma.github.io/posts/%E5%9C%A8%E5%AD%97%E5%85%B8%E4%B8%AD%E5%B0%86%E9%94%AE%E6%98%A0%E5%B0%84%E5%88%B0%E5%A4%9A%E4%B8%AA%E5%80%BC%E4%B8%8A/</link>
+      <pubDate>Mon, 15 Oct 2018 21:37:47 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E5%9C%A8%E5%AD%97%E5%85%B8%E4%B8%AD%E5%B0%86%E9%94%AE%E6%98%A0%E5%B0%84%E5%88%B0%E5%A4%9A%E4%B8%AA%E5%80%BC%E4%B8%8A/</guid>
+      <description>&lt;h2 id=&#34;问题&#34;&gt;问题&lt;/h2&gt;
+
+&lt;p&gt;我们想要将一个列表，里面是&lt;code&gt;(key, value)&lt;/code&gt;这样的键值对元组，转换成一个&lt;code&gt;key&lt;/code&gt;相同的&lt;code&gt;value&lt;/code&gt;的字典，如下所示：&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;data = [(&#39;a&#39;, 1), (&#39;a&#39;, 2), (&#39;a&#39;, 3), (&#39;b&#39;, 4), (&#39;b&#39;, 5)]
+
+# convert to
+d = {
+    &#39;a&#39;: [1, 2, 3],
+    &#39;b&#39;: [4, 5]
+}
+&lt;/code&gt;&lt;/pre&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式之原型模式</title>
+      <link>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Mon, 15 Oct 2018 14:44:56 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;原型模式（The Prototype Pattern）用于创建对象的完全副本，有点类似与现实生活中的有丝分裂，在 Python 中可以使用内置的&lt;code&gt;copy&lt;/code&gt;模块实现。&lt;/p&gt;
+
+&lt;p&gt;拷贝分为&lt;code&gt;深拷贝&lt;/code&gt;和&lt;code&gt;浅拷贝&lt;/code&gt;：
+- 深拷贝会递归复制并创建新的对象
+- 浅拷贝会利用引用指向同一个对象&lt;/p&gt;
+
+&lt;p&gt;深拷贝的优点是对象之间互不影响，但是会耗费资源，创建比较耗时；如果不会修改对象可以使用浅拷贝，更加节省资源和创建时间。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>设计模式之构造模式</title>
+      <link>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%9E%84%E9%80%A0%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Sun, 14 Oct 2018 23:07:35 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%9E%84%E9%80%A0%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;当出现以下几种情况时，可以考虑使用构造模式：
+1. 当想要创建一个复杂对象(对象由多个部分构成，且对象的创建要经过多个不同的步骤，这些步骤也许还遵从特定的顺序)
+2. 要求一个对象能有不同的表现，并希望将对象的构造与表现解耦
+3. 想要在某个时间点创建对象，但在稍后的时间点再访问&lt;/p&gt;
+
+&lt;p&gt;可以这么理解，你要买电脑，工厂模式直接返回一个你需要型号的电脑，但是构造模式允许你自定义电脑各种配置类型，组装完成后给你。这个过程你可以传入builder从而自定义创建的方式。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python工厂模式</title>
+      <link>https://lovemma.github.io/posts/python%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Fri, 12 Oct 2018 13:54:45 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;p&gt;工厂模式主要是为了解决对象创建问题：客户端可以请求一个对象，而不需要知道这个对象来自哪里，换句话说，客户端在请求一个对象时，不需要知道该对象是被哪一个类创建的。这样做的好处是可以方便的解耦对象的使用和创建，工厂模式有两种实现方式：工厂方法和抽象工厂。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Python单例模式</title>
+      <link>https://lovemma.github.io/posts/python%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</link>
+      <pubDate>Thu, 11 Oct 2018 17:44:42 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
+      <description>&lt;h1 id=&#34;python单例模式&#34;&gt;Python单例模式&lt;/h1&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;Design ptterns are discoverd, not invented.- Alex Martelli&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>0到1，Celery从入门到出家</title>
+      <link>https://lovemma.github.io/posts/0%E5%88%B01celery%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%87%BA%E5%AE%B6/</link>
+      <pubDate>Fri, 28 Sep 2018 10:06:12 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/0%E5%88%B01celery%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E5%87%BA%E5%AE%B6/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;本文转载自公众号「Python之禅」，原文链接：&lt;a href=&#34;https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA&#34;&gt;https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;在一个应用服务中，对于时效性要求没那么高的业务场景，我们没必要等到所有任务执行完才返回结果，例如用户注册场景中，保存了用户账号密码之后，就可以立即返回，后续的账号激活邮件，可以用一种异步的形式去处理，这种异步操作可以用队列服务来实现。否则，如果等到邮件发送成功可能几秒过去了。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MySQL中 only_full_group_by 问题</title>
+      <link>https://lovemma.github.io/posts/mysql%E4%B8%AD-only-full-group-by-%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Wed, 08 Aug 2018 09:08:47 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/mysql%E4%B8%AD-only-full-group-by-%E9%97%AE%E9%A2%98/</guid>
+      <description>&lt;p&gt;最近在试用 MySQL 数据库做查询时，遇到了这么个问题，当我使用 &lt;code&gt;GROUP_BY&lt;/code&gt;对要查询的数据进行分组的时候，抛出了一个&lt;code&gt;InternalError&lt;/code&gt;的错误，当时我：？？？&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;1055, &amp;quot;Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column ‘xxx’ which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by&amp;quot;&lt;/p&gt;
+&lt;/blockquote&gt;</description>
+    </item>
+    
+    <item>
+      <title>「Python3学习笔记」读书笔记—集合</title>
+      <link>https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E9%9B%86%E5%90%88/</link>
+      <pubDate>Fri, 29 Jun 2018 13:26:54 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E9%9B%86%E5%90%88/</guid>
+      <description>集合存储的是非重复对象，所谓的非重复对象是指：除了不是同一对象外，值也不能相同。 # Python集合判重公式 (a is b) OR (hash(a) == hash(b) AND a == b) 如果不是同一对象，那么先判断哈希值，然后比较内容。因为受限于哈希算法，不同内容可能返回相同的哈希值（哈希碰撞），那么就有必要继续比较内容是否相同。 那么为什么要先比较哈希值，而不直接比较内容呢？首先，与大多数内容（例如字符串）相比，整数哈希值比较的性能高得多；其次，哈希值不</description>
+    </item>
+    
+    <item>
+      <title>「Python3学习笔记」读书笔记—字典</title>
+      <link>https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%AD%97%E5%85%B8/</link>
+      <pubDate>Mon, 25 Jun 2018 22:59:09 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%AD%97%E5%85%B8/</guid>
+      <description>字典是内置类型中唯一的映射（Mapping）结构，基于哈希表存储键值对数据。 值可以是任意类型的数据，但主键必须是可哈希的类型。常见的可变类型，如列表、集合等都不能作为主键使用。即便是元组等不可变类型，也不能引用可变类型元素，即元组中不能含有可变类型的元素。 &amp;gt;&amp;gt;&amp;gt; import collections &amp;gt;&amp;gt;&amp;gt; issubclass(list, collections.Hashable) False &amp;gt;&amp;gt;&amp;gt; issubclass(int, collections.Hashable) True &amp;gt;&amp;gt;&amp;gt; hash((1, 2, 3)) 2528502973977326415 &amp;gt;&amp;gt;&amp;gt; hash((1, 2, [1, 2])) # 包含可变类型 Traceback (most recent call last): File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt; TypeError: unhashable type: &#39;list&#39; 哈希计算通过调用 __hash__ 方法返回整数值，用来快速比较内容是否相同</description>
+    </item>
+    
+    <item>
+      <title>「Python3学习笔记」读书笔记—列表</title>
+      <link>https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%88%97%E8%A1%A8/</link>
+      <pubDate>Fri, 22 Jun 2018 00:00:18 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%88%97%E8%A1%A8/</guid>
+      <description>Python 中的 list 类型应该是我们平时用的最多一个数据类型，如果仅从操作方式上看，列表像是数组和链表的综合体，除了按索引访问外，还支持插入、追加、删除等操作，完全可以当作队列或栈来使用，因此，如果不考虑性能问题，列表是一种易用且功能完善的理想数据结构。 列表的内部结构由两部分构成：(1) 保存元素数量和内存分配计数的头部，(2) 存储元素指针的独立数组。所有的元素使用该数组来保存指针引用，并不嵌入实际的内容。 &amp;gt; 作为</description>
+    </item>
+    
+    <item>
+      <title>「Python3学习笔记」读书笔记—字节数组</title>
+      <link>https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%AD%97%E8%8A%82%E6%95%B0%E7%BB%84/</link>
+      <pubDate>Thu, 21 Jun 2018 09:23:35 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%AD%97%E8%8A%82%E6%95%B0%E7%BB%84/</guid>
+      <description>生物都是由细胞构成的，但在我们普通人眼中，并不会将鸡、鸭、狗、鸟这些动物当作细胞看待，因为对待事物的角度决定了我们更关心生物的外在形状和行为，而不是它的组织构成。 从计算机底层实现来说，所有的数据都是二进制字节序列。但为了更好地表达某个逻辑，计算机科学家们将数据抽象成不同的类型，犹如细胞和动物的关系。在编程语言中，对于字节序列，我们更关心的是它的存储和传输方式；而面向对象时，则着重于它的抽象属性。尽</description>
+    </item>
+    
+    <item>
+      <title>「Python3学习笔记」读书笔记—字符串</title>
+      <link>https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%AD%97%E7%AC%A6%E4%B8%B2/</link>
+      <pubDate>Thu, 14 Jun 2018 21:26:35 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%AD%97%E7%AC%A6%E4%B8%B2/</guid>
+      <description>字符串字面量以成对的单引号（`）、双引号（”），或可跨行的三引号（”””）语法构成，自动合并相邻的字面量。字符串支持转义、八进制、十六进制，或 Unicode 格式字符。 使用单引号还是双引号，并没有什么特殊限制。如果文本内的引用文字使用双引号，那么外面用单引号可避免转义，更易阅读。 &amp;gt; 通常情况下，建议遵循多数编程语言惯例，使用双引号标示。 Python 3 中字符串存储的是 Unicode 文本，是不可变序列类型。而 Unicode 格式大小写分别表示 16 位（ \u ）</description>
+    </item>
+    
+    <item>
+      <title>「Python3学习笔记」读书笔记--float类型</title>
+      <link>https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-float%E7%B1%BB%E5%9E%8B/</link>
+      <pubDate>Sat, 09 Jun 2018 16:21:07 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0-float%E7%B1%BB%E5%9E%8B/</guid>
+      <description>本文为「Python3学习笔记」一书的读书总结，以后每学习完一小节做一次记录。 在Python中 float 类型默认存储双精度浮点数（也就是其他语言中的 double ），可一表达16到17位浮点数。 &amp;gt;&amp;gt;&amp;gt; 1/3 0.3333333333333333 &amp;gt;&amp;gt;&amp;gt; 0.1234567890123456789 0.12345678901234568 从实现方式上来看，浮点数是以二进制的方式来存储十进制数的近似值。这就可能导致执行的结果与预期不符合，造成不一致缺陷。所以，在对精度有严格要求的场合，应该选择使用固定精度类型，如：decimal.Decimal 。 可通</description>
+    </item>
+    
+    <item>
+      <title>2018年5月27日 个人思考</title>
+      <link>https://lovemma.github.io/posts/2018%E5%B9%B45%E6%9C%8827%E6%97%A5-%E4%B8%AA%E4%BA%BA%E6%80%9D%E8%80%83/</link>
+      <pubDate>Sun, 27 May 2018 22:35:06 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/2018%E5%B9%B45%E6%9C%8827%E6%97%A5-%E4%B8%AA%E4%BA%BA%E6%80%9D%E8%80%83/</guid>
+      <description>最近因为临近毕业了，在学校做毕业答辩准备，顺带有时间可以思考一下工作以来的生活。 怎么说呢，相对上一份工作的硬性规定九九六，现在所在公司的工作时间是真的很轻松，每天6点就可以下班，也不需要加班，这样的生活虽然工资不高但真的很轻松，也使我陷入了一种舒适区，若不是这次回学校思考后，幡然醒悟，不然还不知道要在这种状态下沉迷多久。 先记录一下每天安排： &amp;gt; 上午，高级工程师安排工作，编码、调试、解Bug，下班，然</description>
+    </item>
+    
+    <item>
+      <title>Python连接字符串优先使用join而不是&#43;</title>
+      <link>https://lovemma.github.io/posts/python%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8join%E8%80%8C%E4%B8%8D%E6%98%AF/</link>
+      <pubDate>Wed, 28 Feb 2018 10:16:43 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8join%E8%80%8C%E4%B8%8D%E6%98%AF/</guid>
+      <description>字符串处理在大多数编程语言中都是不可避免的，而字符串的连接在编程的过程中会经常遇到。Python 中的字符串与其他语言的字符串有点不一样，如：C++，Java，在 Python 中字符串是不可变对象，创建之后便不可以修改了，因此，这个特性会影响到字符串在连接时的效率问题。 常用的字符串连接方法 使用操作符+连接字符串： In [1]: str1, str2, str3 = &#39;string1 &#39;, &#39;string2 &#39;, &#39;string3 &#39; In [2]: str1 + str2 + str3 Out[2]: &#39;string1 string2 string3&#39; 使用join方法连接字符串： In [1]: str1, str2, str3 = &#39;string1 &#39;, &#39;string2 &#39;, &#39;string3 &#39; In</description>
+    </item>
+    
+    <item>
+      <title>Python虚拟环境Virtualenv和Virtualenvwrapper搭建</title>
+      <link>https://lovemma.github.io/posts/python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83virtualenv%E5%92%8Cvirtualenvwrapper%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Sat, 24 Feb 2018 21:57:36 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83virtualenv%E5%92%8Cvirtualenvwrapper%E6%90%AD%E5%BB%BA/</guid>
+      <description>virtualenv 是一个创建隔绝的Python环境的 Python 包。当我们遇到几个项目依赖不同版本的包的时候，如：项目A需要 Django 1.10 版本，项目B需要 Django 1.11 版本，这时就可以使用 virtualenv 来解决这个问题。 Virtualenv 安装virtualenv pip install virtualenv 使用方法 mkdir your_project_folder cd your_project_folder virtualenv env # env是你的虚拟环境名称 此时会建立一个带有系统 Python 环境中所有第三方包的 Python 运行环境，若不想带有这些第三方包，命令中加上--no-site-packages这个参数，就可以得到一个不带有任何第</description>
+    </item>
+    
+    <item>
+      <title>树莓派搭建简单的 Nginx &#43; uWSGI &#43; Django</title>
+      <link>https://lovemma.github.io/posts/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84-nginx-&#43;-uwsgi-&#43;-django/</link>
+      <pubDate>Sat, 24 Feb 2018 21:15:02 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84-nginx-&#43;-uwsgi-&#43;-django/</guid>
+      <description>当我们编写完成 Django 项目后，可以使用python manager.py runserver来运行 Django 自带的服务器，但这只适合于测试环境使用，项目正式上线时，我们需要一个可以稳定并且持续的服务器，比如Apache, Nginx等。手里吃灰很久的树莓派终于可以派上用场了😂。 准备工作 烧写好系统的树莓派，我这里使用的是基于 Debian 的 Raspbian 系统，理论上后续搭建步骤在 Ubuntu/Debian 上都可以用。 &amp;gt; 注意 2016 年 11 月的新版本系统之后，树莓派默认禁用 SSH，你需要手动开启</description>
+    </item>
+    
+    <item>
+      <title>Python中的__init__、__new__和__call__</title>
+      <link>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84-init-new-%E5%92%8C-call/</link>
+      <pubDate>Thu, 01 Feb 2018 19:50:17 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84-init-new-%E5%92%8C-call/</guid>
+      <description>__init__、__new__和__call__方法都是python中的魔术方法，通常我们认为__init__方法是类的构造方法，因为表面上看确实是这样：当需要实例化一个对象的时候，使用a = Class(args...)便可以返回一个类的实例，其中args参数与__init__中申明的参数一样，今天在刘志军老师的「Python之禅和朋友们」的知识星球中学习到不是这样的，这里以一个例子来说明一下： class</description>
+    </item>
+    
+    <item>
+      <title>Packet Tracer 模拟一次完整的HTTP请求</title>
+      <link>https://lovemma.github.io/posts/packet-tracer-%E6%A8%A1%E6%8B%9F%E4%B8%80%E6%AC%A1%E5%AE%8C%E6%95%B4%E7%9A%84http%E8%AF%B7%E6%B1%82/</link>
+      <pubDate>Thu, 01 Feb 2018 15:53:23 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/packet-tracer-%E6%A8%A1%E6%8B%9F%E4%B8%80%E6%AC%A1%E5%AE%8C%E6%95%B4%E7%9A%84http%E8%AF%B7%E6%B1%82/</guid>
+      <description>Q：当我们在浏览器中访问一个网址的时候 ，浏览器背后到底发生了什么呢？ A：DNS域名解析 --&amp;gt; 发起TCP的3次握手 --&amp;gt; 建立TCP连接后发起http请求 --&amp;gt; 服务器响应http请求，浏览器得到html代码 --&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） --&amp;gt; 浏览器对页面进行渲染呈现给用户 --&amp;gt; 进行TCP的4次挥手 这里我在Packet Tracer中模拟一次简单的HTTP请求 环境准备 网络拓扑图</description>
+    </item>
+    
+    <item>
+      <title>Python中的可变对象与不可变对象</title>
+      <link>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1/</link>
+      <pubDate>Thu, 25 Jan 2018 22:46:22 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1/</guid>
+      <description>Python中一切皆为对象，每一个对象都有一个唯一的标识符（ id( ) ）、类型（type( )）以及值。而对象根据其值是否能够修改分为可变对象和不可变对象： - 数字、字符串和元组属于不可变对象 - 字典、列表和字节数组属于可变对象 对于不可变对象，任何对其中的元素进行修改的操作都会抛出异常。 &amp;gt;&amp;gt;&amp;gt; test_str = &#39;hello world&#39; &amp;gt;&amp;gt;&amp;gt; test_str[5] = &#39;q&#39; ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-2-8e9684bd3ddc&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_str[5] = &#39;q&#39; TypeError: &#39;str&#39; object does not support item assignment &amp;gt;&amp;gt;&amp;gt; test_tuple = (1, 2, 3) &amp;gt;&amp;gt;&amp;gt; test_tuple[1] = 4 ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-4-dba7800e3210&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_tuple[1] = 4 TypeError: &#39;tuple&#39; object does not</description>
+    </item>
+    
+    <item>
+      <title>Python中的浅拷贝与深拷贝</title>
+      <link>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84%E6%B5%85%E6%8B%B7%E8%B4%9D%E4%B8%8E%E6%B7%B1%E6%8B%B7%E8%B4%9D/</link>
+      <pubDate>Thu, 25 Jan 2018 14:49:59 +0000</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84%E6%B5%85%E6%8B%B7%E8%B4%9D%E4%B8%8E%E6%B7%B1%E6%8B%B7%E8%B4%9D/</guid>
+      <description>在面试过程中，经常会被问浅拷贝与深拷贝的区别。所以，在这里记录一下自己的理解，以便以后好复习。 浅拷贝（shallow copy） 所谓“浅拷贝”，是指在复制一个对象时，构建一个新的对象，并将原对象中发现的引用插入到该对象中. 浅拷贝的实现方式常见的有：工厂函数、切片操作、copy模块中的copy函数等 实现如下： &amp;gt;&amp;gt;&amp;gt; a = [1, 2, [3, 4]] &amp;gt;&amp;gt;&amp;gt; b = a[:] &amp;gt;&amp;gt;&amp;gt; id(a) 4505384008 &amp;gt;&amp;gt;&amp;gt; id(b) 4504586056 &amp;gt;&amp;gt;&amp;gt; [id(x) for x in a] [4470102640, 4470102672, 4505384072] &amp;gt;&amp;gt;&amp;gt; [id(x) for x in b] [4470102640, 4470102672, 4505384072] &amp;gt;&amp;gt;&amp;gt; a[2] += [5] &amp;gt;&amp;gt;&amp;gt; a [1, 2, [3, 4, 5]] &amp;gt;&amp;gt;&amp;gt;</description>
+    </item>
+    
+  </channel>
+</rss>
