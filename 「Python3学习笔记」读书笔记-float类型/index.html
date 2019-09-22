@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="UaE7Y4DU8EUM0SA-5qaaQxLnK2BX9mGLGDSVXj58FIQ">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="本文为「Python3学习笔记」一书的读书总结，以后每学习完一小节做一次记录。 在Python中 float 类型默认存储双精度浮点数（也就是其他语言中的 double ），可一表达16到17位浮点数。 1234&amp;gt;&amp;gt;&amp;gt; 1/30.3333333333333333&amp;gt;&amp;gt;&amp;gt; 0.12345678901234567890.12345678901234568">
+<meta name="keywords" content="Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="「Python3学习笔记」读书笔记--float类型">
+<meta property="og:url" content="https://lovemma.github.io/「Python3学习笔记」读书笔记-float类型/index.html">
+<meta property="og:site_name" content="All men must die.">
+<meta property="og:description" content="本文为「Python3学习笔记」一书的读书总结，以后每学习完一小节做一次记录。 在Python中 float 类型默认存储双精度浮点数（也就是其他语言中的 double ），可一表达16到17位浮点数。 1234&amp;gt;&amp;gt;&amp;gt; 1/30.3333333333333333&amp;gt;&amp;gt;&amp;gt; 0.12345678901234567890.12345678901234568">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-06-14T13:28:56.641Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="「Python3学习笔记」读书笔记--float类型">
+<meta name="twitter:description" content="本文为「Python3学习笔记」一书的读书总结，以后每学习完一小节做一次记录。 在Python中 float 类型默认存储双精度浮点数（也就是其他语言中的 double ），可一表达16到17位浮点数。 1234&amp;gt;&amp;gt;&amp;gt; 1/30.3333333333333333&amp;gt;&amp;gt;&amp;gt; 0.12345678901234567890.12345678901234568">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="All men must die." type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://lovemma.github.io/「Python3学习笔记」读书笔记-float类型/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>「Python3学习笔记」读书笔记--float类型 | All men must die.</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=[object Object]"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-96620668-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">All men must die.</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+  
+
+  
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL0xvdmVtbWE=" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></span>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lovemma.github.io/「Python3学习笔记」读书笔记-float类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="茂林">
+      <meta itemprop="description" content="百种弊病, 皆从懒生.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="All men must die.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">「Python3学习笔记」读书笔记--float类型
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-06-09 16:21:07" itemprop="dateCreated datePublished" datetime="2018-06-09T16:21:07+08:00">2018-06-09</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-06-14 21:28:56" itemprop="dateModified" datetime="2018-06-14T21:28:56+08:00">2018-06-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/学习笔记/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/「Python3学习笔记」读书笔记-float类型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="「Python3学习笔记」读书笔记-float类型/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文为「Python3学习笔记」一书的读书总结，以后每学习完一小节做一次记录。</p>
+<p>在Python中 float 类型默认存储双精度浮点数（也就是其他语言中的 double ），可一表达16到17位浮点数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; 1/3</span><br><span class="line">0.3333333333333333</span><br><span class="line">&gt;&gt;&gt; 0.1234567890123456789</span><br><span class="line">0.12345678901234568</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>从实现方式上来看，浮点数是以二进制的方式来存储十进制数的近似值。这就可能导致执行的结果与预期不符合，造成不一致缺陷。所以，在对精度有严格要求的场合，应该选择使用固定精度类型，如：decimal.Decimal 。</p>
+<blockquote>
+<p>可通过 float.hex 方法输出实际存储值的十六进制格式的字符串，来查看执行结果为何不同；换句话说，也可以通过改方式实现浮点值的精确传递，避免精度丢失。  </p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; 0.1 * 3 == 0.3</span><br><span class="line">False</span><br><span class="line">&gt;&gt;&gt; (0.1 * 3).hex()</span><br><span class="line">&apos;0x1.3333333333334p-2&apos;</span><br><span class="line">&gt;&gt;&gt; (0.3).hex()		# 显然两个存储的内容并不相同</span><br><span class="line">&apos;0x1.3333333333333p-2&apos;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s = (1/3).hex()</span><br><span class="line">&gt;&gt;&gt; float.fromhex(s)		# 反向转换回浮点数</span><br><span class="line">0.3333333333333333</span><br></pre></td></tr></table></figure>
+<p>对于简单的比较操作，可尝试将浮点数的精度限制在有效的精度内，如：使用 <code>round</code>函数，但<code>round</code>函数在实现上有一定的问题，这里更加准确的问题是使用 decimal.Decimal 模块。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; round(0.1 * 3, 2) == round(0.3, 2)</span><br><span class="line">True</span><br><span class="line">&gt;&gt;&gt; round(0.1, 2) * 3 == round(0.3, 2)</span><br><span class="line">False</span><br></pre></td></tr></table></figure></p>
+<h2 id="decimal-Decimal模块"><a href="#decimal-Decimal模块" class="headerlink" title="decimal.Decimal模块"></a>decimal.Decimal模块</h2><p>与 float 这种基于硬件的二进制浮点类型相比，decimal.Decimal 是用十进制实现的，它能准确的表达十进制数和运算，不存在二进制相似值的问题，它最高可提供28位有效精度。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; (0.1 + 0.1 + 0.1 - 0.3) == 0		# 二进制近似值计算结果与十进制预期不符合</span><br><span class="line">False</span><br><span class="line">&gt;&gt;&gt; from decimal import Decimal</span><br><span class="line">&gt;&gt;&gt; (Decimal(&apos;0.1&apos;) + Decimal(&apos;0.1&apos;) + Decimal(&apos;0.1&apos;) - Decimal(&apos;0.3&apos;)) == 0</span><br><span class="line">True</span><br></pre></td></tr></table></figure>
+<p>而在创建 Decimal 实例的时候，应该传入一个准确数值，如：整数或者字符串等。如果传入的是 float 类型，那么在传入之前，其精度就已经丢失了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; Decimal(0.1)</span><br><span class="line">Decimal(&apos;0.1000000000000000055511151231257827021181583404541015625&apos;)</span><br><span class="line">&gt;&gt;&gt; Decimal(&apos;0.1&apos;)</span><br><span class="line">Decimal(&apos;0.1&apos;)</span><br></pre></td></tr></table></figure>
+<p>在需要的时候，可以通过上下文修改 Decimal 默认的28位精度或用 <code>localcontext</code>修改某个区域的精度。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from decimal import Decimal, getcontext, localcontext</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; getcontext()</span><br><span class="line">Context(prec=28, ...)</span><br><span class="line">&gt;&gt;&gt; getcontext().prec = 2</span><br><span class="line">&gt;&gt;&gt; Decimal(1) / Decimal(3)</span><br><span class="line">Decimal(&apos;0.33&apos;)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; with localcontext() as ctx:</span><br><span class="line">...     print(getcontext().prec)</span><br><span class="line">...     getcontext().prec = 3</span><br><span class="line">...     print(getcontext().prec)</span><br><span class="line">...     print(Decimal(1) / Decimal(3))</span><br><span class="line">...</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">0.333</span><br><span class="line">&gt;&gt;&gt; getcontext().prec</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Decimal 虽然有着准确的精度，但它的运算速度会慢很多，所以除非有明确的需求，否则还是不要用 Decimal 代替 float 是用。  </p>
+</blockquote>
+<h2 id="round-函数"><a href="#round-函数" class="headerlink" title="round 函数"></a>round 函数</h2><p>因为精度和近似值问题，在使用<code>round</code>函数对 float 类型的值进行“四舍五入”的操作存在不确定性，结果会有一些不易察觉的陷阱。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; round(0.5)		# 五舍</span><br><span class="line">0</span><br><span class="line">&gt;&gt;&gt; round(1.5)		# 五入</span><br><span class="line">2</span><br></pre></td></tr></table></figure></p>
+<p>这是因为<code>round</code>函数的算法规则是按临近的数字的距离远近来考虑是否进位的，如：以 0.4 为例，其舍入后相邻的数字分别是 0 和 1 ，从距离上来看自然是离 0 更近一些，所以“四舍五入”的结果为 0。如此一来，“四舍六入”就是确定的，相关问题都集中在两边距离相等的5是否进位上了。</p>
+<p>对于5是否进位，首先要考虑的是它后面是否还有小数位。如果有，那么左右距离自然是不想等的，这种情况肯定是会进位的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; round(0.5)</span><br><span class="line">0</span><br><span class="line">&gt;&gt;&gt; round(0.500001)</span><br><span class="line">1</span><br></pre></td></tr></table></figure></p>
+<p>如果没有，就要看进位后是整数还是浮点数了。如果是整数，就取临近的偶数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; round(0.5)</span><br><span class="line">0</span><br><span class="line">&gt;&gt;&gt; round(1.5)</span><br><span class="line">2</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>不同的Python版本，规则存在着差异性，如：在Python2.7中，round(2.5) 返回的是3.0。  </p>
+</blockquote>
+<p>而进位后，如果依旧是浮点数的话，那事情就变得有点莫名其妙了。有的文章中说的是要看数字5前一位小数的奇偶行来判断是否进位，而事实上并非如此。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; round(1.25, 1)		# 偶舍</span><br><span class="line">1.2</span><br><span class="line">&gt;&gt;&gt; round(1.245, 2)		# 偶入</span><br><span class="line">1.25</span><br><span class="line">&gt;&gt;&gt; round(2.675, 2)		# 下面都是奇数7，但却有舍有进</span><br><span class="line">2.67</span><br><span class="line">&gt;&gt;&gt; round(2.375, 2)</span><br><span class="line">2.38</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>对此，Python官方文档<span class="exturl" data-url="aHR0cHM6Ly9kb2NzLnB5dGhvbi5vcmcvMy90dXRvcmlhbC9mbG9hdGluZ3BvaW50Lmh0bWw=" title="https://docs.python.org/3/tutorial/floatingpoint.html">Floating Point Arithmetic: Issues and Limitations<i class="fa fa-external-link"></i></span>宣称着并非错误，而是事出有因。我们可以改用 Decimal ，按需选取可控的进位方案。  </p>
+</blockquote>
+<h2 id="转换"><a href="#转换" class="headerlink" title="转换"></a>转换</h2><p>在 Python 中将整数或字符串转换为浮点数很简单，而且 Python 还会自动处理字符串内的正负号和空白符。只是超出有效精度时，结果与字符串内容存在差异。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; float(100)</span><br><span class="line">100.0</span><br><span class="line">&gt;&gt;&gt; float(&apos;-100.123&apos;)</span><br><span class="line">-100.123</span><br><span class="line">&gt;&gt;&gt; float(&apos;\t -100.123\n&apos;)</span><br><span class="line">-100.123</span><br><span class="line">&gt;&gt;&gt; float(&apos;1.23E2&apos;)</span><br><span class="line">123.0</span><br><span class="line">&gt;&gt;&gt; float(&apos;0.12345678901234567890&apos;)		# 超出精度</span><br><span class="line">0.12345678901234568</span><br></pre></td></tr></table></figure></p>
+<p>反过来，将浮点数转换为整数时，有多种方案可供选择。</p>
+<ol>
+<li><p>可直接截掉小数部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; int(2.6), int(-2.6)</span><br><span class="line">(2, -2)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; from math import trunc</span><br><span class="line">&gt;&gt;&gt; trunc(2.6), trunc(-2.6)</span><br><span class="line">(2, -2)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>分别向大小两个方向取临近整数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; from math import floor, ceil</span><br><span class="line">&gt;&gt;&gt; floor(2.6), floor(-2.6)		# 向小数字方向取最近整数</span><br><span class="line">(2, -3)</span><br><span class="line">&gt;&gt;&gt; ceil(2.6), ceil(-2.6)			# 向大数字方向取最近整数</span><br><span class="line">(3, -2)</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag"># Python</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018年5月27日-个人思考/" rel="next" title="2018年5月27日 个人思考">
+                <i class="fa fa-chevron-left"></i> 2018年5月27日 个人思考
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/「Python3学习笔记」读书笔记—字符串/" rel="prev" title="「Python3学习笔记」读书笔记—字符串">
+                「Python3学习笔记」读书笔记—字符串 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="茂林">
+            
+              <p class="site-author-name" itemprop="name">茂林</p>
+              <p class="site-description motion-element" itemprop="description">百种弊病, 皆从懒生.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0xvdmVtbWE=" title="GitHub &rarr; https://github.com/Lovemma"><i class="fa fa-fw fa-github"></i>GitHub</span>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <span class="exturl" data-url="bWFpbHRvOmRlcGVuZGVuY2UubGV0Z29AZ21haWwuY29t" title="E-Mail &rarr; mailto:dependence.letgo@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</span>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <span class="exturl" data-url="aHR0cDovL25ld3RyZWt3YW5nLm1lLw==" title="http://newtrekwang.me/">newtrekWang</span>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#decimal-Decimal模块"><span class="nav-number">1.</span> <span class="nav-text">decimal.Decimal模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#round-函数"><span class="nav-number">2.</span> <span class="nav-text">round 函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#转换"><span class="nav-number">3.</span> <span class="nav-text">转换</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">茂林</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <span class="exturl theme-link" data-url="aHR0cHM6Ly90aGVtZS1uZXh0Lm9yZw==">NexT.Muse</span></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.1"></script>
+
+
+  
+  
+  
+  <script id="dsq-count-scr" src="https://lovemma.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://lovemma.github.io/「Python3学习笔记」读书笔记-float类型/";
+    this.page.identifier = "「Python3学习笔记」读书笔记-float类型/";
+    this.page.title = '「Python3学习笔记」读书笔记--float类型';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://lovemma.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    $(function() {
+      var offsetTop = $('#comments').offset().top - $(window).height();
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        loadComments();
+      } else {
+        $(window).on('scroll.disqus_scroll', function() {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
+          var offsetTop = $('#comments').offset().top - $(window).height();
+          var scrollTop = $(window).scrollTop();
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            $(window).off('.disqus_scroll');
+            loadComments();
+          }
+        });
+      }
+    });
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/js/src/exturl.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+</body>
+</html>

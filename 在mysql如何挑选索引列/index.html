@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="en">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+  <meta name="google-site-verification" content="UaE7Y4DU8EUM0SA-5qaaQxLnK2BX9mGLGDSVXj58FIQ">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2">
+
+<link rel="stylesheet" href="/css/main.css?v=7.0.1">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=7.0.1">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png?v=7.0.1">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.0.1" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.0.1',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false,"dimmer":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="为用于搜索、排序或分组的列创建索引，而对于用作输出显示的列则不用创建索引。这意味着最佳索引候选列是那些出现在 WHERE 子句中的列、连接子句中的列或者出现在 ORDER BY 或 GROUP BY 子句中的列。而那些只是出现在 SELECT 关键字后面的输出列表里的列，则不是很好的索引候选列。  认真考虑数据列基数。列的基数(cardinality)是指它所容纳的所有非重复值的个数，例如，某个">
+<meta name="keywords" content="MySQL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在mysql如何挑选索引列">
+<meta property="og:url" content="https://lovemma.github.io/在mysql如何挑选索引列/index.html">
+<meta property="og:site_name" content="All men must die.">
+<meta property="og:description" content="为用于搜索、排序或分组的列创建索引，而对于用作输出显示的列则不用创建索引。这意味着最佳索引候选列是那些出现在 WHERE 子句中的列、连接子句中的列或者出现在 ORDER BY 或 GROUP BY 子句中的列。而那些只是出现在 SELECT 关键字后面的输出列表里的列，则不是很好的索引候选列。  认真考虑数据列基数。列的基数(cardinality)是指它所容纳的所有非重复值的个数，例如，某个">
+<meta property="og:locale" content="en">
+<meta property="og:updated_time" content="2018-11-27T07:27:17.437Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在mysql如何挑选索引列">
+<meta name="twitter:description" content="为用于搜索、排序或分组的列创建索引，而对于用作输出显示的列则不用创建索引。这意味着最佳索引候选列是那些出现在 WHERE 子句中的列、连接子句中的列或者出现在 ORDER BY 或 GROUP BY 子句中的列。而那些只是出现在 SELECT 关键字后面的输出列表里的列，则不是很好的索引候选列。  认真考虑数据列基数。列的基数(cardinality)是指它所容纳的所有非重复值的个数，例如，某个">
+
+
+
+  <link rel="alternate" href="/atom.xml" title="All men must die." type="application/atom+xml">
+
+
+
+
+  <link rel="canonical" href="https://lovemma.github.io/在mysql如何挑选索引列/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>在mysql如何挑选索引列 | All men must die.</title>
+  
+
+
+
+
+  <script async src="//www.googletagmanager.com/gtag/js?id=[object Object]"></script>
+  <script>
+    var host = window.location.hostname;
+    if (host !== "localhost" || !true) {
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-96620668-1');
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">All men must die.</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>Home</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>Archives</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>Tags</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>About</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+  
+  
+  
+  
+
+  
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL0xvdmVtbWE=" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewbox="0 0 250 250" style="fill: #222; color: #fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"/><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"/><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"/></svg></span>
+
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://lovemma.github.io/在mysql如何挑选索引列/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="茂林">
+      <meta itemprop="description" content="百种弊病, 皆从懒生.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="All men must die.">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">在mysql如何挑选索引列
+
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-11-27 14:54:52 / Modified: 15:27:17" itemprop="dateCreated datePublished" datetime="2018-11-27T14:54:52+08:00">2018-11-27</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据库/" itemprop="url" rel="index"><span itemprop="name">数据库</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+              
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
+                <a href="/在mysql如何挑选索引列/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="在mysql如何挑选索引列/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ol>
+<li><p><strong>为用于搜索、排序或分组的列创建索引，而对于用作输出显示的列则不用创建索引。</strong>这意味着最佳索引候选列是那些出现在 WHERE 子句中的列、连接子句中的列或者出现在 ORDER BY 或 GROUP BY 子句中的列。而那些只是出现在 SELECT 关键字后面的输出列表里的列，则不是很好的索引候选列。</p>
+</li>
+<li><p><strong>认真考虑数据列基数。</strong>列的基数(cardinality)是指它所容纳的所有非重复值的个数，例如，某个列包含值 1、3、7、4、7、3，那么它的基数为 4。相对于表里面行的总数来说，列的基数越高(也就就是说，它包含的唯一值多，重复值少)，索引的使用效果越好。对于包含许多不同年龄值的列，索引可以很容易地将各个行区分开来。但是对于记录性别的列，其中只会包含两个值：’M’和’F’，索引操作毫无用处。如果这两个值出现的频率大致一样，那么不管搜索哪个值，你得到的都是近乎一半的行。在这种情况下，索引可能根本无法使用，因为当查询优化程序确定出某个值在表的行里出现频率很大时，它会跳过索引，直接执行全表扫描操作。</p>
+</li>
+</ol>
+<a id="more"></a>
+<ol start="3">
+<li><p><strong>索引短小值。</strong>应该尽量选用较小的数据类型，较短小的值可以在一下几个方面提高索引的处理效率:</p>
+<ul>
+<li>短小值可以让比较操作更快，从而加快索引查找速度。</li>
+<li>短小值可以让索引短小，从而减少对磁盘 I/O 请求。</li>
+<li><p>对于短小的键值，键缓存里的索引块可以容纳更多的键值。如果 MySQL 能在内存里容纳更多的键，那么就可以在不从磁盘读取更多索引块的前提下，提高找到键值的几率。</p>
+<blockquote>
+<p>对 InnoDB 存储引擎，因为它使用的是聚簇索引（clustered index），所以让主键尽量短小会带来更多好处。聚簇索引会把数据行和主键值存储在一起(即聚集在一起)。其他的索引都是二级索引，即它们把主键值和二级索引值存储在一起。在二级索引里进行查找，会先得到主键值，然后再通过它在主键索引中定位到相应的行。ps: 该行为被称为回表操作。这意味着，主键值在每一个二级索引里都会重复出现，因此如果主键值较长，则会导致每一个二级索引需要占用更多的存储空间。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p><strong>索引字符串的前缀。</strong>想要对字符串列进行索引，应当尽可能指定前缀长度。例如，有一个 CHAR(20) 列，如果大多数值的前 10 或 20 个字符都是唯一的，那么就可以不用为整个进行索引，而只为前面的 10 或 20 个字符进行索引，这样可以节省大量的索引空间，而且还能使索引变得更快。不过，只索引列的第一个字符恐怕不行，因为这样做会导致索引无法获得大量的唯一值。</p>
+</li>
+<li><p><strong>利用最左前缀。</strong>当创建包含 n 个列的符合索引时，实际上会创建 n 个专供 MySQL 使用的索引。复合索引相当于多个索引，因为索引中最左边的任意数据列集合都可用于匹配各个行，这样的集合即为“最左前缀”。(这与对列的前缀进行索引有所不同，它会使用列值的前 n 个字符或字节来创建索引。)</p>
+</li>
+<li><p><strong>不要建立过多的索引。</strong>不要以为索引“越多越好”，然后就为你所能看到的所有数据列都建立索引，这是因为每增加一个索引都需要占据额外的磁盘空间，而且都会影响写入操作的性能。在对表做了修改之后，索引就会更新，并且可能还会重组，索引越多，整个过程所占用的时间就越长。很少使用或从不使用索引，会大大降低表的修改速度。此外，在为检索生成执行计划时，MySQL 会对索引进行仔细推敲，创建多余的索引，会为查询优化程序增加更多的工作，当表有太多的索引时，MySQL 还有可能(只是存在可能)无法使用最好的索引。</p>
+</li>
+<li><p><strong>让参与比较的索引类型保持匹配。</strong>在创建索引时，大部分存储存储引擎都会选择它们要使用的索引实现。例如，InnoDB 总会使用 B 树索引; MyISAM 也会使用 B 树索引，但对于空间类型则会改用 R 树索引; MEMORY 存储引擎默认会使用散列索引，但它也支持 B 树索引，并允许在这两者之间进行选择。</p>
+<blockquote>
+<p>在选择索引类型时，请考虑计划在索引列上执行的是什么类型的比较操作:</p>
+<ul>
+<li>对于散列索引，会有一个散列函数应用于每一个列值。最终的散列值都会被存入索引，用于执行查找。(散列函数的算法，会尽量为不同的输入值生成不同的散列值，使用散列值的好处是它们之间的比较比其原始值更有效率。) 在使用运算符<code>=</code>或<code>&lt;=&gt;</code>完成精度匹配的比较操作里，散列索引的速度非常快。但在那些用于查找一个范围内的值的比较操作里，它们却表现欠佳，如下列表达式:<pre><code class="sql">id &lt; 30
+或者
+weight BETWEEN 100 AND 150
+</code></pre>
+</li>
+<li>在使用<code>&lt;</code>、<code>&lt;=</code>、<code>=</code>、<code>&gt;=</code>、<code>&gt;</code>、<code>&lt;&gt;</code>、<code>!=</code>和<code>BETWEEN</code>运算符，进行精确比较或范围比较时，使用 B 树索引会带来高效。如果匹配模式是以一个纯字符串，而不是一个通配符作为开头的，那么 B 树索引还可用在使用运算符<code>LIKE</code>进行模式匹配的操作里。</li>
+</ul>
+</blockquote>
+</li>
+<li><p><strong>使用慢查询日志找出那些性能低劣的查询。</strong>这个日志可以帮助我们找出从索引当中获益的查询，慢查询日志是一个文本文件，它可以用任何文件显示程序打开查看，也可以用 mysqldumpslow 工具来汇总其内容。如果某个给定的查询在这个日志里频繁出现，那么这个查询可能就不是最优的，需要改写，以让它运行得更快。在查看慢查询日志时，请记住“慢”是实时测量出来的，因此，与处于低负载时相比，服务器处于高负载时，会往慢查询日志里写入更多的查询。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MySQL/" rel="tag"># MySQL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/MySQL中不同存储引擎的索引的实现方式/" rel="next" title="MySQL中不同存储引擎的索引的实现方式">
+                <i class="fa fa-chevron-left"></i> MySQL中不同存储引擎的索引的实现方式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/MySQL死锁检测中热点行更新导致的性能问题/" rel="prev" title="MySQL死锁检测中热点行更新导致的性能问题">
+                MySQL死锁检测中热点行更新导致的性能问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="茂林">
+            
+              <p class="site-author-name" itemprop="name">茂林</p>
+              <p class="site-description motion-element" itemprop="description">百种弊病, 皆从懒生.</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">47</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0xvdmVtbWE=" title="GitHub &rarr; https://github.com/Lovemma"><i class="fa fa-fw fa-github"></i>GitHub</span>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <span class="exturl" data-url="bWFpbHRvOmRlcGVuZGVuY2UubGV0Z29AZ21haWwuY29t" title="E-Mail &rarr; mailto:dependence.letgo@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</span>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <span class="exturl" data-url="aHR0cDovL25ld3RyZWt3YW5nLm1lLw==" title="http://newtrekwang.me/">newtrekWang</span>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </div>
+
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2018 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">茂林</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme – <span class="exturl theme-link" data-url="aHR0cHM6Ly90aGVtZS1uZXh0Lm9yZw==">NexT.Muse</span></div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+  
+
+
+  <script src="/js/src/utils.js?v=7.0.1"></script>
+
+  <script src="/js/src/motion.js?v=7.0.1"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/src/schemes/muse.js?v=7.0.1"></script>
+
+
+
+  
+  <script src="/js/src/scrollspy.js?v=7.0.1"></script>
+<script src="/js/src/post-details.js?v=7.0.1"></script>
+
+
+
+  
+
+
+  <script src="/js/src/bootstrap.js?v=7.0.1"></script>
+
+
+  
+  
+  
+  <script id="dsq-count-scr" src="https://lovemma.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://lovemma.github.io/在mysql如何挑选索引列/";
+    this.page.identifier = "在mysql如何挑选索引列/";
+    this.page.title = '在mysql如何挑选索引列';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://lovemma.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    $(function() {
+      var offsetTop = $('#comments').offset().top - $(window).height();
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        loadComments();
+      } else {
+        $(window).on('scroll.disqus_scroll', function() {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
+          var offsetTop = $('#comments').offset().top - $(window).height();
+          var scrollTop = $(window).scrollTop();
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            $(window).off('.disqus_scroll');
+            loadComments();
+          }
+        });
+      }
+    });
+  
+</script>
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  <script src="/js/src/exturl.js?v=7.0.1"></script>
+
+
+  
+
+  
+
+</body>
+</html>
