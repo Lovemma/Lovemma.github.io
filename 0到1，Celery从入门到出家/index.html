@@ -106,14 +106,14 @@
 <meta property="og:site_name" content="All men must die.">
 <meta property="og:description" content="本文转载自公众号「Python之禅」，原文链接：https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA  在一个应用服务中，对于时效性要求没那么高的业务场景，我们没必要等到所有任务执行完才返回结果，例如用户注册场景中，保存了用户账号密码之后，就可以立即返回，后续的账号激活邮件，可以用一种异步的形式去处理，这种异步操作可以用队列服务来实现。否则，如果等到">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://lovemma.github.io/2018/09/28/0到1，Celery从入门到出家/celery-info.webp">
-<meta property="og:image" content="https://lovemma.github.io/2018/09/28/0到1，Celery从入门到出家/worker-info.webp">
-<meta property="og:image" content="https://lovemma.github.io/2018/09/28/0到1，Celery从入门到出家/log-info.webp">
+<meta property="og:image" content="https://lovemma.github.io/0到1，Celery从入门到出家/celery-info.webp">
+<meta property="og:image" content="https://lovemma.github.io/0到1，Celery从入门到出家/worker-info.webp">
+<meta property="og:image" content="https://lovemma.github.io/0到1，Celery从入门到出家/log-info.webp">
 <meta property="og:updated_time" content="2018-09-28T02:41:03.333Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="0到1，Celery从入门到出家">
 <meta name="twitter:description" content="本文转载自公众号「Python之禅」，原文链接：https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA  在一个应用服务中，对于时效性要求没那么高的业务场景，我们没必要等到所有任务执行完才返回结果，例如用户注册场景中，保存了用户账号密码之后，就可以立即返回，后续的账号激活邮件，可以用一种异步的形式去处理，这种异步操作可以用队列服务来实现。否则，如果等到">
-<meta name="twitter:image" content="https://lovemma.github.io/2018/09/28/0到1，Celery从入门到出家/celery-info.webp">
+<meta name="twitter:image" content="https://lovemma.github.io/0到1，Celery从入门到出家/celery-info.webp">
 
 
 
@@ -475,7 +475,7 @@
 <h3 id="Worker"><a href="#Worker" class="headerlink" title="Worker"></a>Worker</h3><p>Worker 就是那个一直在后台执行任务的人，也成为任务的消费者，它会实时地监控队列中有没有任务，如果有就立即取出来执行。</p>
 <h3 id="Beat"><a href="#Beat" class="headerlink" title="Beat"></a>Beat</h3><p>Beat 是一个定时任务调度器，它会根据配置定时将任务发送给 Broker，等待 Worker 来消费。</p>
 <h3 id="Backend"><a href="#Backend" class="headerlink" title="Backend"></a>Backend</h3><p>Backend 用于保存任务的执行结果，每个任务都有返回值，比如发送邮件的服务会告诉我们有没有发送成功，这个结果就是存在Backend中，当然我们并不总是要关心任务的执行结果。</p>
-<img src="/2018/09/28/0到1，Celery从入门到出家/celery-info.webp">
+<img src="/0到1，Celery从入门到出家/celery-info.webp">
 <p> 记住这5个角色后面理解Celery就轻松了。</p>
 <h2 id="快速入门"><a href="#快速入门" class="headerlink" title="快速入门"></a>快速入门</h2><p>接触任何新东西，没有什么比实际动手学得更快了。假设我们选择Redis作为broker，你需要安装redis并且已经启动了redis服务（这个步骤请自行借用搜索引擎解决）</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install -U "celery[redis]"</span><br></pre></td></tr></table></figure>
@@ -496,7 +496,7 @@
 <p>第二步是非常快的，它只需要把任务放进队列里面去，并不会等任务真正执行完。这跟生活是完全贴切的，例如我们很多事情都不是自己亲历其为去做，而是将一个不太重要或即时性没那么高的事情转交给别人处理。</p>
 <h3 id="3-启动Worker"><a href="#3-启动Worker" class="headerlink" title="3.启动Worker"></a>3.启动Worker</h3><p>启动Worker，监听 Broker 中是否有任务，命令：<code>celery worker</code>，你可能需要指定参数<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">celery -A tasks worker --loglevel=info</span><br></pre></td></tr></table></figure></p>
 <p>-A： 指定 celery 实例所在哪个模块中，例子中，celery实例在tasks.py文件中，启动成功后，能看到信息</p>
- <img src="/2018/09/28/0到1，Celery从入门到出家/worker-info.webp">
+ <img src="/0到1，Celery从入门到出家/worker-info.webp">
 <p>函数用app.task 装饰器修饰之后，就会成为Celery中的一个Task。</p>
 <h3 id="4-调用任务"><a href="#4-调用任务" class="headerlink" title="4.调用任务"></a>4.调用任务</h3><p>在主程序中调用任务，调任务发送给 Broker，而不是真正执行该任务</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># user.py</span></span><br><span class="line"><span class="keyword">from</span> tasks <span class="keyword">import</span> send_mail</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">register</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">import</span> time</span><br><span class="line">    start = time.time()</span><br><span class="line">    print(<span class="string">"1. 插入记录到数据库"</span>)</span><br><span class="line">    print(<span class="string">"2. celery 帮我发邮件"</span>)</span><br><span class="line">    send_mail.delay(<span class="string">"xx@gmail.com"</span>)</span><br><span class="line">    print(<span class="string">"3. 告诉用户注册成功"</span>)</span><br><span class="line">    print(<span class="string">"耗时：%s 秒 "</span> % (time.time() - start))</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    register()</span><br></pre></td></tr></table></figure>
@@ -506,7 +506,7 @@
 <p>── celery_test<br>   ├── tasks.py<br>   └── user.py</p>
 </blockquote>
 <p>运行 python user.py， 启动应用程序<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. 插入记录到数据库</span><br><span class="line">2. celery 帮我发邮件</span><br><span class="line">3. 告诉用户注册成功</span><br><span class="line">耗时：0.22688984870910645 秒</span><br></pre></td></tr></table></figure></p>
-<p>程序花了不到0.23秒就执行完成，如果按照正常的同步逻辑去执行，至少需要5秒钟，因为发邮件的任务就花了5秒。<br>在worker服务窗口看日志信息<br><img src="/2018/09/28/0到1，Celery从入门到出家/log-info.webp"></p>
+<p>程序花了不到0.23秒就执行完成，如果按照正常的同步逻辑去执行，至少需要5秒钟，因为发邮件的任务就花了5秒。<br>在worker服务窗口看日志信息<br><img src="/0到1，Celery从入门到出家/log-info.webp"></p>
 <h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ol>
 <li><p>celery worker 启动时，如果是 root 用户，需要设置环境变量：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export C_FORCE_ROOT='true'</span><br></pre></td></tr></table></figure>
