@@ -92,6 +92,48 @@
 
 <div class="post animated fadeInDown">
   <div class="post_title">
+    <h2><a href='/posts/mysql%E6%AD%BB%E9%94%81%E6%A3%80%E6%B5%8B%E4%B8%AD%E7%83%AD%E7%82%B9%E8%A1%8C%E6%9B%B4%E6%96%B0%E5%AF%BC%E8%87%B4%E7%9A%84%E6%80%A7%E8%83%BD%E9%97%AE%E9%A2%98/'>MySQL死锁检测中热点行更新导致的性能问题</a></h2>
+  </div>
+  
+  <div class="list">
+    <div class="post_content markdown">
+      <p><p>有一个电影票在线交易业务，顾客 A 要在影院 B 购买电影票。这个业务涉及到以下操作：
+1. 从顾客 A 的账户余额中扣除电影票价；
+2. 给影院 B 的账户余额中增加这张电影的票价；
+3. 记录一条交易日志。</p>
+
+<p>也就是说，要完成这个交易，我们需要 update 两条记录，并 insert 一条记录。当然，为了保证交易的原子性，我们要把这三个操作一个事务中。那么，你会怎样安排这三个语句在事务中的顺序呢？</p>
+
+<p>试想如果同时有另一个顾客 C 要在影院 B 买票，那么这两个事务冲突的部分就是语句 2 了。因为它们要更新同一个影院账户的余额，需要修改同一行数据。</p>
+
+<p>根据两阶段锁协议，不论怎样安排语句顺序，所有的操作需要的行锁都是在事务提交的时候才释放的。所以，如果你把语句 2 安排在最后，比如按照 3、1、2 这样的顺序执行，那么影院账户余额这一行的锁时间就最少。这样就最大程度地减少了事务之间的锁等待，提高了并发度。</p>
+
+<p>如果这个影院做活动，可以低价预售一年之内所有的电影票，而且这个活动只做一天。于是在活动时间开始的时候，你的 MySQL 就挂了。登上服务器一看，CPU 消耗接近 100%，但整个数据库每秒就只执行不到 100 个事务。这是什么原因呢？</p>......</p>
+    </div>
+  </div>
+  
+  <div class="post_footer">
+    <div class="meta">
+      <div class="info">
+        <span class="field">
+          <i class="remixicon-map-pin-time-line"></i>
+          <span class="date">2018.11.28</span>
+        </span>
+        
+        <span class="field tags">
+          <i class="remixicon-stack-line"></i>
+          
+          <a href="https://lovemma.github.io/tags/mysql/">MySQL</a>
+          
+        </span>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="post animated fadeInDown">
+  <div class="post_title">
     <h2><a href='/posts/%E5%9C%A8mysql%E5%A6%82%E4%BD%95%E6%8C%91%E9%80%89%E7%B4%A2%E5%BC%95%E5%88%97/'>在mysql如何挑选索引列</a></h2>
   </div>
   
@@ -396,41 +438,6 @@
         <span class="field">
           <i class="remixicon-map-pin-time-line"></i>
           <span class="date">2018.10.24</span>
-        </span>
-        
-        <span class="field tags">
-          <i class="remixicon-stack-line"></i>
-          
-          <a href="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-          
-          <a href="https://lovemma.github.io/tags/python/">Python</a>
-          
-        </span>
-        
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="post animated fadeInDown">
-  <div class="post_title">
-    <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/'>设计模式之责任链模式</a></h2>
-  </div>
-  
-  <div class="list">
-    <div class="post_content markdown">
-      <p><p>责任链（Chain of Responsibility）模式用于让多个对象来处理单个请求，或者用于预先不知道应该由哪个对象（来自某个对象链）来处理某个特定请求。我们可以使用计算机网络的广播来类比责任链模式。</p>
-
-<p>在责任链模式中，发送方可直接访问链中的首个节点。若首个节点不能处理请求，则转发给下一个节点，如此直到请求被某个节点处理或者整个链遍历结束。这种设计模式用于实现发送方与接收方（多个）之间的解耦。</p>......</p>
-    </div>
-  </div>
-  
-  <div class="post_footer">
-    <div class="meta">
-      <div class="info">
-        <span class="field">
-          <i class="remixicon-map-pin-time-line"></i>
-          <span class="date">2018.10.23</span>
         </span>
         
         <span class="field tags">
