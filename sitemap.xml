@@ -4,7 +4,27 @@
   
   <url>
     <loc>https://lovemma.github.io/</loc>
-    <lastmod>2019-10-11T11:57:59+08:00</lastmod>
+    <lastmod>2019-10-19T22:02:10+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lovemma.github.io/posts/</loc>
+    <lastmod>2019-10-19T22:02:10+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lovemma.github.io/tags/shadowsocks/</loc>
+    <lastmod>2019-10-19T22:02:10+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lovemma.github.io/posts/using-shadowsocks-libev-with-v2ray-plugin/</loc>
+    <lastmod>2019-10-19T22:02:10+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://lovemma.github.io/tags/</loc>
+    <lastmod>2019-10-19T22:02:10+08:00</lastmod>
   </url>
   
   <url>
@@ -14,16 +34,6 @@
   
   <url>
     <loc>https://lovemma.github.io/posts/improve-mongodb-query-and-write-performance/</loc>
-    <lastmod>2019-10-11T11:57:59+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://lovemma.github.io/posts/</loc>
-    <lastmod>2019-10-11T11:57:59+08:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://lovemma.github.io/tags/</loc>
     <lastmod>2019-10-11T11:57:59+08:00</lastmod>
   </url>
   
@@ -183,12 +193,12 @@
   </url>
   
   <url>
-    <loc>https://lovemma.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>https://lovemma.github.io/categories/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2018-10-28T15:06:34+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://lovemma.github.io/categories/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
+    <loc>https://lovemma.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2018-10-28T15:06:34+00:00</lastmod>
   </url>
   

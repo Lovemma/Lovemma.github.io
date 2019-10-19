@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="茂林"/>
+
+  
+  <meta name="description" content="最近自己搭的梯子用着总是不太稳定，顺带 ShadowsocksX-NG 客户端可以使用 v2ray-plugin 插件了，于是就整了个插件来抗干扰下，这里记录下操作流程方便以后使用。
+"/>
+  
+
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/using-shadowsocks-libev-with-v2ray-plugin/"/>
+
+  
+
+  <title>Shadowsocks-libev搭配v2ray-plugin使用 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">All men must die.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/using-shadowsocks-libev-with-v2ray-plugin/'>Shadowsocks-libev搭配v2ray-plugin使用</a></h2>
+          <span class="date">2019.10.19</span>
+        </div>
+        <div class="post_content markdown"><p>最近自己搭的梯子用着总是不太稳定，顺带 ShadowsocksX-NG 客户端可以使用 v2ray-plugin 插件了，于是就整了个插件来抗干扰下，这里记录下操作流程方便以后使用。</p>
+
+<h3 id="域名">域名</h3>
+
+<p>弄一个域名映射到自己的服务器上。</p>
+
+<h3 id="申请免费证书">申请免费证书</h3>
+
+<p>和官方文档一样使用 <a href="https://github.com/Neilpang/acme.sh">acme</a> 脚本自动申请免费证书 (免费证书有效期一般是 3 个月，脚本会每隔 60 天自动更新一次证书有效期)</p>
+
+<blockquote>
+<p>在申请之前必须先到 cloudflare 页面，点击右上角的头像，然后点击 My Profile ，在个人信息页面有个 API Tokens -&gt; <strong>Global API KEY</strong>, 复制你的 API KEY, 同时复制你的 CloundFlare 的<strong>登陆邮箱</strong> ， key 和 email 用于申请证书</p>
+</blockquote>
+
+<ul>
+<li><p>申请证书（确保域名已解析到自己的服务器</p>
+
+<pre><code class="language-shell">export CF_Email=&quot;CloundFlare Email&quot;
+export CF_Key=&quot;API KEY&quot;
+curl https://get.acme.sh | sh
+~/.acme.sh/acme.sh --issue --dns dns_cf -d YourDomain
+</code></pre></li>
+</ul>
+
+<p>执行完上面命令，acme 脚本就会自动帮你申请好了证书，证书存放的目录在 <code>~/.acme.sh/YourDomain/</code>，里面包含了 ca.cer 、fullchain.cer | .key 等文件。</p>
+
+<h3 id="docker">docker</h3>
+
+<p>从方便这一方面来说，使用 <code>docker</code> 简直不要太方便了。</p>
+
+<p>GitHub 搜了下发现了这么一个仓库：<a href="https://github.com/Acris/docker-shadowsocks-libev">https://github.com/Acris/docker-shadowsocks-libev</a>，看了下 Dockerfile，作者使用了多阶段构建，这样不会导致镜像体积过大，其他也没什么问题。</p>
+
+<p>接着就能按照示例的 <code>docker-compose</code> 文件撸就是了：</p>
+
+<pre><code class="language-yaml">version: &quot;3.7&quot;
+services:
+  shadowsocks-libev:
+    container_name: shadowsocks-libev
+    image: acrisliu/shadowsocks-libev:latest
+    ports:
+      - &quot;8388:8388/tcp&quot;
+      - &quot;8388:8388/udp&quot;
+    volumes:
+      - /root/.acme.sh:/root/.acme.sh:ro
+    environment:
+      - PASSWORD=YourPassword
+      - ARGS=--plugin v2ray-plugin --plugin-opts server;tls;host=yourdomain.com;path=/v2ray;cert=/root/.acme.sh/yourdomain.com/fullchain.cer;key=/root/.acme.sh/yourdomain.com/yourdomain.com.key -u
+    restart: always
+</code></pre>
+
+<p>其中可以使用的环境变量及其默认值:</p>
+
+<ul>
+<li><code>SERVER_ADDRS</code>: 远程服务器的主机名或IP, 默认值： <code>0.0.0.0</code>.</li>
+<li><code>SERVER_PORT</code>: 远程服务器的端口号, 默认值： <code>8388</code>.</li>
+<li><code>PASSWORD</code>: 远程服务器的密码, 默认值： <code>ChangeMe!!!</code>.</li>
+<li><code>METHOD</code>: 加密方式, 默认值： <code>chacha20-ietf-poly1305</code>.</li>
+<li><code>TIMEOUT</code>: Socket 超时时间, 默认值： <code>86400</code>.</li>
+<li><code>DNS_ADDRS</code>: DNS解析服务器地址, 默认值： <code>1.1.1.1,1.0.0.1</code>.</li>
+<li><code>ARGS</code>: <code>Shadowsocks</code>服务器额外支持的参数，默认值：-u，使用 UDP 中继。</li>
+</ul>
+
+<p>最后将 <code>docker-compose</code> 文件中的参数改成自己就可以了。</p>
+
+<h3 id="客户端设置">客户端设置</h3>
+
+<p>我使用的是客户端是 <code>ShadowsocksX-NG</code>，其他客户端应该是差不多：</p>
+
+<ul>
+<li><strong>插件</strong>：填写 v2ray-plugin</li>
+<li><strong>插件选项</strong>：填写 mux=5;path=/v2ray;tls;host=yourdomain.com;certRaw=cer证书内容</li>
+</ul>
+
+<p><code>mux</code> 参数是客户端设置的并发连接数，默认为 1</p></div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/shadowsocks/">Shadowsocks</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>
