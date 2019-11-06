@@ -7,7 +7,7 @@
 
   
   <meta name="author"
-        content="茂林"/>
+        content="COldish"/>
 
   
   <meta name="description" content="在面试过程中，经常会被问浅拷贝与深拷贝的区别。所以，在这里记录一下自己的理解，以便以后好复习。 浅拷贝（shallow copy） 所谓“浅拷贝”，是指在复制一个对象时，构建一个新的对象，并将原对象中发现的引用插入到该对象中. 浅拷贝的实现方式常见的有：工厂函数、切片操作、copy模块中的copy函数等 实现如下： &amp;gt;&amp;gt;&amp;gt; a = [1, 2, [3, 4]] &amp;gt;&amp;gt;&amp;gt; b = a[:] &amp;gt;&amp;gt;&amp;gt; id(a) 4505384008 &amp;gt;&amp;gt;&amp;gt; id(b) 4504586056 &amp;gt;&amp;gt;&amp;gt; [id(x) for x in a] [4470102640, 4470102672, 4505384072] &amp;gt;&amp;gt;&amp;gt; [id(x) for x in b] [4470102640, 4470102672, 4505384072] &amp;gt;&amp;gt;&amp;gt; a[2] &#43;= [5] &amp;gt;&amp;gt;&amp;gt; a [1, 2, [3, 4, 5]] &amp;gt;&amp;gt;&amp;gt;"/>

@@ -7,7 +7,7 @@
 
   
   <meta name="author"
-        content="茂林"/>
+        content="COldish"/>
 
   
   <meta name="description" content="字典是内置类型中唯一的映射（Mapping）结构，基于哈希表存储键值对数据。 值可以是任意类型的数据，但主键必须是可哈希的类型。常见的可变类型，如列表、集合等都不能作为主键使用。即便是元组等不可变类型，也不能引用可变类型元素，即元组中不能含有可变类型的元素。 &amp;gt;&amp;gt;&amp;gt; import collections &amp;gt;&amp;gt;&amp;gt; issubclass(list, collections.Hashable) False &amp;gt;&amp;gt;&amp;gt; issubclass(int, collections.Hashable) True &amp;gt;&amp;gt;&amp;gt; hash((1, 2, 3)) 2528502973977326415 &amp;gt;&amp;gt;&amp;gt; hash((1, 2, [1, 2])) # 包含可变类型 Traceback (most recent call last): File &amp;quot;&amp;lt;stdin&amp;gt;&amp;quot;, line 1, in &amp;lt;module&amp;gt; TypeError: unhashable type: &#39;list&#39; 哈希计算通过调用 __hash__ 方法返回整数值，用来快速比较内容是否相同"/>
