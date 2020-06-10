@@ -83,7 +83,7 @@
         
         
         
-        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        <a href="true" title="relativeurls" target="_blank"><i class="remixicon-relativeurls-fill"></i></a>
         
         
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
@@ -100,7 +100,7 @@
           <span class="date">2020.06.09</span>
         </div>
         <div class="post_content markdown"><p>iptables 工作在 OSI 七层模型的二、三、四层，操作的是 Linux 内核中的 netfilter。</p>
-<p>netfilter的工作流程大致就是 “当一个数据包到达 Linux 的网络接口（网卡）的时候，对这个数据包进行处理“，而 iptables 可以改变或者控制这个数据包的处理过程。</p>
+<p>netfilter的工作流程大致就是 “当一个数据包到达 Linux 的网络接口（网卡）的时候，对这个数据包进行处理”，而 iptables 可以改变或者控制这个数据包的处理过程。</p>
 <p>netfilter 内部分为三个表：filter、nat、mangle，每个表都有不同的操作链(Chains):</p>
 <ul>
 <li>在 nat（网络地址翻译表，Network Address Translation）中，也就是用以实现地址转换和端口转发功能的这个表，定义了 PREROUTING、POSTROUTING、OUTPUT 这三个链，后续会对这三个链进行详细的说明；</li>
@@ -108,7 +108,7 @@
 <li>而 netfilter 的 mangle 表则是一个自定义表，里面包括了上面的所说的 filter 以及 nat 表中的各个 chains，它可以让我们进行一些自定义操作，同时，这个 mangle 表中的 chains 在 netfilter 对数据包的处理流程中，有着更高的优先级。</li>
 </ul>
 <h2 id="iptables-工作流程">iptables 工作流程</h2>
-<p><img src="../../static/iptables_netfilter_chains.png" alt="iptables-chains"></p>
+<p><img src="/iptables_netfilter_chains.png" alt="iptables-chains"></p>
 <h3 id="preroutingdnat">PREROUTING（DNAT）</h3>
 <p>PREROUTING 这个 Chain 在整个处理流程的最前面，当一个数据包到达 Linux 的网络接口（网卡）的时候，先经过 mangle 表的 PREROUTING，然后是 nat 表的PREROUTING ，从这个 chain 的名字可以看出，这个 chain 是在路由之前要过的，即预路由（pre-routing）。</p>
 <p>那么为什么要在路由之前过呢？</p>

@@ -17,7 +17,7 @@
       <pubDate>Tue, 09 Jun 2020 22:46:37 +0800</pubDate>
       
       <guid>https://lovemma.github.io/posts/iptables-forward/</guid>
-      <description>iptables 工作在 OSI 七层模型的二、三、四层，操作的是 Linux 内核中的 netfilter。 netfilter的工作流程大致就是 “当一个数据包到达 Linux 的网络接口（网卡）的时候，对这个数据包进行处理“，而 iptables 可以改变或者控制这个数据包的处理过程。 netfilter 内部分为三个表：filter、nat、mangle，每个表都有不同的操作链(Chains): 在 nat（网络地址翻译表，Network Address Translation）中，也就是用以实现地</description>
+      <description>iptables 工作在 OSI 七层模型的二、三、四层，操作的是 Linux 内核中的 netfilter。 netfilter的工作流程大致就是 “当一个数据包到达 Linux 的网络接口（网卡）的时候，对这个数据包进行处理”，而 iptables 可以改变或者控制这个数据包的处理过程。 netfilter 内部分为三个表：filter、nat、mangle，每个表都有不同的操作链(Chains): 在 nat（网络地址翻译表，Network Address Translation）中，也就是用以实现地</description>
     </item>
     
   </channel>
