@@ -79,6 +79,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,14 +96,9 @@
           <h2><a href='/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%AD%97%E5%85%B8/'>「Python3学习笔记」读书笔记—字典</a></h2>
           <span class="date">2018.06.25</span>
         </div>
-        <div class="post_content markdown">
-
-<p>字典是内置类型中唯一的映射（Mapping）结构，基于哈希表存储键值对数据。</p>
-
+        <div class="post_content markdown"><p>字典是内置类型中唯一的映射（Mapping）结构，基于哈希表存储键值对数据。</p>
 <p>值可以是任意类型的数据，但主键必须是可哈希的类型。常见的可变类型，如列表、集合等都不能作为主键使用。即便是元组等不可变类型，也不能引用可变类型元素，即元组中不能含有可变类型的元素。</p>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <pre><code>&gt;&gt;&gt; import collections
 &gt;&gt;&gt; issubclass(list, collections.Hashable)
 False
@@ -112,59 +111,37 @@ True
 Traceback (most recent call last):
   File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
 TypeError: unhashable type: 'list'
-</code></pre>
-
-<p>哈希计算通过调用 __hash__ 方法返回整数值，用来快速比较内容是否相同。某些类型虽然有该方法，但实际无法执行，故不能作为主键使用。另外，主键对象的哈希值必须恒定不变，否则无法查找键值，甚至会引发错误。</p>
-
+</code></pre><p>哈希计算通过调用 __hash__ 方法返回整数值，用来快速比较内容是否相同。某些类型虽然有该方法，但实际无法执行，故不能作为主键使用。另外，主键对象的哈希值必须恒定不变，否则无法查找键值，甚至会引发错误。</p>
 <pre><code>&gt;&gt;&gt; callable(list().__hash__)
 False
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>自定义类型默认实现了 __hash__ 和 __eq__ 方法，用与哈希和相等比较操作。前者为每个实例返回随机值；后者除非与自己比较，否则总是返回 <strong>False</strong>。这两个方法可根据需要进行重载。</p>
 </blockquote>
-
 <p>作为常用的数据结构，又因为命名空间的缘故，字典的使用频率非常高。Python 开发团队也一直致力于改进其数据结构和算法，这其中自然也包括惯用的缓存复用。</p>
-
 <blockquote>
 <p>Python 3.6 借鉴 PyPy 字典设计，采用更紧凑的存储结构。keys.entries 和 values 用数组按添加顺序存储主键和值引用。实际哈希表由 keys.indices 数组承担，通过计算主键哈希值找到合适的位置，然后在该位置存储主键在 key.entries 的实际索引。如此一来，只要通过 indices 获取实际索引后，就可读取主键和值信息了。</p>
-
 <p>虽然该版本按添加顺序存储元素，但内部实现不能作为依赖条件。在后续版本中，可能有其他变化。如有明确顺序需求，建议使用 collections.OrderDict。</p>
-
 <p>系统分别缓存复用 80 个 dict 和 keys，其中包括长度为 8 的 entries 内存。对于大量小字典对象而言，直接使用，无须任何内存分配操作。回收时，凡内存被扩张过的都会被放弃。</p>
-
 <p>从开发地址法（open-address）实现方式来看，它并不适合处理大数据。轻量级方案可选用 shelve、dbm 等标准库模块，也可直接采用 SQLite、LevelDB 等专业数据库。</p>
 </blockquote>
-
 <h2 id="构建">构建</h2>
-
 <p>创建字典对象可以使用大括号键值对方式创建，或调用类型构造。</p>
-
 <pre><code>&gt;&gt;&gt; {&quot;a&quot;: 1, &quot;b&quot;: 2}
 {'a': 1, 'b': 2}
 &gt;&gt;&gt; dict(a=1, b=2)
 {'a': 1, 'b': 2}
-</code></pre>
-
-<p>初始化键值参数也可以用元组、列表等可迭代对象的方式提供。</p>
-
+</code></pre><p>初始化键值参数也可以用元组、列表等可迭代对象的方式提供。</p>
 <pre><code>&gt;&gt;&gt; kvs = ((&quot;a&quot;, 1), [&quot;b&quot;, 2])
 &gt;&gt;&gt; dict(kvs)
 {'a': 1, 'b': 2}
-</code></pre>
-
-<p>基于动态数据创建时，多以 zip、map 函数或推导式完成。</p>
-
+</code></pre><p>基于动态数据创建时，多以 zip、map 函数或推导式完成。</p>
 <pre><code>&gt;&gt;&gt; dict(zip(&quot;abc&quot;, range(3)))
 {'a': 0, 'b': 1, 'c': 2}
 &gt;&gt;&gt; dict(map(lambda k, v: (k, v + 10), &quot;abc&quot;, range(3)))
 {'a': 10, 'b': 11, 'c': 12}
 &gt;&gt;&gt; {k: v + 10 for k, v in zip(&quot;abc&quot;, range(3))}
 {'a': 10, 'b': 11, 'c': 12}
-</code></pre>
-
-<p>除了直接提供内容外，某些时候，还须根据一定条件初始化字典对象。比如，基于已有字典内容扩展，或初始化零值等。</p>
-
+</code></pre><p>除了直接提供内容外，某些时候，还须根据一定条件初始化字典对象。比如，基于已有字典内容扩展，或初始化零值等。</p>
 <pre><code>&gt;&gt;&gt; a = {&quot;a&quot;: 1}
 &gt;&gt;&gt; b = dict(a, b=1)		# 在复制 a 内容的基础上，新增键值对
 &gt;&gt;&gt; b
@@ -175,18 +152,15 @@ False
 &gt;&gt;&gt; d = dict.fromkeys((&quot;counter1&quot;, &quot;counter2&quot;), 0)	# 显示提供主键
 &gt;&gt;&gt; d
 {'counter1': 0, 'counter2': 0}
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>相比于 fromkeys 方法，推导式可完成更复杂的操作，比如额外的 if 过滤条件。</p>
 </blockquote>
-
 <h2 id="操作">操作</h2>
-
 <p>字典不是序列类型，不支持序号访问，可以使用主键（键值）读取、新增或删除内容。
-若主键（键值）不存在，会引发 <strong>KeyError</strong> 异常，可以先用 in、not in 语句判断是否存在该主键（键值），或用 get 方法返回默认值。
-&gt; get 方法默认值参数仅返回，不影响字典内容。但某些时候，我们还须向字典插入默认值，比如用字典存储多个计数器，那么在第一次取值时延迟初始化很有必要。在字典内有零值内容代表该计数曾被使用，没有则无法记录该行为。</p>
-
+若主键（键值）不存在，会引发 <strong>KeyError</strong> 异常，可以先用 in、not in 语句判断是否存在该主键（键值），或用 get 方法返回默认值。</p>
+<blockquote>
+<p>get 方法默认值参数仅返回，不影响字典内容。但某些时候，我们还须向字典插入默认值，比如用字典存储多个计数器，那么在第一次取值时延迟初始化很有必要。在字典内有零值内容代表该计数曾被使用，没有则无法记录该行为。</p>
+</blockquote>
 <pre><code>&gt;&gt;&gt; x = {}
 &gt;&gt;&gt; x.setdefault(&quot;a&quot;, 0)		# 如果有 a，那么返回实际内容，否则新增{a:0}键值对
 0
@@ -195,40 +169,27 @@ False
 &gt;&gt;&gt; x[&quot;a&quot;] = 100
 &gt;&gt;&gt; x.setdefault(&quot;a&quot;, 0)
 100
-</code></pre>
-
-<p>字典不支持加法、乘法、大小等运算，但可比较内容是否相同。</p>
-
+</code></pre><p>字典不支持加法、乘法、大小等运算，但可比较内容是否相同。</p>
 <pre><code>&gt;&gt;&gt; {&quot;a&quot;: 1, &quot;b&quot;: 2} == {&quot;a&quot;: 1, &quot;b&quot;: 2}
 True
-</code></pre>
-
-<h2 id="视图">视图</h2>
-
+</code></pre><h2 id="视图">视图</h2>
 <p>与早期版本复制数据并返回列表不同，Python 3 默认以视图关联字典内容。如此一来，既能避免复制开销，还能同步观察字典变化。</p>
-
 <pre><code>&gt;&gt;&gt; x = dict(a = 1, b = 2)
 &gt;&gt;&gt; ks = x.keys()		# 主键视图
 &gt;&gt;&gt; for k in ks: print(k, x[k])		# 利用视图迭代字典
 a 1
 b 2
-</code></pre>
-
-<p><u>::这一段代码不是很明白，迭代获取值还是从原来的字典中获取的，为什么会叫视图呢？::</u></p>
-
-<p>字典没有独立的只读版本，无论传递引用还是复制品，都存在弊端：
-* 直接引用有被接收方修改内容的风险
-* 复制品仅是一次快照，无法获知字典的变化</p>
-
+</code></pre><p><!-- raw HTML omitted -->::这一段代码不是很明白，迭代获取值还是从原来的字典中获取的，为什么会叫视图呢？::<!-- raw HTML omitted --></p>
+<p>字典没有独立的只读版本，无论传递引用还是复制品，都存在弊端：</p>
+<ul>
+<li>直接引用有被接收方修改内容的风险</li>
+<li>复制品仅是一次快照，无法获知字典的变化</li>
+</ul>
 <p>视图则不同，它能同步读取字典内容，却无法修改。且可选择不同粒度的内容进行传递，如此可将接收方限定为指定模式下的观察员。</p>
-
-<pre><code class="language-python">def test(d):		# 传递键值视图（items），只能读取，无法修改
-    for k, v in d:
-        print(k, v)
-</code></pre>
-
-<p>视图还支持集合操作，以弥补字典功能上的不足。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">test</span>(d):		<span style="color:#75715e"># 传递键值视图（items），只能读取，无法修改</span>
+    <span style="color:#66d9ef">for</span> k, v <span style="color:#f92672">in</span> d:
+        <span style="color:#66d9ef">print</span>(k, v)
+</code></pre></div><p>视图还支持集合操作，以弥补字典功能上的不足。</p>
 <pre><code>&gt;&gt;&gt; a = dict(a = 1, b = 2)
 &gt;&gt;&gt; b = dict(c = 3, b = 2)
 &gt;&gt;&gt; ka = a.keys()
@@ -242,10 +203,7 @@ b 2
 {'a'}
 &gt;&gt;&gt; ka ^ kb		# 对称差集：仅在 a 或仅在 b 中出现，相当于“并集-交集”
 {'a', 'c'}
-</code></pre>
-
-<p>利用视图的集合运算，可简化某些操作。例如，只更新，不新增。</p>
-
+</code></pre><p>利用视图的集合运算，可简化某些操作。例如，只更新，不新增。</p>
 <pre><code>&gt;&gt;&gt; a = dict(a = 1, b = 2)
 &gt;&gt;&gt; b = dict(b = 20, c = 3)
 
@@ -254,15 +212,12 @@ b 2
 &gt;&gt;&gt; a.update({k: b[k] for k in ks})	# 利用交集结果提取待更新的内容
 &gt;&gt;&gt; a
 {'a': 1, 'b': 20}
-</code></pre>
-
-<h2 id="拓展">拓展</h2>
-
+</code></pre><h2 id="拓展">拓展</h2>
 <p>在标准库中，还有几个扩展类型的字典可供使用。</p>
-
-<p>默认字典（defaultdict）类似于 setdefault 方法的包装。当主键不存在时，调用构造参数提供的工厂函数返回默认值。
-&gt; 将字典直接作为对外接口时，无法保证用户是否会调用 setdefault 或 get 方法。这样，默认字典的内置初始化行为就好于对用户做额外要求。</p>
-
+<p>默认字典（defaultdict）类似于 setdefault 方法的包装。当主键不存在时，调用构造参数提供的工厂函数返回默认值。</p>
+<blockquote>
+<p>将字典直接作为对外接口时，无法保证用户是否会调用 setdefault 或 get 方法。这样，默认字典的内置初始化行为就好于对用户做额外要求。</p>
+</blockquote>
 <pre><code>&gt;&gt;&gt; import collections
 &gt;&gt;&gt; d = collections.defaultdict(lambda : 100)
 &gt;&gt;&gt; d[&quot;a&quot;]
@@ -270,11 +225,10 @@ b 2
 &gt;&gt;&gt; d[&quot;b&quot;] += 1
 &gt;&gt;&gt; d
 defaultdict(&lt;function &lt;lambda&gt; at 0x10bfb4f28&gt;, {'a': 100, 'b': 101})
-</code></pre>
-
-<p>与内部实现无关，有序字典（OrderedDict）明确记录主键首次插入的次序。
-&gt; 任何时候都要避免依赖内部实现，或者说遵循“显式优于隐式”的规则。</p>
-
+</code></pre><p>与内部实现无关，有序字典（OrderedDict）明确记录主键首次插入的次序。</p>
+<blockquote>
+<p>任何时候都要避免依赖内部实现，或者说遵循“显式优于隐式”的规则。</p>
+</blockquote>
 <pre><code>&gt;&gt;&gt; d = collections.OrderedDict()
 &gt;&gt;&gt; d[&quot;z&quot;] = 1
 &gt;&gt;&gt; d[&quot;a&quot;] = 2
@@ -283,21 +237,17 @@ defaultdict(&lt;function &lt;lambda&gt; at 0x10bfb4f28&gt;, {'a': 100, 'b': 101}
 z 1
 a 2
 x 3
-</code></pre>
-
-<p>与前面所说不同，计数器（Counter）对于不存在的主键返回零，但不会新增，即将主键添加到字典中。
-&gt; 可通过继承并重载 __miss__ 方法新增键值</p>
-
+</code></pre><p>与前面所说不同，计数器（Counter）对于不存在的主键返回零，但不会新增，即将主键添加到字典中。</p>
+<blockquote>
+<p>可通过继承并重载 __miss__ 方法新增键值</p>
+</blockquote>
 <pre><code>&gt;&gt;&gt; d = collections.Counter()
 &gt;&gt;&gt; d[&quot;a&quot;]
 0
 &gt;&gt;&gt; d[&quot;b&quot;] += 1
 &gt;&gt;&gt; d
 Counter({'b': 1})
-</code></pre>
-
-<p>链式字典（ChainMap）以单一接口访问多个字典内容，其自身并不存储数据。读操作按参数顺序依次查找各字典，但修改操作（新增、更新、删除）仅针对第一字典。</p>
-
+</code></pre><p>链式字典（ChainMap）以单一接口访问多个字典内容，其自身并不存储数据。读操作按参数顺序依次查找各字典，但修改操作（新增、更新、删除）仅针对第一字典。</p>
 <pre><code>&gt;&gt;&gt; a = dict(a = 1, b =2)
 &gt;&gt;&gt; a = dict(a = 1, b = 2)
 &gt;&gt;&gt; b = dict(b = 20, c = 30)
@@ -314,11 +264,8 @@ c 30
 &gt;&gt;&gt; x[&quot;z&quot;] = 888		# 新增，命中第一字典
 &gt;&gt;&gt; x
 ChainMap({'a': 1, 'b': 999, 'z': 888}, {'b': 20, 'c': 30})
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>可利用链式字典设计多层次的上下文（context）结构。</p>
-
 <p>合理的上下文类型，须具备两个基本特征。首先是继承，所有设置可被调用链的后续函数读取；其次是修改仅针对当前和后续逻辑，不应向无关的父级传递。如此，链式字典查找次序本身就是继承的体现，而修改操作被限制在当前第一字典中中，自然也不会影响父级字典的同名主键设置。</p>
 </blockquote>
 </div>

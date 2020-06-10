@@ -79,6 +79,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,16 +96,10 @@
           <h2><a href='/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%AD%97%E8%8A%82%E6%95%B0%E7%BB%84/'>「Python3学习笔记」读书笔记—字节数组</a></h2>
           <span class="date">2018.06.21</span>
         </div>
-        <div class="post_content markdown">
-
-<p>生物都是由细胞构成的，但在我们普通人眼中，并不会将鸡、鸭、狗、鸟这些动物当作细胞看待，因为对待事物的角度决定了我们更关心生物的外在形状和行为，而不是它的组织构成。</p>
-
-<!-- more -->
-
+        <div class="post_content markdown"><p>生物都是由细胞构成的，但在我们普通人眼中，并不会将鸡、鸭、狗、鸟这些动物当作细胞看待，因为对待事物的角度决定了我们更关心生物的外在形状和行为，而不是它的组织构成。</p>
+<!-- raw HTML omitted -->
 <p>从计算机底层实现来说，所有的数据都是二进制字节序列。但为了更好地表达某个逻辑，计算机科学家们将数据抽象成不同的类型，犹如细胞和动物的关系。在编程语言中，对于字节序列，我们更关心的是它的存储和传输方式；而面向对象时，则着重于它的抽象属性。尽管两面一体，但从不混为一谈。</p>
-
 <p>同为不可变序列类型，bytes 与 str 有着非常相似的操作方式。其同样支持加法、乘法等运算符。</p>
-
 <pre><code>&gt;&gt;&gt; a = b&quot;abc&quot;
 &gt;&gt;&gt; b = a + b&quot;def&quot;
 
@@ -115,10 +113,7 @@ b'ABCDEF'
 
 &gt;&gt;&gt; b&quot;abc&quot; * 2
 b'abcabc'
-</code></pre>
-
-<p>相比于 bytes 类型的一次性分配内存，bytearry 可按需扩张，更适合作为可读写缓冲区使用。如有必要，还可为其提前分配足够的内存，避免中途扩张造成的额外消耗。</p>
-
+</code></pre><p>相比于 bytes 类型的一次性分配内存，bytearry 可按需扩张，更适合作为可读写缓冲区使用。如有必要，还可为其提前分配足够的内存，避免中途扩张造成的额外消耗。</p>
 <pre><code>&gt;&gt;&gt; b = bytearray(b&quot;abc&quot;)
 &gt;&gt;&gt; len(b)
 3
@@ -128,12 +123,8 @@ b'abcabc'
 &gt;&gt;&gt; b.extend(b&quot;e&quot;)
 &gt;&gt;&gt; id(b)
 4473445824
-</code></pre>
-
-<h2 id="内存视图">内存视图</h2>
-
+</code></pre><h2 id="内存视图">内存视图</h2>
 <p>当我们要引用字节数据的某个片段的时候，需要考虑到：是否会有数据复制行为？是否能同步修改？</p>
-
 <pre><code>&gt;&gt;&gt; a = bytearray([0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16])
 &gt;&gt;&gt; x = a[2:5]	# 引用片段
 &gt;&gt;&gt; x
@@ -143,20 +134,14 @@ bytearray(b'\x12\x13\x14')
 bytearray(b'\x10\x11\x12\xee\x14\x15\x16')
 &gt;&gt;&gt; x		# 并未同步修改，可以看出仅仅只是数据复制
 bytearray(b'\x12\x13\x14')
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>为什么需要引用某个片段，而不是整个对象呢？</p>
-
 <p>以自定义网络协议为例，通常由标准头和数据体两部分组成。如要验证数据是否被修改，总不能将整个包作为参数交给验证函数吧。因为如果将整个包传给函数，这势必要求该函数了解协议包的结构，这显然是不合理的设计，而复制数据体又可能导致重大性能开销，同样得不偿失。</p>
 </blockquote>
-
-<p>在 Python 中没有指针的概念，外加内存安全模型的限制，要做到这一点并不容易。此时，可以借助一种名为<strong>内存视图（Memory View）</strong>的方式来访问底层内存数据。</p>
-
+<p>在 Python 中没有指针的概念，外加内存安全模型的限制，要做到这一点并不容易。此时，可以借助一种名为**内存视图（Memory View）**的方式来访问底层内存数据。</p>
 <blockquote>
 <p>内存视图要求目标对象支持<strong>缓冲协议（Buffer Protocol）</strong>，内存视图直接引用目标内存，没有额外的复制行为，因此，可读取最新的数据，在目标对象允许的情况下，还可以执行写操作。</p>
 </blockquote>
-
 <pre><code>&gt;&gt;&gt; a = bytearray([0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16])
 &gt;&gt;&gt; v = memoryview(a)		# 完整的视图
 &gt;&gt;&gt; x = v[2:5]		# 视图片段
@@ -172,20 +157,14 @@ bytearray(b'\x10\x11\x12\xee\x14\x15\x16')
 &gt;&gt;&gt; x[1] = 0x13		# 因为引用了相同的内存区域，可通过视图修改原数据
 &gt;&gt;&gt; a
 bytearray(b'\x10\x11\x12\x13\x14\x15\x16')
-</code></pre>
-
-<p>当然，能够通过视图修改原数据，还必须得看原对象是否允许。</p>
-
+</code></pre><p>当然，能够通过视图修改原数据，还必须得看原对象是否允许。</p>
 <pre><code>&gt;&gt;&gt; a = b&quot;\x10\x11&quot;		# bytes 是不可变类型
 &gt;&gt;&gt; v = memoryview(a)
 &gt;&gt;&gt; v[1] = 0xEE
 Traceback (most recent call last):
   File &quot;&lt;stdin&gt;&quot;, line 1, in &lt;module&gt;
 TypeError: cannot modify read-only memory
-</code></pre>
-
-<p>如果要复制视图数据，可调用 tobytes、tolist 方法，复制后的数据与原对象无关，同样不会影响视图本身。</p>
-
+</code></pre><p>如果要复制视图数据，可调用 tobytes、tolist 方法，复制后的数据与原对象无关，同样不会影响视图本身。</p>
 <pre><code>&gt;&gt;&gt; a = bytearray([0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16])
 &gt;&gt;&gt; v = memoryview(a)
 &gt;&gt;&gt; x = v[2:5]
@@ -197,10 +176,7 @@ b'\x12\x13\x14'
 bytearray(b'\x10\x11\x12\xee\x14\x15\x16')
 &gt;&gt;&gt; b		# 不影响复制数据
 b'\x12\x13\x14'
-</code></pre>
-
-<p>除了上述这些，内存视图还为我们提供了一种内存管理手段，比如：通过 bytearray 预申请很大的一块内存，随后以视图方式将不同片段交给不同的逻辑使用。因为逻辑不能跨界访问，故此可以实现简易的内存分配器模式。对于 Python 这种限制较多的语言，合理使用视图可在不同使用 ctypes 等复制扩展的前提下，改善算法类型。</p>
-
+</code></pre><p>除了上述这些，内存视图还为我们提供了一种内存管理手段，比如：通过 bytearray 预申请很大的一块内存，随后以视图方式将不同片段交给不同的逻辑使用。因为逻辑不能跨界访问，故此可以实现简易的内存分配器模式。对于 Python 这种限制较多的语言，合理使用视图可在不同使用 ctypes 等复制扩展的前提下，改善算法类型。</p>
 <p>可使用 memoryview.cast、struct.unpack 将字节数组转换为目标类型。</p>
 </div>
         <div class="post_footer">

@@ -11,8 +11,8 @@
 
   
   <meta name="description" content="原型模式（The Prototype Pattern）用于创建对象的完全副本，有点类似与现实生活中的有丝分裂，在 Python 中可以使用内置的copy模块实现。
-拷贝分为深拷贝和浅拷贝： - 深拷贝会递归复制并创建新的对象 - 浅拷贝会利用引用指向同一个对象
-深拷贝的优点是对象之间互不影响，但是会耗费资源，创建比较耗时；如果不会修改对象可以使用浅拷贝，更加节省资源和创建时间。
+拷贝分为深拷贝和浅拷贝：
+ 深拷贝会递归复制并创建新的对象 浅拷贝会利用引用指向同一个对象  深拷贝的优点是对象之间互不影响，但是会耗费资源，创建比较耗时；如果不会修改对象可以使用浅拷贝，更加节省资源和创建时间。
 "/>
   
 
@@ -82,6 +82,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -96,78 +100,77 @@
           <span class="date">2018.10.15</span>
         </div>
         <div class="post_content markdown"><p>原型模式（The Prototype Pattern）用于创建对象的完全副本，有点类似与现实生活中的有丝分裂，在 Python 中可以使用内置的<code>copy</code>模块实现。</p>
-
-<p>拷贝分为<code>深拷贝</code>和<code>浅拷贝</code>：
-- 深拷贝会递归复制并创建新的对象
-- 浅拷贝会利用引用指向同一个对象</p>
-
+<p>拷贝分为<code>深拷贝</code>和<code>浅拷贝</code>：</p>
+<ul>
+<li>深拷贝会递归复制并创建新的对象</li>
+<li>浅拷贝会利用引用指向同一个对象</li>
+</ul>
 <p>深拷贝的优点是对象之间互不影响，但是会耗费资源，创建比较耗时；如果不会修改对象可以使用浅拷贝，更加节省资源和创建时间。</p>
-
-<pre><code class="language-python">import copy
-from collections import OrderedDict
-
-
-class Book:
-    def __init__(self, name, authors, price, **rest):
-        self.name = name
-        self.authors = authors
-        self.price = price
-        self.__dict__.update(rest)
-
-    def __str__(self):
-        mylist = []
-        ordered = OrderedDict(sorted(self.__dict__.items()))
-        for i in ordered.keys():
-            mylist.append('{}: {}'.format(i, ordered[i]))
-            if i == 'price':
-                mylist.append('$')
-            mylist.append('\n')
-        return ''.join(mylist)
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> copy
+<span style="color:#f92672">from</span> collections <span style="color:#f92672">import</span> OrderedDict
 
 
-class Prototype:
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Book</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, name, authors, price, <span style="color:#f92672">**</span>rest):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+        self<span style="color:#f92672">.</span>authors <span style="color:#f92672">=</span> authors
+        self<span style="color:#f92672">.</span>price <span style="color:#f92672">=</span> price
+        self<span style="color:#f92672">.</span>__dict__<span style="color:#f92672">.</span>update(rest)
 
-    def __init__(self):
-        self.objects = dict()
-
-    def register(self, identifier, obj):
-        self.objects[identifier] = obj
-
-    def unregister(self, identifier):
-        del self.objects[identifier]
-
-    def clone(self, identifier, **attr):
-        &quot;&quot;&quot; 实现对象拷贝 &quot;&quot;&quot;
-        found = self.objects.get(identifier)
-        if not found:
-            raise ValueError(
-                'Incorrect object identifier: {}'.format(identifier))
-        obj = copy.deepcopy(found)
-        obj.__dict__.update(attr)  # 实现拷贝时自定义更新
-        return obj
+    <span style="color:#66d9ef">def</span> __str__(self):
+        mylist <span style="color:#f92672">=</span> []
+        ordered <span style="color:#f92672">=</span> OrderedDict(sorted(self<span style="color:#f92672">.</span>__dict__<span style="color:#f92672">.</span>items()))
+        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> ordered<span style="color:#f92672">.</span>keys():
+            mylist<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;{}: {}&#39;</span><span style="color:#f92672">.</span>format(i, ordered[i]))
+            <span style="color:#66d9ef">if</span> i <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;price&#39;</span>:
+                mylist<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;$&#39;</span>)
+            mylist<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>)
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;&#39;</span><span style="color:#f92672">.</span>join(mylist)
 
 
-def main():
-    b1 = Book('The C Programming Language',
-              ('Brian W. Kernighan', 'Dennis M.Ritchie'),
-              price=118, publisher='Prentice Hall', length=228,
-              publication_date='1978-02-22',
-              tags=('C', 'programming', 'algorithms', 'data structures'))
-    prototype = Prototype()
-    cid = 'k&amp;r-first'
-    prototype.register(cid, b1)
-    b2 = prototype.clone(cid, name='The C Programming Language(ANSI)',
-                         price=48.99,
-                         length=274, publication_date='1988-04-01', edition=2)
-    for i in (b1, b2):
-        print(i)
-    print(&quot;ID b1 : {} != ID b2 : {}&quot;.format(id(b1), id(b2)))
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Prototype</span>:
+
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>objects <span style="color:#f92672">=</span> dict()
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">register</span>(self, identifier, obj):
+        self<span style="color:#f92672">.</span>objects[identifier] <span style="color:#f92672">=</span> obj
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">unregister</span>(self, identifier):
+        <span style="color:#66d9ef">del</span> self<span style="color:#f92672">.</span>objects[identifier]
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">clone</span>(self, identifier, <span style="color:#f92672">**</span>attr):
+        <span style="color:#e6db74">&#34;&#34;&#34; 实现对象拷贝 &#34;&#34;&#34;</span>
+        found <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>get(identifier)
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> found:
+            <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">ValueError</span>(
+                <span style="color:#e6db74">&#39;Incorrect object identifier: {}&#39;</span><span style="color:#f92672">.</span>format(identifier))
+        obj <span style="color:#f92672">=</span> copy<span style="color:#f92672">.</span>deepcopy(found)
+        obj<span style="color:#f92672">.</span>__dict__<span style="color:#f92672">.</span>update(attr)  <span style="color:#75715e"># 实现拷贝时自定义更新</span>
+        <span style="color:#66d9ef">return</span> obj
 
 
-if __name__ == '__main__':
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    b1 <span style="color:#f92672">=</span> Book(<span style="color:#e6db74">&#39;The C Programming Language&#39;</span>,
+              (<span style="color:#e6db74">&#39;Brian W. Kernighan&#39;</span>, <span style="color:#e6db74">&#39;Dennis M.Ritchie&#39;</span>),
+              price<span style="color:#f92672">=</span><span style="color:#ae81ff">118</span>, publisher<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Prentice Hall&#39;</span>, length<span style="color:#f92672">=</span><span style="color:#ae81ff">228</span>,
+              publication_date<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;1978-02-22&#39;</span>,
+              tags<span style="color:#f92672">=</span>(<span style="color:#e6db74">&#39;C&#39;</span>, <span style="color:#e6db74">&#39;programming&#39;</span>, <span style="color:#e6db74">&#39;algorithms&#39;</span>, <span style="color:#e6db74">&#39;data structures&#39;</span>))
+    prototype <span style="color:#f92672">=</span> Prototype()
+    cid <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;k&amp;r-first&#39;</span>
+    prototype<span style="color:#f92672">.</span>register(cid, b1)
+    b2 <span style="color:#f92672">=</span> prototype<span style="color:#f92672">.</span>clone(cid, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;The C Programming Language(ANSI)&#39;</span>,
+                         price<span style="color:#f92672">=</span><span style="color:#ae81ff">48.99</span>,
+                         length<span style="color:#f92672">=</span><span style="color:#ae81ff">274</span>, publication_date<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;1988-04-01&#39;</span>, edition<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> (b1, b2):
+        <span style="color:#66d9ef">print</span>(i)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;ID b1 : {} != ID b2 : {}&#34;</span><span style="color:#f92672">.</span>format(id(b1), id(b2)))
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     main()
 
-</code></pre></div>
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

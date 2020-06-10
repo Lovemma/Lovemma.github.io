@@ -81,6 +81,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -95,105 +99,102 @@
           <span class="date">2018.10.18</span>
         </div>
         <div class="post_content markdown"><p>一个系统会随着演进而变得非常复杂，最终形成大量的（并且有时是令人迷惑的）类和交互，这种情况并不少见。</p>
-
 <p>但许多情况下，我们并不想把这种复杂性暴露给客户端。而外观设计模式有助于隐藏系统的内部复杂性，并通过一个简化的接口向客户端暴露必要的部分。本质上，外观模式是在已有的系统上实现的一个抽象层。</p>
-
 <p>这里以一个简单的操作系统示例来说明外观模式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> enum <span style="color:#f92672">import</span> Enum
+<span style="color:#f92672">from</span> abc <span style="color:#f92672">import</span> ABCMeta, abstractmethod
 
-<pre><code class="language-python">from enum import Enum
-from abc import ABCMeta, abstractmethod
-
-State = Enum('State', ['new', 'running', 'sleeping', 'restart', 'zombie'])
-
-
-class Server(metaclass=ABCMeta):
-    @abstractmethod
-    def __init__(self):
-        pass
-
-    def __str__(self):
-        return self.name
-
-    @abstractmethod
-    def boot(self):
-        pass
-
-    @abstractmethod
-    def kill(self, restart=True):
-        pass
+State <span style="color:#f92672">=</span> Enum(<span style="color:#e6db74">&#39;State&#39;</span>, [<span style="color:#e6db74">&#39;new&#39;</span>, <span style="color:#e6db74">&#39;running&#39;</span>, <span style="color:#e6db74">&#39;sleeping&#39;</span>, <span style="color:#e6db74">&#39;restart&#39;</span>, <span style="color:#e6db74">&#39;zombie&#39;</span>])
 
 
-class FileServer(Server):
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Server</span>(metaclass<span style="color:#f92672">=</span>ABCMeta):
+    <span style="color:#a6e22e">@abstractmethod</span>
+    <span style="color:#66d9ef">def</span> __init__(self):
+        <span style="color:#66d9ef">pass</span>
 
-    def __init__(self):
-        '''初始化文件服务进程要求的操作'''
-        self.name = 'FileServer'
-        self.state = State.new
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>name
 
-    def boot(self):
-        print('booting the {}'.format(self))
-        '''启动文件服务进程要求的操作'''
-        self.state = State.running.value
+    <span style="color:#a6e22e">@abstractmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">boot</span>(self):
+        <span style="color:#66d9ef">pass</span>
 
-    def kill(self, restart=True):
-        print('Killing {}'.format(self))
-        '''终止文件服务进程要求的操作'''
-        self.state = State.restart if restart else State.zombie
-
-    def create_file(self, user, name, permissions):
-        '''检查访问权限的有效性和用户权限等'''
-        print(f&quot;trying to create the file '{name}'&quot;
-              f&quot; for user '{user}' with permissions {permissions}&quot;)
+    <span style="color:#a6e22e">@abstractmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">kill</span>(self, restart<span style="color:#f92672">=</span>True):
+        <span style="color:#66d9ef">pass</span>
 
 
-class ProcessServer(Server):
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FileServer</span>(Server):
 
-    def __init__(self):
-        '''初始化进程服务进程要求的操作'''
-        self.name = 'ProcessServer'
-        self.state = State.new
+    <span style="color:#66d9ef">def</span> __init__(self):
+        <span style="color:#e6db74">&#39;&#39;&#39;初始化文件服务进程要求的操作&#39;&#39;&#39;</span>
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;FileServer&#39;</span>
+        self<span style="color:#f92672">.</span>state <span style="color:#f92672">=</span> State<span style="color:#f92672">.</span>new
 
-    def boot(self):
-        print('booting the {}'.format(self))
-        '''启动进程服务进程要求的操作'''
-        self.state = State.running
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">boot</span>(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;booting the {}&#39;</span><span style="color:#f92672">.</span>format(self))
+        <span style="color:#e6db74">&#39;&#39;&#39;启动文件服务进程要求的操作&#39;&#39;&#39;</span>
+        self<span style="color:#f92672">.</span>state <span style="color:#f92672">=</span> State<span style="color:#f92672">.</span>running<span style="color:#f92672">.</span>value
 
-    def kill(self, restart=True):
-        print('Killing {}'.format(self))
-        '''终止进程服务进程要求的操作'''
-        self.state = State.restart if restart else State.zombie
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">kill</span>(self, restart<span style="color:#f92672">=</span>True):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Killing {}&#39;</span><span style="color:#f92672">.</span>format(self))
+        <span style="color:#e6db74">&#39;&#39;&#39;终止文件服务进程要求的操作&#39;&#39;&#39;</span>
+        self<span style="color:#f92672">.</span>state <span style="color:#f92672">=</span> State<span style="color:#f92672">.</span>restart <span style="color:#66d9ef">if</span> restart <span style="color:#66d9ef">else</span> State<span style="color:#f92672">.</span>zombie
 
-    def create_process(self, user, name):
-        '''检查用户权限和生成PID等'''
-
-        print(f&quot;trying to create the process '{name}' for user '{user}'&quot;)
-
-
-class OperatingSystem:
-    def __init__(self):
-        self.fs = FileServer()
-        self.ps = ProcessServer()
-
-    def start(self):
-        [item.boot() for item in (self.fs, self.ps)]
-
-    def create_file(self, user, name, permissions):
-        self.fs.create_file(user, name, permissions)
-
-    def create_process(self, user, name):
-        self.ps.create_process(user, name)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_file</span>(self, user, name, permissions):
+        <span style="color:#e6db74">&#39;&#39;&#39;检查访问权限的有效性和用户权限等&#39;&#39;&#39;</span>
+        <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;trying to create the file &#39;{name}&#39;&#34;</span>
+              f<span style="color:#e6db74">&#34; for user &#39;{user}&#39; with permissions {permissions}&#34;</span>)
 
 
-def main():
-    os = OperatingSystem()
-    os.start()
-    os.create_file('foo', 'hello', '-rw-r-r')
-    os.create_process('bar', 'ls /tmp')
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProcessServer</span>(Server):
+
+    <span style="color:#66d9ef">def</span> __init__(self):
+        <span style="color:#e6db74">&#39;&#39;&#39;初始化进程服务进程要求的操作&#39;&#39;&#39;</span>
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;ProcessServer&#39;</span>
+        self<span style="color:#f92672">.</span>state <span style="color:#f92672">=</span> State<span style="color:#f92672">.</span>new
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">boot</span>(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;booting the {}&#39;</span><span style="color:#f92672">.</span>format(self))
+        <span style="color:#e6db74">&#39;&#39;&#39;启动进程服务进程要求的操作&#39;&#39;&#39;</span>
+        self<span style="color:#f92672">.</span>state <span style="color:#f92672">=</span> State<span style="color:#f92672">.</span>running
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">kill</span>(self, restart<span style="color:#f92672">=</span>True):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Killing {}&#39;</span><span style="color:#f92672">.</span>format(self))
+        <span style="color:#e6db74">&#39;&#39;&#39;终止进程服务进程要求的操作&#39;&#39;&#39;</span>
+        self<span style="color:#f92672">.</span>state <span style="color:#f92672">=</span> State<span style="color:#f92672">.</span>restart <span style="color:#66d9ef">if</span> restart <span style="color:#66d9ef">else</span> State<span style="color:#f92672">.</span>zombie
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_process</span>(self, user, name):
+        <span style="color:#e6db74">&#39;&#39;&#39;检查用户权限和生成PID等&#39;&#39;&#39;</span>
+
+        <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#34;trying to create the process &#39;{name}&#39; for user &#39;{user}&#39;&#34;</span>)
 
 
-if __name__ == '__main__':
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">OperatingSystem</span>:
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>fs <span style="color:#f92672">=</span> FileServer()
+        self<span style="color:#f92672">.</span>ps <span style="color:#f92672">=</span> ProcessServer()
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">start</span>(self):
+        [item<span style="color:#f92672">.</span>boot() <span style="color:#66d9ef">for</span> item <span style="color:#f92672">in</span> (self<span style="color:#f92672">.</span>fs, self<span style="color:#f92672">.</span>ps)]
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_file</span>(self, user, name, permissions):
+        self<span style="color:#f92672">.</span>fs<span style="color:#f92672">.</span>create_file(user, name, permissions)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_process</span>(self, user, name):
+        self<span style="color:#f92672">.</span>ps<span style="color:#f92672">.</span>create_process(user, name)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    os <span style="color:#f92672">=</span> OperatingSystem()
+    os<span style="color:#f92672">.</span>start()
+    os<span style="color:#f92672">.</span>create_file(<span style="color:#e6db74">&#39;foo&#39;</span>, <span style="color:#e6db74">&#39;hello&#39;</span>, <span style="color:#e6db74">&#39;-rw-r-r&#39;</span>)
+    os<span style="color:#f92672">.</span>create_process(<span style="color:#e6db74">&#39;bar&#39;</span>, <span style="color:#e6db74">&#39;ls /tmp&#39;</span>)
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     main()
-</code></pre></div>
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

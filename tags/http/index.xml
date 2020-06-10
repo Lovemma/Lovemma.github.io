@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>http on I&#39;m Groooooot</title>
@@ -17,7 +17,7 @@
       <pubDate>Thu, 01 Feb 2018 15:53:23 +0000</pubDate>
       
       <guid>https://lovemma.github.io/posts/packet-tracer-%E6%A8%A1%E6%8B%9F%E4%B8%80%E6%AC%A1%E5%AE%8C%E6%95%B4%E7%9A%84http%E8%AF%B7%E6%B1%82/</guid>
-      <description>Q：当我们在浏览器中访问一个网址的时候 ，浏览器背后到底发生了什么呢？ A：DNS域名解析 --&amp;gt; 发起TCP的3次握手 --&amp;gt; 建立TCP连接后发起http请求 --&amp;gt; 服务器响应http请求，浏览器得到html代码 --&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） --&amp;gt; 浏览器对页面进行渲染呈现给用户 --&amp;gt; 进行TCP的4次挥手 这里我在Packet Tracer中模拟一次简单的HTTP请求 环境准备 网络拓扑图</description>
+      <description>Q：当我们在浏览器中访问一个网址的时候 ，浏览器背后到底发生了什么呢？ A：DNS域名解析 &amp;ndash;&amp;gt; 发起TCP的3次握手 &amp;ndash;&amp;gt; 建立TCP连接后发起http请求 &amp;ndash;&amp;gt; 服务器响应http请求，浏览器得到html代码 &amp;ndash;&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） &amp;ndash;&amp;gt; 浏览器对页面进行渲染呈现给用户 &amp;ndash;&amp;gt; 进行TCP的4次挥手 这里我在Packet Tracer中模拟一次简单的HTTP请求 环境准备 网络拓扑图</description>
     </item>
     
   </channel>

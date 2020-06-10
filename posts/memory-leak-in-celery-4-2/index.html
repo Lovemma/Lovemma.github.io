@@ -10,7 +10,7 @@
         content="COldish"/>
 
   
-  <meta name="description" content="在使用 Celery 4.2 版本时，遇到了内存泄漏问题，话不多说先上运行环境： Python 版本：2.7.5 Celery 版本：4.2.2 系统：CentOS AsyncTask 的内存泄漏 开发环境跑了一段时间之后，出现发布任务的 service 内存占用很高，而且会出现任务发布不了的情况。但发布任务的 service 并没有做什么太过复杂的操作，经过分析之后，将问题定位在了 chord 函数中会使用了 apply_async 来插入大量的 task。 复现 写了一个简单的测试脚本来测试 chord : # -*- coding: utf-8 -*- import resource from celery import Celery, chord backend_url = &#39;redis://redis:6379/1&#39; broker_url = &#39;pyamqp://rabbitmq:5672//?heartbeat=30&#39; app = Celery(&#39;task&#39;,"/>
+  <meta name="description" content="在使用 Celery 4.2 版本时，遇到了内存泄漏问题，话不多说先上运行环境： Python 版本：2.7.5 Celery 版本：4.2.2 系统：CentOS AsyncTask 的内存泄漏 开发环境跑了一段时间之后，出现发布任务的 service 内存占用很高，而且会出现任务发布不了的情况。但发布任务的 service 并没有做什么太过复杂的操作，经过分析之后，将问题定位在了 chord 函数中会使用了 apply_async 来插入大量的 task。 复现 写了一个简单的测试脚本来测试 chord : # -*- coding: utf-8 -*- import resource from celery import Celery, chord backend_url = &amp;#39;redis://redis:6379/1&amp;#39; broker_url = &amp;#39;pyamqp://rabbitmq:5672//?heartbeat=30&amp;#39; app = Celery(&amp;#39;task&amp;#39;,"/>
   
 
   
@@ -79,6 +79,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,67 +96,55 @@
           <h2><a href='/posts/memory-leak-in-celery-4-2/'>Celery 4.2 内存泄漏问题</a></h2>
           <span class="date">2019.09.18</span>
         </div>
-        <div class="post_content markdown">
-
-<p>在使用 Celery 4.2 版本时，遇到了内存泄漏问题，话不多说先上运行环境：</p>
-
+        <div class="post_content markdown"><p>在使用 Celery 4.2 版本时，遇到了内存泄漏问题，话不多说先上运行环境：</p>
 <ul>
 <li>Python 版本：2.7.5</li>
 <li>Celery 版本：4.2.2</li>
 <li>系统：CentOS</li>
 </ul>
-
-<!-- more -->
-
+<!-- raw HTML omitted -->
 <h2 id="asynctask-的内存泄漏">AsyncTask 的内存泄漏</h2>
-
 <p>开发环境跑了一段时间之后，出现发布任务的 service 内存占用很高，而且会出现任务发布不了的情况。但发布任务的 service 并没有做什么太过复杂的操作，经过分析之后，将问题定位在了 <code>chord</code> 函数中会使用了 <code>apply_async</code> 来插入大量的 task。</p>
-
 <h3 id="复现">复现</h3>
-
 <p>写了一个简单的测试脚本来测试 <code>chord</code> :</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># -*- coding: utf-8 -*-</span>
+<span style="color:#f92672">import</span> resource
 
-<pre><code class="language-python"># -*- coding: utf-8 -*-
-import resource
+<span style="color:#f92672">from</span> celery <span style="color:#f92672">import</span> Celery, chord
 
-from celery import Celery, chord
-
-backend_url = 'redis://redis:6379/1'
-broker_url = 'pyamqp://rabbitmq:5672//?heartbeat=30'
-app = Celery('task', broker=broker_url, backend=backend_url)
-
-
-@app.task
-def dummy():
-    return '1'
+backend_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;redis://redis:6379/1&#39;</span>
+broker_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;pyamqp://rabbitmq:5672//?heartbeat=30&#39;</span>
+app <span style="color:#f92672">=</span> Celery(<span style="color:#e6db74">&#39;task&#39;</span>, broker<span style="color:#f92672">=</span>broker_url, backend<span style="color:#f92672">=</span>backend_url)
 
 
-@app.task()
-def result():
-    return '2'
+<span style="color:#a6e22e">@app.task</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dummy</span>():
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;1&#39;</span>
 
 
-def print_mem():
-    print(
-        'Memory usage: {} (kb)'.format(
-            resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+<span style="color:#a6e22e">@app.task</span>()
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">result</span>():
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;2&#39;</span>
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">print_mem</span>():
+    <span style="color:#66d9ef">print</span>(
+        <span style="color:#e6db74">&#39;Memory usage: {} (kb)&#39;</span><span style="color:#f92672">.</span>format(
+            resource<span style="color:#f92672">.</span>getrusage(resource<span style="color:#f92672">.</span>RUSAGE_SELF)<span style="color:#f92672">.</span>ru_maxrss)
     )
 
 
-def run():
-    for i in range(10000):
-        chord(dummy.si())(result.si())
-        if i % 1000 == 0:
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>():
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10000</span>):
+        chord(dummy<span style="color:#f92672">.</span>si())(result<span style="color:#f92672">.</span>si())
+        <span style="color:#66d9ef">if</span> i <span style="color:#f92672">%</span> <span style="color:#ae81ff">1000</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
             print_mem()
 
 
-if __name__ == '__main__':
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     run()
 
-</code></pre>
-
-<p>每执行 1000 次打印一下内存占用情况，这个脚本在 Celery 4.2.2 版本里内存飞速增长。</p>
-
+</code></pre></div><p>每执行 1000 次打印一下内存占用情况，这个脚本在 Celery 4.2.2 版本里内存飞速增长。</p>
 <pre><code>Memory usage: 28041216 (kb)
 Memory usage: 43773952 (kb)
 Memory usage: 59592704 (kb)
@@ -163,27 +155,17 @@ Memory usage: 124145664 (kb)
 Memory usage: 139677696 (kb)
 Memory usage: 155234304 (kb)
 Memory usage: 170778624 (kb)
-</code></pre>
-
-<h3 id="分析">分析</h3>
-
+</code></pre><h3 id="分析">分析</h3>
 <p>在使用 <code>objgraph</code> 进行检测之后发现，内存中驻留了大量的 <code>promise</code> 和 <code>AsyncResult</code> ，继续 debug 下去可以发现问题是在这一行 <a href="https://github.com/celery/celery/blob/v4.2.2/celery/result.py#L102">https://github.com/celery/celery/blob/v4.2.2/celery/result.py#L102</a> ，去掉 <code>self.on_ready = promise(self._on_fulfilled)</code> 后内存就能被回收了。而这个 <code>promise</code> 有个 <code>weak</code> 参数, 设置成 True 之后就会创建 <code>self._on_fulfilled</code> 的弱引用，<code>AsyncResult</code> 也能被回收，那 weak 改成 True 就对了吗?</p>
-
 <p>然而并不是，搜了一下发现 Celery 以前的一个PR：<a href="https://github.com/celery/celery/pull/4131">Removing weak-references in promises to bound methods (Fixes #3813) #4131</a>，当时这段代码是设置了 <code>weak=True</code> 的，为什么要把 <code>weak=True</code> 删掉呢？因为传入的 <code>self._on_fulfilled</code> 是 <code>AsyncResult</code> 对象的 bound method，<code>weak.ref</code> 无法处理，后续尝试获取引用的时候总会得到 None，当时的 PR 就是为了解决 <code>self._on_fulfilled</code> 不会被执行的问题. 要对 bound method 做弱引用需要使用 <a href="https://docs.python.org/3/library/weakref.html#weakref.WeakMethod">WeakMethod</a>，但这个在 Python 3.4 版本才开始有。</p>
-
 <p>好了，回到之前的问题，那么内存泄漏是哪里来的呢？</p>
-
 <p><code>AsyncResult</code> 中确实有循环引用， <code>AsyncResult -&gt; self.on_ready -&gt; promise -&gt; self._on_fulfilled -&gt; self</code>，引用计数算法对于循环引用的对象是无法回收的，而标记清除可以，但 <code>AsyncResult</code> 这个类还定义了 <code>__del__</code> 方法，这会让 Python 的 gc 在处理循环引用的对象时不知道该以什么顺序去运行他们的 <code>__del__</code> 方法, 这些对象就会一直驻留在内存里，具体可看这篇文章: <a href="https://docs.python.org/2/library/gc.html#gc.garbage">gc.garbage</a></p>
-
 <h3 id="解决方案">解决方案</h3>
-
 <ol>
 <li>最简单粗暴的方案是将 <code>__del__</code> 方法删除掉，这样 Python 的 gc 就可以正确处理循环引用的对象了；</li>
 <li>官方解决方案：把 WeakMethod backport 到 celery 用到的异步库 vine 里去: <a href="https://github.com/celery/vine/issues/21">https://github.com/celery/vine/issues/21</a> ，这样在 celery 那头设置 <code>weak=True</code> 就能正确处理了。简单来说就是将 Celery 升级到 4.3.0 版本。</li>
 </ol>
-
 <p>参考链接</p>
-
 <ol>
 <li><a href="https://github.com/celery/celery/pull/4839">Fix memory leak of AsyncResult #4839</a></li>
 <li><a href="https://github.com/celery/celery/pull/4131">Removing weak-references in promises to bound methods (Fixes #3813) #4131</a></li>

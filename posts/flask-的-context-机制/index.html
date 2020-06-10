@@ -80,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -96,161 +100,119 @@
         <div class="post_content markdown"><blockquote>
 <p>一文带你全面理解 Flask 的 Context 机制。</p>
 </blockquote>
-
-<p>使用过 Flask 进行 Web 开发的同学应该知道 App Context 和 Request Context 这两个非常有特色的设计。<sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup></p>
-
+<p>使用过 Flask 进行 Web 开发的同学应该知道 App Context 和 Request Context 这两个非常有特色的设计。<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
 <p>从一个 Flask App 读入配置并启动开始, 就进入了 App Context, 在其中我们可以访问配置文件、打开资源文件、通过路由规则反向构造 URL。当一个请求进入开始被处理时, 就进入了 Request Context, 在其中我们可以访问请求携带的信息, 比如 HTTP Method、表单域等。</p>
-
 <p>最近闲着没什么事做, 研究了一番这两个 Context 的具体实现, 同时还解决了一些自己之前“知道结论不知道过程”的疑惑, 所以撰写本文记录下来。</p>
-
 <h2 id="thread-local-的概念">Thread Local 的概念</h2>
-
 <p>在面向对象的设计中, 对象是保存&quot;状态&quot;的地方。Python 也是如此, 一个对象的状态都被保存在对象携带的一个特殊字典(__dict__)中, 可以通过<code>vars</code>函数拿到它。</p>
-
 <p>Thread Local 则是一种特殊的对象, 它的&quot;状态&quot;对线程隔离——也就是说每个线程对 Thread Local 对象的修改都不会影响到其他线程。这种对象的实现原理也非常简单, 只要以线程的 ID 来保存多份状态字典即可, 就像按照门牌号隔开的信箱。</p>
-
 <p>在 Python 中获得一个这样的 Thread Local 最简单的方法是<code>threading.local</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> threading
 
-<pre><code class="language-python">import threading
+storage <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>local()
+storage<span style="color:#f92672">.</span>foo <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#66d9ef">print</span>(storage<span style="color:#f92672">.</span>foo)
 
-storage = threading.local()
-storage.foo = 1
-print(storage.foo)
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">AnotherThread</span>(threading<span style="color:#f92672">.</span>Thread):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run</span>(self):
+        storage<span style="color:#f92672">.</span>foo <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+        <span style="color:#75715e"># storage.foo 在这个线程中已经发生改变</span>
+        <span style="color:#66d9ef">print</span>(storage<span style="color:#f92672">.</span>foo)
 
-class AnotherThread(threading.Thread):
-    def run(self):
-        storage.foo = 2
-        # storage.foo 在这个线程中已经发生改变
-        print(storage.foo)
+another <span style="color:#f92672">=</span> AnotherThread()
+another<span style="color:#f92672">.</span>start()
 
-another = AnotherThread()
-another.start()
+<span style="color:#75715e"># 但是在主线程里并没有改变</span>
+<span style="color:#66d9ef">print</span>(storage<span style="color:#f92672">.</span>foo)
 
-# 但是在主线程里并没有改变
-print(storage.foo)
-
-</code></pre>
-
-<p>这样来说, 只要能构造出 Thread Local 对象, 就能够让同一个对象在多个线程下做到状态隔离。这个&quot;线程&quot;不一定要是系统线程, 也可以是用户代码中的其他调度单元, 例如 Greenlet。</p>
-
+</code></pre></div><p>这样来说, 只要能构造出 Thread Local 对象, 就能够让同一个对象在多个线程下做到状态隔离。这个&quot;线程&quot;不一定要是系统线程, 也可以是用户代码中的其他调度单元, 例如 Greenlet。</p>
 <h2 id="werkzeug-实现的-local-stack-和-local-proxy">Werkzeug 实现的 Local Stack 和 Local Proxy</h2>
-
-<p>Werkzeug 没有直接使用<code>threading.local</code>, 而是自己实现了<code>werkzeug.local.Local</code>类。后者和前者有一些区别:
-1. Werkzeug 实现的 Local 类会在 Greenlet 可用的情况下优先使用 Greenlet 的 ID 而不是线程 ID 以支持 Gevent 或者 Eventlet 的调度, 而<code>threading.local</code>只支持多线程调度;
-2. Werkzeug 的 Local 类实现了 Werkzeug 自定义的协议方法<code>__release_local__</code>, 可以被 Werkzeug 自己的<code>release_local</code>函数释放掉当前线程下的状态, 而<code>threading.local</code>没有这个能力。</p>
-
+<p>Werkzeug 没有直接使用<code>threading.local</code>, 而是自己实现了<code>werkzeug.local.Local</code>类。后者和前者有一些区别:</p>
+<ol>
+<li>Werkzeug 实现的 Local 类会在 Greenlet 可用的情况下优先使用 Greenlet 的 ID 而不是线程 ID 以支持 Gevent 或者 Eventlet 的调度, 而<code>threading.local</code>只支持多线程调度;</li>
+<li>Werkzeug 的 Local 类实现了 Werkzeug 自定义的协议方法<code>__release_local__</code>, 可以被 Werkzeug 自己的<code>release_local</code>函数释放掉当前线程下的状态, 而<code>threading.local</code>没有这个能力。</li>
+</ol>
 <p>除 Local 外, Werkzeug 还实现了两种数据结构：LocalStack 和 LocalProxy。</p>
-
 <p>LocalStack 是用 Local 实现的栈结构, 可以将对象推入、弹出, 也可以快速拿到栈顶对象。当然, 所有的修改都只在本线程可见。和 Local 一样, LocalStack 也同样实现了支持 release_local 的接口。</p>
-
 <p>LocalProxy 则是一个典型的代理模式实现, 它在构造时接受一个 callable 的参数（比如一个函数）, 这个参数被调用后的返回值本身应该是一个 Thread Local 对象。对一个 LocalProxy 对象的所有操作, 包括属性访问、方法调用（当然方法调用就是属性访问）甚至是二元操作都会转发到那个 callable 参数返回的 Thread Local 对象上。</p>
-
 <p>LocalProxy 的一个使用场景是 LocalStack 的<code>__call__</code>方法。例如, <code>my_local_stack</code>是一个 LocalStack 实例, 那么调用<code>my_local_stack()</code>会返回一个 LocalProxy 对象, 这个对象始终指向<code>my_local_stack</code>的栈顶元素。如果栈顶元素不存在, 访问这个 LocalProxy 对象会抛出<code>RuntimeError</code>。</p>
-
 <h2 id="flask-基于-localstack-的-context">Flask 基于 LocalStack 的 Context</h2>
-
 <p>Flask 是一个基于 Werkzeug 实现的框架, 所以 Flask 的 App Context 和 Request Context 也理所当然地基于 Werkzeug 的 Local Stack 实现。</p>
-
-<p>在概念上, App Context 代表了&quot;应用级别的上下文&quot;, 比如配置文件中数据库的连接信息; Request Context 代表了&quot;请求级别的上下文&quot;, 比如当前访问的 URL。</p>
-
+<p>在概念上, App Context 代表了&quot;应用级别的上下文&rdquo;, 比如配置文件中数据库的连接信息; Request Context 代表了&quot;请求级别的上下文&rdquo;, 比如当前访问的 URL。</p>
 <p>这两个上下文对象的类定义在<code>flask.ctx</code>中, 它们的用法是将应用上下文和请求上下文推入推出到<code>flask.globals</code>中创建的<code>_app_ctx_stack</code>和<code>_request_ctx_stack</code>这两个 LocalStack 单例中。</p>
-
 <p>因为 LocalStack 的状态是线程隔离的, 而 Web 应用中每个线程(或者 Greenlet)同时只能处理一个请求, 所以 App Context 对象和 Request Context 对象在请求中也是隔离的。</p>
-
 <p>当<code>app = Flask(__name__)</code>构造出一个 Flask App 时, App Context 并不会自动被推入 Stack 中。所以此时 Local Stack 的栈顶是空的, <code>current_app</code>也是 unbound 状态。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; from flask import Flask
-&gt;&gt;&gt; from flask.globals import _app_ctx_stack, _request_ctx_stack
-&gt;&gt;&gt;
-&gt;&gt;&gt; app = Flask(__name__)
-&gt;&gt;&gt; _app_ctx_stack.top
-&gt;&gt;&gt; _request_ctx_stack.top
-&gt;&gt;&gt; _app_ctx_stack()
-&lt;LocalProxy unbound&gt;
-&gt;&gt;&gt;
-&gt;&gt;&gt; from flask import current_app
-&gt;&gt;&gt; current_app
-&lt;LocalProxy unbound&gt;
-</code></pre>
-
-<p>这也是 Flask 的一些使用者可能被坑的地方——比如编写一个离线脚本时, 如果直接在一个 Flask-SQLAlchemy 写成的 Model 上调用<code>User.query.get(user_id)</code>, 就会遇到<code>RuntimeError</code>。因为此时 App Context 还没被推入栈中, 而 Flask-SQLAlchemy 需要数据库连接信息时, 就会去<code>current_app.config</code>中获取, <code>current_app</code>指向的却是<code>_app_ctx_stack</code>为空的栈顶。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> flask.globals <span style="color:#f92672">import</span> _app_ctx_stack, _request_ctx_stack
+<span style="color:#f92672">&gt;&gt;&gt;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> app <span style="color:#f92672">=</span> Flask(__name__)
+<span style="color:#f92672">&gt;&gt;&gt;</span> _app_ctx_stack<span style="color:#f92672">.</span>top
+<span style="color:#f92672">&gt;&gt;&gt;</span> _request_ctx_stack<span style="color:#f92672">.</span>top
+<span style="color:#f92672">&gt;&gt;&gt;</span> _app_ctx_stack()
+<span style="color:#f92672">&lt;</span>LocalProxy unbound<span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> current_app
+<span style="color:#f92672">&gt;&gt;&gt;</span> current_app
+<span style="color:#f92672">&lt;</span>LocalProxy unbound<span style="color:#f92672">&gt;</span>
+</code></pre></div><p>这也是 Flask 的一些使用者可能被坑的地方——比如编写一个离线脚本时, 如果直接在一个 Flask-SQLAlchemy 写成的 Model 上调用<code>User.query.get(user_id)</code>, 就会遇到<code>RuntimeError</code>。因为此时 App Context 还没被推入栈中, 而 Flask-SQLAlchemy 需要数据库连接信息时, 就会去<code>current_app.config</code>中获取, <code>current_app</code>指向的却是<code>_app_ctx_stack</code>为空的栈顶。</p>
 <p>解决办法是运行脚本之前, 先将 App 的 App Context 推入栈中, 栈顶不为空后, <code>current_app</code>这个 LocalProxy 对象自然能将&quot;取 config 属性&quot;这个动作转发到当前的 App 上。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; ctx = app.app_context()
-&gt;&gt;&gt; ctx.push()
-&gt;&gt;&gt; _app_ctx_stack.top
-&lt;flask.ctx.AppContext object at 0x102eac7d0&gt;
-&gt;&gt;&gt; _app_ctx_stack.top is ctx
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> ctx <span style="color:#f92672">=</span> app<span style="color:#f92672">.</span>app_context()
+<span style="color:#f92672">&gt;&gt;&gt;</span> ctx<span style="color:#f92672">.</span>push()
+<span style="color:#f92672">&gt;&gt;&gt;</span> _app_ctx_stack<span style="color:#f92672">.</span>top
+<span style="color:#f92672">&lt;</span>flask<span style="color:#f92672">.</span>ctx<span style="color:#f92672">.</span>AppContext object at <span style="color:#ae81ff">0x102eac7d0</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> _app_ctx_stack<span style="color:#f92672">.</span>top <span style="color:#f92672">is</span> ctx
 True
-&gt;&gt;&gt; current_app
-&lt;Flask '__main__'&gt;
-&gt;&gt;&gt;
-&gt;&gt;&gt; ctx.pop()
-&gt;&gt;&gt; _app_ctx_stack.top
-&gt;&gt;&gt; current_app
-&lt;LocalProxy unbound&gt;
-</code></pre>
-
-<p>那么为什么在应用运行时不需要手动调用<code>app_context().push()</code>呢? 因为 Flask App 作为 WSGI Application 运行时, 会在每个请求进入的时候将请求上下文推入<code>_app_ctx_stack</code>中, 而请求上下文一定是在应用上下文中的, 所以推入部分的逻辑有这样一条: 如果发现<code>_app_ctx_stack</code>为空, 则隐式的推入一个 App 上下文。</p>
-
+<span style="color:#f92672">&gt;&gt;&gt;</span> current_app
+<span style="color:#f92672">&lt;</span>Flask <span style="color:#e6db74">&#39;__main__&#39;</span><span style="color:#f92672">&gt;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> ctx<span style="color:#f92672">.</span>pop()
+<span style="color:#f92672">&gt;&gt;&gt;</span> _app_ctx_stack<span style="color:#f92672">.</span>top
+<span style="color:#f92672">&gt;&gt;&gt;</span> current_app
+<span style="color:#f92672">&lt;</span>LocalProxy unbound<span style="color:#f92672">&gt;</span>
+</code></pre></div><p>那么为什么在应用运行时不需要手动调用<code>app_context().push()</code>呢? 因为 Flask App 作为 WSGI Application 运行时, 会在每个请求进入的时候将请求上下文推入<code>_app_ctx_stack</code>中, 而请求上下文一定是在应用上下文中的, 所以推入部分的逻辑有这样一条: 如果发现<code>_app_ctx_stack</code>为空, 则隐式的推入一个 App 上下文。</p>
 <p>所以, 请求中是不需要手动推上下文入栈的, 但是离线脚本需要手动推入上下文。</p>
-
 <h2 id="两个疑问">两个疑问</h2>
-
-<p>这里还有两个疑问需要处理:
-- 为什么 App Context 需要独立出来: 既然在 Web 应用运行时, App Context 和 Request Context 都是 Thread Local 对象, 那么为什么还要独立区分二者呢?
-- 为什么要放在&quot;栈&quot;里: 在 Web 应用运行时, 一个线程同时只能处理一个请求, 那么<code>_app_ctx_stack</code>和<code>_request_ctx_stack</code>栈顶肯定只有一个元素, 为什么还要用栈这种结构呢?</p>
-
+<p>这里还有两个疑问需要处理:</p>
+<ul>
+<li>为什么 App Context 需要独立出来: 既然在 Web 应用运行时, App Context 和 Request Context 都是 Thread Local 对象, 那么为什么还要独立区分二者呢?</li>
+<li>为什么要放在&quot;栈&quot;里: 在 Web 应用运行时, 一个线程同时只能处理一个请求, 那么<code>_app_ctx_stack</code>和<code>_request_ctx_stack</code>栈顶肯定只有一个元素, 为什么还要用栈这种结构呢?</li>
+</ul>
 <p>这两个做法给予我们<strong>多个 Flask App 共存</strong>和<strong>非 Web 应用运行时灵活控制 Context</strong> 的可能性。</p>
-
 <p>在对一个 Flask App 调用<code>app.run()</code>之后, 进程就进入阻塞模式并开始监听请求。此时是不可能让另一个 Flask App 在主线程运行起来的, 那么还有哪些场景需要多个 Flask App 共存呢?</p>
-
 <p>之前说过 Flask App 实例就是一个 WSGI Application, 而 WSGI Middleware 是允许使用组合模式的, 比如:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> werkzeug.wsgi <span style="color:#f92672">import</span> DispatcherMiddleware
+<span style="color:#f92672">from</span> your_application <span style="color:#f92672">import</span> app
+<span style="color:#f92672">from</span> your_application.admin <span style="color:#f92672">import</span> app <span style="color:#66d9ef">as</span> admin_app
 
-<pre><code class="language-python">from werkzeug.wsgi import DispatcherMiddleware
-from your_application import app
-from your_application.admin import app as admin_app
-
-application = DispatcherMiddleware(app, {'/admin': admin_app})
-</code></pre>
-
-<p>这个例子就是使用 Werkzeug 内置的 Middleware 将两个 Flask App 组合成一个 WSGI Application。这种情况下两个 App 都同时在运行, 只是根据请求 URL 的不同将请求分发到不同的 App 上进行处理。</p>
-
+application <span style="color:#f92672">=</span> DispatcherMiddleware(app, {<span style="color:#e6db74">&#39;/admin&#39;</span>: admin_app})
+</code></pre></div><p>这个例子就是使用 Werkzeug 内置的 Middleware 将两个 Flask App 组合成一个 WSGI Application。这种情况下两个 App 都同时在运行, 只是根据请求 URL 的不同将请求分发到不同的 App 上进行处理。</p>
 <blockquote>
 <p>需要注意的是, 这种用法和 Flask 的 Blueprint 是有区别的。Blueprint 虽然和这种用法很类似, 但 Blueprint 自己是没有 App Context 的, 只是同一个 Flask App 内部资源共享的一种方式, 所以多个 Blueprint 共享了同一个 Flask App; 而使用 Middleware 面向的是所有的 WSGI Application, 不仅仅是 Flask App, 即使是把 Django App 和 Flask App 用这种方式组合起来也是可行的。</p>
 </blockquote>
-
 <h2 id="在非-web-环境运行-flask-关联的代码">在非 Web 环境运行 Flask 关联的代码</h2>
-
 <p>设想, 一个离线脚本需要操作两个甚至多个 Flask App 关联的上下文, 应该怎么办呢? 这时候栈结构的 App Context 的优势就展现出来了。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> your_application <span style="color:#f92672">import</span> create_app
+<span style="color:#f92672">from</span> your_application.admin <span style="color:#f92672">import</span> create_app <span style="color:#66d9ef">as</span> create_admin_app
 
-<pre><code class="language-python">from your_application import create_app
-from your_application.admin import create_app as create_admin_app
+app <span style="color:#f92672">=</span> create_app()
+admin_app <span style="color:#f92672">=</span> create_admin_app()
 
-app = create_app()
-admin_app = create_admin_app()
-
-def copy_data():
-    with app.app_context():
-        data = read_data()
-        with admin_app.app_context():
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">copy_data</span>():
+    <span style="color:#66d9ef">with</span> app<span style="color:#f92672">.</span>app_context():
+        data <span style="color:#f92672">=</span> read_data()
+        <span style="color:#66d9ef">with</span> admin_app<span style="color:#f92672">.</span>app_context():
             write_data(data)
         mark_data_copied()
-</code></pre>
-
-<p>无论有多少个 App, 只要主动去 push 它的 App Context, Context Stack 中就会累计起来。这样, 栈顶永远是当前操作的 App Context, 当一个 App Context 结束的时候, 相应的栈顶元素也随之出栈。如果在执行过程中抛出了异常, 对应的 App Context 中注册的<code>teardown</code>函数被传入带有异常信息的参数。</p>
-
-<p>这么一来就解释了之前的两个疑问——在这种单线程运行环境中, 只有栈结构才能保存多个 Context 并在其中定位出哪个才是&quot;当前&quot;。而离线脚本只需要 App 关联的上下文, 不需要构造出请求, 所以 App Context 也应该和 Request Context 分离。</p>
-<div class="footnotes">
-
-<hr />
-
+</code></pre></div><p>无论有多少个 App, 只要主动去 push 它的 App Context, Context Stack 中就会累计起来。这样, 栈顶永远是当前操作的 App Context, 当一个 App Context 结束的时候, 相应的栈顶元素也随之出栈。如果在执行过程中抛出了异常, 对应的 App Context 中注册的<code>teardown</code>函数被传入带有异常信息的参数。</p>
+<p>这么一来就解释了之前的两个疑问——在这种单线程运行环境中, 只有栈结构才能保存多个 Context 并在其中定位出哪个才是&quot;当前&rdquo;。而离线脚本只需要 App 关联的上下文, 不需要构造出请求, 所以 App Context 也应该和 Request Context 分离。</p>
+<section class="footnotes" role="doc-endnotes">
+<hr>
 <ol>
-<li id="fn:1">Flask 的官方文档也对 <a href="http://flask.pocoo.org/docs/1.0/appcontext/">App Context</a> 和 <a href="http://flask.pocoo.org/docs/1.0/reqcontext/">Request Context</a> 作出了详细的解释。
- <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+<li id="fn:1" role="doc-endnote">
+<p>Flask 的官方文档也对 <a href="http://flask.pocoo.org/docs/1.0/appcontext/">App Context</a> 和 <a href="http://flask.pocoo.org/docs/1.0/reqcontext/">Request Context</a> 作出了详细的解释。 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
 </ol>
-</div></div>
+</section></div>
         <div class="post_footer">
           
           <div class="meta">

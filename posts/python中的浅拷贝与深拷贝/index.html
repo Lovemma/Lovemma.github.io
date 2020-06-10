@@ -79,6 +79,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,20 +96,13 @@
           <h2><a href='/posts/python%E4%B8%AD%E7%9A%84%E6%B5%85%E6%8B%B7%E8%B4%9D%E4%B8%8E%E6%B7%B1%E6%8B%B7%E8%B4%9D/'>Python中的浅拷贝与深拷贝</a></h2>
           <span class="date">2018.01.25</span>
         </div>
-        <div class="post_content markdown">
-
-<p>在面试过程中，经常会被问浅拷贝与深拷贝的区别。所以，在这里记录一下自己的理解，以便以后好复习。</p>
-
-<!-- more -->
-
-<h2 id="浅拷贝-shallow-copy">浅拷贝（shallow copy）</h2>
-
+        <div class="post_content markdown"><p>在面试过程中，经常会被问浅拷贝与深拷贝的区别。所以，在这里记录一下自己的理解，以便以后好复习。</p>
+<!-- raw HTML omitted -->
+<h2 id="浅拷贝shallow-copy">浅拷贝（shallow copy）</h2>
 <p>所谓“浅拷贝”，是指在复制一个对象时，构建一个新的对象，并将原对象中发现的引用插入到该对象中.</p>
-
 <p>浅拷贝的实现方式常见的有：工厂函数、切片操作、copy模块中的copy函数等
 实现如下：</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; a = [1, 2, [3, 4]]
+<pre><code class="language- python" data-lang=" python">&gt;&gt;&gt; a = [1, 2, [3, 4]]
 &gt;&gt;&gt; b = a[:]
 &gt;&gt;&gt; id(a)
 4505384008
@@ -122,37 +119,28 @@
 [1, 2, [3, 4, 5]]
 &gt;&gt;&gt; b
 [1, 2, [3, 4, 5]]
-</code></pre>
-
-<p>从上面可以看出，a和b指向内存中不同的list对象，但它们的元素却指向相同的对象，此时操作 a 中的元素，b 中的元素也会跟着一起改变。</p>
-
-<h2 id="深拷贝-deep-copy">深拷贝（deep copy）</h2>
-
+</code></pre><p>从上面可以看出，a和b指向内存中不同的list对象，但它们的元素却指向相同的对象，此时操作 a 中的元素，b 中的元素也会跟着一起改变。</p>
+<h2 id="深拷贝deep-copy">深拷贝（deep copy）</h2>
 <p>所谓“深拷贝”，是指在复制一个对象时，也构建一个新的对象，但是在遇到引用会继续递归拷贝其所指向的具体内容，也就是说构建出来的新的对象不会收到其他引用对象操作的影响。</p>
-
 <p>深拷贝的实现方式：使用copy模块中的deepcopy()函数</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> copy
+<span style="color:#f92672">&gt;&gt;&gt;</span> a <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]]
+<span style="color:#f92672">&gt;&gt;&gt;</span> b <span style="color:#f92672">=</span> copy<span style="color:#f92672">.</span>deepcopy(a)
+<span style="color:#f92672">&gt;&gt;&gt;</span> id(a)
+<span style="color:#ae81ff">4424991880</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> id(b)
+<span style="color:#ae81ff">4424991688</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> [id(x) <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> a]
+[<span style="color:#ae81ff">4416637552</span>, <span style="color:#ae81ff">4416637584</span>, <span style="color:#ae81ff">4424992072</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> [id(x) <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> b]
+[<span style="color:#ae81ff">4416637552</span>, <span style="color:#ae81ff">4416637584</span>, <span style="color:#ae81ff">4424991752</span>]
 
-<pre><code class="language-python">&gt;&gt;&gt; import copy
-&gt;&gt;&gt; a = [1, 2, [3, 4]]
-&gt;&gt;&gt; b = copy.deepcopy(a)
-&gt;&gt;&gt; id(a)
-4424991880
-&gt;&gt;&gt; id(b)
-4424991688
-&gt;&gt;&gt; [id(x) for x in a]
-[4416637552, 4416637584, 4424992072]
-&gt;&gt;&gt; [id(x) for x in b]
-[4416637552, 4416637584, 4424991752]
-
-&gt;&gt;&gt; a[2] += [5]
-&gt;&gt;&gt; print(a)
-[1, 2, [3, 4, 5]]
-&gt;&gt;&gt; print(b)
-[1, 2, [3, 4]]
-</code></pre>
-
-<p>这里可能会产生一个疑惑，为什么使用了深拷贝，a 和 b 中的元素有些还是一样呢？</p>
-
+<span style="color:#f92672">&gt;&gt;&gt;</span> a[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">+=</span> [<span style="color:#ae81ff">5</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(a)
+[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]]
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(b)
+[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]]
+</code></pre></div><p>这里可能会产生一个疑惑，为什么使用了深拷贝，a 和 b 中的元素有些还是一样呢？</p>
 <blockquote>
 <p>这是因为对于不可变对象，当需要一个新的对象时，python可能会返回已经存在的某个类型和值都一致的对象的引用。而且这种机制并不会影响 a 和 b 的相互独立性，因为当两个元素指向同一个不可变对象时，对其中一个赋值不会影响另外一个。</p>
 </blockquote>

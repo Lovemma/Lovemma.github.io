@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn" >
 <head>
-	<meta name="generator" content="Hugo 0.58.3" />
+	<meta name="generator" content="Hugo 0.72.0" />
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -80,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,16 +96,56 @@
 
 <div class="post animated fadeInDown">
   <div class="post_title">
+    <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/'>设计模式之原型模式</a></h2>
+  </div>
+  
+  <div class="list">
+    <div class="post_content markdown">
+      <p><p>原型模式（The Prototype Pattern）用于创建对象的完全副本，有点类似与现实生活中的有丝分裂，在 Python 中可以使用内置的<code>copy</code>模块实现。</p>
+<p>拷贝分为<code>深拷贝</code>和<code>浅拷贝</code>：</p>
+<ul>
+<li>深拷贝会递归复制并创建新的对象</li>
+<li>浅拷贝会利用引用指向同一个对象</li>
+</ul>
+<p>深拷贝的优点是对象之间互不影响，但是会耗费资源，创建比较耗时；如果不会修改对象可以使用浅拷贝，更加节省资源和创建时间。</p>......</p>
+    </div>
+  </div>
+  
+  <div class="post_footer">
+    <div class="meta">
+      <div class="info">
+        <span class="field">
+          <i class="remixicon-map-pin-time-line"></i>
+          <span class="date">2018.10.15</span>
+        </span>
+        
+        <span class="field tags">
+          <i class="remixicon-stack-line"></i>
+          
+          <a href="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
+          
+          <a href="https://lovemma.github.io/tags/python/">Python</a>
+          
+        </span>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="post animated fadeInDown">
+  <div class="post_title">
     <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%9E%84%E9%80%A0%E6%A8%A1%E5%BC%8F/'>设计模式之构造模式</a></h2>
   </div>
   
   <div class="list">
     <div class="post_content markdown">
-      <p><p>当出现以下几种情况时，可以考虑使用构造模式：
-1. 当想要创建一个复杂对象(对象由多个部分构成，且对象的创建要经过多个不同的步骤，这些步骤也许还遵从特定的顺序)
-2. 要求一个对象能有不同的表现，并希望将对象的构造与表现解耦
-3. 想要在某个时间点创建对象，但在稍后的时间点再访问</p>
-
+      <p><p>当出现以下几种情况时，可以考虑使用构造模式：</p>
+<ol>
+<li>当想要创建一个复杂对象(对象由多个部分构成，且对象的创建要经过多个不同的步骤，这些步骤也许还遵从特定的顺序)</li>
+<li>要求一个对象能有不同的表现，并希望将对象的构造与表现解耦</li>
+<li>想要在某个时间点创建对象，但在稍后的时间点再访问</li>
+</ol>
 <p>可以这么理解，你要买电脑，工厂模式直接返回一个你需要型号的电脑，但是构造模式允许你自定义电脑各种配置类型，组装完成后给你。这个过程你可以传入builder从而自定义创建的方式。</p>......</p>
     </div>
   </div>
@@ -169,7 +213,6 @@
   <div class="list">
     <div class="post_content markdown">
       <p><h1 id="python单例模式">Python单例模式</h1>
-
 <blockquote>
 <p>Design ptterns are discoverd, not invented.- Alex Martelli</p>
 </blockquote>......</p>
@@ -208,7 +251,6 @@
       <p><blockquote>
 <p>本文转载自公众号「Python之禅」，原文链接：<a href="https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA">https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA</a></p>
 </blockquote>
-
 <p>在一个应用服务中，对于时效性要求没那么高的业务场景，我们没必要等到所有任务执行完才返回结果，例如用户注册场景中，保存了用户账号密码之后，就可以立即返回，后续的账号激活邮件，可以用一种异步的形式去处理，这种异步操作可以用队列服务来实现。否则，如果等到邮件发送成功可能几秒过去了。</p>......</p>
     </div>
   </div>
@@ -241,9 +283,8 @@
   <div class="list">
     <div class="post_content markdown">
       <p><p>最近在试用 MySQL 数据库做查询时，遇到了这么个问题，当我使用 <code>GROUP_BY</code>对要查询的数据进行分组的时候，抛出了一个<code>InternalError</code>的错误，当时我：？？？</p>
-
 <blockquote>
-<p>1055, &quot;Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column ‘xxx’ which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by&quot;</p>
+<p>1055, &ldquo;Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column ‘xxx’ which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by&rdquo;</p>
 </blockquote>......</p>
     </div>
   </div>
@@ -337,7 +378,7 @@
   
   <div class="list">
     <div class="post_content markdown">
-      <p>Python 中的 list 类型应该是我们平时用的最多一个数据类型，如果仅从操作方式上看，列表像是数组和链表的综合体，除了按索引访问外，还支持插入、追加、删除等操作，完全可以当作队列或栈来使用，因此，如果不考虑性能问题，列表是一种易用且功能完善的理想数据结构。 列表的内部结构由两部分构成：(1) 保存元素数量和内存分配计数的头部，(2) 存储元素指针的独立数组。所有的元素使用该数组来保存指针引用，并不嵌入实际的内容。 &gt; 作为......</p>
+      <p>Python 中的 list 类型应该是我们平时用的最多一个数据类型，如果仅从操作方式上看，列表像是数组和链表的综合体，除了按索引访问外，还支持插入、追加、删除等操作，完全可以当作队列或栈来使用，因此，如果不考虑性能问题，列表是一种易用且功能完善的理想数据结构。 列表的内部结构由两部分构成：(1) 保存元素数量和内存分配计数的头部，(2) 存储元素指针的独立数组。所有的元素使用该数组来保存指针引用，并不嵌入实际的内容。 作为使......</p>
     </div>
   </div>
   
@@ -378,37 +419,6 @@
         <span class="field">
           <i class="remixicon-map-pin-time-line"></i>
           <span class="date">2018.06.21</span>
-        </span>
-        
-        <span class="field tags">
-          <i class="remixicon-stack-line"></i>
-          
-          <a href="https://lovemma.github.io/tags/python/">Python</a>
-          
-        </span>
-        
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="post animated fadeInDown">
-  <div class="post_title">
-    <h2><a href='/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%AD%97%E7%AC%A6%E4%B8%B2/'>「Python3学习笔记」读书笔记—字符串</a></h2>
-  </div>
-  
-  <div class="list">
-    <div class="post_content markdown">
-      <p>字符串字面量以成对的单引号（`）、双引号（”），或可跨行的三引号（”””）语法构成，自动合并相邻的字面量。字符串支持转义、八进制、十六进制，或 Unicode 格式字符。 使用单引号还是双引号，并没有什么特殊限制。如果文本内的引用文字使用双引号，那么外面用单引号可避免转义，更易阅读。 &gt; 通常情况下，建议遵循多数编程语言惯例，使用双引号标示。 Python 3 中字符串存储的是 Unicode 文本，是不可变序列类型。而 Unicode 格式大小写分别表示 16 位（ \u ）......</p>
-    </div>
-  </div>
-  
-  <div class="post_footer">
-    <div class="meta">
-      <div class="info">
-        <span class="field">
-          <i class="remixicon-map-pin-time-line"></i>
-          <span class="date">2018.06.14</span>
         </span>
         
         <span class="field tags">

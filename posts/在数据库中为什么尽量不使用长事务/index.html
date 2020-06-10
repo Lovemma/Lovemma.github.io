@@ -10,9 +10,8 @@
         content="COldish"/>
 
   
-  <meta name="description" content=" 长事务意味着系统里面会存在很老的事务视图。由于这些事务随时可能访问数据库里面的任何数据，所以这个事务提交之前，数据库里面它可能用到的回滚记录都必须保留，这会导致大量的占用存储空间。 &amp;gt; 在 MySQL 5.5 及以前的版本中，回滚日志跟数据字典一起放在 ibdata 文件里面，即使长事务最终提交，回滚段被清理，文件也不会变小。
- 除了对回滚段有影响，长事务还占用锁资源，这也有可能会拖垮整个库。
- "/>
+  <meta name="description" content=" 长事务意味着系统里面会存在很老的事务视图。由于这些事务随时可能访问数据库里面的任何数据，所以这个事务提交之前，数据库里面它可能用到的回滚记录都必须保留，这会导致大量的占用存储空间。   在 MySQL 5.5 及以前的版本中，回滚日志跟数据字典一起放在 ibdata 文件里面，即使长事务最终提交，回滚段被清理，文件也不会变小。
+ 除了对回滚段有影响，长事务还占用锁资源，这也有可能会拖垮整个库。 "/>
   
 
   
@@ -81,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -95,26 +98,23 @@
           <span class="date">2018.11.20</span>
         </div>
         <div class="post_content markdown"><ol>
-<li><p>长事务意味着系统里面会存在很老的事务视图。由于这些事务随时可能访问数据库里面的任何数据，所以这个事务提交之前，数据库里面它可能用到的回滚记录都必须保留，这会导致大量的占用存储空间。
-&gt; 在 MySQL 5.5 及以前的版本中，回滚日志跟数据字典一起放在 ibdata 文件里面，即使长事务最终提交，回滚段被清理，文件也不会变小。</p></li>
-
-<li><p>除了对回滚段有影响，长事务还占用锁资源，这也有可能会拖垮整个库。</p></li>
+<li>长事务意味着系统里面会存在很老的事务视图。由于这些事务随时可能访问数据库里面的任何数据，所以这个事务提交之前，数据库里面它可能用到的回滚记录都必须保留，这会导致大量的占用存储空间。</li>
 </ol>
-
+<blockquote>
+<p>在 MySQL 5.5 及以前的版本中，回滚日志跟数据字典一起放在 ibdata 文件里面，即使长事务最终提交，回滚段被清理，文件也不会变小。</p>
+</blockquote>
+<ol start="2">
+<li>除了对回滚段有影响，长事务还占用锁资源，这也有可能会拖垮整个库。</li>
+</ol>
 <h2 id="如何避免长事务对业务的影响">如何避免长事务对业务的影响</h2>
-
 <p>这个问题，我们可以从应用开发端和数据库端分开来看。</p>
-
 <h3 id="从应用端来看">从应用端来看：</h3>
-
 <ol>
 <li>确认是否使用了 set autocommit=0。这个确认工作可以在测试环境中开展，把 MySQL 的 general_log 开起来，然后随便跑一个业务逻辑，通过 general_log 的日志来确认。一般框架如果会设置这个值，也就会提供参数来控制行为，你的目标就是把它改成 1。</li>
 <li>确认是否有不必要的只读事务。有些框架会习惯不管什么语句先用 begin/commit 框起来。但有些业务并没有这个需要，但也把好几个 select 语句放到事务中。这种只读事务可以去掉。</li>
 <li>业务连接数据库的时候，根据业务本身的预估，通过 SET MAX_EXECUTION_TIME 命令，来控制每个语句执行的最长时间，避免单个语句意外执行太长时间。</li>
 </ol>
-
 <h3 id="从数据库端来看">从数据库端来看</h3>
-
 <ol>
 <li>监控 information_schema.innodb_trx 表，设置长事务阀值，超过就报警或者 kill。</li>
 <li>Percona 的 pt-kill 这个工具不错，推荐使用。</li>

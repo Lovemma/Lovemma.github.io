@@ -79,6 +79,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,128 +96,68 @@
           <h2><a href='/posts/python%E8%99%9A%E6%8B%9F%E7%8E%AF%E5%A2%83virtualenv%E5%92%8Cvirtualenvwrapper%E6%90%AD%E5%BB%BA/'>Python虚拟环境Virtualenv和Virtualenvwrapper搭建</a></h2>
           <span class="date">2018.02.24</span>
         </div>
-        <div class="post_content markdown">
-
-<p><a href="http://pypi.python.org/pypi/virtualenv">virtualenv</a> 是一个创建隔绝的Python环境的 Python 包。当我们遇到几个项目依赖不同版本的包的时候，如：项目A需要 Django 1.10 版本，项目B需要 Django 1.11 版本，这时就可以使用 virtualenv 来解决这个问题。</p>
-
-<!-- more -->
-
+        <div class="post_content markdown"><p><a href="http://pypi.python.org/pypi/virtualenv">virtualenv</a> 是一个创建隔绝的Python环境的 Python 包。当我们遇到几个项目依赖不同版本的包的时候，如：项目A需要 Django 1.10 版本，项目B需要 Django 1.11 版本，这时就可以使用 virtualenv 来解决这个问题。</p>
+<!-- raw HTML omitted -->
 <h2 id="virtualenv">Virtualenv</h2>
-
 <h3 id="安装virtualenv">安装virtualenv</h3>
-
-<pre><code class="language-python">pip install virtualenv
-</code></pre>
-
-<h3 id="使用方法">使用方法</h3>
-
-<pre><code class="language-python">mkdir your_project_folder
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">pip install virtualenv
+</code></pre></div><h3 id="使用方法">使用方法</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">mkdir your_project_folder
 cd your_project_folder
-virtualenv env 		# env是你的虚拟环境名称
-</code></pre>
-
-<p>此时会建立一个带有系统 Python 环境中所有第三方包的 Python 运行环境，若不想带有这些第三方包，命令中加上<code>--no-site-packages</code>这个参数，就可以得到一个不带有任何第三包的“纯净”的 Python 运行环境。</p>
-
-<pre><code class="language-Python">virtualenv --no-site-packages [虚拟环境名]
-</code></pre>
-
-<p>并且，在创建虚拟 Python 运行环境时，还可以通过<code>-p</code>参数指定 Python 解释器：</p>
-
-<pre><code class="language-python">virtualenv -p /usr/bin/python3 [虚拟环境名]
-</code></pre>
-
-<h3 id="激活虚拟环境">激活虚拟环境</h3>
-
-<pre><code class="language-python">source env/bin/activate
-</code></pre>
-
-<p>运行此命令后，会发现命令提示符前多了一个<code>(env)</code>的前缀，这表明当前环境是一个名为 env 的 Python 运行环境。</p>
-
+virtualenv env 		<span style="color:#75715e"># env是你的虚拟环境名称</span>
+</code></pre></div><p>此时会建立一个带有系统 Python 环境中所有第三方包的 Python 运行环境，若不想带有这些第三方包，命令中加上<code>--no-site-packages</code>这个参数，就可以得到一个不带有任何第三包的“纯净”的 Python 运行环境。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">virtualenv <span style="color:#f92672">--</span>no<span style="color:#f92672">-</span>site<span style="color:#f92672">-</span>packages [<span style="color:#960050;background-color:#1e0010">虚拟环境名</span>]
+</code></pre></div><p>并且，在创建虚拟 Python 运行环境时，还可以通过<code>-p</code>参数指定 Python 解释器：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">virtualenv <span style="color:#f92672">-</span>p <span style="color:#f92672">/</span>usr<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>python3 [<span style="color:#960050;background-color:#1e0010">虚拟环境名</span>]
+</code></pre></div><h3 id="激活虚拟环境">激活虚拟环境</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">source env<span style="color:#f92672">/</span>bin<span style="color:#f92672">/</span>activate
+</code></pre></div><p>运行此命令后，会发现命令提示符前多了一个<code>(env)</code>的前缀，这表明当前环境是一个名为 env 的 Python 运行环境。</p>
 <h3 id="退出虚拟环境">退出虚拟环境</h3>
-
-<pre><code class="language-Python">deactivate
-</code></pre>
-
-<p>若不想要该虚拟运行环境了，直接使用<code>rm -rf [虚拟环境名]</code>命令删除即可(简单粗暴)。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python">deactivate
+</code></pre></div><p>若不想要该虚拟运行环境了，直接使用<code>rm -rf [虚拟环境名]</code>命令删除即可(简单粗暴)。</p>
 <h2 id="virtualenvwrapper">Virtualenvwrapper</h2>
-
 <p>virtualenvwrapper 是 virtualenv 的扩展管理包，virtualenvwrapper提供了一系列命令让虚拟环境在使用时变得愉快许多，它把您所有的虚拟环境都放在一个地方。</p>
-
 <h3 id="安装">安装</h3>
-
-<pre><code class="language-python">pip install virtualenvwrapper
-</code></pre>
-
-<p>安装完成后，还需要运行 virtualenvwrapper.sh 文件才使用 virtualenvwrapper，该文件通常情况下是在<code>/usr/local/bin/</code>目录下，但有时发生意外情况就需要查找该文件了：</p>
-
-<pre><code class="language-python">find / -name virtualenvwrapper.sh
-</code></pre>
-
-<p>该文件中写有安装步骤，按照步骤把环境设置好即可。</p>
-
-<pre><code class="language-shell"># Setup:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">pip install virtualenvwrapper
+</code></pre></div><p>安装完成后，还需要运行 virtualenvwrapper.sh 文件才使用 virtualenvwrapper，该文件通常情况下是在<code>/usr/local/bin/</code>目录下，但有时发生意外情况就需要查找该文件了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">find <span style="color:#f92672">/</span> <span style="color:#f92672">-</span>name virtualenvwrapper<span style="color:#f92672">.</span>sh
+</code></pre></div><p>该文件中写有安装步骤，按照步骤把环境设置好即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e"># Setup:</span>
 #
-#  1. Create a directory to hold the virtual environments.
-#     (mkdir $HOME/.virtualenvs).
-#  2. Add a line like &quot;export WORKON_HOME=$HOME/.virtualenvs&quot;
-#     to your .bashrc.
-#  3. Add a line like &quot;source /path/to/this/file/virtualenvwrapper.sh&quot;
-#     to your .bashrc.
-#  4. Run: source ~/.bashrc
-#  5. Run: workon
-#  6. A list of environments, empty, is printed.
-#  7. Run: mkvirtualenv temp
-#  8. Run: workon
-#  9. This time, the &quot;temp&quot; environment is included.
-# 10. Run: workon temp
-# 11. The virtual environment is activated.
-</code></pre>
-
-<p>首先是创建一个目录来存放未来创建的所有虚拟环境：</p>
-
-<pre><code class="language-shell">mkdir $HOME/.virtualenvs # 目录名随意，这里用的是.virtualenvs
-</code></pre>
-
-<p>在<code>.bashrc</code>(bash) 或者<code>.zshrc</code>(zsh)，根据使用的shell来定，添加：</p>
-
-<pre><code class="language-Shell">export WORKON_HOME=$HOME/.virtualenvs
-export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3 # 设置虚拟环境默认Python解释器版本，可省略
+<span style="color:#75715e">#  1. Create a directory to hold the virtual environments.</span>
+<span style="color:#75715e">#     (mkdir $HOME/.virtualenvs).</span>
+<span style="color:#75715e">#  2. Add a line like &#34;export WORKON_HOME=$HOME/.virtualenvs&#34;</span>
+<span style="color:#75715e">#     to your .bashrc.</span>
+<span style="color:#75715e">#  3. Add a line like &#34;source /path/to/this/file/virtualenvwrapper.sh&#34;</span>
+<span style="color:#75715e">#     to your .bashrc.</span>
+<span style="color:#75715e">#  4. Run: source ~/.bashrc</span>
+<span style="color:#75715e">#  5. Run: workon</span>
+<span style="color:#75715e">#  6. A list of environments, empty, is printed.</span>
+<span style="color:#75715e">#  7. Run: mkvirtualenv temp</span>
+<span style="color:#75715e">#  8. Run: workon</span>
+<span style="color:#75715e">#  9. This time, the &#34;temp&#34; environment is included.</span>
+<span style="color:#75715e"># 10. Run: workon temp</span>
+<span style="color:#75715e"># 11. The virtual environment is activated.</span>
+</code></pre></div><p>首先是创建一个目录来存放未来创建的所有虚拟环境：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">mkdir $HOME/.virtualenvs <span style="color:#75715e"># 目录名随意，这里用的是.virtualenvs</span>
+</code></pre></div><p>在<code>.bashrc</code>(bash) 或者<code>.zshrc</code>(zsh)，根据使用的shell来定，添加：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">export WORKON_HOME<span style="color:#f92672">=</span>$HOME/.virtualenvs
+export VIRTUALENVWRAPPER_PYTHON<span style="color:#f92672">=</span>/usr/bin/python3 <span style="color:#75715e"># 设置虚拟环境默认Python解释器版本，可省略</span>
 source /path/to/this/file/virtualenvwrapper.sh
-</code></pre>
-
-<p>激活 shell 配置文件：</p>
-
-<pre><code class="language-Shell">source .bashrc 或者 source .zshrc
-</code></pre>
-
-<h2 id="使用">使用</h2>
-
+</code></pre></div><p>激活 shell 配置文件：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">source .bashrc 或者 source .zshrc
+</code></pre></div><h2 id="使用">使用</h2>
 <h4 id="查看虚拟环境列表">查看虚拟环境列表</h4>
-
-<pre><code class="language-shell">workon 或者 lsvirtualenv
-</code></pre>
-
-<h4 id="创建虚拟环境">创建虚拟环境</h4>
-
-<pre><code class="language-Shell">mkvirtualenv [虚拟环境名]
-</code></pre>
-
-<h4 id="启动-切换虚拟环境">启动/切换虚拟环境</h4>
-
-<pre><code class="language-shell">workon [虚拟环境名]
-</code></pre>
-
-<h4 id="删除虚拟环境">删除虚拟环境</h4>
-
-<pre><code class="language-shell">rmvirtualenv [虚拟环境名]
-</code></pre>
-
-<h4 id="退出虚拟环境-1">退出虚拟环境</h4>
-
-<pre><code class="language-shell">deactivate
-</code></pre>
-</div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">workon 或者 lsvirtualenv
+</code></pre></div><h4 id="创建虚拟环境">创建虚拟环境</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">mkvirtualenv <span style="color:#f92672">[</span>虚拟环境名<span style="color:#f92672">]</span>
+</code></pre></div><h4 id="启动切换虚拟环境">启动/切换虚拟环境</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">workon <span style="color:#f92672">[</span>虚拟环境名<span style="color:#f92672">]</span>
+</code></pre></div><h4 id="删除虚拟环境">删除虚拟环境</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">rmvirtualenv <span style="color:#f92672">[</span>虚拟环境名<span style="color:#f92672">]</span>
+</code></pre></div><h4 id="退出虚拟环境-1">退出虚拟环境</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">deactivate
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

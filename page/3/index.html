@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn" >
 <head>
-	<meta name="generator" content="Hugo 0.58.3" />
+	<meta name="generator" content="Hugo 0.72.0" />
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -80,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,15 +96,48 @@
 
 <div class="post animated fadeInDown">
   <div class="post_title">
+    <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/'>设计模式:解释器模式</a></h2>
+  </div>
+  
+  <div class="list">
+    <div class="post_content markdown">
+      <p><p>解释器模式用于为高级用户和领域专家提供一个类编程的框架，但没有暴露出编程语言那样的复杂性。这是通过实现一个DSL来达到目的的。</p>
+<p>DSL是一种针对特定领域、表达能力有限的计算机语言。 DSL有两类，分别是内部DSL和外部DSL。内部DSL构建在一种宿主编程语言之上，依赖宿主编程语言，外部DSL则是从头实现，不依赖某种已有的编程语言。解释器模式仅与内部DSL相关。</p>
+<p>例如：乐谱是一个非软件DSL的例子。音乐演奏者像一个解释器那样，使用乐谱演奏出音乐。</p>......</p>
+    </div>
+  </div>
+  
+  <div class="post_footer">
+    <div class="meta">
+      <div class="info">
+        <span class="field">
+          <i class="remixicon-map-pin-time-line"></i>
+          <span class="date">2018.10.28</span>
+        </span>
+        
+        <span class="field tags">
+          <i class="remixicon-stack-line"></i>
+          
+          <a href="https://lovemma.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/">解释器模式</a>
+          
+          <a href="https://lovemma.github.io/tags/python/">Python</a>
+          
+        </span>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="post animated fadeInDown">
+  <div class="post_title">
     <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/'>设计模式之命令模式</a></h2>
   </div>
   
   <div class="list">
     <div class="post_content markdown">
       <p><p>命令设计模式帮助我们将一个操作（撤销、重做、复制、粘贴等）封装成一个对象，通常是创建一个包含Operation所有逻辑和方法的类。</p>
-
 <p>当我们去餐馆吃饭时，会叫服务员来点单。他们用来做记录的账单（通常是纸质的）就是命令模式的一个例子。在记录好订单后，服务员将其放入账单队列，厨师会照着单子去做。每个账单都是独立的，并且可用来执行许多不同命令，例如，一个命令对应一个将要烹饪的菜品。</p>
-
 <p>通过命令模式可以控制命令的执行时间和过程，还可以用来组织事务。</p>......</p>
     </div>
   </div>
@@ -135,7 +172,6 @@
   <div class="list">
     <div class="post_content markdown">
       <p><p>责任链（Chain of Responsibility）模式用于让多个对象来处理单个请求，或者用于预先不知道应该由哪个对象（来自某个对象链）来处理某个特定请求。我们可以使用计算机网络的广播来类比责任链模式。</p>
-
 <p>在责任链模式中，发送方可直接访问链中的首个节点。若首个节点不能处理请求，则转发给下一个节点，如此直到请求被某个节点处理或者整个链遍历结束。这种设计模式用于实现发送方与接收方（多个）之间的解耦。</p>......</p>
     </div>
   </div>
@@ -170,12 +206,13 @@
   <div class="list">
     <div class="post_content markdown">
       <p><p>代理模式是通过一层间接保护层实现更安全的接口访问，例如：访问敏感信息——在允许用户访问敏感信息之前，我们希望确保用户具备足够的权限。</p>
-
-<p>有四种常用的代理模式：
-- 远程代理：实际存在于不同地址空间（例如，某个网络服务器）的对象在本地的代理者。使得访问远程对象就像访问本地一样，隐藏了复杂性，如：ORM。
-- 虚拟代理：用来实现延迟访问，比如一些需要复杂计算的对象，Python 里可以实现 lazy_property，改善性能。
-- 保护/防护代理：用于控制敏感对象的访问。
-- 智能(引用)代理：在对象被访问时执行额外的动作。例如引用计数和线程安全检查。</p>......</p>
+<p>有四种常用的代理模式：</p>
+<ul>
+<li>远程代理：实际存在于不同地址空间（例如，某个网络服务器）的对象在本地的代理者。使得访问远程对象就像访问本地一样，隐藏了复杂性，如：ORM。</li>
+<li>虚拟代理：用来实现延迟访问，比如一些需要复杂计算的对象，Python 里可以实现 lazy_property，改善性能。</li>
+<li>保护/防护代理：用于控制敏感对象的访问。</li>
+<li>智能(引用)代理：在对象被访问时执行额外的动作。例如引用计数和线程安全检查。</li>
+</ul>......</p>
     </div>
   </div>
   
@@ -209,7 +246,6 @@
   <div class="list">
     <div class="post_content markdown">
       <p><p>MVC是一个非常重要的设计模式，用于将应用组织成三个部分：模型、视图和控制器。同时，MVC也是一种架构模式，比如流行的 Django 框架就是 MVC(MTV) 模式。</p>
-
 <p>每个部分都有明确的职责。模型负责访问数据，管理应用的状态。视图是模型的外在表现。视图并非必须是图形化的；文本输出也是一种好视图。控制器是模型与视图之间的连接。 MVC的恰当使用能确保最终产出的应用易于维护、易于扩展。</p>......</p>
     </div>
   </div>
@@ -243,11 +279,12 @@
   
   <div class="list">
     <div class="post_content markdown">
-      <p><p>OOP中容易出现对象创建带来的性能和内存占用问题，当我们想要优化内存使用提高应用性能之时，可以使用享元模式。而想要使享元模式有效，需要满足以下几个条件：
-- 需要使用大量对象（Python 中可以使用<code>__slots__</code>节省内存使用）
-- 对象太多难以存储或解析大量对象
-- 对象识别不是特别重要，共享对象中对象比较会失败</p>
-
+      <p><p>OOP中容易出现对象创建带来的性能和内存占用问题，当我们想要优化内存使用提高应用性能之时，可以使用享元模式。而想要使享元模式有效，需要满足以下几个条件：</p>
+<ul>
+<li>需要使用大量对象（Python 中可以使用<code>__slots__</code>节省内存使用）</li>
+<li>对象太多难以存储或解析大量对象</li>
+<li>对象识别不是特别重要，共享对象中对象比较会失败</li>
+</ul>
 <p>通常情况下，会使用对象池技术来实现共享对象，比如数据库中经常使用连接池来减少开销，预先建立一些连接池，每次取一个连接和数据库交互。</p>......</p>
     </div>
   </div>
@@ -282,7 +319,6 @@
   <div class="list">
     <div class="post_content markdown">
       <p><p>一个系统会随着演进而变得非常复杂，最终形成大量的（并且有时是令人迷惑的）类和交互，这种情况并不少见。</p>
-
 <p>但许多情况下，我们并不想把这种复杂性暴露给客户端。而外观设计模式有助于隐藏系统的内部复杂性，并通过一个简化的接口向客户端暴露必要的部分。本质上，外观模式是在已有的系统上实现的一个抽象层。</p>......</p>
     </div>
   </div>
@@ -316,15 +352,14 @@
   
   <div class="list">
     <div class="post_content markdown">
-      <p><p>当我们想对一个已有的对象添加额外的功能时，可以使用如下方法：
-1. 如果合理，可以直接将功能添加到对象所属的类（例如，添加一个新的方法）。
-2. 使用组合
-3. 使用继承</p>
-
+      <p><p>当我们想对一个已有的对象添加额外的功能时，可以使用如下方法：</p>
+<ol>
+<li>如果合理，可以直接将功能添加到对象所属的类（例如，添加一个新的方法）。</li>
+<li>使用组合</li>
+<li>使用继承</li>
+</ol>
 <p>与继承相比，通常应该优先选择组合，因为继承使得代码更难复用，继承关系是静态的，并且应用于整个类以及这个类的所有实例。</p>
-
 <p>设计模式为我们提供了第四种可选的方法，以支持动态的扩展一个对象的功能，这种方法就是装饰器。</p>
-
 <p>装饰器有很多用途，比如数据校验，事务处理，缓存，日志等。</p>......</p>
     </div>
   </div>
@@ -359,7 +394,6 @@
   <div class="list">
     <div class="post_content markdown">
       <p><p>适配器模式（Adapter pattern）是一种结构型设计模式，帮助我们实现两个不兼容接口之间的兼容。不兼容接口的含义：如果我们希望把一个老组件用于一个新系统中，或者把一个新组件用于一个老系统中，不对代码进行任何修改两者就能够通信的情况很少见。但又并非总是能修改代码，或因为我们无法访问这些代码（例如，组件以外部库的方式提供），或因为修改代码本身就不切实际。在这些情况下，我们可以编写一个额外的代码层，该代码层包含让两个接口之间能够通信需要进行的所有修改。这个代码层就叫适配器。</p>
-
 <p>现实中最好的例子就是手机充电口，不同型号安卓手机都可以用同样的充电线充电。</p>......</p>
     </div>
   </div>
@@ -394,17 +428,15 @@
   <div class="list">
     <div class="post_content markdown">
       <p><h2 id="问题">问题</h2>
-
 <p>我们想要将一个列表，里面是<code>(key, value)</code>这样的键值对元组，转换成一个<code>key</code>相同的<code>value</code>的字典，如下所示：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data <span style="color:#f92672">=</span> [(<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#ae81ff">1</span>), (<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#ae81ff">2</span>), (<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#ae81ff">3</span>), (<span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#ae81ff">4</span>), (<span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#ae81ff">5</span>)]
 
-<pre><code class="language-python">data = [('a', 1), ('a', 2), ('a', 3), ('b', 4), ('b', 5)]
-
-# convert to
-d = {
-    'a': [1, 2, 3],
-    'b': [4, 5]
+<span style="color:#75715e"># convert to</span>
+d <span style="color:#f92672">=</span> {
+    <span style="color:#e6db74">&#39;a&#39;</span>: [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>],
+    <span style="color:#e6db74">&#39;b&#39;</span>: [<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>]
 }
-</code></pre>......</p>
+</code></pre></div>......</p>
     </div>
   </div>
   
@@ -420,45 +452,6 @@ d = {
           <i class="remixicon-stack-line"></i>
           
           <a href="https://lovemma.github.io/tags/python%E6%8A%80%E5%B7%A7/">Python技巧</a>
-          
-        </span>
-        
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="post animated fadeInDown">
-  <div class="post_title">
-    <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/'>设计模式之原型模式</a></h2>
-  </div>
-  
-  <div class="list">
-    <div class="post_content markdown">
-      <p><p>原型模式（The Prototype Pattern）用于创建对象的完全副本，有点类似与现实生活中的有丝分裂，在 Python 中可以使用内置的<code>copy</code>模块实现。</p>
-
-<p>拷贝分为<code>深拷贝</code>和<code>浅拷贝</code>：
-- 深拷贝会递归复制并创建新的对象
-- 浅拷贝会利用引用指向同一个对象</p>
-
-<p>深拷贝的优点是对象之间互不影响，但是会耗费资源，创建比较耗时；如果不会修改对象可以使用浅拷贝，更加节省资源和创建时间。</p>......</p>
-    </div>
-  </div>
-  
-  <div class="post_footer">
-    <div class="meta">
-      <div class="info">
-        <span class="field">
-          <i class="remixicon-map-pin-time-line"></i>
-          <span class="date">2018.10.15</span>
-        </span>
-        
-        <span class="field tags">
-          <i class="remixicon-stack-line"></i>
-          
-          <a href="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-          
-          <a href="https://lovemma.github.io/tags/python/">Python</a>
           
         </span>
         

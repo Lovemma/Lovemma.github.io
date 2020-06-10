@@ -79,6 +79,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,66 +96,47 @@
           <h2><a href='/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E9%9B%86%E5%90%88/'>「Python3学习笔记」读书笔记—集合</a></h2>
           <span class="date">2018.06.29</span>
         </div>
-        <div class="post_content markdown">
-
-<p>集合存储的是非重复对象，所谓的非重复对象是指：除了不是同一对象外，值也不能相同。</p>
-
-<pre><code class="language-python"># Python集合判重公式
-(a is b) OR (hash(a) == hash(b) AND a == b)
-</code></pre>
-
-<!-- more -->
-
+        <div class="post_content markdown"><p>集合存储的是非重复对象，所谓的非重复对象是指：除了不是同一对象外，值也不能相同。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Python集合判重公式</span>
+(a <span style="color:#f92672">is</span> b) OR (hash(a) <span style="color:#f92672">==</span> hash(b) AND a <span style="color:#f92672">==</span> b)
+</code></pre></div><!-- raw HTML omitted -->
 <blockquote>
 <p>如果不是同一对象，那么先判断哈希值，然后比较内容。因为受限于哈希算法，不同内容可能返回相同的哈希值（哈希碰撞），那么就有必要继续比较内容是否相同。</p>
-
 <p>那么为什么要先比较哈希值，而不直接比较内容呢？首先，与大多数内容（例如字符串）相比，整数哈希值比较的性能高得多；其次，哈希值不同，内容肯定不同，这时就没必要再继续比较内容了。</p>
 </blockquote>
-
-<p>按操作方式来分的话，集合可分为可变（set）和不可变（frozenset）两个版本，内部实现完全相同。集合使用数组实现的哈希表来存储元素对象的引用，这也意味着集合中的元素必须为可哈希类型。
-&gt; 查找元素对象时，先通过算法定位数组索引，继而比较哈希值和内容。<br />
-&gt;
-&gt; 集合对象自带一个长度为 8 的小数组（small table)，这对多数简单集合运算有益，可避免额外的内存分配。只有超出容量限制时，才分配更大的数组内存（entry table)。集合使用的频率没有列表和字典高，内部没有采用缓存服用策略，其实现方式决定了无序存储，标准库也没有提供有序实现。</p>
-
+<p>按操作方式来分的话，集合可分为可变（set）和不可变（frozenset）两个版本，内部实现完全相同。集合使用数组实现的哈希表来存储元素对象的引用，这也意味着集合中的元素必须为可哈希类型。</p>
+<blockquote>
+<p>查找元素对象时，先通过算法定位数组索引，继而比较哈希值和内容。</p>
+<p>集合对象自带一个长度为 8 的小数组（small table)，这对多数简单集合运算有益，可避免额外的内存分配。只有超出容量限制时，才分配更大的数组内存（entry table)。集合使用的频率没有列表和字典高，内部没有采用缓存服用策略，其实现方式决定了无序存储，标准库也没有提供有序实现。</p>
+</blockquote>
 <h2 id="创建">创建</h2>
-
 <p>创建一个集合对象可以和字典一样使用大括号的语法，但初始化数据用非键值对；也可以调用类型构建方法，或使用推导式。
 集合允许在不同的版本进行转换。</p>
-
 <pre><code>&gt;&gt;&gt; s = {1}
 &gt;&gt;&gt; f = frozenset(s)
 &gt;&gt;&gt; set(f)
 {1}
-</code></pre>
-
-<h2 id="操作">操作</h2>
-
+</code></pre><h2 id="操作">操作</h2>
 <p>集合支持大小、相等运算符。</p>
-
 <pre><code>&gt;&gt;&gt; {1, 2} &gt; {2, 1}
 False
 &gt;&gt;&gt; {1, 2} == {2, 1}
 True
-</code></pre>
-
-<p>但子集判断不能使用 in、not in 语句，因为其只能用来检查是否包含某个元素。</p>
-
+</code></pre><p>但子集判断不能使用 in、not in 语句，因为其只能用来检查是否包含某个元素。</p>
 <pre><code>&gt;&gt;&gt; {1, 2} &lt;= {1, 2, 3}	# 子集：issubset
 True
 &gt;&gt;&gt; {1, 2, 3} &gt;= {1, 2}	# 超集：issuperset
 True
 &gt;&gt;&gt; {1, 2} in {1, 2, 3}	# 判断是否包含 {1, 2} 单一元素
 False
-</code></pre>
-
-<p>集合是初等数学中的概念，其重点自然是并差集运算，合理使用这些操作，可简化算法筛选逻辑，使其具备更好的可读性。
-&gt; 交集（&amp;）：同时属于 A、B 两个集合的元素<br />
-&gt; 并集（|）：A、B 的所有元素<br />
-&gt; 差集（-）：仅属于 A、不属于 B 的元素<br />
-&gt; 对称差集（^）：仅属于 A，加上仅属于 B 的元素，相当于“并集-交集”</p>
-
+</code></pre><p>集合是初等数学中的概念，其重点自然是并差集运算，合理使用这些操作，可简化算法筛选逻辑，使其具备更好的可读性。</p>
+<blockquote>
+<p>交集（&amp;）：同时属于 A、B 两个集合的元素<br>
+并集（|）：A、B 的所有元素<br>
+差集（-）：仅属于 A、不属于 B 的元素<br>
+对称差集（^）：仅属于 A，加上仅属于 B 的元素，相当于“并集-交集”</p>
+</blockquote>
 <p>集合支持删除操作，但 remove 可能会引发异常，可改用 discard。</p>
-
 <pre><code>&gt;&gt;&gt; x = {1, 2}
 &gt;&gt;&gt; x.remove(2)
 &gt;&gt;&gt; x.remove(2)
@@ -160,19 +145,13 @@ Traceback (most recent call last):
 KeyError: 2
 
 &gt;&gt;&gt; x.discard(2)
-</code></pre>
-
-<h2 id="自定义类型">自定义类型</h2>
-
+</code></pre><h2 id="自定义类型">自定义类型</h2>
 <p>自定义类型虽然是可哈希类型，但默认实现并不足以完成集合的去重操作。</p>
-
-<pre><code class="language-python">class User:
-    def __init__(self, uid, name):
-        self.uid = uid
-        self.name = name
-</code></pre>
-
-<pre><code>&gt;&gt;&gt; import collections
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, uid, name):
+        self<span style="color:#f92672">.</span>uid <span style="color:#f92672">=</span> uid
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+</code></pre></div><pre><code>&gt;&gt;&gt; import collections
 &gt;&gt;&gt; issubclass(User, collections.Hashable)
 True
 
@@ -183,23 +162,18 @@ True
 &gt;&gt;&gt; s.add(u2)
 &gt;&gt;&gt; s
 {&lt;__main__.User object at 0x10bc1df98&gt;, &lt;__main__.User object at 0x10bc29048&gt;}
-</code></pre>
+</code></pre><p>其根本原因是默认实现的<code>__hash__</code>方法返回随机值，而<code>__eq__</code>仅比较自身，为符合逻辑需要，须重载这两个方法。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">User</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, uid, name):
+        self<span style="color:#f92672">.</span>uid <span style="color:#f92672">=</span> uid
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
 
-<p>其根本原因是默认实现的<code>__hash__</code>方法返回随机值，而<code>__eq__</code>仅比较自身，为符合逻辑需要，须重载这两个方法。</p>
+    <span style="color:#66d9ef">def</span> __hash__(self):		<span style="color:#75715e"># 针对 uid 去重，忽略其他字段</span>
+        <span style="color:#66d9ef">return</span> hash(self<span style="color:#f92672">.</span>uid)
 
-<pre><code class="language-python">class User:
-    def __init__(self, uid, name):
-        self.uid = uid
-        self.name = name
-
-    def __hash__(self):		# 针对 uid 去重，忽略其他字段
-        return hash(self.uid)
-
-    def __eq__(self, other):
-        return self.uid == other.uid
-</code></pre>
-
-<pre><code>&gt;&gt;&gt; u1 = User(1, &quot;user1&quot;)
+    <span style="color:#66d9ef">def</span> __eq__(self, other):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>uid <span style="color:#f92672">==</span> other<span style="color:#f92672">.</span>uid
+</code></pre></div><pre><code>&gt;&gt;&gt; u1 = User(1, &quot;user1&quot;)
 &gt;&gt;&gt; u2 = User(1, &quot;user1&quot;)
 &gt;&gt;&gt; s = set()
 &gt;&gt;&gt; s.add(u1)
@@ -210,8 +184,7 @@ True
 True
 &gt;&gt;&gt; u2 in s		# 仅检查 uid 字段
 True
-</code></pre>
-</div>
+</code></pre></div>
         <div class="post_footer">
           
           <div class="meta">

@@ -81,6 +81,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -97,173 +101,113 @@
         <div class="post_content markdown"><blockquote>
 <p>本文转载自公众号「Python之禅」，原文链接：<a href="https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA">https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA</a></p>
 </blockquote>
-
 <p>在一个应用服务中，对于时效性要求没那么高的业务场景，我们没必要等到所有任务执行完才返回结果，例如用户注册场景中，保存了用户账号密码之后，就可以立即返回，后续的账号激活邮件，可以用一种异步的形式去处理，这种异步操作可以用队列服务来实现。否则，如果等到邮件发送成功可能几秒过去了。</p>
-
 <h2 id="celery是什么">Celery是什么？</h2>
-
 <p>Celery（中文是芹菜的意思）是Python语言实现的分布式队列服务，除了支持即时任务，还支持定时任务，Celery 有5个核心角色。</p>
-
 <h3 id="task">Task</h3>
-
 <p>任务(Task)就是你要做的事情，例如一个注册流程里面有很多任务，给用户发验证邮件就是一个任务，这种耗时的任务就可以交给Celery去处理，还有一种任务是定时任务，比如每天定时统计网站的注册人数，这个也可以交给Celery周期性的处理。</p>
-
 <h3 id="broker">Broker</h3>
-
 <p>Broker 的中文意思是经纪人，指为市场上买卖双方提供中介服务的人。在Celery中这个角色相当于数据结构中的队列，介于生产者和消费者之间经纪人。例如一个Web系统中，生产者是主程序，它生产任务，将任务发送给 Broker，消费者是 Worker，是专门用于执行任务的后台服务。Celery本身不提供队列服务，一般用Redis或者RabbitMQ来实现队列服务。</p>
-
 <h3 id="worker">Worker</h3>
-
 <p>Worker 就是那个一直在后台执行任务的人，也成为任务的消费者，它会实时地监控队列中有没有任务，如果有就立即取出来执行。</p>
-
 <h3 id="beat">Beat</h3>
-
 <p>Beat 是一个定时任务调度器，它会根据配置定时将任务发送给 Broker，等待 Worker 来消费。</p>
-
 <h3 id="backend">Backend</h3>
-
 <p>Backend 用于保存任务的执行结果，每个任务都有返回值，比如发送邮件的服务会告诉我们有没有发送成功，这个结果就是存在Backend中，当然我们并不总是要关心任务的执行结果。</p>
-
-<p><img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/celery-info.webp" alt="" /></p>
-
+<p><img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/celery-info.webp" alt=""></p>
 <p>记住这5个角色后面理解Celery就轻松了。</p>
-
 <h2 id="快速入门">快速入门</h2>
-
 <p>接触任何新东西，没有什么比实际动手学得更快了。假设我们选择Redis作为broker，你需要安装redis并且已经启动了redis服务（这个步骤请自行借用搜索引擎解决）</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">pip install -U <span style="color:#e6db74">&#34;celery[redis]&#34;</span>
+</code></pre></div><h3 id="1创建celery实例">1.创建Celery实例</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># tasks.py</span>
+<span style="color:#f92672">from</span> celery <span style="color:#f92672">import</span> Celery
 
-<pre><code class="language-shell">pip install -U &quot;celery[redis]&quot;
-</code></pre>
-
-<h3 id="1-创建celery实例">1.创建Celery实例</h3>
-
-<pre><code class="language-python"># tasks.py
-from celery import Celery
-
-app = Celery('tasks', broker='redis://localhost:6379/0')
-</code></pre>
-
-<h3 id="2-创建任务">2.创建任务</h3>
-
+app <span style="color:#f92672">=</span> Celery(<span style="color:#e6db74">&#39;tasks&#39;</span>, broker<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;redis://localhost:6379/0&#39;</span>)
+</code></pre></div><h3 id="2创建任务">2.创建任务</h3>
 <p>假设这个发送邮件的任务需要5秒钟才能执行完</p>
-
-<pre><code class="language-python"># task.py
-@app.task
-def send_mail(mail):
-    print(&quot;send mail to &quot;, email)
-    import time
-    time.sleep(5)
-    return &quot;success&quot;
-</code></pre>
-
-<p>在没有Celery的情况下，程序顺序执行，每个步骤都需要等上一步执行完成。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># task.py</span>
+<span style="color:#a6e22e">@app.task</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">send_mail</span>(mail):
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;send mail to &#34;</span>, email)
+    <span style="color:#f92672">import</span> time
+    time<span style="color:#f92672">.</span>sleep(<span style="color:#ae81ff">5</span>)
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;success&#34;</span>
+</code></pre></div><p>在没有Celery的情况下，程序顺序执行，每个步骤都需要等上一步执行完成。</p>
 <ol>
 <li>插入记录到数据库</li>
 <li>发邮件</li>
 <li>注册成功</li>
 </ol>
-
 <p>我们可以把2放在一个任务中交给celery去执行，这样我们就不需要等待发邮件完成，你只需要安排celery去处理帮我去完成就好了。代码就变成了</p>
-
 <ol>
 <li>插入记录到数据库</li>
 <li>Celery 帮我发邮件</li>
 <li>注册成功</li>
 </ol>
-
 <p>第二步是非常快的，它只需要把任务放进队列里面去，并不会等任务真正执行完。这跟生活是完全贴切的，例如我们很多事情都不是自己亲历其为去做，而是将一个不太重要或即时性没那么高的事情转交给别人处理。</p>
-
-<p>### 3.启动Worker</p>
-
+<h3 id="3启动worker">3.启动Worker</h3>
 <p>启动Worker，监听 Broker 中是否有任务，命令：<code>celery worker</code>，你可能需要指定参数</p>
-
-<pre><code class="language-shell">celery -A tasks worker --loglevel=info
-</code></pre>
-
-<p>-A： 指定 celery 实例所在哪个模块中，例子中，celery实例在tasks.py文件中，启动成功后，能看到信息</p>
-
-<p><img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/worker-info.webp" alt="" /></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">celery -A tasks worker --loglevel<span style="color:#f92672">=</span>info
+</code></pre></div><p>-A： 指定 celery 实例所在哪个模块中，例子中，celery实例在tasks.py文件中，启动成功后，能看到信息</p>
+<p><img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/worker-info.webp" alt=""></p>
 <p>函数用app.task 装饰器修饰之后，就会成为Celery中的一个Task。</p>
-
-<h3 id="4-调用任务">4.调用任务</h3>
-
+<h3 id="4调用任务">4.调用任务</h3>
 <p>在主程序中调用任务，调任务发送给 Broker，而不是真正执行该任务</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># user.py</span>
+<span style="color:#f92672">from</span> tasks <span style="color:#f92672">import</span> send_mail
 
-<pre><code class="language-python"># user.py
-from tasks import send_mail
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">register</span>():
+    <span style="color:#f92672">import</span> time
+    start <span style="color:#f92672">=</span> time<span style="color:#f92672">.</span>time()
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;1. 插入记录到数据库&#34;</span>)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;2. celery 帮我发邮件&#34;</span>)
+    send_mail<span style="color:#f92672">.</span>delay(<span style="color:#e6db74">&#34;xx@gmail.com&#34;</span>)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;3. 告诉用户注册成功&#34;</span>)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;耗时：</span><span style="color:#e6db74">%s</span><span style="color:#e6db74"> 秒 &#34;</span> <span style="color:#f92672">%</span> (time<span style="color:#f92672">.</span>time() <span style="color:#f92672">-</span> start))
 
-def register():
-    import time
-    start = time.time()
-    print(&quot;1. 插入记录到数据库&quot;)
-    print(&quot;2. celery 帮我发邮件&quot;)
-    send_mail.delay(&quot;xx@gmail.com&quot;)
-    print(&quot;3. 告诉用户注册成功&quot;)
-    print(&quot;耗时：%s 秒 &quot; % (time.time() - start))
-
-if __name__ == '__main__':
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     register()
-</code></pre>
-
-<p>在主程序中，调用函数的<code>.delay</code>方法</p>
-
+</code></pre></div><p>在主程序中，调用函数的<code>.delay</code>方法</p>
 <p>目录结构：</p>
-
 <blockquote>
 <p>── celery_test
-   ├── tasks.py
-   └── user.py</p>
+├── tasks.py
+└── user.py</p>
 </blockquote>
-
 <p>运行 python user.py， 启动应用程序</p>
-
 <pre><code>1. 插入记录到数据库
 2. celery 帮我发邮件
 3. 告诉用户注册成功
 耗时：0.22688984870910645 秒
-</code></pre>
-
-<p>程序花了不到0.23秒就执行完成，如果按照正常的同步逻辑去执行，至少需要5秒钟，因为发邮件的任务就花了5秒。
+</code></pre><p>程序花了不到0.23秒就执行完成，如果按照正常的同步逻辑去执行，至少需要5秒钟，因为发邮件的任务就花了5秒。
 在worker服务窗口看日志信息
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/log-info.webp" alt="" /></p>
-
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/log-info.webp" alt=""></p>
 <h3 id="注意">注意</h3>
-
 <ol>
-<li><p>celery worker 启动时，如果是 root 用户，需要设置环境变量：</p>
-
-<pre><code class="language-shell">export C_FORCE_ROOT='true'
-</code></pre></li>
-
-<li><p>Celery4.x 开始不再支持Windows平台，如果需要在Windows开发，请使用3.x的版本。</p></li>
-
-<li><p>使用 RabbitMQ 或 Redis 作为 Broker，生产环境永远不要使用关系数据库</p></li>
-
-<li><p>不要使用复杂对象作为任务函数的参数</p>
-
-<pre><code class="language-python"># Good
-@app.task
-def my_task(user_id):
-user = User.objects.get(id=user_id)
-print(user.name)
-# ...
-    
-# Bad
-@app.task
-def my_task(user):
-print(user.name)
-# ...
-</code></pre></li>
+<li>celery worker 启动时，如果是 root 用户，需要设置环境变量：</li>
 </ol>
-
-<h2 id="小结">小结</h2>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">export C_FORCE_ROOT<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;true&#39;</span>
+</code></pre></div><ol start="2">
+<li>Celery4.x 开始不再支持Windows平台，如果需要在Windows开发，请使用3.x的版本。</li>
+<li>使用 RabbitMQ 或 Redis 作为 Broker，生产环境永远不要使用关系数据库</li>
+<li>不要使用复杂对象作为任务函数的参数</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Good</span>
+<span style="color:#a6e22e">@app.task</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">my_task</span>(user_id):
+    user <span style="color:#f92672">=</span> User<span style="color:#f92672">.</span>objects<span style="color:#f92672">.</span>get(id<span style="color:#f92672">=</span>user_id)
+    <span style="color:#66d9ef">print</span>(user<span style="color:#f92672">.</span>name)
+    <span style="color:#75715e"># ...</span>
+    
+<span style="color:#75715e"># Bad</span>
+<span style="color:#a6e22e">@app.task</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">my_task</span>(user):
+    <span style="color:#66d9ef">print</span>(user<span style="color:#f92672">.</span>name)
+    <span style="color:#75715e"># ...</span>
+</code></pre></div><h2 id="小结">小结</h2>
 <p>学习Celery，首先需要知道它的应用场景，然后是Celery中的常见角色，最后按照步骤感受一下Celery是如何跑起来的。</p>
-
 <p>参考链接：</p>
-
 <ul>
 <li><a href="http://funhacks.net/2016/12/13/celery/">http://funhacks.net/2016/12/13/celery/</a></li>
 <li><a href="https://celery.readthedocs.io/en/latest/userguide/tasks.html#tips-and-best-practices">https://celery.readthedocs.io/en/latest/userguide/tasks.html#tips-and-best-practices</a></li>

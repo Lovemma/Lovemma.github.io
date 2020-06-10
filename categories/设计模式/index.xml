@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>设计模式 on I&#39;m Groooooot</title>
@@ -20,9 +20,7 @@
       <description>&lt;blockquote&gt;
 &lt;p&gt;模板模式：抽象出算法公共部分从而实现代码复用。&lt;/p&gt;
 &lt;/blockquote&gt;
-
 &lt;p&gt;编写优秀代码的一个要素是避免冗余。在面向对象编程中，方法和函数是我们用来避免编写冗余代码的重要工具。&lt;/p&gt;
-
 &lt;p&gt;模板设计模式旨在消除代码重复。如果我们发现结构相近的（多个）算法中有重复代码，则可以把算法的不变（通用）部分留在一个模板方法/函数中，把易变（不同）的部分移到动作/钩子方法/函数中。&lt;/p&gt;</description>
     </item>
     
@@ -33,9 +31,7 @@
       
       <guid>https://lovemma.github.io/posts/%E7%AD%96%E7%95%A5%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;p&gt;策略模式是一种非常通用的设计模式，可应用的场景很多。一般来说，不论何时希望动态、透明地应用不同算法，策略模式都是可行之路。这里所说不同算法的意思是，目的相同但实现方案不同的一类算法。这意味着算法结果应该是完全一致的，但每种实现都有不同的性能和代码复杂性（举例来说，对比一下顺序查找和二分查找）。&lt;/p&gt;
-
 &lt;p&gt;策略模式的另一个应用是创建不同的样式表现，为了实现可移植性（例如，不同平台之间断行的不同）或动态地改变数据的表现。&lt;/p&gt;
-
 &lt;p&gt;另一个值得一提的应用是模拟；例如模拟机器人，一些机器人比另一些更有攻击性，一些机器人速度更快，等等。机器人行为中的所有不同之处都可以使用不同的策略来建模。&lt;/p&gt;</description>
     </item>
     
@@ -46,9 +42,7 @@
       
       <guid>https://lovemma.github.io/posts/%E7%8A%B6%E6%80%81%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;p&gt;状态模式是一个或多个有限状态机（简称状态机）的实现，用于解决一个特定的软件工程问题。&lt;/p&gt;
-
 &lt;p&gt;状态机是一个抽象机器，具有两个主要部分：状态和转换。状态是指一个系统的当前状况。一个状态机在任意时间点只会有一个激活状态。转换是指从当前状态到一个新状态的切换。在一个转换发生之前或之后通常会执行一个或多个动作。状态机可以使用状态图进行视觉上的展现。&lt;/p&gt;
-
 &lt;p&gt;状态机用于解决许多计算机问题和非计算机问题，其中包括交通灯、停车计时器、硬件设计和编程语言解析等。&lt;/p&gt;</description>
     </item>
     
@@ -68,9 +62,7 @@
       
       <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%91%BD%E4%BB%A4%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;p&gt;命令设计模式帮助我们将一个操作（撤销、重做、复制、粘贴等）封装成一个对象，通常是创建一个包含Operation所有逻辑和方法的类。&lt;/p&gt;
-
 &lt;p&gt;当我们去餐馆吃饭时，会叫服务员来点单。他们用来做记录的账单（通常是纸质的）就是命令模式的一个例子。在记录好订单后，服务员将其放入账单队列，厨师会照着单子去做。每个账单都是独立的，并且可用来执行许多不同命令，例如，一个命令对应一个将要烹饪的菜品。&lt;/p&gt;
-
 &lt;p&gt;通过命令模式可以控制命令的执行时间和过程，还可以用来组织事务。&lt;/p&gt;</description>
     </item>
     
@@ -81,7 +73,6 @@
       
       <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%B4%A3%E4%BB%BB%E9%93%BE%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;p&gt;责任链（Chain of Responsibility）模式用于让多个对象来处理单个请求，或者用于预先不知道应该由哪个对象（来自某个对象链）来处理某个特定请求。我们可以使用计算机网络的广播来类比责任链模式。&lt;/p&gt;
-
 &lt;p&gt;在责任链模式中，发送方可直接访问链中的首个节点。若首个节点不能处理请求，则转发给下一个节点，如此直到请求被某个节点处理或者整个链遍历结束。这种设计模式用于实现发送方与接收方（多个）之间的解耦。&lt;/p&gt;</description>
     </item>
     
@@ -92,12 +83,13 @@
       
       <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BB%A3%E7%90%86%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;p&gt;代理模式是通过一层间接保护层实现更安全的接口访问，例如：访问敏感信息——在允许用户访问敏感信息之前，我们希望确保用户具备足够的权限。&lt;/p&gt;
-
-&lt;p&gt;有四种常用的代理模式：
-- 远程代理：实际存在于不同地址空间（例如，某个网络服务器）的对象在本地的代理者。使得访问远程对象就像访问本地一样，隐藏了复杂性，如：ORM。
-- 虚拟代理：用来实现延迟访问，比如一些需要复杂计算的对象，Python 里可以实现 lazy_property，改善性能。
-- 保护/防护代理：用于控制敏感对象的访问。
-- 智能(引用)代理：在对象被访问时执行额外的动作。例如引用计数和线程安全检查。&lt;/p&gt;</description>
+&lt;p&gt;有四种常用的代理模式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;远程代理：实际存在于不同地址空间（例如，某个网络服务器）的对象在本地的代理者。使得访问远程对象就像访问本地一样，隐藏了复杂性，如：ORM。&lt;/li&gt;
+&lt;li&gt;虚拟代理：用来实现延迟访问，比如一些需要复杂计算的对象，Python 里可以实现 lazy_property，改善性能。&lt;/li&gt;
+&lt;li&gt;保护/防护代理：用于控制敏感对象的访问。&lt;/li&gt;
+&lt;li&gt;智能(引用)代理：在对象被访问时执行额外的动作。例如引用计数和线程安全检查。&lt;/li&gt;
+&lt;/ul&gt;</description>
     </item>
     
     <item>
@@ -107,7 +99,6 @@
       
       <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8Bmvc%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;p&gt;MVC是一个非常重要的设计模式，用于将应用组织成三个部分：模型、视图和控制器。同时，MVC也是一种架构模式，比如流行的 Django 框架就是 MVC(MTV) 模式。&lt;/p&gt;
-
 &lt;p&gt;每个部分都有明确的职责。模型负责访问数据，管理应用的状态。视图是模型的外在表现。视图并非必须是图形化的；文本输出也是一种好视图。控制器是模型与视图之间的连接。 MVC的恰当使用能确保最终产出的应用易于维护、易于扩展。&lt;/p&gt;</description>
     </item>
     
@@ -117,11 +108,12 @@
       <pubDate>Fri, 19 Oct 2018 08:52:13 +0000</pubDate>
       
       <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/</guid>
-      <description>&lt;p&gt;OOP中容易出现对象创建带来的性能和内存占用问题，当我们想要优化内存使用提高应用性能之时，可以使用享元模式。而想要使享元模式有效，需要满足以下几个条件：
-- 需要使用大量对象（Python 中可以使用&lt;code&gt;__slots__&lt;/code&gt;节省内存使用）
-- 对象太多难以存储或解析大量对象
-- 对象识别不是特别重要，共享对象中对象比较会失败&lt;/p&gt;
-
+      <description>&lt;p&gt;OOP中容易出现对象创建带来的性能和内存占用问题，当我们想要优化内存使用提高应用性能之时，可以使用享元模式。而想要使享元模式有效，需要满足以下几个条件：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;需要使用大量对象（Python 中可以使用&lt;code&gt;__slots__&lt;/code&gt;节省内存使用）&lt;/li&gt;
+&lt;li&gt;对象太多难以存储或解析大量对象&lt;/li&gt;
+&lt;li&gt;对象识别不是特别重要，共享对象中对象比较会失败&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;通常情况下，会使用对象池技术来实现共享对象，比如数据库中经常使用连接池来减少开销，预先建立一些连接池，每次取一个连接和数据库交互。&lt;/p&gt;</description>
     </item>
     
@@ -132,7 +124,6 @@
       
       <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%A4%96%E8%A7%82%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;p&gt;一个系统会随着演进而变得非常复杂，最终形成大量的（并且有时是令人迷惑的）类和交互，这种情况并不少见。&lt;/p&gt;
-
 &lt;p&gt;但许多情况下，我们并不想把这种复杂性暴露给客户端。而外观设计模式有助于隐藏系统的内部复杂性，并通过一个简化的接口向客户端暴露必要的部分。本质上，外观模式是在已有的系统上实现的一个抽象层。&lt;/p&gt;</description>
     </item>
     
@@ -142,15 +133,14 @@
       <pubDate>Wed, 17 Oct 2018 09:14:34 +0000</pubDate>
       
       <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
-      <description>&lt;p&gt;当我们想对一个已有的对象添加额外的功能时，可以使用如下方法：
-1. 如果合理，可以直接将功能添加到对象所属的类（例如，添加一个新的方法）。
-2. 使用组合
-3. 使用继承&lt;/p&gt;
-
+      <description>&lt;p&gt;当我们想对一个已有的对象添加额外的功能时，可以使用如下方法：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;如果合理，可以直接将功能添加到对象所属的类（例如，添加一个新的方法）。&lt;/li&gt;
+&lt;li&gt;使用组合&lt;/li&gt;
+&lt;li&gt;使用继承&lt;/li&gt;
+&lt;/ol&gt;
 &lt;p&gt;与继承相比，通常应该优先选择组合，因为继承使得代码更难复用，继承关系是静态的，并且应用于整个类以及这个类的所有实例。&lt;/p&gt;
-
 &lt;p&gt;设计模式为我们提供了第四种可选的方法，以支持动态的扩展一个对象的功能，这种方法就是装饰器。&lt;/p&gt;
-
 &lt;p&gt;装饰器有很多用途，比如数据校验，事务处理，缓存，日志等。&lt;/p&gt;</description>
     </item>
     
@@ -161,7 +151,6 @@
       
       <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;p&gt;适配器模式（Adapter pattern）是一种结构型设计模式，帮助我们实现两个不兼容接口之间的兼容。不兼容接口的含义：如果我们希望把一个老组件用于一个新系统中，或者把一个新组件用于一个老系统中，不对代码进行任何修改两者就能够通信的情况很少见。但又并非总是能修改代码，或因为我们无法访问这些代码（例如，组件以外部库的方式提供），或因为修改代码本身就不切实际。在这些情况下，我们可以编写一个额外的代码层，该代码层包含让两个接口之间能够通信需要进行的所有修改。这个代码层就叫适配器。&lt;/p&gt;
-
 &lt;p&gt;现实中最好的例子就是手机充电口，不同型号安卓手机都可以用同样的充电线充电。&lt;/p&gt;</description>
     </item>
     
@@ -172,11 +161,11 @@
       
       <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;p&gt;原型模式（The Prototype Pattern）用于创建对象的完全副本，有点类似与现实生活中的有丝分裂，在 Python 中可以使用内置的&lt;code&gt;copy&lt;/code&gt;模块实现。&lt;/p&gt;
-
-&lt;p&gt;拷贝分为&lt;code&gt;深拷贝&lt;/code&gt;和&lt;code&gt;浅拷贝&lt;/code&gt;：
-- 深拷贝会递归复制并创建新的对象
-- 浅拷贝会利用引用指向同一个对象&lt;/p&gt;
-
+&lt;p&gt;拷贝分为&lt;code&gt;深拷贝&lt;/code&gt;和&lt;code&gt;浅拷贝&lt;/code&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;深拷贝会递归复制并创建新的对象&lt;/li&gt;
+&lt;li&gt;浅拷贝会利用引用指向同一个对象&lt;/li&gt;
+&lt;/ul&gt;
 &lt;p&gt;深拷贝的优点是对象之间互不影响，但是会耗费资源，创建比较耗时；如果不会修改对象可以使用浅拷贝，更加节省资源和创建时间。&lt;/p&gt;</description>
     </item>
     
@@ -186,11 +175,12 @@
       <pubDate>Sun, 14 Oct 2018 23:07:35 +0000</pubDate>
       
       <guid>https://lovemma.github.io/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%9E%84%E9%80%A0%E6%A8%A1%E5%BC%8F/</guid>
-      <description>&lt;p&gt;当出现以下几种情况时，可以考虑使用构造模式：
-1. 当想要创建一个复杂对象(对象由多个部分构成，且对象的创建要经过多个不同的步骤，这些步骤也许还遵从特定的顺序)
-2. 要求一个对象能有不同的表现，并希望将对象的构造与表现解耦
-3. 想要在某个时间点创建对象，但在稍后的时间点再访问&lt;/p&gt;
-
+      <description>&lt;p&gt;当出现以下几种情况时，可以考虑使用构造模式：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;当想要创建一个复杂对象(对象由多个部分构成，且对象的创建要经过多个不同的步骤，这些步骤也许还遵从特定的顺序)&lt;/li&gt;
+&lt;li&gt;要求一个对象能有不同的表现，并希望将对象的构造与表现解耦&lt;/li&gt;
+&lt;li&gt;想要在某个时间点创建对象，但在稍后的时间点再访问&lt;/li&gt;
+&lt;/ol&gt;
 &lt;p&gt;可以这么理解，你要买电脑，工厂模式直接返回一个你需要型号的电脑，但是构造模式允许你自定义电脑各种配置类型，组装完成后给你。这个过程你可以传入builder从而自定义创建的方式。&lt;/p&gt;</description>
     </item>
     
@@ -210,7 +200,6 @@
       
       <guid>https://lovemma.github.io/posts/python%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</guid>
       <description>&lt;h1 id=&#34;python单例模式&#34;&gt;Python单例模式&lt;/h1&gt;
-
 &lt;blockquote&gt;
 &lt;p&gt;Design ptterns are discoverd, not invented.- Alex Martelli&lt;/p&gt;
 &lt;/blockquote&gt;</description>

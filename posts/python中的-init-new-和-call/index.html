@@ -79,6 +79,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,56 +96,51 @@
           <h2><a href='/posts/python%E4%B8%AD%E7%9A%84-init-new-%E5%92%8C-call/'>Python中的__init__、__new__和__call__</a></h2>
           <span class="date">2018.02.01</span>
         </div>
-        <div class="post_content markdown"><p><code>__init__</code>、<code>__new__</code>和<code>__call__</code>方法都是python中的魔术方法，通常我们认为<code>__init__</code>方法是类的构造方法，因为表面上看确实是这样：当需要实例化一个对象的时候，使用<code>a = Class(args...)</code>便可以返回一个类的实例，其中args参数与<code>__init__</code>中申明的参数一样，今天在刘志军老师的「Python之禅和朋友们」的知识星球中学习到不是这样的，这里以一个例子来说明一下：
-<!-- more --></p>
+        <div class="post_content markdown"><p><code>__init__</code>、<code>__new__</code>和<code>__call__</code>方法都是python中的魔术方法，通常我们认为<code>__init__</code>方法是类的构造方法，因为表面上看确实是这样：当需要实例化一个对象的时候，使用<code>a = Class(args...)</code>便可以返回一个类的实例，其中args参数与<code>__init__</code>中申明的参数一样，今天在刘志军老师的「Python之禅和朋友们」的知识星球中学习到不是这样的，这里以一个例子来说明一下：</p>
+<!-- raw HTML omitted -->
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span>:
+    <span style="color:#66d9ef">def</span> __new__(cls, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;__new__&#39;</span>)
+        <span style="color:#66d9ef">print</span>(cls)
+        <span style="color:#66d9ef">print</span>(args)
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;-------&#39;</span>)
+        <span style="color:#66d9ef">return</span> super(A, cls)<span style="color:#f92672">.</span>__new__(cls)
 
-<pre><code class="language-python">class A:
-    def __new__(cls, *args, **kwargs):
-        print('__new__')
-        print(cls)
-        print(args)
-        print('-------')
-        return super(A, cls).__new__(cls)
-
-    def __init__(self):
-        print('__init__')
-        print('self is ', self)
-        self.a, self.b = a, b
+    <span style="color:#66d9ef">def</span> __init__(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;__init__&#39;</span>)
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;self is &#39;</span>, self)
+        self<span style="color:#f92672">.</span>a, self<span style="color:#f92672">.</span>b <span style="color:#f92672">=</span> a, b
 
 
-a = A(1, 2)
-print(a.a)
+a <span style="color:#f92672">=</span> A(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)
+<span style="color:#66d9ef">print</span>(a<span style="color:#f92672">.</span>a)
 
-输出：
+<span style="color:#960050;background-color:#1e0010">输出：</span>
 __new__
-&lt;class '__main__.A'&gt;
-(1, 2)
--------
+<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#960050;background-color:#1e0010">&#39;</span><span style="color:#a6e22e">__main__</span><span style="color:#f92672">.</span>A<span style="color:#e6db74">&#39;&gt;</span>
+(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)
+<span style="color:#f92672">-------</span>
 __init__
 Traceback (most recent call last):
-  File &quot;test.py&quot;, line 14, in &lt;module&gt;
-    a = A(1, 2)
-TypeError: __init__() takes 1 positional argument but 3 were given
-</code></pre>
-
-<p>可以看到这里我们并没有直接调用<code>__new__</code>方法，却先产生了<code>__new__</code>方法的输出并抛出了异常，所以说<code>__init__</code>并不是真正意义上的构造方法，<code>__init__</code>所做的工作是在类的对象创建好之后进行变量的初始化。<code>__new__</code>方法才会真正创建实例，是类的构造方法。</p>
-
-<p><strong>call</strong>方法又是干嘛的呢？
-&gt; Python官方文档中是这样写的：Called when the instance is “called” as a function; if this method is defined, x(arg1, arg2, ...) is a shorthand for x.<strong>call</strong>(arg1, arg2, ...).</p>
-
+  File <span style="color:#e6db74">&#34;test.py&#34;</span>, line <span style="color:#ae81ff">14</span>, <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>
+    a <span style="color:#f92672">=</span> A(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)
+<span style="color:#a6e22e">TypeError</span>: __init__() takes <span style="color:#ae81ff">1</span> positional argument but <span style="color:#ae81ff">3</span> were given
+</code></pre></div><p>可以看到这里我们并没有直接调用<code>__new__</code>方法，却先产生了<code>__new__</code>方法的输出并抛出了异常，所以说<code>__init__</code>并不是真正意义上的构造方法，<code>__init__</code>所做的工作是在类的对象创建好之后进行变量的初始化。<code>__new__</code>方法才会真正创建实例，是类的构造方法。</p>
+<p>__call__方法又是干嘛的呢？</p>
+<blockquote>
+<p>Python官方文档中是这样写的：Called when the instance is “called” as a function; if this method is defined, x(arg1, arg2, &hellip;) is a shorthand for x.<strong>call</strong>(arg1, arg2, &hellip;).</p>
+</blockquote>
 <p>即实现了<code>__call__</code>方法的对象的实例就可以像方法、函数一样的被调用执行</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span>:
+    <span style="color:#66d9ef">def</span> __call__(self, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;__call__&#39;</span>)
 
-<pre><code class="language-python">class A:
-    def __call__(self, *args, **kwargs):
-        print('__call__')
 
-
-a = A()
+a <span style="color:#f92672">=</span> A()
 a()
 
-输出：__call__
-</code></pre>
-</div>
+<span style="color:#960050;background-color:#1e0010">输出：</span>__call__
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

@@ -80,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -94,57 +98,40 @@
           <span class="date">2019.10.19</span>
         </div>
         <div class="post_content markdown"><p>最近自己搭的梯子用着总是不太稳定，顺带 ShadowsocksX-NG 客户端可以使用 v2ray-plugin 插件了，于是就整了个插件来抗干扰下，这里记录下操作流程方便以后使用。</p>
-
 <h3 id="域名">域名</h3>
-
 <p>弄一个域名映射到自己的服务器上。</p>
-
 <h3 id="申请免费证书">申请免费证书</h3>
-
 <p>和官方文档一样使用 <a href="https://github.com/Neilpang/acme.sh">acme</a> 脚本自动申请免费证书 (免费证书有效期一般是 3 个月，脚本会每隔 60 天自动更新一次证书有效期)</p>
-
 <blockquote>
 <p>在申请之前必须先到 cloudflare 页面，点击右上角的头像，然后点击 My Profile ，在个人信息页面有个 API Tokens -&gt; <strong>Global API KEY</strong>, 复制你的 API KEY, 同时复制你的 CloundFlare 的<strong>登陆邮箱</strong> ， key 和 email 用于申请证书</p>
 </blockquote>
-
 <ul>
-<li><p>申请证书（确保域名已解析到自己的服务器</p>
-
-<pre><code class="language-shell">export CF_Email=&quot;CloundFlare Email&quot;
-export CF_Key=&quot;API KEY&quot;
+<li>申请证书（确保域名已解析到自己的服务器</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">export CF_Email<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;CloundFlare Email&#34;</span>
+export CF_Key<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;API KEY&#34;</span>
 curl https://get.acme.sh | sh
 ~/.acme.sh/acme.sh --issue --dns dns_cf -d YourDomain
-</code></pre></li>
-</ul>
-
-<p>执行完上面命令，acme 脚本就会自动帮你申请好了证书，证书存放的目录在 <code>~/.acme.sh/YourDomain/</code>，里面包含了 ca.cer 、fullchain.cer | .key 等文件。</p>
-
+</code></pre></div><p>执行完上面命令，acme 脚本就会自动帮你申请好了证书，证书存放的目录在 <code>~/.acme.sh/YourDomain/</code>，里面包含了 ca.cer 、fullchain.cer | .key 等文件。</p>
 <h3 id="docker">docker</h3>
-
 <p>从方便这一方面来说，使用 <code>docker</code> 简直不要太方便了。</p>
-
 <p>GitHub 搜了下发现了这么一个仓库：<a href="https://github.com/Acris/docker-shadowsocks-libev">https://github.com/Acris/docker-shadowsocks-libev</a>，看了下 Dockerfile，作者使用了多阶段构建，这样不会导致镜像体积过大，其他也没什么问题。</p>
-
 <p>接着就能按照示例的 <code>docker-compose</code> 文件撸就是了：</p>
-
-<pre><code class="language-yaml">version: &quot;3.7&quot;
-services:
-  shadowsocks-libev:
-    container_name: shadowsocks-libev
-    image: acrisliu/shadowsocks-libev:latest
-    ports:
-      - &quot;8388:8388/tcp&quot;
-      - &quot;8388:8388/udp&quot;
-    volumes:
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">version</span>: <span style="color:#e6db74">&#34;3.7&#34;</span>
+<span style="color:#66d9ef">services</span>:
+  <span style="color:#66d9ef">shadowsocks-libev</span>:
+    <span style="color:#66d9ef">container_name</span>: shadowsocks-libev
+    <span style="color:#66d9ef">image</span>: acrisliu/shadowsocks-libev:latest
+    <span style="color:#66d9ef">ports</span>:
+      - <span style="color:#e6db74">&#34;8388:8388/tcp&#34;</span>
+      - <span style="color:#e6db74">&#34;8388:8388/udp&#34;</span>
+    <span style="color:#66d9ef">volumes</span>:
       - /root/.acme.sh:/root/.acme.sh:ro
-    environment:
+    <span style="color:#66d9ef">environment</span>:
       - PASSWORD=YourPassword
       - ARGS=--plugin v2ray-plugin --plugin-opts server;tls;host=yourdomain.com;path=/v2ray;cert=/root/.acme.sh/yourdomain.com/fullchain.cer;key=/root/.acme.sh/yourdomain.com/yourdomain.com.key -u
-    restart: always
-</code></pre>
-
-<p>其中可以使用的环境变量及其默认值:</p>
-
+    <span style="color:#66d9ef">restart</span>: always
+</code></pre></div><p>其中可以使用的环境变量及其默认值:</p>
 <ul>
 <li><code>SERVER_ADDRS</code>: 远程服务器的主机名或IP, 默认值： <code>0.0.0.0</code>.</li>
 <li><code>SERVER_PORT</code>: 远程服务器的端口号, 默认值： <code>8388</code>.</li>
@@ -154,18 +141,13 @@ services:
 <li><code>DNS_ADDRS</code>: DNS解析服务器地址, 默认值： <code>1.1.1.1,1.0.0.1</code>.</li>
 <li><code>ARGS</code>: <code>Shadowsocks</code>服务器额外支持的参数，默认值：-u，使用 UDP 中继。</li>
 </ul>
-
 <p>最后将 <code>docker-compose</code> 文件中的参数改成自己就可以了。</p>
-
 <h3 id="客户端设置">客户端设置</h3>
-
 <p>我使用的是客户端是 <code>ShadowsocksX-NG</code>，其他客户端应该是差不多：</p>
-
 <ul>
 <li><strong>插件</strong>：填写 v2ray-plugin</li>
 <li><strong>插件选项</strong>：填写 mux=5;path=/v2ray;tls;host=yourdomain.com;certRaw=cer证书内容</li>
 </ul>
-
 <p><code>mux</code> 参数是客户端设置的并发连接数，默认为 1</p></div>
         <div class="post_footer">
           

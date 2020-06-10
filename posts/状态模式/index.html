@@ -82,6 +82,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -96,120 +100,116 @@
           <span class="date">2018.10.30</span>
         </div>
         <div class="post_content markdown"><p>状态模式是一个或多个有限状态机（简称状态机）的实现，用于解决一个特定的软件工程问题。</p>
-
 <p>状态机是一个抽象机器，具有两个主要部分：状态和转换。状态是指一个系统的当前状况。一个状态机在任意时间点只会有一个激活状态。转换是指从当前状态到一个新状态的切换。在一个转换发生之前或之后通常会执行一个或多个动作。状态机可以使用状态图进行视觉上的展现。</p>
-
 <p>状态机用于解决许多计算机问题和非计算机问题，其中包括交通灯、停车计时器、硬件设计和编程语言解析等。</p>
-
 <p>这里以一个计算机系统的进程实现状态机为例：</p>
-
-<pre><code class="language-python"># 先装下pip3 install state_machine
-from state_machine import (
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 先装下pip3 install state_machine</span>
+<span style="color:#f92672">from</span> state_machine <span style="color:#f92672">import</span> (
     acts_as_state_machine, State, Event, before, after, InvalidStateTransition
 )
 
 
-@acts_as_state_machine
-class Process:
-    # 先来定义状态机的状态 states
-    created = State(initial=True)    # 初始状态
-    waiting = State()
-    running = State()
-    terminated = State()
-    blocked = State()
-    swapped_out_waiting = State()
-    swapped_out_blocked = State()
+<span style="color:#a6e22e">@acts_as_state_machine</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Process</span>:
+    <span style="color:#75715e"># 先来定义状态机的状态 states</span>
+    created <span style="color:#f92672">=</span> State(initial<span style="color:#f92672">=</span>True)    <span style="color:#75715e"># 初始状态</span>
+    waiting <span style="color:#f92672">=</span> State()
+    running <span style="color:#f92672">=</span> State()
+    terminated <span style="color:#f92672">=</span> State()
+    blocked <span style="color:#f92672">=</span> State()
+    swapped_out_waiting <span style="color:#f92672">=</span> State()
+    swapped_out_blocked <span style="color:#f92672">=</span> State()
 
-    # 再定义状态机的转移 transitions
-    wait = Event(from_states=(created, running, blocked,
-                            swapped_out_waiting), to_state=waiting)
-    run = Event(from_states=waiting, to_state=running)
-    terminate = Event(from_states=running, to_state=terminated)
-    block = Event(from_states=(running, swapped_out_blocked),
-                to_state=blocked)
-    swap_wait = Event(from_states=waiting, to_state=swapped_out_waiting)
-    swap_block = Event(from_states=blocked, to_state=swapped_out_blocked)
+    <span style="color:#75715e"># 再定义状态机的转移 transitions</span>
+    wait <span style="color:#f92672">=</span> Event(from_states<span style="color:#f92672">=</span>(created, running, blocked,
+                            swapped_out_waiting), to_state<span style="color:#f92672">=</span>waiting)
+    run <span style="color:#f92672">=</span> Event(from_states<span style="color:#f92672">=</span>waiting, to_state<span style="color:#f92672">=</span>running)
+    terminate <span style="color:#f92672">=</span> Event(from_states<span style="color:#f92672">=</span>running, to_state<span style="color:#f92672">=</span>terminated)
+    block <span style="color:#f92672">=</span> Event(from_states<span style="color:#f92672">=</span>(running, swapped_out_blocked),
+                to_state<span style="color:#f92672">=</span>blocked)
+    swap_wait <span style="color:#f92672">=</span> Event(from_states<span style="color:#f92672">=</span>waiting, to_state<span style="color:#f92672">=</span>swapped_out_waiting)
+    swap_block <span style="color:#f92672">=</span> Event(from_states<span style="color:#f92672">=</span>blocked, to_state<span style="color:#f92672">=</span>swapped_out_blocked)
 
-    def __init__(self, name):
-        self.name = name
+    <span style="color:#66d9ef">def</span> __init__(self, name):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
 
-    # The state_machine module provides us with the @before and @after
-    # decorators that can be used to execute actions before or after a
-    # transition occurs, respectfully.
-    @after('wait')
-    def wait_info(self):
-        print('{} entered waiting mode'.format(self.name))
+    <span style="color:#75715e"># The state_machine module provides us with the @before and @after</span>
+    <span style="color:#75715e"># decorators that can be used to execute actions before or after a</span>
+    <span style="color:#75715e"># transition occurs, respectfully.</span>
+    <span style="color:#a6e22e">@after</span>(<span style="color:#e6db74">&#39;wait&#39;</span>)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">wait_info</span>(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;{} entered waiting mode&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>name))
 
-    @after('run')
-    def run_info(self):
-        print('{} is running'.format(self.name))
+    <span style="color:#a6e22e">@after</span>(<span style="color:#e6db74">&#39;run&#39;</span>)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">run_info</span>(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;{} is running&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>name))
 
-    @before('terminate')
-    def terminate_info(self):
-        print('{} terminated'.format(self.name))
+    <span style="color:#a6e22e">@before</span>(<span style="color:#e6db74">&#39;terminate&#39;</span>)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">terminate_info</span>(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;{} terminated&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>name))
 
-    @after('block')
-    def block_info(self):
-        print('{} is blocked'.format(self.name))
+    <span style="color:#a6e22e">@after</span>(<span style="color:#e6db74">&#39;block&#39;</span>)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">block_info</span>(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;{} is blocked&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>name))
 
-    @after('swap_wait')
-    def swap_wait_info(self):
-        print('{} is swapped out and waiting'.format(self.name))
+    <span style="color:#a6e22e">@after</span>(<span style="color:#e6db74">&#39;swap_wait&#39;</span>)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">swap_wait_info</span>(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;{} is swapped out and waiting&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>name))
 
-    @after('swap_block')
-    def swap_block_info(self):
-        print('{} is swapped out and blocked'.format(self.name))
+    <span style="color:#a6e22e">@after</span>(<span style="color:#e6db74">&#39;swap_block&#39;</span>)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">swap_block_info</span>(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;{} is swapped out and blocked&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>name))
 
 
-def transition(process, event, event_name):
-    &quot;&quot;&quot;
-    Args:
-        process (Process obj):
-        event (Event obj): wait, run, terminate...
-        event_name (str): name of event
-    &quot;&quot;&quot;
-    try:
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">transition</span>(process, event, event_name):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    Args:
+</span><span style="color:#e6db74">        process (Process obj):
+</span><span style="color:#e6db74">        event (Event obj): wait, run, terminate...
+</span><span style="color:#e6db74">        event_name (str): name of event
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">try</span>:
         event()
-    except InvalidStateTransition:
-        print('Error: transition of {} from {} to {} failed'.format(
-            process.name, process.current_state, event_name))
+    <span style="color:#66d9ef">except</span> InvalidStateTransition:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Error: transition of {} from {} to {} failed&#39;</span><span style="color:#f92672">.</span>format(
+            process<span style="color:#f92672">.</span>name, process<span style="color:#f92672">.</span>current_state, event_name))
 
 
-def state_info(process):
-    &quot;&quot;&quot; 当前状态机的状态 &quot;&quot;&quot;
-    print('state of {}: {}'.format(process.name, process.current_state))
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">state_info</span>(process):
+    <span style="color:#e6db74">&#34;&#34;&#34; 当前状态机的状态 &#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;state of {}: {}&#39;</span><span style="color:#f92672">.</span>format(process<span style="color:#f92672">.</span>name, process<span style="color:#f92672">.</span>current_state))
 
 
-def main():
-    RUNNING = 'running'
-    WAITING = 'waiting'
-    BLOCKED = 'blocked'
-    TERMINATED = 'terminated'
-    p1, p2 = Process('process1'), Process('process2')
-    [state_info(p) for p in (p1, p2)]
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    RUNNING <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;running&#39;</span>
+    WAITING <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;waiting&#39;</span>
+    BLOCKED <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;blocked&#39;</span>
+    TERMINATED <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;terminated&#39;</span>
+    p1, p2 <span style="color:#f92672">=</span> Process(<span style="color:#e6db74">&#39;process1&#39;</span>), Process(<span style="color:#e6db74">&#39;process2&#39;</span>)
+    [state_info(p) <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> (p1, p2)]
 
-    print()
-    transition(p1, p1.wait, WAITING)
-    transition(p2, p2.terminate, TERMINATED)
-    [state_info(p) for p in (p1, p2)]
-    print()
-    transition(p1, p1.run, RUNNING)
-    transition(p2, p2.wait, WAITING)
-    [state_info(p) for p in (p1, p2)]
-    print()
-    transition(p2, p2.run, RUNNING)
-    [state_info(p) for p in (p1, p2)]
-    print()
-    [transition(p, p.block, BLOCKED) for p in (p1, p2)]
-    [state_info(p) for p in (p1, p2)]
-    print()
-    [transition(p, p.terminate, TERMINATED) for p in (p1, p2)]
-    [state_info(p) for p in (p1, p2)]
+    <span style="color:#66d9ef">print</span>()
+    transition(p1, p1<span style="color:#f92672">.</span>wait, WAITING)
+    transition(p2, p2<span style="color:#f92672">.</span>terminate, TERMINATED)
+    [state_info(p) <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> (p1, p2)]
+    <span style="color:#66d9ef">print</span>()
+    transition(p1, p1<span style="color:#f92672">.</span>run, RUNNING)
+    transition(p2, p2<span style="color:#f92672">.</span>wait, WAITING)
+    [state_info(p) <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> (p1, p2)]
+    <span style="color:#66d9ef">print</span>()
+    transition(p2, p2<span style="color:#f92672">.</span>run, RUNNING)
+    [state_info(p) <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> (p1, p2)]
+    <span style="color:#66d9ef">print</span>()
+    [transition(p, p<span style="color:#f92672">.</span>block, BLOCKED) <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> (p1, p2)]
+    [state_info(p) <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> (p1, p2)]
+    <span style="color:#66d9ef">print</span>()
+    [transition(p, p<span style="color:#f92672">.</span>terminate, TERMINATED) <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> (p1, p2)]
+    [state_info(p) <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> (p1, p2)]
     
     
-if __name__ == &quot;__main__&quot;:
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
     main()
-</code></pre></div>
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

@@ -81,6 +81,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -95,76 +99,70 @@
           <span class="date">2018.10.16</span>
         </div>
         <div class="post_content markdown"><p>适配器模式（Adapter pattern）是一种结构型设计模式，帮助我们实现两个不兼容接口之间的兼容。不兼容接口的含义：如果我们希望把一个老组件用于一个新系统中，或者把一个新组件用于一个老系统中，不对代码进行任何修改两者就能够通信的情况很少见。但又并非总是能修改代码，或因为我们无法访问这些代码（例如，组件以外部库的方式提供），或因为修改代码本身就不切实际。在这些情况下，我们可以编写一个额外的代码层，该代码层包含让两个接口之间能够通信需要进行的所有修改。这个代码层就叫适配器。</p>
-
 <p>现实中最好的例子就是手机充电口，不同型号安卓手机都可以用同样的充电线充电。</p>
-
 <h2 id="好处">好处</h2>
-
 <p>适配器模式的好处：1）不要求访问他方接口的源代码。2）不违反开放/封闭原则。</p>
-
 <h2 id="实现">实现</h2>
-
 <p>使用 Python 实现适配器模式有多种方式，可以通过继承的方式来实现适配器，也可以通过<code>class</code>的<code>__dict__</code>来实现。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># external.py</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Synthesizer</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, name):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
 
-<pre><code class="language-python"># external.py
-class Synthesizer:
-    def __init__(self, name):
-        self.name = name
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;the {} synthesizer&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>name)
 
-    def __str__(self):
-        return 'the {} synthesizer'.format(self.name)
-
-    def play(self):
-        return 'is playing an electronic song'
-
-
-class Human:
-    def __init__(self, name):
-        self.name = name
-
-    def __str__(self):
-        return '{} the human'.format(self.name)
-
-    def speak(self):
-        return 'say hello'
-
-# adapter.py
-from external import Synthesizer, Human
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">play</span>(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;is playing an electronic song&#39;</span>
 
 
-class Computer:
-    def __init__(self, name):
-        self.name = name
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Human</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, name):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
 
-    def __str__(self):
-        return 'the {} computer'.format(self.name)
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;{} the human&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>name)
 
-    def execute(self):
-        return 'executes a program.'
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">speak</span>(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;say hello&#39;</span>
 
-
-class Adapter:
-    def __init__(self, obj, adapted_methods):
-        self.obj = obj
-        self.__dict__.update(adapted_methods)
-
-    def __str__(self):
-        return str(self.obj)
+<span style="color:#75715e"># adapter.py</span>
+<span style="color:#f92672">from</span> external <span style="color:#f92672">import</span> Synthesizer, Human
 
 
-def main():
-    objects = [Computer('Asus')]
-    synth = Synthesizer('moog')
-    objects.append(Adapter(synth, dict(execute=synth.play)))
-    human = Human('Bob')
-    objects.append(Adapter(human, dict(execute=human.speak)))
-    for i in objects:
-        print('{} {}'.format(str(i), i.execute()))
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Computer</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, name):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
+
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;the {} computer&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>name)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;executes a program.&#39;</span>
 
 
-if __name__ == '__main__':
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Adapter</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, obj, adapted_methods):
+        self<span style="color:#f92672">.</span>obj <span style="color:#f92672">=</span> obj
+        self<span style="color:#f92672">.</span>__dict__<span style="color:#f92672">.</span>update(adapted_methods)
+
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> str(self<span style="color:#f92672">.</span>obj)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    objects <span style="color:#f92672">=</span> [Computer(<span style="color:#e6db74">&#39;Asus&#39;</span>)]
+    synth <span style="color:#f92672">=</span> Synthesizer(<span style="color:#e6db74">&#39;moog&#39;</span>)
+    objects<span style="color:#f92672">.</span>append(Adapter(synth, dict(execute<span style="color:#f92672">=</span>synth<span style="color:#f92672">.</span>play)))
+    human <span style="color:#f92672">=</span> Human(<span style="color:#e6db74">&#39;Bob&#39;</span>)
+    objects<span style="color:#f92672">.</span>append(Adapter(human, dict(execute<span style="color:#f92672">=</span>human<span style="color:#f92672">.</span>speak)))
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> objects:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;{} {}&#39;</span><span style="color:#f92672">.</span>format(str(i), i<span style="color:#f92672">.</span>execute()))
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     main()
-</code></pre></div>
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

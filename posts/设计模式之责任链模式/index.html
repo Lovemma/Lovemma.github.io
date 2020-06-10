@@ -81,6 +81,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -95,73 +99,70 @@
           <span class="date">2018.10.23</span>
         </div>
         <div class="post_content markdown"><p>责任链（Chain of Responsibility）模式用于让多个对象来处理单个请求，或者用于预先不知道应该由哪个对象（来自某个对象链）来处理某个特定请求。我们可以使用计算机网络的广播来类比责任链模式。</p>
-
 <p>在责任链模式中，发送方可直接访问链中的首个节点。若首个节点不能处理请求，则转发给下一个节点，如此直到请求被某个节点处理或者整个链遍历结束。这种设计模式用于实现发送方与接收方（多个）之间的解耦。</p>
-
 <p>这里以一个事件驱动的例子来做说明：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Event</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, name):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
 
-<pre><code class="language-python">class Event:
-    def __init__(self, name):
-        self.name = name
-
-    def __str__(self):
-        return self.name
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>name
 
 
-class Widget:
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Widget</span>:
 
-    &quot;&quot;&quot;Docstring for Widget. &quot;&quot;&quot;
+    <span style="color:#e6db74">&#34;&#34;&#34;Docstring for Widget. &#34;&#34;&#34;</span>
 
-    def __init__(self, parent=None):
-        self.parent = parent
+    <span style="color:#66d9ef">def</span> __init__(self, parent<span style="color:#f92672">=</span>None):
+        self<span style="color:#f92672">.</span>parent <span style="color:#f92672">=</span> parent
 
-    def handle(self, event):
-        handler = 'handle_{}'.format(event)
-        if hasattr(self, handler):
-            method = getattr(self, handler)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle</span>(self, event):
+        handler <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;handle_{}&#39;</span><span style="color:#f92672">.</span>format(event)
+        <span style="color:#66d9ef">if</span> hasattr(self, handler):
+            method <span style="color:#f92672">=</span> getattr(self, handler)
             method(event)
-        elif self.parent:
-            self.parent.handle(event)
-        elif hasattr(self, 'handle_default'):
-            self.handle_default(event)
+        <span style="color:#66d9ef">elif</span> self<span style="color:#f92672">.</span>parent:
+            self<span style="color:#f92672">.</span>parent<span style="color:#f92672">.</span>handle(event)
+        <span style="color:#66d9ef">elif</span> hasattr(self, <span style="color:#e6db74">&#39;handle_default&#39;</span>):
+            self<span style="color:#f92672">.</span>handle_default(event)
 
 
-class MainWindow(Widget):
-    def handle_close(self, event):
-        print('MainWindow: {}'.format(event))
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MainWindow</span>(Widget):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_close</span>(self, event):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;MainWindow: {}&#39;</span><span style="color:#f92672">.</span>format(event))
 
-    def handle_default(self, event):
-        print('MainWindow: Default {}'.format(event))
-
-
-class SendDialog(Widget):
-    def handle_paint(self, event):
-        print('SendDialog: {}'.format(event))
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_default</span>(self, event):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;MainWindow: Default {}&#39;</span><span style="color:#f92672">.</span>format(event))
 
 
-class MsgText(Widget):
-    def handle_down(self, event):
-        print('MsgText: {}'.format(event))
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SendDialog</span>(Widget):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_paint</span>(self, event):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;SendDialog: {}&#39;</span><span style="color:#f92672">.</span>format(event))
 
 
-def main():
-    mw = MainWindow()
-    sd = SendDialog(mw)    # parent是mw
-    msg = MsgText(sd)
-
-    for e in ('down', 'paint', 'unhandled', 'close'):
-        evt = Event(e)
-        print('\nSending event -{}- to MainWindow'.format(evt))
-        mw.handle(evt)
-        print('Sending event -{}- to SendDialog'.format(evt))
-        sd.handle(evt)
-        print('Sending event -{}- to MsgText'.format(evt))
-        msg.handle(evt)
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MsgText</span>(Widget):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">handle_down</span>(self, event):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;MsgText: {}&#39;</span><span style="color:#f92672">.</span>format(event))
 
 
-if __name__ == &quot;__main__&quot;:
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    mw <span style="color:#f92672">=</span> MainWindow()
+    sd <span style="color:#f92672">=</span> SendDialog(mw)    <span style="color:#75715e"># parent是mw</span>
+    msg <span style="color:#f92672">=</span> MsgText(sd)
+
+    <span style="color:#66d9ef">for</span> e <span style="color:#f92672">in</span> (<span style="color:#e6db74">&#39;down&#39;</span>, <span style="color:#e6db74">&#39;paint&#39;</span>, <span style="color:#e6db74">&#39;unhandled&#39;</span>, <span style="color:#e6db74">&#39;close&#39;</span>):
+        evt <span style="color:#f92672">=</span> Event(e)
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Sending event -{}- to MainWindow&#39;</span><span style="color:#f92672">.</span>format(evt))
+        mw<span style="color:#f92672">.</span>handle(evt)
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Sending event -{}- to SendDialog&#39;</span><span style="color:#f92672">.</span>format(evt))
+        sd<span style="color:#f92672">.</span>handle(evt)
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Sending event -{}- to MsgText&#39;</span><span style="color:#f92672">.</span>format(evt))
+        msg<span style="color:#f92672">.</span>handle(evt)
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
     main()
-</code></pre></div>
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

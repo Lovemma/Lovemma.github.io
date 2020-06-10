@@ -10,7 +10,7 @@
         content="COldish"/>
 
   
-  <meta name="description" content="Python中一切皆为对象，每一个对象都有一个唯一的标识符（ id( ) ）、类型（type( )）以及值。而对象根据其值是否能够修改分为可变对象和不可变对象： - 数字、字符串和元组属于不可变对象 - 字典、列表和字节数组属于可变对象 对于不可变对象，任何对其中的元素进行修改的操作都会抛出异常。 &amp;gt;&amp;gt;&amp;gt; test_str = &#39;hello world&#39; &amp;gt;&amp;gt;&amp;gt; test_str[5] = &#39;q&#39; ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-2-8e9684bd3ddc&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_str[5] = &#39;q&#39; TypeError: &#39;str&#39; object does not support item assignment &amp;gt;&amp;gt;&amp;gt; test_tuple = (1, 2, 3) &amp;gt;&amp;gt;&amp;gt; test_tuple[1] = 4 ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-4-dba7800e3210&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_tuple[1] = 4 TypeError: &#39;tuple&#39; object does not"/>
+  <meta name="description" content="Python中一切皆为对象，每一个对象都有一个唯一的标识符（ id( ) ）、类型（type( )）以及值。而对象根据其值是否能够修改分为可变对象和不可变对象： 数字、字符串和元组属于不可变对象 字典、列表和字节数组属于可变对象 对于不可变对象，任何对其中的元素进行修改的操作都会抛出异常。 &amp;gt;&amp;gt;&amp;gt; test_str = &amp;#39;hello world&amp;#39; &amp;gt;&amp;gt;&amp;gt; test_str[5] = &amp;#39;q&amp;#39; ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-2-8e9684bd3ddc&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_str[5] = &amp;#39;q&amp;#39; TypeError: &amp;#39;str&amp;#39; object does not support item assignment &amp;gt;&amp;gt;&amp;gt; test_tuple = (1, 2, 3) &amp;gt;&amp;gt;&amp;gt; test_tuple[1] = 4 ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-4-dba7800e3210&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_tuple[1] = 4 TypeError: &amp;#39;tuple&amp;#39; object does not support item"/>
   
 
   
@@ -79,6 +79,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,38 +96,34 @@
           <h2><a href='/posts/python%E4%B8%AD%E7%9A%84%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1/'>Python中的可变对象与不可变对象</a></h2>
           <span class="date">2018.01.25</span>
         </div>
-        <div class="post_content markdown">
-
-<p>Python中一切皆为对象，每一个对象都有一个唯一的标识符（ id( ) ）、类型（type( )）以及值。而对象根据其值是否能够修改分为<strong>可变对象</strong>和<strong>不可变对象</strong>：
-- <strong>数字</strong>、<strong>字符串</strong>和<strong>元组</strong>属于不可变对象
-- <strong>字典</strong>、<strong>列表</strong>和<strong>字节数组</strong>属于可变对象</p>
-
-<h2 id="more"><!-- more --></h2>
-
+        <div class="post_content markdown"><p>Python中一切皆为对象，每一个对象都有一个唯一的标识符（ id( ) ）、类型（type( )）以及值。而对象根据其值是否能够修改分为<strong>可变对象</strong>和<strong>不可变对象</strong>：</p>
+<ul>
+<li><strong>数字</strong>、<strong>字符串</strong>和<strong>元组</strong>属于不可变对象</li>
+<li><strong>字典</strong>、<strong>列表</strong>和<strong>字节数组</strong>属于可变对象</li>
+</ul>
+<!-- raw HTML omitted -->
+<hr>
 <p>对于不可变对象，任何对其中的元素进行修改的操作都会抛出异常。</p>
-
-<pre><code class="language-python">	&gt;&gt;&gt; test_str = 'hello world'
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">	<span style="color:#f92672">&gt;&gt;&gt;</span> test_str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;hello world&#39;</span>
 	
-	&gt;&gt;&gt; test_str[5] = 'q'
-	-----------------------------------------------------------------------
-	TypeError                                 Traceback (most recent call last)
-	&lt;ipython-input-2-8e9684bd3ddc&gt; in &lt;module&gt;()
-	&gt; 1 test_str[5] = 'q'
+	<span style="color:#f92672">&gt;&gt;&gt;</span> test_str[<span style="color:#ae81ff">5</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;q&#39;</span>
+	<span style="color:#f92672">-----------------------------------------------------------------------</span>
+	<span style="color:#a6e22e">TypeError</span>                                 Traceback (most recent call last)
+	<span style="color:#f92672">&lt;</span>ipython<span style="color:#f92672">-</span>input<span style="color:#f92672">-</span><span style="color:#ae81ff">2</span><span style="color:#f92672">-</span><span style="color:#ae81ff">8e9684</span>bd3ddc<span style="color:#f92672">&gt;</span> <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>()
+	<span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span> test_str[<span style="color:#ae81ff">5</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;q&#39;</span>
 	
-	TypeError: 'str' object does not support item assignment
+	<span style="color:#a6e22e">TypeError</span>: <span style="color:#e6db74">&#39;str&#39;</span> object does <span style="color:#f92672">not</span> support item assignment
 	
-	&gt;&gt;&gt; test_tuple = (1, 2, 3)
+	<span style="color:#f92672">&gt;&gt;&gt;</span> test_tuple <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
 	
-	&gt;&gt;&gt; test_tuple[1] = 4
-	-----------------------------------------------------------------------
-	TypeError                                 Traceback (most recent call last)
-	&lt;ipython-input-4-dba7800e3210&gt; in &lt;module&gt;()
-	&gt; 1 test_tuple[1] = 4
+	<span style="color:#f92672">&gt;&gt;&gt;</span> test_tuple[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+	<span style="color:#f92672">-----------------------------------------------------------------------</span>
+	<span style="color:#a6e22e">TypeError</span>                                 Traceback (most recent call last)
+	<span style="color:#f92672">&lt;</span>ipython<span style="color:#f92672">-</span>input<span style="color:#f92672">-</span><span style="color:#ae81ff">4</span><span style="color:#f92672">-</span>dba7800e3210<span style="color:#f92672">&gt;</span> <span style="color:#f92672">in</span> <span style="color:#f92672">&lt;</span>module<span style="color:#f92672">&gt;</span>()
+	<span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span> test_tuple[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
 	
-	TypeError: 'tuple' object does not support item assignment
-</code></pre>
-
-<p>而对于可变对象，对其进行操作需要考虑到浅拷贝和深拷贝的问题。</p>
+	<span style="color:#a6e22e">TypeError</span>: <span style="color:#e6db74">&#39;tuple&#39;</span> object does <span style="color:#f92672">not</span> support item assignment
+</code></pre></div><p>而对于可变对象，对其进行操作需要考虑到浅拷贝和深拷贝的问题。</p>
 </div>
         <div class="post_footer">
           

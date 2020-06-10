@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Django on I&#39;m Groooooot</title>
@@ -17,7 +17,7 @@
       <pubDate>Sat, 24 Feb 2018 21:15:02 +0000</pubDate>
       
       <guid>https://lovemma.github.io/posts/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84-nginx-&#43;-uwsgi-&#43;-django/</guid>
-      <description>当我们编写完成 Django 项目后，可以使用python manager.py runserver来运行 Django 自带的服务器，但这只适合于测试环境使用，项目正式上线时，我们需要一个可以稳定并且持续的服务器，比如Apache, Nginx等。手里吃灰很久的树莓派终于可以派上用场了😂。 准备工作 烧写好系统的树莓派，我这里使用的是基于 Debian 的 Raspbian 系统，理论上后续搭建步骤在 Ubuntu/Debian 上都可以用。 &amp;gt; 注意 2016 年 11 月的新版本系统之后，树莓派默认禁用 SSH，你需要手动开启</description>
+      <description>当我们编写完成 Django 项目后，可以使用python manager.py runserver来运行 Django 自带的服务器，但这只适合于测试环境使用，项目正式上线时，我们需要一个可以稳定并且持续的服务器，比如Apache, Nginx等。手里吃灰很久的树莓派终于可以派上用场了😂。 准备工作 烧写好系统的树莓派，我这里使用的是基于 Debian 的 Raspbian 系统，理论上后续搭建步骤在 Ubuntu/Debian 上都可以用。 注意 2016 年 11 月的新版本系统之后，树莓派默认禁用 SSH，你需要手动开启。</description>
     </item>
     
   </channel>

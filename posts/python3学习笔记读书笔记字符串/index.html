@@ -10,7 +10,7 @@
         content="COldish"/>
 
   
-  <meta name="description" content="字符串字面量以成对的单引号（`）、双引号（”），或可跨行的三引号（”””）语法构成，自动合并相邻的字面量。字符串支持转义、八进制、十六进制，或 Unicode 格式字符。 使用单引号还是双引号，并没有什么特殊限制。如果文本内的引用文字使用双引号，那么外面用单引号可避免转义，更易阅读。 &amp;gt; 通常情况下，建议遵循多数编程语言惯例，使用双引号标示。 Python 3 中字符串存储的是 Unicode 文本，是不可变序列类型。而 Unicode 格式大小写分别表示 16 位（ \u ）"/>
+  <meta name="description" content="字符串字面量以成对的单引号（`）、双引号（”），或可跨行的三引号（”””）语法构成，自动合并相邻的字面量。字符串支持转义、八进制、十六进制，或 Unicode 格式字符。 使用单引号还是双引号，并没有什么特殊限制。如果文本内的引用文字使用双引号，那么外面用单引号可避免转义，更易阅读。 通常情况下，建议遵循多数编程语言惯例，使用双引号标示。 Python 3 中字符串存储的是 Unicode 文本，是不可变序列类型。而 Unicode 格式大小写分别表示 16 位（ \u ）和"/>
   
 
   
@@ -79,6 +79,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,53 +96,36 @@
           <h2><a href='/posts/python3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E8%AF%BB%E4%B9%A6%E7%AC%94%E8%AE%B0%E5%AD%97%E7%AC%A6%E4%B8%B2/'>「Python3学习笔记」读书笔记—字符串</a></h2>
           <span class="date">2018.06.14</span>
         </div>
-        <div class="post_content markdown">
-
-<p>字符串字面量以成对的单引号（<strong>`</strong>）、双引号（<strong>”</strong>），或可跨行的三引号（<strong>”””</strong>）语法构成，自动合并相邻的字面量。字符串支持转义、八进制、十六进制，或 Unicode 格式字符。</p>
-
-<!-- more -->
-
-<p>使用单引号还是双引号，并没有什么特殊限制。如果文本内的引用文字使用双引号，那么外面用单引号可避免转义，更易阅读。
-&gt; 通常情况下，建议遵循多数编程语言惯例，使用双引号标示。</p>
-
+        <div class="post_content markdown"><p>字符串字面量以成对的单引号（<strong>`</strong>）、双引号（<strong>”</strong>），或可跨行的三引号（<strong>”””</strong>）语法构成，自动合并相邻的字面量。字符串支持转义、八进制、十六进制，或 Unicode 格式字符。</p>
+<!-- raw HTML omitted -->
+<p>使用单引号还是双引号，并没有什么特殊限制。如果文本内的引用文字使用双引号，那么外面用单引号可避免转义，更易阅读。</p>
+<blockquote>
+<p>通常情况下，建议遵循多数编程语言惯例，使用双引号标示。</p>
+</blockquote>
 <p>Python 3 中字符串存储的是 Unicode 文本，是不可变序列类型。而 Unicode 格式大小写分别表示 16 位（ <strong>\u</strong> ）和 32 位（<strong>\U</strong>）整数，不能混用。</p>
-
 <pre><code>&gt;&gt;&gt; &quot;h\x69, \u6C49\U00005B57&quot;
 'hi, 汉字'
-</code></pre>
-
-<p>在字面量前添加标志，表示构建指定格式的字符串。</p>
-
+</code></pre><p>在字面量前添加标志，表示构建指定格式的字符串。</p>
 <pre><code>&gt;&gt;&gt; type(u&quot;abc&quot;)
 &lt;class 'str'&gt;
 &gt;&gt;&gt; type(b&quot;abc&quot;)
 &lt;class 'bytes'&gt;
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>最常用的原始字符串（r, raw string），它将反斜线视作字符内容，而非转义标志。这在构建类似 Windows 路径、正则表达式匹配模式之类的文法字符串时很有用。</p>
 </blockquote>
-
 <pre><code>&gt;&gt;&gt; open(r&quot;c:\windows\readme.txt”)
 
 &gt;&gt;&gt; import re
 &gt;&gt;&gt; re.findall(r&quot;\b\d+\b&quot;, &quot;a10 100&quot;)
 ['100']
-</code></pre>
-
-<h2 id="操作">操作</h2>
-
+</code></pre><h2 id="操作">操作</h2>
 <p>字符串支持用加法或乘法运算符拼接字符串。</p>
-
 <pre><code>&gt;&gt;&gt; s = &quot;hello&quot;
 
 &gt;&gt;&gt; s += &quot;, world&quot;
 &gt;&gt;&gt; &quot;-&quot; * 10
 '----------'
-</code></pre>
-
-<p><strong>编译器会尝试在编译期直接计算出字面量拼接结果，可避免运行时的内存开销。不可此类优化程度有限，并不总是有效。</strong></p>
-
+</code></pre><p><strong>编译器会尝试在编译期直接计算出字面量拼接结果，可避免运行时的内存开销。不可此类优化程度有限，并不总是有效。</strong></p>
 <pre><code>&gt;&gt;&gt; def test():
 ...     a = &quot;x&quot; + &quot;y&quot; + &quot;z&quot;
 ...     b = &quot;a&quot; * 10
@@ -156,12 +143,8 @@
              10 LOAD_FAST                1 (b)
              12 BUILD_TUPLE              2
              14 RETURN_VALUE
-</code></pre>
-
-<p>多个动态字符串拼接，应优先考虑 join 或 format 方式，而不是使用 + 号操作符直接拼接，这是因为相比于多次加法运算和多次内存分配（字符串是不可变对象），join 这类函数（方法）可预先计算出总长度，一次性分配内存，随后直接复制内存数据填充。另一方面，将固定模版内容与变量分离的 format，更易阅读和维护，可参考以前的这篇记录<a href="https://m-in.coding.me/2018/02/28/Python%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8join%E8%80%8C%E4%B8%8D%E6%98%AF/">Python连接字符串优先使用join而不是+ | M-in’s Blog</a>。</p>
-
+</code></pre><p>多个动态字符串拼接，应优先考虑 join 或 format 方式，而不是使用 + 号操作符直接拼接，这是因为相比于多次加法运算和多次内存分配（字符串是不可变对象），join 这类函数（方法）可预先计算出总长度，一次性分配内存，随后直接复制内存数据填充。另一方面，将固定模版内容与变量分离的 format，更易阅读和维护，可参考以前的这篇记录<a href="https://m-in.coding.me/2018/02/28/Python%E8%BF%9E%E6%8E%A5%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%BC%98%E5%85%88%E4%BD%BF%E7%94%A8join%E8%80%8C%E4%B8%8D%E6%98%AF/">Python连接字符串优先使用join而不是+ | M-in’s Blog</a>。</p>
 <p>编写代码时除保持简单外，还应具备良好的可读性。比如：判断是否包含子字符串，in、not in 操作符就比 find 方法自然，更贴近日常阅读习惯。</p>
-
 <pre><code>&gt;&gt;&gt; &quot;py&quot; in &quot;python&quot;
 True
 &gt;&gt;&gt; &quot;py&quot; not in &quot;python&quot;
@@ -169,10 +152,7 @@ False
 
 &gt;&gt;&gt; &quot;python&quot;.find(&quot;py&quot;)
 0
-</code></pre>
-
-<p>作为序列类型，可使用索引序号访问字符串的单个字符或某一片段（<strong>切片</strong>）。Python 3 支持负索引，也就是反向从尾部以 -1 开始（索引 0 表示正向第一个字符）。</p>
-
+</code></pre><p>作为序列类型，可使用索引序号访问字符串的单个字符或某一片段（<strong>切片</strong>）。Python 3 支持负索引，也就是反向从尾部以 -1 开始（索引 0 表示正向第一个字符）。</p>
 <pre><code>&gt;&gt;&gt; s = &quot;0123456789&quot;
 &gt;&gt;&gt; s[2]
 '2'
@@ -182,21 +162,16 @@ False
 '2345'
 &gt;&gt;&gt; s[2:-2]
 '234567'
-</code></pre>
-
-<blockquote>
+</code></pre><blockquote>
 <p>无论以哪种方式返回与原字符串内容不同的子字符串时，都可能会重新分配内存，并复制数据。</p>
 </blockquote>
-
 <h2 id="转换">转换</h2>
-
 <p>除了与数字、Unicode 码点的转化外，最常见的是在不用编码间进行转换。Python 3 使用 bytes、bytearray 存储字节序列，不再和 str 混用。</p>
-
 <h2 id="格式化">格式化</h2>
-
-<p>Python 3.6 新增了 f-strings 支持，这在多数脚本语言里属于标配。
-&gt; 使用 f 前缀标志，Python 解释器在解析大括号内的字段或表达式时，在上下文命名空间（namespace）查找同名对象进行值替换。</p>
-
+<p>Python 3.6 新增了 f-strings 支持，这在多数脚本语言里属于标配。</p>
+<blockquote>
+<p>使用 f 前缀标志，Python 解释器在解析大括号内的字段或表达式时，在上下文命名空间（namespace）查找同名对象进行值替换。</p>
+</blockquote>
 <pre><code>&gt;&gt;&gt; x = 10
 &gt;&gt;&gt; y = 20
 &gt;&gt;&gt; f&quot;{x} + {y} = {x + y}&quot;
@@ -205,36 +180,25 @@ False
 # 除运算符外，还可以是函数调用。
 &gt;&gt;&gt; f&quot;{type(x)}&quot;
 &quot;&lt;class 'int'&gt;&quot;
-</code></pre>
-
-<p>完整的 format 格式化以位置序号或字段名匹配参数进行值替换，可添加对齐、填充、精度等控制。具体请参考官方文档<a href="https://docs.python.org/3/library/string.html?highlight=string#format-string-syntax">6.1.3. Format String Syntax</a></p>
-
+</code></pre><p>完整的 format 格式化以位置序号或字段名匹配参数进行值替换，可添加对齐、填充、精度等控制。具体请参考官方文档<a href="https://docs.python.org/3/library/string.html?highlight=string#format-string-syntax">6.1.3. Format String Syntax</a></p>
 <h2 id="池化">池化</h2>
-
 <p>因为无处不在的名字就是字符串实例，导致字符串可能是进程里实例数量最多的类型之一。</p>
-
 <p>鉴于相同的名字会出现在不同的命名空间里，那么有必要共享实例。内容相同，且不可变，共享内存不会导致任何问题。关键是节约内存，且可省去创建新实例的开销。</p>
-
-<p>对此，Python 的做法是实现一个字符串池（ intern ）。
-&gt; 池负责管理实例，使用者只需饮用即可。另一潜在的好处是，从池返回的字符串，只需比较指针就可知道内容是否相同，无需额外计算。可以使用池来提升哈希表等类似结构的查找性能。</p>
-
+<p>对此，Python 的做法是实现一个字符串池（ intern ）。</p>
+<blockquote>
+<p>池负责管理实例，使用者只需饮用即可。另一潜在的好处是，从池返回的字符串，只需比较指针就可知道内容是否相同，无需额外计算。可以使用池来提升哈希表等类似结构的查找性能。</p>
+</blockquote>
 <pre><code>&gt;&gt;&gt; import sys
 &gt;&gt;&gt; &quot;__name__&quot; is sys.intern(&quot;__name__&quot;)
 True
-</code></pre>
-
-<p>除以常量方式出现的名字和字面量外，动态生成的字符串一样可加入池中。如此可保证每次都引用同一对象，不会有额外的创建和分配操作。</p>
-
+</code></pre><p>除以常量方式出现的名字和字面量外，动态生成的字符串一样可加入池中。如此可保证每次都引用同一对象，不会有额外的创建和分配操作。</p>
 <pre><code>&gt;&gt;&gt; a = &quot;hello, world!&quot;
 &gt;&gt;&gt; b = &quot;hello, world!&quot;
 &gt;&gt;&gt; a is b											# 不同实例
 False
 &gt;&gt;&gt; sys.intern(a) is sys.intern(&quot;hello, world!&quot;)		# 相同实例
 True
-</code></pre>
-
-<p>当然，一旦失去所有外部引用，池内的字符串对象一样会被回收。</p>
-
+</code></pre><p>当然，一旦失去所有外部引用，池内的字符串对象一样会被回收。</p>
 <pre><code>&gt;&gt;&gt; a = sys.intern(&quot;hello, world!&quot;)
 &gt;&gt;&gt; id(a)
 4318361584
@@ -244,14 +208,11 @@ True
 &gt;&gt;&gt; del a									# 删除外部引用后被回收
 &gt;&gt;&gt; id(sys.intern(&quot;hello, world!&quot;))		# 从 id 值不同可以看到字符串是新建后入池的
 4318389808
-</code></pre>
-
-<blockquote>
-<p>字符串池的实现算法很简单，就是简单的字典结构。<br />
-详细可参考 Objects/unicodeobject.c : PyUnicode_InternInPlace。<br />
+</code></pre><blockquote>
+<p>字符串池的实现算法很简单，就是简单的字典结构。<br>
+详细可参考 Objects/unicodeobject.c : PyUnicode_InternInPlace。<br>
 做大数据处理时，可能须创建海量主键，使用类似机制有助于减少对象数量，节约大量内存。当然，可以选择更高效的数据结构，而不一定是系统内置的字符串池。</p>
 </blockquote>
-
 <p>#读书笔记</p>
 </div>
         <div class="post_footer">

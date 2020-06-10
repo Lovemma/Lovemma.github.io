@@ -82,6 +82,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -96,89 +100,85 @@
           <span class="date">2018.10.24</span>
         </div>
         <div class="post_content markdown"><p>命令设计模式帮助我们将一个操作（撤销、重做、复制、粘贴等）封装成一个对象，通常是创建一个包含Operation所有逻辑和方法的类。</p>
-
 <p>当我们去餐馆吃饭时，会叫服务员来点单。他们用来做记录的账单（通常是纸质的）就是命令模式的一个例子。在记录好订单后，服务员将其放入账单队列，厨师会照着单子去做。每个账单都是独立的，并且可用来执行许多不同命令，例如，一个命令对应一个将要烹饪的菜品。</p>
-
 <p>通过命令模式可以控制命令的执行时间和过程，还可以用来组织事务。</p>
-
 <p>这里用一些文件操作类来说明命令模式的使用:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> os
 
-<pre><code class="language-python">import os
-
-verbose = True
-
-
-class RenameFile:
-
-    def __init__(self, path_src, path_dest):
-        self.src, self.dest = path_src, path_dest
-
-    def execute(self):
-        if verbose:
-            print(&quot;[renaming '{}' to '{}']&quot;.format(self.src, self.dest))
-        os.rename(self.src, self.dest)
-
-    def undo(self):
-        if verbose:
-            print(&quot;[renaming '{}' back to '{}']&quot;.format(self.dest, self.src))
-        os.rename(self.dest, self.src)
+verbose <span style="color:#f92672">=</span> True
 
 
-class CreateFile:
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">RenameFile</span>:
 
-    def __init__(self, path, txt='hello world\n'):
-        self.path, self.txt = path, txt
+    <span style="color:#66d9ef">def</span> __init__(self, path_src, path_dest):
+        self<span style="color:#f92672">.</span>src, self<span style="color:#f92672">.</span>dest <span style="color:#f92672">=</span> path_src, path_dest
 
-    def execute(self):
-        if verbose:
-            print(&quot;[creating file '{}']&quot;.format(self.path))
-        with open(self.path, mode='w', encoding='utf-8') as out_file:
-            out_file.write(self.txt)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
+        <span style="color:#66d9ef">if</span> verbose:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;[renaming &#39;{}&#39; to &#39;{}&#39;]&#34;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>src, self<span style="color:#f92672">.</span>dest))
+        os<span style="color:#f92672">.</span>rename(self<span style="color:#f92672">.</span>src, self<span style="color:#f92672">.</span>dest)
 
-    def undo(self):
-        delete_file(self.path)
-
-
-class ReadFile:
-
-    def __init__(self, path):
-        self.path = path
-
-    def execute(self):
-        if verbose:
-            print(&quot;[reading file '{}']&quot;.format(self.path))
-
-        with open(self.path, mode='r', encoding='utf-8') as in_file:
-            print(in_file.read(), end='')
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">undo</span>(self):
+        <span style="color:#66d9ef">if</span> verbose:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;[renaming &#39;{}&#39; back to &#39;{}&#39;]&#34;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>dest, self<span style="color:#f92672">.</span>src))
+        os<span style="color:#f92672">.</span>rename(self<span style="color:#f92672">.</span>dest, self<span style="color:#f92672">.</span>src)
 
 
-def delete_file(path):
-    if verbose:
-        print(&quot;deleting file '{}'&quot;.format(path))
-    os.remove(path)
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">CreateFile</span>:
+
+    <span style="color:#66d9ef">def</span> __init__(self, path, txt<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;hello world</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span>):
+        self<span style="color:#f92672">.</span>path, self<span style="color:#f92672">.</span>txt <span style="color:#f92672">=</span> path, txt
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
+        <span style="color:#66d9ef">if</span> verbose:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;[creating file &#39;{}&#39;]&#34;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>path))
+        <span style="color:#66d9ef">with</span> open(self<span style="color:#f92672">.</span>path, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;w&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#66d9ef">as</span> out_file:
+            out_file<span style="color:#f92672">.</span>write(self<span style="color:#f92672">.</span>txt)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">undo</span>(self):
+        delete_file(self<span style="color:#f92672">.</span>path)
 
 
-def main():
-    orig_name, new_name = 'file1', 'file2'
-    commands = []
-    for cmd in CreateFile(orig_name), ReadFile(orig_name), RenameFile(orig_name, new_name):
-        commands.append(cmd)
-    [c.execute() for c in commands]
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ReadFile</span>:
 
-    answer = input('reverse the executed commands? [y/n] ')
-    if answer not in 'yY':
-        print(&quot;the result is {}&quot;.format(new_name))
+    <span style="color:#66d9ef">def</span> __init__(self, path):
+        self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> path
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">execute</span>(self):
+        <span style="color:#66d9ef">if</span> verbose:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;[reading file &#39;{}&#39;]&#34;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>path))
+
+        <span style="color:#66d9ef">with</span> open(self<span style="color:#f92672">.</span>path, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#66d9ef">as</span> in_file:
+            <span style="color:#66d9ef">print</span>(in_file<span style="color:#f92672">.</span>read(), end<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;&#39;</span>)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">delete_file</span>(path):
+    <span style="color:#66d9ef">if</span> verbose:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;deleting file &#39;{}&#39;&#34;</span><span style="color:#f92672">.</span>format(path))
+    os<span style="color:#f92672">.</span>remove(path)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    orig_name, new_name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;file1&#39;</span>, <span style="color:#e6db74">&#39;file2&#39;</span>
+    commands <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> cmd <span style="color:#f92672">in</span> CreateFile(orig_name), ReadFile(orig_name), RenameFile(orig_name, new_name):
+        commands<span style="color:#f92672">.</span>append(cmd)
+    [c<span style="color:#f92672">.</span>execute() <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> commands]
+
+    answer <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#39;reverse the executed commands? [y/n] &#39;</span>)
+    <span style="color:#66d9ef">if</span> answer <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> <span style="color:#e6db74">&#39;yY&#39;</span>:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;the result is {}&#34;</span><span style="color:#f92672">.</span>format(new_name))
         exit()
-    for c in reversed(commands):
-        try:
-            c.undo()
-        except AttributeError as e:
-            pass
+    <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> reversed(commands):
+        <span style="color:#66d9ef">try</span>:
+            c<span style="color:#f92672">.</span>undo()
+        <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">AttributeError</span> <span style="color:#66d9ef">as</span> e:
+            <span style="color:#66d9ef">pass</span>
 
 
-if __name__ == '__main__':
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     main()
-</code></pre></div>
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

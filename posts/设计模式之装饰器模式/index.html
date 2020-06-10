@@ -10,8 +10,8 @@
         content="COldish"/>
 
   
-  <meta name="description" content="当我们想对一个已有的对象添加额外的功能时，可以使用如下方法： 1. 如果合理，可以直接将功能添加到对象所属的类（例如，添加一个新的方法）。 2. 使用组合 3. 使用继承
-与继承相比，通常应该优先选择组合，因为继承使得代码更难复用，继承关系是静态的，并且应用于整个类以及这个类的所有实例。
+  <meta name="description" content="当我们想对一个已有的对象添加额外的功能时，可以使用如下方法：
+ 如果合理，可以直接将功能添加到对象所属的类（例如，添加一个新的方法）。 使用组合 使用继承  与继承相比，通常应该优先选择组合，因为继承使得代码更难复用，继承关系是静态的，并且应用于整个类以及这个类的所有实例。
 设计模式为我们提供了第四种可选的方法，以支持动态的扩展一个对象的功能，这种方法就是装饰器。
 装饰器有很多用途，比如数据校验，事务处理，缓存，日志等。
 "/>
@@ -83,6 +83,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -96,40 +100,37 @@
           <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/'>设计模式之装饰器模式</a></h2>
           <span class="date">2018.10.17</span>
         </div>
-        <div class="post_content markdown"><p>当我们想对一个已有的对象添加额外的功能时，可以使用如下方法：
-1. 如果合理，可以直接将功能添加到对象所属的类（例如，添加一个新的方法）。
-2. 使用组合
-3. 使用继承</p>
-
+        <div class="post_content markdown"><p>当我们想对一个已有的对象添加额外的功能时，可以使用如下方法：</p>
+<ol>
+<li>如果合理，可以直接将功能添加到对象所属的类（例如，添加一个新的方法）。</li>
+<li>使用组合</li>
+<li>使用继承</li>
+</ol>
 <p>与继承相比，通常应该优先选择组合，因为继承使得代码更难复用，继承关系是静态的，并且应用于整个类以及这个类的所有实例。</p>
-
 <p>设计模式为我们提供了第四种可选的方法，以支持动态的扩展一个对象的功能，这种方法就是装饰器。</p>
-
 <p>装饰器有很多用途，比如数据校验，事务处理，缓存，日志等。</p>
-
 <p>这里以装饰器实现斐波那契数列缓存为例：</p>
-
-<pre><code class="language-python">import functools
-
-
-def memoize(fn):
-    known = {}
-
-    @functools.wraps(fn)
-    def decorator(args):
-        if args not in known:
-            known[args] = fn(args)
-        return known[args]
-
-    return decorator
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> functools
 
 
-@memoize
-def fibonacci(n):
-    '''返回斐波那契数列的第n个数'''
-    assert (n &gt;= 0), 'n must be &gt;= 0'
-    return n if n in (0, 1) else fibonacci(n - 1) + fibonacci(n - 2)
-</code></pre></div>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">memoize</span>(fn):
+    known <span style="color:#f92672">=</span> {}
+
+    <span style="color:#a6e22e">@functools.wraps</span>(fn)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">decorator</span>(args):
+        <span style="color:#66d9ef">if</span> args <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> known:
+            known[args] <span style="color:#f92672">=</span> fn(args)
+        <span style="color:#66d9ef">return</span> known[args]
+
+    <span style="color:#66d9ef">return</span> decorator
+
+
+<span style="color:#a6e22e">@memoize</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fibonacci</span>(n):
+    <span style="color:#e6db74">&#39;&#39;&#39;返回斐波那契数列的第n个数&#39;&#39;&#39;</span>
+    <span style="color:#66d9ef">assert</span> (n <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>), <span style="color:#e6db74">&#39;n must be &gt;= 0&#39;</span>
+    <span style="color:#66d9ef">return</span> n <span style="color:#66d9ef">if</span> n <span style="color:#f92672">in</span> (<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">else</span> fibonacci(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> fibonacci(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>)
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

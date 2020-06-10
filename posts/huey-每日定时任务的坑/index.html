@@ -80,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -94,36 +98,27 @@
           <span class="date">2019.05.16</span>
         </div>
         <div class="post_content markdown"><p>最近别人推荐了个轻量级任务队列 Huey，然后我就去试了下，挺好用的，但却碰了文档未说明的坑。</p>
-
 <p>我要做一个每日执行一次的任务，文档只给出每三分钟执行一次的例子：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> huey <span style="color:#f92672">import</span> SqliteHuey
+<span style="color:#f92672">from</span> huey <span style="color:#f92672">import</span> crontab
 
-<pre><code class="language-python">from huey import SqliteHuey
-from huey import crontab
-
-huey = SqliteHuey(filename='/tmp/demo.db')
+huey <span style="color:#f92672">=</span> SqliteHuey(filename<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;/tmp/demo.db&#39;</span>)
 
 
-@huey.periodic_task(crontab(minute='*/3'))
-def every_three_minutes():
-    print('This task runs every three minutes')
+<span style="color:#a6e22e">@huey.periodic_task</span>(crontab(minute<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;*/3&#39;</span>))
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">every_three_minutes</span>():
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;This task runs every three minutes&#39;</span>)
 
-</code></pre>
-
-<p>我以为每日执行一次可以这样写：</p>
-
-<pre><code class="language-python">@huey.periodic_task(crontab(day='*/1'))
-def print_in_a_day():
-    print('-- PERIODIC TASK -- THIS RUNS EVERY 1 DAYS --')
-</code></pre>
-
-<p>结果它每一分钟就执行了一次，我：？？？</p>
-
+</code></pre></div><p>我以为每日执行一次可以这样写：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@huey.periodic_task</span>(crontab(day<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;*/1&#39;</span>))
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">print_in_a_day</span>():
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;-- PERIODIC TASK -- THIS RUNS EVERY 1 DAYS --&#39;</span>)
+</code></pre></div><p>结果它每一分钟就执行了一次，我：？？？</p>
 <p>最后发现还需要设置执行小时和分钟：</p>
-
-<pre><code class="language-python">@huey.periodic_task(crontab(day='*/1', hour='0', minute='0'))
-def print_in_a_day():
-    print('-- PERIODIC TASK -- THIS RUNS EVERY 1 DAYS --')
-</code></pre></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@huey.periodic_task</span>(crontab(day<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;*/1&#39;</span>, hour<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;0&#39;</span>, minute<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;0&#39;</span>))
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">print_in_a_day</span>():
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;-- PERIODIC TASK -- THIS RUNS EVERY 1 DAYS --&#39;</span>)
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

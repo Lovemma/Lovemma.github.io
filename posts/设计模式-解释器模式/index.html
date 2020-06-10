@@ -82,6 +82,10 @@ DSL是一种针对特定领域、表达能力有限的计算机语言。 DSL有�
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -96,60 +100,54 @@ DSL是一种针对特定领域、表达能力有限的计算机语言。 DSL有�
           <span class="date">2018.10.28</span>
         </div>
         <div class="post_content markdown"><p>解释器模式用于为高级用户和领域专家提供一个类编程的框架，但没有暴露出编程语言那样的复杂性。这是通过实现一个DSL来达到目的的。</p>
-
 <p>DSL是一种针对特定领域、表达能力有限的计算机语言。 DSL有两类，分别是内部DSL和外部DSL。内部DSL构建在一种宿主编程语言之上，依赖宿主编程语言，外部DSL则是从头实现，不依赖某种已有的编程语言。解释器模式仅与内部DSL相关。</p>
-
 <p>例如：乐谱是一个非软件DSL的例子。音乐演奏者像一个解释器那样，使用乐谱演奏出音乐。</p>
-
 <p>我们可以使用<code>Pyparsing</code>创建一种DSL来控制大门（PS：使用一个好的解析工具以模式匹配来解释结果更加简单）。示例如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pyparsing <span style="color:#f92672">import</span> Word, OneOrMore, Optional, Group, Suppress, alphanums
 
-<pre><code class="language-python">from pyparsing import Word, OneOrMore, Optional, Group, Suppress, alphanums
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Gate</span>:
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>is_open <span style="color:#f92672">=</span> False
 
-class Gate:
-    def __init__(self):
-        self.is_open = False
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;open&#39;</span> <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>is_open <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#39;closed&#39;</span>
 
-    def __str__(self):
-        return 'open' if self.is_open else 'closed'
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">open</span>(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;opening the gate&#39;</span>)
+        self<span style="color:#f92672">.</span>is_open <span style="color:#f92672">=</span> True
 
-    def open(self):
-        print('opening the gate')
-        self.is_open = True
-
-    def close(self):
-        print('closing the gate')
-        self.is_open = False
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">close</span>(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;closing the gate&#39;</span>)
+        self<span style="color:#f92672">.</span>is_open <span style="color:#f92672">=</span> False
 
 
-def main():
-    # 首先定义我们的DSL格式，我们这里最简单的控制语法就是   &quot;open -&gt; gate&quot;
-    word = Word(alphanums)
-    command = Group(OneOrMore(word))
-    token = Suppress(&quot;-&gt;&quot;)
-    device = Group(OneOrMore(word))
-    argument = Group(OneOrMore(word))
-    event = command + token + device + Optional(token + argument)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    <span style="color:#75715e"># 首先定义我们的DSL格式，我们这里最简单的控制语法就是   &#34;open -&gt; gate&#34;</span>
+    word <span style="color:#f92672">=</span> Word(alphanums)
+    command <span style="color:#f92672">=</span> Group(OneOrMore(word))
+    token <span style="color:#f92672">=</span> Suppress(<span style="color:#e6db74">&#34;-&gt;&#34;</span>)
+    device <span style="color:#f92672">=</span> Group(OneOrMore(word))
+    argument <span style="color:#f92672">=</span> Group(OneOrMore(word))
+    event <span style="color:#f92672">=</span> command <span style="color:#f92672">+</span> token <span style="color:#f92672">+</span> device <span style="color:#f92672">+</span> Optional(token <span style="color:#f92672">+</span> argument)
 
-    gate = Gate()
-    cmds = ['open -&gt; gate', 'close -&gt; gate']    # 两个自定义的命令
-    open_actions = {'gate': gate.open}
-    close_actions = {'gate': gate.close}
+    gate <span style="color:#f92672">=</span> Gate()
+    cmds <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;open -&gt; gate&#39;</span>, <span style="color:#e6db74">&#39;close -&gt; gate&#39;</span>]    <span style="color:#75715e"># 两个自定义的命令</span>
+    open_actions <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;gate&#39;</span>: gate<span style="color:#f92672">.</span>open}
+    close_actions <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;gate&#39;</span>: gate<span style="color:#f92672">.</span>close}
 
-    for cmd in cmds:
-        print(event.parseString(cmd))    # [['open'], ['gate']]
-        cmd, dev = event.parseString(cmd)
-        cmd_str, dev_str = ' '.join(cmd), ' '.join(dev)
-        print(cmd_str, dev_str)
-        if 'open' in cmd_str:
+    <span style="color:#66d9ef">for</span> cmd <span style="color:#f92672">in</span> cmds:
+        <span style="color:#66d9ef">print</span>(event<span style="color:#f92672">.</span>parseString(cmd))    <span style="color:#75715e"># [[&#39;open&#39;], [&#39;gate&#39;]]</span>
+        cmd, dev <span style="color:#f92672">=</span> event<span style="color:#f92672">.</span>parseString(cmd)
+        cmd_str, dev_str <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(cmd), <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(dev)
+        <span style="color:#66d9ef">print</span>(cmd_str, dev_str)
+        <span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;open&#39;</span> <span style="color:#f92672">in</span> cmd_str:
             open_actions[dev_str]()
-        elif 'close' in cmd_str:
+        <span style="color:#66d9ef">elif</span> <span style="color:#e6db74">&#39;close&#39;</span> <span style="color:#f92672">in</span> cmd_str:
             close_actions[dev_str]()
 
-if __name__ == &quot;__main__&quot;:
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
     main()
-</code></pre>
-
-<p>这样就实现了一个简单的大门控制语言，只是功能很弱。</p></div>
+</code></pre></div><p>这样就实现了一个简单的大门控制语言，只是功能很弱。</p></div>
         <div class="post_footer">
           
           <div class="meta">

@@ -11,7 +11,7 @@
 
   
   <meta name="description" content="最近在试用 MySQL 数据库做查询时，遇到了这么个问题，当我使用 GROUP_BY对要查询的数据进行分组的时候，抛出了一个InternalError的错误，当时我：？？？
- 1055, &amp;quot;Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column ‘xxx’ which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by&amp;quot;
+ 1055, &amp;ldquo;Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column ‘xxx’ which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by&amp;rdquo;
 "/>
   
 
@@ -81,6 +81,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -95,42 +99,25 @@
           <span class="date">2018.08.08</span>
         </div>
         <div class="post_content markdown"><p>最近在试用 MySQL 数据库做查询时，遇到了这么个问题，当我使用 <code>GROUP_BY</code>对要查询的数据进行分组的时候，抛出了一个<code>InternalError</code>的错误，当时我：？？？</p>
-
 <blockquote>
-<p>1055, &quot;Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column ‘xxx’ which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by&quot;</p>
+<p>1055, &ldquo;Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column ‘xxx’ which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by&rdquo;</p>
 </blockquote>
-
 <p>意思就是说，你写的 SQL 语句在sql_mode=only_full_group_by模式下是不兼容的，非聚类列‘xxx’没有出现在 GROUP_BY 子句中。</p>
-
 <p>用Google搜了下，在官方文档上发现了这个问题的详细说明，具体请看：<a href="https://dev.mysql.com/doc/refman/5.7/en/group-by-handling.html">MySQL :: MySQL 5.7 Reference Manual :: 12.19.3 MySQL Handling of GROUP BY</a></p>
-
 <blockquote>
 <p>MySQL 5.7.5 and up implements detection of functional dependence. If the ONLY_FULL_GROUP_BY SQL mode is enabled (which it is by default), MySQL rejects queries for which the select list, HAVING condition, or ORDER BY list refer to nonaggregated columns that are neither named in the GROUP BY clause nor are functionally dependent on them. (Before 5.7.5, MySQL does not detect functional dependency and ONLY_FULL_GROUP_BY is not enabled by default. For a description of pre-5.7.5 behavior, see the MySQL 5.6 Reference Manual.)</p>
 </blockquote>
-
 <p>大致就是在 MySQL 5.7.5 版本之前，遵循 SQL92 标准的 ONLY_FULL_GROUP_BY 模式在默认情况下是关闭的，MySQL 并未强行按照 SQL92 标准编写查询语句，而在 5.7.5 之后的版本中，ONLY_FULL_GROUP_BY  的含义改变了，由于遵循了 SQL99 标准，现在将实现更为复杂的功能。也就是说，有时候写的代码变少了，也同样可以实现查询功能。</p>
-
 <h2 id="解决方法">解决方法</h2>
-
-<h3 id="1-关闭-only-full-group-by-模式">1.关闭 ONLY_FULL_GROUP_BY 模式</h3>
-
+<h3 id="1关闭-only_full_group_by-模式">1.关闭 ONLY_FULL_GROUP_BY 模式</h3>
 <p><a href="https://stackoverflow.com/questions/37951742/1055-expression-of-select-list-is-not-in-group-by-clause-and-contains-nonaggr/42183702">关闭 ONLY_FULL_GROUP_BY 方法</a>
 这个方法最简单粗暴，但也同样有着问题，在文档中给出了相关的说明，当 ONLY_FULL_GROUP_BY 模式被禁用时，查询出来的每个组中值是随机选取的，这就导致结果可能不符合你的预期。</p>
-
-<h3 id="2-使用-any-value">2.使用 ANY_VALUE</h3>
-
-<pre><code class="language-sql">SELECT name, address, MAX(age) FROM t GROUP BY name;
-</code></pre>
-
-<p>这么一条查询语句在不禁用 ONLY_FULL_GROUP_BY 模式的情况下，也会出现最开始的错误。</p>
-
-<pre><code class="language-sql">SELECT name, ANY_VALUE(address), MAX(age) FROM t GROUP BY name;
-</code></pre>
-
-<p>而使用 ANY_VALUE 函数后，则不会，ANY_VALUE 同样是随机选取值。</p>
-
-<h3 id="3-更好的sql查询语句">3.更好的SQL查询语句</h3>
-
+<h3 id="2使用-any_value">2.使用 ANY_VALUE</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> name, address, <span style="color:#66d9ef">MAX</span>(age) <span style="color:#66d9ef">FROM</span> t <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> name;
+</code></pre></div><p>这么一条查询语句在不禁用 ONLY_FULL_GROUP_BY 模式的情况下，也会出现最开始的错误。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">SELECT</span> name, ANY_VALUE(address), <span style="color:#66d9ef">MAX</span>(age) <span style="color:#66d9ef">FROM</span> t <span style="color:#66d9ef">GROUP</span> <span style="color:#66d9ef">BY</span> name;
+</code></pre></div><p>而使用 ANY_VALUE 函数后，则不会，ANY_VALUE 同样是随机选取值。</p>
+<h3 id="3更好的sql查询语句">3.更好的SQL查询语句</h3>
 <p>这个还在学习中，以后再做补充</p></div>
         <div class="post_footer">
           

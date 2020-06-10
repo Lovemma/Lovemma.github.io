@@ -11,8 +11,8 @@
 
   
   <meta name="description" content="代理模式是通过一层间接保护层实现更安全的接口访问，例如：访问敏感信息——在允许用户访问敏感信息之前，我们希望确保用户具备足够的权限。
-有四种常用的代理模式： - 远程代理：实际存在于不同地址空间（例如，某个网络服务器）的对象在本地的代理者。使得访问远程对象就像访问本地一样，隐藏了复杂性，如：ORM。 - 虚拟代理：用来实现延迟访问，比如一些需要复杂计算的对象，Python 里可以实现 lazy_property，改善性能。 - 保护/防护代理：用于控制敏感对象的访问。 - 智能(引用)代理：在对象被访问时执行额外的动作。例如引用计数和线程安全检查。
-"/>
+有四种常用的代理模式：
+ 远程代理：实际存在于不同地址空间（例如，某个网络服务器）的对象在本地的代理者。使得访问远程对象就像访问本地一样，隐藏了复杂性，如：ORM。 虚拟代理：用来实现延迟访问，比如一些需要复杂计算的对象，Python 里可以实现 lazy_property，改善性能。 保护/防护代理：用于控制敏感对象的访问。 智能(引用)代理：在对象被访问时执行额外的动作。例如引用计数和线程安全检查。 "/>
   
 
   
@@ -81,6 +81,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -95,153 +99,147 @@
           <span class="date">2018.10.22</span>
         </div>
         <div class="post_content markdown"><p>代理模式是通过一层间接保护层实现更安全的接口访问，例如：访问敏感信息——在允许用户访问敏感信息之前，我们希望确保用户具备足够的权限。</p>
-
-<p>有四种常用的代理模式：
-- 远程代理：实际存在于不同地址空间（例如，某个网络服务器）的对象在本地的代理者。使得访问远程对象就像访问本地一样，隐藏了复杂性，如：ORM。
-- 虚拟代理：用来实现延迟访问，比如一些需要复杂计算的对象，Python 里可以实现 lazy_property，改善性能。
-- 保护/防护代理：用于控制敏感对象的访问。
-- 智能(引用)代理：在对象被访问时执行额外的动作。例如引用计数和线程安全检查。</p>
-
+<p>有四种常用的代理模式：</p>
+<ul>
+<li>远程代理：实际存在于不同地址空间（例如，某个网络服务器）的对象在本地的代理者。使得访问远程对象就像访问本地一样，隐藏了复杂性，如：ORM。</li>
+<li>虚拟代理：用来实现延迟访问，比如一些需要复杂计算的对象，Python 里可以实现 lazy_property，改善性能。</li>
+<li>保护/防护代理：用于控制敏感对象的访问。</li>
+<li>智能(引用)代理：在对象被访问时执行额外的动作。例如引用计数和线程安全检查。</li>
+</ul>
 <h2 id="延迟初始化">延迟初始化</h2>
-
 <p>我们先创建一个<code>LazyProperty</code>类，用作一个装饰器。当它修饰某个特性时，<code>LazyProperty</code> 惰性地（首次使用时）加载特性，而不是立即进行。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">LazyProperty</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, method):
+        self<span style="color:#f92672">.</span>method <span style="color:#f92672">=</span> method
+        self<span style="color:#f92672">.</span>method_name <span style="color:#f92672">=</span> method<span style="color:#f92672">.</span>__name__
 
-<pre><code class="language-python">class LazyProperty:
-    def __init__(self, method):
-        self.method = method
-        self.method_name = method.__name__
-
-    def __get__(self, instance, owner):
-        if not instance:
-            return None
-        value = self.method(instance)
-        setattr(owner, self.method_name, value)
-        return value
-
-
-class Test:
-    def __init__(self):
-        self.x = 'foo'
-        self.y = 'bar'
-        self._resource = None
-
-    @LazyProperty
-    def resource(self):
-        # 构造函数里没有初始化，第一次访问才会被调用
-        print('initializing self._resource which is: {}'.format(self._resource))
-        self._resource = tuple(range(5))  # 模拟一次耗时计算
-        return self._resource
+    <span style="color:#66d9ef">def</span> __get__(self, instance, owner):
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> instance:
+            <span style="color:#66d9ef">return</span> None
+        value <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>method(instance)
+        setattr(owner, self<span style="color:#f92672">.</span>method_name, value)
+        <span style="color:#66d9ef">return</span> value
 
 
-def main():
-    t = Test()
-    print(t.x)
-    print(t.y)
-    # 访问LazyProperty, resource里的print语句只执行一次，实现了延迟加载和一次执行
-    print(t.resource)
-    print(t.resource)
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Test</span>:
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;foo&#39;</span>
+        self<span style="color:#f92672">.</span>y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;bar&#39;</span>
+        self<span style="color:#f92672">.</span>_resource <span style="color:#f92672">=</span> None
+
+    <span style="color:#a6e22e">@LazyProperty</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">resource</span>(self):
+        <span style="color:#75715e"># 构造函数里没有初始化，第一次访问才会被调用</span>
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;initializing self._resource which is: {}&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>_resource))
+        self<span style="color:#f92672">.</span>_resource <span style="color:#f92672">=</span> tuple(range(<span style="color:#ae81ff">5</span>))  <span style="color:#75715e"># 模拟一次耗时计算</span>
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>_resource
 
 
-if __name__ == '__main__':
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    t <span style="color:#f92672">=</span> Test()
+    <span style="color:#66d9ef">print</span>(t<span style="color:#f92672">.</span>x)
+    <span style="color:#66d9ef">print</span>(t<span style="color:#f92672">.</span>y)
+    <span style="color:#75715e"># 访问LazyProperty, resource里的print语句只执行一次，实现了延迟加载和一次执行</span>
+    <span style="color:#66d9ef">print</span>(t<span style="color:#f92672">.</span>resource)
+    <span style="color:#66d9ef">print</span>(t<span style="color:#f92672">.</span>resource)
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     main()
-</code></pre>
-
-<p>LazyProperty类实际上是一个描述符。 描述符（descriptor）是Python中重写类属性访问方法（<code>__get__()</code>、 <code>__set__()</code>和<code>__delete__()</code>）的默认行为要使用的一种推荐机制。
+</code></pre></div><p>LazyProperty类实际上是一个描述符。 描述符（descriptor）是Python中重写类属性访问方法（<code>__get__()</code>、 <code>__set__()</code>和<code>__delete__()</code>）的默认行为要使用的一种推荐机制。
 Test类演示了我们可以如何使用LazyProperty类。其中有三个属性， x、 y 和 _resource。我们想懒加载 _resource 变量，因此将其初始化为None。</p>
-
-<p>在OOP中有两种基本的、不同类型的懒加载，如下所示：
- - 在实例级：这意味着会一个对象的特性进行懒初始化，但该特性有一个对象作用域。同一个类的每个实例（对象）都有自己的（不同的）特性副本。
- - 在类级或模块级：在这种情况下，我们不希望每个实例都有一个不同的特性副本，而是所有实例共享同一个特性，而特性是懒初始化的。</p>
-
+<p>在OOP中有两种基本的、不同类型的懒加载，如下所示：</p>
+<ul>
+<li>在实例级：这意味着会一个对象的特性进行懒初始化，但该特性有一个对象作用域。同一个类的每个实例（对象）都有自己的（不同的）特性副本。</li>
+<li>在类级或模块级：在这种情况下，我们不希望每个实例都有一个不同的特性副本，而是所有实例共享同一个特性，而特性是懒初始化的。</li>
+</ul>
 <h2 id="保护代理">保护代理</h2>
+<p>这里实现一个简单的保护代理来查看和添加用户，该服务提供以下两个选项：</p>
+<ul>
+<li>查看用户列表：这一操作不要求特殊权限。</li>
+<li>添加新用户：这一操作要求客户端提供一个特殊的密码。</li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SensitiveInfo</span>:
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>users <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;nick&#39;</span>, <span style="color:#e6db74">&#39;tom&#39;</span>, <span style="color:#e6db74">&#39;ben&#39;</span>, <span style="color:#e6db74">&#39;mike&#39;</span>]
 
-<p>这里实现一个简单的保护代理来查看和添加用户，该服务提供以下两个选项：
-  - 查看用户列表：这一操作不要求特殊权限。
-  - 添加新用户：这一操作要求客户端提供一个特殊的密码。</p>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">read</span>(self):
+        result <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;There are {} users: {}&#39;</span>
+        <span style="color:#66d9ef">print</span>(result<span style="color:#f92672">.</span>format(len(self<span style="color:#f92672">.</span>users), <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(self<span style="color:#f92672">.</span>users)))
 
-<pre><code class="language-python">class SensitiveInfo:
-    def __init__(self):
-        self.users = ['nick', 'tom', 'ben', 'mike']
-
-    def read(self):
-        result = 'There are {} users: {}'
-        print(result.format(len(self.users), ' '.join(self.users)))
-
-    def add(self, user):
-        self.users.append(user)
-        print('Added user {}'.format(user))
-
-
-class Info:
-    def __init__(self):
-        self.protected = SensitiveInfo()
-        self.secret = '0xdeadbeef'
-
-    def read(self):
-        self.protected.read()
-
-    def add(self, user):
-        sec = input('what is the secret? ')
-        self.protected.add(user) if sec == self.secret else print(&quot;That's wrong!&quot;)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(self, user):
+        self<span style="color:#f92672">.</span>users<span style="color:#f92672">.</span>append(user)
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Added user {}&#39;</span><span style="color:#f92672">.</span>format(user))
 
 
-def main():
-    info = Info()
-    while True:
-        print('1. read list |==| 2. add user |==| 3. quit')
-        key = input('choose option: ')
-        if key == '1':
-            info.read()
-        elif key == '2':
-            name = input('choose username: ')
-            info.add(name)
-        elif key == '3':
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Info</span>:
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>protected <span style="color:#f92672">=</span> SensitiveInfo()
+        self<span style="color:#f92672">.</span>secret <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0xdeadbeef&#39;</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">read</span>(self):
+        self<span style="color:#f92672">.</span>protected<span style="color:#f92672">.</span>read()
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(self, user):
+        sec <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#39;what is the secret? &#39;</span>)
+        self<span style="color:#f92672">.</span>protected<span style="color:#f92672">.</span>add(user) <span style="color:#66d9ef">if</span> sec <span style="color:#f92672">==</span> self<span style="color:#f92672">.</span>secret <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;That&#39;s wrong!&#34;</span>)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    info <span style="color:#f92672">=</span> Info()
+    <span style="color:#66d9ef">while</span> True:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;1. read list |==| 2. add user |==| 3. quit&#39;</span>)
+        key <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#39;choose option: &#39;</span>)
+        <span style="color:#66d9ef">if</span> key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;1&#39;</span>:
+            info<span style="color:#f92672">.</span>read()
+        <span style="color:#66d9ef">elif</span> key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;2&#39;</span>:
+            name <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#39;choose username: &#39;</span>)
+            info<span style="color:#f92672">.</span>add(name)
+        <span style="color:#66d9ef">elif</span> key <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;3&#39;</span>:
             exit()
-        else:
-            print('unknown option: {}'.format(key))
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;unknown option: {}&#39;</span><span style="color:#f92672">.</span>format(key))
 
 
-if __name__ == '__main__':
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     main()
-</code></pre>
-
-<p>该示例有几个重大的安全缺陷：
-1. 没有什么能阻止客户端代码通过直接创建一个 SensitiveInfo 实例来绕过应用的安全设置，疑使用 <strong>abc</strong> 模块来禁止直接实例化 SensitiveInfo。
-2. 密钥直接写死在代码里，应该用安全性较高密钥写到配置或者环境变量里。</p>
-
+</code></pre></div><p>该示例有几个重大的安全缺陷：</p>
+<ol>
+<li>没有什么能阻止客户端代码通过直接创建一个 SensitiveInfo 实例来绕过应用的安全设置，疑使用 <strong>abc</strong> 模块来禁止直接实例化 SensitiveInfo。</li>
+<li>密钥直接写死在代码里，应该用安全性较高密钥写到配置或者环境变量里。</li>
+</ol>
 <p>这里使用抽象基类来修复第一个问题，只需要修改类代码而不用修改 main() 函数里面的使用代码：</p>
-
-<pre><code class="language-python">from abc import ABCMeta, abstractmethod
-
-
-class SensitiveInfo(metaclass=ABCMeta):
-    def __init__(self):
-        self.users = ['nick', 'tom', 'ben', 'mike']
-
-    @abstractmethod
-    def read(self):
-        pass
-
-    @abstractmethod
-    def add(self, user):
-        pass
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> abc <span style="color:#f92672">import</span> ABCMeta, abstractmethod
 
 
-class Info(SensitiveInfo):
-    '''protection proxy to SensitiveInfo'''
-    def __init__(self):
-        # self.protected = SensitiveInfo()
-        super().__init__()
-        self.secret = '0xdeadbeef'    # 为了方便示例这里直接写死在代码里
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SensitiveInfo</span>(metaclass<span style="color:#f92672">=</span>ABCMeta):
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>users <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;nick&#39;</span>, <span style="color:#e6db74">&#39;tom&#39;</span>, <span style="color:#e6db74">&#39;ben&#39;</span>, <span style="color:#e6db74">&#39;mike&#39;</span>]
 
-    def read(self):
-        print('There are {} users: {}'.format(len(self.users), ' '.join(self.users)))
+    <span style="color:#a6e22e">@abstractmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">read</span>(self):
+        <span style="color:#66d9ef">pass</span>
 
-    def add(self, user):
-        &quot;&quot;&quot; 给add操作加上密钥验证，保护add操作&quot;&quot;&quot;
-        sec = input('what is the secret? ')
-        self.users.append(user) if sec == self.secret else print(&quot;That's wrong!&quot;)
-</code></pre></div>
+    <span style="color:#a6e22e">@abstractmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(self, user):
+        <span style="color:#66d9ef">pass</span>
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Info</span>(SensitiveInfo):
+    <span style="color:#e6db74">&#39;&#39;&#39;protection proxy to SensitiveInfo&#39;&#39;&#39;</span>
+    <span style="color:#66d9ef">def</span> __init__(self):
+        <span style="color:#75715e"># self.protected = SensitiveInfo()</span>
+        super()<span style="color:#f92672">.</span>__init__()
+        self<span style="color:#f92672">.</span>secret <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;0xdeadbeef&#39;</span>    <span style="color:#75715e"># 为了方便示例这里直接写死在代码里</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">read</span>(self):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;There are {} users: {}&#39;</span><span style="color:#f92672">.</span>format(len(self<span style="color:#f92672">.</span>users), <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(self<span style="color:#f92672">.</span>users)))
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(self, user):
+        <span style="color:#e6db74">&#34;&#34;&#34; 给add操作加上密钥验证，保护add操作&#34;&#34;&#34;</span>
+        sec <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#39;what is the secret? &#39;</span>)
+        self<span style="color:#f92672">.</span>users<span style="color:#f92672">.</span>append(user) <span style="color:#66d9ef">if</span> sec <span style="color:#f92672">==</span> self<span style="color:#f92672">.</span>secret <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;That&#39;s wrong!&#34;</span>)
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

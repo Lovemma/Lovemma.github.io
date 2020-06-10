@@ -10,10 +10,10 @@
         content="COldish"/>
 
   
-  <meta name="description" content="如何定义 MySQL 数据库账号？  用户名的组成：用户名@可访问控制列表
- 用户名：5.7版本以前，用户名最大只有16个字节；之后的版本为 32 个字节
- 可访问控制列表：用户可以从哪些服务器上对数据库进行访问
-   %：代表可以从所有外部主机进行访问 192.168.1.%：可以从 192.168.1 网段进行访问  localhost：DB 服务器本地访问   使用 CREATE USER 命令建立用户
+  <meta name="description" content="如何定义 MySQL 数据库账号？   用户名的组成：用户名@可访问控制列表
+  用户名：5.7版本以前，用户名最大只有16个字节；之后的版本为 32 个字节
+  可访问控制列表：用户可以从哪些服务器上对数据库进行访问
+ %：代表可以从所有外部主机进行访问 192.168.1.%：可以从 192.168.1 网段进行访问 localhost：DB 服务器本地访问      使用 CREATE USER 命令建立用户
  "/>
   
 
@@ -83,6 +83,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -97,32 +101,29 @@
           <span class="date">2019.05.24</span>
         </div>
         <div class="post_content markdown"><h3 id="如何定义-mysql-数据库账号">如何定义 MySQL 数据库账号？</h3>
-
 <ul>
-<li><p>用户名的组成：用户名@可访问控制列表</p>
-
+<li>
+<p>用户名的组成：用户名@可访问控制列表</p>
 <ul>
-<li><p>用户名：5.7版本以前，用户名最大只有16个字节；之后的版本为 32 个字节</p></li>
-
-<li><p>可访问控制列表：用户可以从哪些服务器上对数据库进行访问</p></li>
-</ul>
-
+<li>
+<p>用户名：5.7版本以前，用户名最大只有16个字节；之后的版本为 32 个字节</p>
+</li>
+<li>
+<p>可访问控制列表：用户可以从哪些服务器上对数据库进行访问</p>
 <ol>
 <li>%：代表可以从所有外部主机进行访问</li>
-<li>192.168.1.%：可以从 192.168.1 网段进行访问
-
-<ol>
+<li>192.168.1.%：可以从 192.168.1 网段进行访问</li>
 <li>localhost：DB 服务器本地访问</li>
-</ol></li>
-</ol></li>
-
-<li><p>使用 CREATE USER 命令建立用户</p></li>
+</ol>
+</li>
 </ul>
-
+</li>
+<li>
+<p>使用 CREATE USER 命令建立用户</p>
+</li>
+</ul>
 <h3 id="mysql-常用的用户权限">MySQL 常用的用户权限</h3>
-
 <p>常用的权限如下表所示：</p>
-
 <table>
 <thead>
 <tr>
@@ -131,74 +132,62 @@
 <th>说明</th>
 </tr>
 </thead>
-
 <tbody>
 <tr>
 <td>Admin</td>
 <td>Create User</td>
 <td>建立新的用户</td>
 </tr>
-
 <tr>
 <td></td>
 <td>Grant option</td>
 <td>为其他用户授予权限</td>
 </tr>
-
 <tr>
 <td></td>
 <td>Super</td>
 <td>管理服务器的权限</td>
 </tr>
-
 <tr>
 <td>DDL</td>
 <td>Create</td>
 <td>新建数据库、表</td>
 </tr>
-
 <tr>
 <td></td>
 <td>Alter</td>
 <td>修改表结构</td>
 </tr>
-
 <tr>
 <td></td>
 <td>Drop</td>
 <td>删除数据库和表</td>
 </tr>
-
 <tr>
 <td></td>
 <td>Index</td>
 <td>建立和删除索引</td>
 </tr>
-
 <tr>
 <td>DML</td>
 <td>Select</td>
 <td>查询表中数据</td>
 </tr>
-
 <tr>
 <td></td>
 <td>Insert</td>
 <td>插入数据</td>
 </tr>
-
 <tr>
 <td></td>
 <td>Update</td>
 <td>更新数据</td>
 </tr>
-
 <tr>
 <td></td>
 <td>Delete</td>
 <td>删除数据</td>
 </tr>
-
 <tr>
 <td></td>
 <td>Execute</td>
@@ -206,25 +195,20 @@
 </tr>
 </tbody>
 </table>
-
 <p>通常开发人员只具有 DML 类的权限，如果想查看详细的权限列表，可执行命令：</p>
-
-<pre><code class="language-sql">show privileges;
-</code></pre>
-
-<h3 id="何如为用户授权">何如为用户授权？</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">show</span> <span style="color:#66d9ef">privileges</span>;
+</code></pre></div><h3 id="何如为用户授权">何如为用户授权？</h3>
 <ul>
-<li><p>遵循最小权限原则，如：一个用户只具有只读权限，就不能授予除 <strong>select</strong> 之外的权限。</p></li>
-
-<li><p>使用 Grant 命令对用户授权</p>
-
-<pre><code class="language-sql">grant 权限 on 数据库.表 to 用户(user@ip);
-# 回收权限
-revoke 权限 on 数据库.表 from 用户(user@ip);
-</code></pre></li>
+<li>
+<p>遵循最小权限原则，如：一个用户只具有只读权限，就不能授予除 <strong>select</strong> 之外的权限。</p>
+</li>
+<li>
+<p>使用 Grant 命令对用户授权</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#66d9ef">grant</span> <span style="color:#960050;background-color:#1e0010">权限</span> <span style="color:#66d9ef">on</span> <span style="color:#960050;background-color:#1e0010">数据库</span>.<span style="color:#960050;background-color:#1e0010">表</span> <span style="color:#66d9ef">to</span> <span style="color:#960050;background-color:#1e0010">用户</span>(<span style="color:#66d9ef">user</span><span style="color:#f92672">@</span>ip);
+<span style="color:#f92672">#</span> <span style="color:#960050;background-color:#1e0010">回收权限</span>
+<span style="color:#66d9ef">revoke</span> <span style="color:#960050;background-color:#1e0010">权限</span> <span style="color:#66d9ef">on</span> <span style="color:#960050;background-color:#1e0010">数据库</span>.<span style="color:#960050;background-color:#1e0010">表</span> <span style="color:#66d9ef">from</span> <span style="color:#960050;background-color:#1e0010">用户</span>(<span style="color:#66d9ef">user</span><span style="color:#f92672">@</span>ip);
+</code></pre></div></li>
 </ul>
-
 <p>最后，若要查看 MySQL 命令的具体用法，如该命令有哪些参数等，可通过 <code>\h 命令</code> 来查看。</p></div>
         <div class="post_footer">
           

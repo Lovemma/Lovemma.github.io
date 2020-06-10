@@ -80,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -94,116 +98,90 @@
           <span class="date">2018.10.11</span>
         </div>
         <div class="post_content markdown"><h1 id="python单例模式">Python单例模式</h1>
-
 <blockquote>
 <p>Design ptterns are discoverd, not invented.- Alex Martelli</p>
 </blockquote>
-
-<h2 id="1-使用模块">1.使用模块</h2>
-
+<h2 id="1使用模块">1.使用模块</h2>
 <p>因为在 Python 中导入模块时，第一次导入会生成<code>.pyc</code>文件，第二次导入时就直接加载<code>.pyc</code>文件了，而不会再次执行模块中的代码，所以 Python 中使用模块是最天然的单例模式。</p>
-
-<pre><code class="language-python"># module.py
-class Singleton:
-    pass
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># module.py</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Singleton</span>:
+    <span style="color:#66d9ef">pass</span>
     
     
-instance = Singleton()
-</code></pre>
+instance <span style="color:#f92672">=</span> Singleton()
+</code></pre></div><p>使用方式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> module
+<span style="color:#75715e"># or from module import instance</span>
 
-<p>使用方式：</p>
-
-<pre><code class="language-python">import module
-# or from module import instance
-
-module.instance
-</code></pre>
-
-<h2 id="2-new">2.<code>__new__</code></h2>
-
+module<span style="color:#f92672">.</span>instance
+</code></pre></div><h2 id="2__new__">2.<code>__new__</code></h2>
 <p>Python 中真正的构造方法是<code>__new__</code>，而不是<code>__init__</code>，这时我们就可以在<code>__new__</code>中做文章：</p>
-
-<pre><code class="language-python">class Singleton:
-    _instance = {}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Singleton</span>:
+    _instance <span style="color:#f92672">=</span> {}
     
-    def __new__(cls, *args, **kwargs):
-        if cls not in cls._instance:
-            cls._instance[cls] = super(Singleton, cls).__new__(cls)
-        return cls._instance[cls]
+    <span style="color:#66d9ef">def</span> __new__(cls, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+        <span style="color:#66d9ef">if</span> cls <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> cls<span style="color:#f92672">.</span>_instance:
+            cls<span style="color:#f92672">.</span>_instance[cls] <span style="color:#f92672">=</span> super(Singleton, cls)<span style="color:#f92672">.</span>__new__(cls)
+        <span style="color:#66d9ef">return</span> cls<span style="color:#f92672">.</span>_instance[cls]
         
-</code></pre>
-
-<p>这种方式在并发的情况下可能会发生意外，为了解决这个问题，引入一个带锁的版本:</p>
-
-<pre><code class="language-python">import threading
+</code></pre></div><p>这种方式在并发的情况下可能会发生意外，为了解决这个问题，引入一个带锁的版本:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> threading
 
 
-class Singleton:
-    _instance = {}
-    locker = threading.Lock()
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Singleton</span>:
+    _instance <span style="color:#f92672">=</span> {}
+    locker <span style="color:#f92672">=</span> threading<span style="color:#f92672">.</span>Lock()
     
-    def __new__(cls, *args, **kwargs):
-        if cls in cls._instance:
-            return cls._instance[cls]
+    <span style="color:#66d9ef">def</span> __new__(cls, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+        <span style="color:#66d9ef">if</span> cls <span style="color:#f92672">in</span> cls<span style="color:#f92672">.</span>_instance:
+            <span style="color:#66d9ef">return</span> cls<span style="color:#f92672">.</span>_instance[cls]
         
-        cls.locker.acquire()
-        try:
-            if cls in cls._instance:
-                return cls._instance[cls]
-            cls._instance[cls] = super(Singleton, cls).__new__(cls)
-        finally:
-            cls.locker.release()
-        return cls._instance[cls]
-</code></pre>
-
-<p>利用经典的双检查锁机制，确保了在并发环境下 Singleton 的正确实现。但这个方案并不完美，至少还有以下两个问题:</p>
-
+        cls<span style="color:#f92672">.</span>locker<span style="color:#f92672">.</span>acquire()
+        <span style="color:#66d9ef">try</span>:
+            <span style="color:#66d9ef">if</span> cls <span style="color:#f92672">in</span> cls<span style="color:#f92672">.</span>_instance:
+                <span style="color:#66d9ef">return</span> cls<span style="color:#f92672">.</span>_instance[cls]
+            cls<span style="color:#f92672">.</span>_instance[cls] <span style="color:#f92672">=</span> super(Singleton, cls)<span style="color:#f92672">.</span>__new__(cls)
+        <span style="color:#66d9ef">finally</span>:
+            cls<span style="color:#f92672">.</span>locker<span style="color:#f92672">.</span>release()
+        <span style="color:#66d9ef">return</span> cls<span style="color:#f92672">.</span>_instance[cls]
+</code></pre></div><p>利用经典的双检查锁机制，确保了在并发环境下 Singleton 的正确实现。但这个方案并不完美，至少还有以下两个问题:</p>
 <ul>
 <li>如果 Singleton 的子类重写了<code>__new__()</code>方法，会覆盖或者干扰 Singleton 类中<code>__new__()</code>的执行，虽然这种情况出现的概率极小，但也不可忽视。</li>
 <li>如果子类有<code>__init__()</code>方法，那么每次示例化该 Singleton 的时候，<code>__init__()</code>都会被调用到，这个显然是不应该的，<code>__init__()</code>只应该在创建实例的时候被调用一次。</li>
 </ul>
-
 <p>这两个问题当然可以解决，比如第一个问题可以通过文档告知该类的使用者，如果要重载 Singleton 的<code>__new__()</code>方法，请务必记得调用父类的<code>__new__()</code>方法；而第二个问题也可以通过替换掉<code>__init__()</code>方法来确保它只调用一次。</p>
-
 <p>但是，为了实现一个单例，做大量的水面之下的工作让人感觉相当不 Pythonic，这也引起了 Python 社区的反思，有人开始重新审视 Python 的语法元素，发现模块其实是天然的单例实现方式（即第一种实现方式)，这是因为:</p>
-
 <ul>
 <li>所有的变量都会绑定到模块</li>
 <li>模块只初始化一次</li>
 <li>import 机制是线程安全的（保证了在并发状态下模块也只有一个实例）</li>
 </ul>
-
-<h2 id="3-共享属性-borg模式">3.共享属性(Borg模式)</h2>
-
+<h2 id="3共享属性borg模式">3.共享属性(Borg模式)</h2>
 <p>Borg 模式与单例模式其实是不同的，单例模式关注的是对象一致，然而这可能未必是我们使用单例模式的原因，有可能我们关注的是实例的状态一致，这种情况下就可以使用 Borg 模式。</p>
-
-<pre><code class="language-python">class Borg:
-    _state = {}
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Borg</span>:
+    _state <span style="color:#f92672">=</span> {}
     
-    def __init__(self):
-        self.__dict__ = self._state
-</code></pre>
-
-<h2 id="4-使用元类">4.使用元类</h2>
-
-<pre><code class="language-python">class Singleton(type):
-    _instances = {}
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>__dict__ <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>_state
+</code></pre></div><h2 id="4使用元类">4.使用元类</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Singleton</span>(type):
+    _instances <span style="color:#f92672">=</span> {}
     
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
-        return cls._instances[cls]
+    <span style="color:#66d9ef">def</span> __call__(cls, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+        <span style="color:#66d9ef">if</span> cls <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> cls<span style="color:#f92672">.</span>_instances:
+            cls<span style="color:#f92672">.</span>_instances[cls] <span style="color:#f92672">=</span> super(Singleton, cls)<span style="color:#f92672">.</span>__call__(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+        <span style="color:#66d9ef">return</span> cls<span style="color:#f92672">.</span>_instances[cls]
         
         
-# python2
-class YourClass(object):
-    __metaclass__ = Singleton
+<span style="color:#75715e"># python2</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">YourClass</span>(object):
+    __metaclass__ <span style="color:#f92672">=</span> Singleton
     
     
-# python3
-class YourClass(metaclass=Singleton):
-    pass
-</code></pre></div>
+<span style="color:#75715e"># python3</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">YourClass</span>(metaclass<span style="color:#f92672">=</span>Singleton):
+    <span style="color:#66d9ef">pass</span>
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

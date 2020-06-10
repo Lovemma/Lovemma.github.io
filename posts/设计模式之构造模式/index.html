@@ -10,8 +10,8 @@
         content="COldish"/>
 
   
-  <meta name="description" content="当出现以下几种情况时，可以考虑使用构造模式： 1. 当想要创建一个复杂对象(对象由多个部分构成，且对象的创建要经过多个不同的步骤，这些步骤也许还遵从特定的顺序) 2. 要求一个对象能有不同的表现，并希望将对象的构造与表现解耦 3. 想要在某个时间点创建对象，但在稍后的时间点再访问
-可以这么理解，你要买电脑，工厂模式直接返回一个你需要型号的电脑，但是构造模式允许你自定义电脑各种配置类型，组装完成后给你。这个过程你可以传入builder从而自定义创建的方式。
+  <meta name="description" content="当出现以下几种情况时，可以考虑使用构造模式：
+ 当想要创建一个复杂对象(对象由多个部分构成，且对象的创建要经过多个不同的步骤，这些步骤也许还遵从特定的顺序) 要求一个对象能有不同的表现，并希望将对象的构造与表现解耦 想要在某个时间点创建对象，但在稍后的时间点再访问  可以这么理解，你要买电脑，工厂模式直接返回一个你需要型号的电脑，但是构造模式允许你自定义电脑各种配置类型，组装完成后给你。这个过程你可以传入builder从而自定义创建的方式。
 "/>
   
 
@@ -81,6 +81,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -94,127 +98,122 @@
           <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E6%9E%84%E9%80%A0%E6%A8%A1%E5%BC%8F/'>设计模式之构造模式</a></h2>
           <span class="date">2018.10.14</span>
         </div>
-        <div class="post_content markdown"><p>当出现以下几种情况时，可以考虑使用构造模式：
-1. 当想要创建一个复杂对象(对象由多个部分构成，且对象的创建要经过多个不同的步骤，这些步骤也许还遵从特定的顺序)
-2. 要求一个对象能有不同的表现，并希望将对象的构造与表现解耦
-3. 想要在某个时间点创建对象，但在稍后的时间点再访问</p>
-
+        <div class="post_content markdown"><p>当出现以下几种情况时，可以考虑使用构造模式：</p>
+<ol>
+<li>当想要创建一个复杂对象(对象由多个部分构成，且对象的创建要经过多个不同的步骤，这些步骤也许还遵从特定的顺序)</li>
+<li>要求一个对象能有不同的表现，并希望将对象的构造与表现解耦</li>
+<li>想要在某个时间点创建对象，但在稍后的时间点再访问</li>
+</ol>
 <p>可以这么理解，你要买电脑，工厂模式直接返回一个你需要型号的电脑，但是构造模式允许你自定义电脑各种配置类型，组装完成后给你。这个过程你可以传入builder从而自定义创建的方式。</p>
-
 <h2 id="方式一">方式一</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Computer</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, serial_number):
+        self<span style="color:#f92672">.</span>serial_number <span style="color:#f92672">=</span> serial_number
+        self<span style="color:#f92672">.</span>memory <span style="color:#f92672">=</span> None
+        self<span style="color:#f92672">.</span>hdd <span style="color:#f92672">=</span> None
+        self<span style="color:#f92672">.</span>gpu <span style="color:#f92672">=</span> None
 
-<pre><code class="language-python">class Computer:
-    def __init__(self, serial_number):
-        self.serial_number = serial_number
-        self.memory = None
-        self.hdd = None
-        self.gpu = None
-
-    def __str__(self):
-        info = ('Memory: {}GB'.format(self.memory),
-                'Hard Disk: {}GB'.format(self.hdd),
-                'Graphics Card: {}'.format(self.gpu))
-        return '\n'.join(info)
-
-
-class ComputerBuilder:
-    def __init__(self):
-        self.computer = Computer('AG23385193')
-
-    def configure_memory(self, memory):
-        self.computer.memory = memory
-
-    def configure_hdd(self, amount):
-        self.computer.hdd = amount
-
-    def configure_gpu(self, gpu_model):
-        self.computer.gpu = gpu_model
+    <span style="color:#66d9ef">def</span> __str__(self):
+        info <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;Memory: {}GB&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>memory),
+                <span style="color:#e6db74">&#39;Hard Disk: {}GB&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>hdd),
+                <span style="color:#e6db74">&#39;Graphics Card: {}&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>gpu))
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>join(info)
 
 
-class HardwareEngineer:
-    def __init__(self):
-        self.builder = None
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComputerBuilder</span>:
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>computer <span style="color:#f92672">=</span> Computer(<span style="color:#e6db74">&#39;AG23385193&#39;</span>)
 
-    def construct_computer(self, memory, hdd, gpu):
-        self.builder = ComputerBuilder()
-        [step for step in (self.builder.configure_memory(memory),
-                           self.builder.configure_hdd(hdd),
-                           self.builder.configure_gpu(gpu))]
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure_memory</span>(self, memory):
+        self<span style="color:#f92672">.</span>computer<span style="color:#f92672">.</span>memory <span style="color:#f92672">=</span> memory
 
-    @property
-    def computer(self):
-        return self.builder.computer
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure_hdd</span>(self, amount):
+        self<span style="color:#f92672">.</span>computer<span style="color:#f92672">.</span>hdd <span style="color:#f92672">=</span> amount
 
-
-def main():
-    # 使用buidler，可以创建多个builder类实现不同的组装方式
-    engineer = HardwareEngineer()
-    engineer.construct_computer(hdd=500, memory=8, gpu='GeForce GTX 650 Ti')
-    computer = engineer.computer
-    print(computer)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure_gpu</span>(self, gpu_model):
+        self<span style="color:#f92672">.</span>computer<span style="color:#f92672">.</span>gpu <span style="color:#f92672">=</span> gpu_model
 
 
-if __name__ == '__main__':
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HardwareEngineer</span>:
+    <span style="color:#66d9ef">def</span> __init__(self):
+        self<span style="color:#f92672">.</span>builder <span style="color:#f92672">=</span> None
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">construct_computer</span>(self, memory, hdd, gpu):
+        self<span style="color:#f92672">.</span>builder <span style="color:#f92672">=</span> ComputerBuilder()
+        [step <span style="color:#66d9ef">for</span> step <span style="color:#f92672">in</span> (self<span style="color:#f92672">.</span>builder<span style="color:#f92672">.</span>configure_memory(memory),
+                           self<span style="color:#f92672">.</span>builder<span style="color:#f92672">.</span>configure_hdd(hdd),
+                           self<span style="color:#f92672">.</span>builder<span style="color:#f92672">.</span>configure_gpu(gpu))]
+
+    <span style="color:#a6e22e">@property</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">computer</span>(self):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>builder<span style="color:#f92672">.</span>computer
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    <span style="color:#75715e"># 使用buidler，可以创建多个builder类实现不同的组装方式</span>
+    engineer <span style="color:#f92672">=</span> HardwareEngineer()
+    engineer<span style="color:#f92672">.</span>construct_computer(hdd<span style="color:#f92672">=</span><span style="color:#ae81ff">500</span>, memory<span style="color:#f92672">=</span><span style="color:#ae81ff">8</span>, gpu<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;GeForce GTX 650 Ti&#39;</span>)
+    computer <span style="color:#f92672">=</span> engineer<span style="color:#f92672">.</span>computer
+    <span style="color:#66d9ef">print</span>(computer)
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     main()
-</code></pre>
-
-<h2 id="方式二">方式二</h2>
-
+</code></pre></div><h2 id="方式二">方式二</h2>
 <p>这种方式以前在 Android 开发使用 Retrofit 库时使用过，这是一种链式调用。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Computer</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, builder):
+        self<span style="color:#f92672">.</span>serial_number <span style="color:#f92672">=</span> builder<span style="color:#f92672">.</span>serial_number
+        self<span style="color:#f92672">.</span>memory <span style="color:#f92672">=</span> builder<span style="color:#f92672">.</span>memory
+        self<span style="color:#f92672">.</span>hdd <span style="color:#f92672">=</span> builder<span style="color:#f92672">.</span>hdd
+        self<span style="color:#f92672">.</span>gpu <span style="color:#f92672">=</span> builder<span style="color:#f92672">.</span>gpu
 
-<pre><code class="language-python">class Computer:
-    def __init__(self, builder):
-        self.serial_number = builder.serial_number
-        self.memory = builder.memory
-        self.hdd = builder.hdd
-        self.gpu = builder.gpu
+    <span style="color:#66d9ef">def</span> __str__(self):
+        info <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#39;Memory: {}GB&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>memory),
+                <span style="color:#e6db74">&#39;Hard Disk: {}GB&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>hdd),
+                <span style="color:#e6db74">&#39;Graphics Card: {}&#39;</span><span style="color:#f92672">.</span>format(self<span style="color:#f92672">.</span>gpu))
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#39;</span><span style="color:#f92672">.</span>join(info)
 
-    def __str__(self):
-        info = ('Memory: {}GB'.format(self.memory),
-                'Hard Disk: {}GB'.format(self.hdd),
-                'Graphics Card: {}'.format(self.gpu))
-        return '\n'.join(info)
+    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ComputerBuilder</span>:
+        <span style="color:#66d9ef">def</span> __init__(self):
+            self<span style="color:#f92672">.</span>serial_number <span style="color:#f92672">=</span> None
+            self<span style="color:#f92672">.</span>memory <span style="color:#f92672">=</span> None
+            self<span style="color:#f92672">.</span>hdd <span style="color:#f92672">=</span> None
+            self<span style="color:#f92672">.</span>gpu <span style="color:#f92672">=</span> None
 
-    class ComputerBuilder:
-        def __init__(self):
-            self.serial_number = None
-            self.memory = None
-            self.hdd = None
-            self.gpu = None
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure_serial_number</span>(self, serial_number):
+            self<span style="color:#f92672">.</span>serial_number <span style="color:#f92672">=</span> serial_number
+            <span style="color:#66d9ef">return</span> self
 
-        def configure_serial_number(self, serial_number):
-            self.serial_number = serial_number
-            return self
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure_memory</span>(self, memory):
+            self<span style="color:#f92672">.</span>memory <span style="color:#f92672">=</span> memory
+            <span style="color:#66d9ef">return</span> self
 
-        def configure_memory(self, memory):
-            self.memory = memory
-            return self
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure_hdd</span>(self, amount):
+            self<span style="color:#f92672">.</span>hdd <span style="color:#f92672">=</span> amount
+            <span style="color:#66d9ef">return</span> self
 
-        def configure_hdd(self, amount):
-            self.hdd = amount
-            return self
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">configure_gpu</span>(self, gpu_model):
+            self<span style="color:#f92672">.</span>gpu <span style="color:#f92672">=</span> gpu_model
+            <span style="color:#66d9ef">return</span> self
 
-        def configure_gpu(self, gpu_model):
-            self.gpu = gpu_model
-            return self
-
-        def build(self):
-            return Computer(self)
-
-
-def main():
-    computer = (Computer.ComputerBuilder()
-                .configure_serial_number('AG23385193')
-                .configure_memory(8)
-                .configure_hdd(500)
-                .configure_gpu('GeForce GTX 650 Ti')
-                .build())
-    print(computer)
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">build</span>(self):
+            <span style="color:#66d9ef">return</span> Computer(self)
 
 
-if __name__ == '__main__':
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    computer <span style="color:#f92672">=</span> (Computer<span style="color:#f92672">.</span>ComputerBuilder()
+                <span style="color:#f92672">.</span>configure_serial_number(<span style="color:#e6db74">&#39;AG23385193&#39;</span>)
+                <span style="color:#f92672">.</span>configure_memory(<span style="color:#ae81ff">8</span>)
+                <span style="color:#f92672">.</span>configure_hdd(<span style="color:#ae81ff">500</span>)
+                <span style="color:#f92672">.</span>configure_gpu(<span style="color:#e6db74">&#39;GeForce GTX 650 Ti&#39;</span>)
+                <span style="color:#f92672">.</span>build())
+    <span style="color:#66d9ef">print</span>(computer)
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     main()
-</code></pre></div>
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

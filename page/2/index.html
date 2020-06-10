@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn" >
 <head>
-	<meta name="generator" content="Hugo 0.58.3" />
+	<meta name="generator" content="Hugo 0.72.0" />
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -80,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -89,6 +93,37 @@
   <div class="content">
     
 
+
+<div class="post animated fadeInDown">
+  <div class="post_title">
+    <h2><a href='/posts/%E5%B8%AE%E5%8A%A9%E7%90%86%E8%A7%A3encode%E5%92%8Cdecode%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/'>帮助理解encode和decode的小技巧</a></h2>
+  </div>
+  
+  <div class="list">
+    <div class="post_content markdown">
+      <p>最近公司业务需要做网络数据包处理，总是被字符的编码和解码折磨，一直以来我也不怎么搞得清楚什么时候该用.encode(), 什么时候该用.decode()。 现在发现了一个简单的方法，可帮助自己记住.encode()和.decode()的区别: 可以把字节序列想成晦涩难懂的机器码，把 Unicode 字符想象成“人类可读”的文本，那么，把字节序列变成人类可读的文本字符串就是解码，而把字符串变成用于存储或传输的字节序列就是......</p>
+    </div>
+  </div>
+  
+  <div class="post_footer">
+    <div class="meta">
+      <div class="info">
+        <span class="field">
+          <i class="remixicon-map-pin-time-line"></i>
+          <span class="date">2018.11.29</span>
+        </span>
+        
+        <span class="field tags">
+          <i class="remixicon-stack-line"></i>
+          
+          <a href="https://lovemma.github.io/tags/python/">Python</a>
+          
+        </span>
+        
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="post animated fadeInDown">
   <div class="post_title">
@@ -128,17 +163,15 @@
   
   <div class="list">
     <div class="post_content markdown">
-      <p><p>有一个电影票在线交易业务，顾客 A 要在影院 B 购买电影票。这个业务涉及到以下操作：
-1. 从顾客 A 的账户余额中扣除电影票价；
-2. 给影院 B 的账户余额中增加这张电影的票价；
-3. 记录一条交易日志。</p>
-
+      <p><p>有一个电影票在线交易业务，顾客 A 要在影院 B 购买电影票。这个业务涉及到以下操作：</p>
+<ol>
+<li>从顾客 A 的账户余额中扣除电影票价；</li>
+<li>给影院 B 的账户余额中增加这张电影的票价；</li>
+<li>记录一条交易日志。</li>
+</ol>
 <p>也就是说，要完成这个交易，我们需要 update 两条记录，并 insert 一条记录。当然，为了保证交易的原子性，我们要把这三个操作一个事务中。那么，你会怎样安排这三个语句在事务中的顺序呢？</p>
-
 <p>试想如果同时有另一个顾客 C 要在影院 B 买票，那么这两个事务冲突的部分就是语句 2 了。因为它们要更新同一个影院账户的余额，需要修改同一行数据。</p>
-
 <p>根据两阶段锁协议，不论怎样安排语句顺序，所有的操作需要的行锁都是在事务提交的时候才释放的。所以，如果你把语句 2 安排在最后，比如按照 3、1、2 这样的顺序执行，那么影院账户余额这一行的锁时间就最少。这样就最大程度地减少了事务之间的锁等待，提高了并发度。</p>
-
 <p>如果这个影院做活动，可以低价预售一年之内所有的电影票，而且这个活动只做一天。于是在活动时间开始的时候，你的 MySQL 就挂了。登上服务器一看，CPU 消耗接近 100%，但整个数据库每秒就只执行不到 100 个事务。这是什么原因呢？</p>......</p>
     </div>
   </div>
@@ -171,9 +204,12 @@
   <div class="list">
     <div class="post_content markdown">
       <p><ol>
-<li><p><strong>为用于搜索、排序或分组的列创建索引，而对于用作输出显示的列则不用创建索引。</strong>这意味着最佳索引候选列是那些出现在 WHERE 子句中的列、连接子句中的列或者出现在 ORDER BY 或 GROUP BY 子句中的列。而那些只是出现在 SELECT 关键字后面的输出列表里的列，则不是很好的索引候选列。</p></li>
-
-<li><p><strong>认真考虑数据列基数。</strong>列的基数(cardinality)是指它所容纳的所有非重复值的个数，例如，某个列包含值 1、3、7、4、7、3，那么它的基数为 4。相对于表里面行的总数来说，列的基数越高(也就就是说，它包含的唯一值多，重复值少)，索引的使用效果越好。对于包含许多不同年龄值的列，索引可以很容易地将各个行区分开来。但是对于记录性别的列，其中只会包含两个值：'M'和'F'，索引操作毫无用处。如果这两个值出现的频率大致一样，那么不管搜索哪个值，你得到的都是近乎一半的行。在这种情况下，索引可能根本无法使用，因为当查询优化程序确定出某个值在表的行里出现频率很大时，它会跳过索引，直接执行全表扫描操作。</p></li>
+<li>
+<p>**为用于搜索、排序或分组的列创建索引，而对于用作输出显示的列则不用创建索引。**这意味着最佳索引候选列是那些出现在 WHERE 子句中的列、连接子句中的列或者出现在 ORDER BY 或 GROUP BY 子句中的列。而那些只是出现在 SELECT 关键字后面的输出列表里的列，则不是很好的索引候选列。</p>
+</li>
+<li>
+<p>**认真考虑数据列基数。**列的基数(cardinality)是指它所容纳的所有非重复值的个数，例如，某个列包含值 1、3、7、4、7、3，那么它的基数为 4。相对于表里面行的总数来说，列的基数越高(也就就是说，它包含的唯一值多，重复值少)，索引的使用效果越好。对于包含许多不同年龄值的列，索引可以很容易地将各个行区分开来。但是对于记录性别的列，其中只会包含两个值：&lsquo;M&rsquo;和&rsquo;F&rsquo;，索引操作毫无用处。如果这两个值出现的频率大致一样，那么不管搜索哪个值，你得到的都是近乎一半的行。在这种情况下，索引可能根本无法使用，因为当查询优化程序确定出某个值在表的行里出现频率很大时，它会跳过索引，直接执行全表扫描操作。</p>
+</li>
 </ol>......</p>
     </div>
   </div>
@@ -205,7 +241,7 @@
   
   <div class="list">
     <div class="post_content markdown">
-      <p>对于不同的 MySQL 存储引擎，索引的具体实现细节也有所不同。 1. 对于 MyISAM 表，其数据行保存在数据文件中，而索引值则保存在索引文件里。一个表可以有多个索引，但它们都保存在同一个索引文件里。索引文件里的每一个索引都由一组有序的关键字行构成，这个组中的关键字行主要用于快速访问数据文件。 2. InnoDB 存储引擎没有按照上面的方法将行和索引值分开放置，尽管它也是把索引值当作是一组有序值。默认情况下，InnoDB 存储引擎只使用一个表空......</p>
+      <p>对于不同的 MySQL 存储引擎，索引的具体实现细节也有所不同。 对于 MyISAM 表，其数据行保存在数据文件中，而索引值则保存在索引文件里。一个表可以有多个索引，但它们都保存在同一个索引文件里。索引文件里的每一个索引都由一组有序的关键字行构成，这个组中的关键字行主要用于快速访问数据文件。 InnoDB 存储引擎没有按照上面的方法将行和索引值分开放置，尽管它也是把索引值当作是一组有序值。默认情况下，InnoDB 存储引擎只使用一个表空间，......</p>
     </div>
   </div>
   
@@ -237,10 +273,13 @@
   <div class="list">
     <div class="post_content markdown">
       <p><ol>
-<li><p>长事务意味着系统里面会存在很老的事务视图。由于这些事务随时可能访问数据库里面的任何数据，所以这个事务提交之前，数据库里面它可能用到的回滚记录都必须保留，这会导致大量的占用存储空间。
-&gt; 在 MySQL 5.5 及以前的版本中，回滚日志跟数据字典一起放在 ibdata 文件里面，即使长事务最终提交，回滚段被清理，文件也不会变小。</p></li>
-
-<li><p>除了对回滚段有影响，长事务还占用锁资源，这也有可能会拖垮整个库。</p></li>
+<li>长事务意味着系统里面会存在很老的事务视图。由于这些事务随时可能访问数据库里面的任何数据，所以这个事务提交之前，数据库里面它可能用到的回滚记录都必须保留，这会导致大量的占用存储空间。</li>
+</ol>
+<blockquote>
+<p>在 MySQL 5.5 及以前的版本中，回滚日志跟数据字典一起放在 ibdata 文件里面，即使长事务最终提交，回滚段被清理，文件也不会变小。</p>
+</blockquote>
+<ol start="2">
+<li>除了对回滚段有影响，长事务还占用锁资源，这也有可能会拖垮整个库。</li>
 </ol>......</p>
     </div>
   </div>
@@ -275,9 +314,7 @@
       <p><blockquote>
 <p>模板模式：抽象出算法公共部分从而实现代码复用。</p>
 </blockquote>
-
 <p>编写优秀代码的一个要素是避免冗余。在面向对象编程中，方法和函数是我们用来避免编写冗余代码的重要工具。</p>
-
 <p>模板设计模式旨在消除代码重复。如果我们发现结构相近的（多个）算法中有重复代码，则可以把算法的不变（通用）部分留在一个模板方法/函数中，把易变（不同）的部分移到动作/钩子方法/函数中。</p>......</p>
     </div>
   </div>
@@ -312,9 +349,7 @@
   <div class="list">
     <div class="post_content markdown">
       <p><p>策略模式是一种非常通用的设计模式，可应用的场景很多。一般来说，不论何时希望动态、透明地应用不同算法，策略模式都是可行之路。这里所说不同算法的意思是，目的相同但实现方案不同的一类算法。这意味着算法结果应该是完全一致的，但每种实现都有不同的性能和代码复杂性（举例来说，对比一下顺序查找和二分查找）。</p>
-
 <p>策略模式的另一个应用是创建不同的样式表现，为了实现可移植性（例如，不同平台之间断行的不同）或动态地改变数据的表现。</p>
-
 <p>另一个值得一提的应用是模拟；例如模拟机器人，一些机器人比另一些更有攻击性，一些机器人速度更快，等等。机器人行为中的所有不同之处都可以使用不同的策略来建模。</p>......</p>
     </div>
   </div>
@@ -349,9 +384,7 @@
   <div class="list">
     <div class="post_content markdown">
       <p><p>状态模式是一个或多个有限状态机（简称状态机）的实现，用于解决一个特定的软件工程问题。</p>
-
 <p>状态机是一个抽象机器，具有两个主要部分：状态和转换。状态是指一个系统的当前状况。一个状态机在任意时间点只会有一个激活状态。转换是指从当前状态到一个新状态的切换。在一个转换发生之前或之后通常会执行一个或多个动作。状态机可以使用状态图进行视觉上的展现。</p>
-
 <p>状态机用于解决许多计算机问题和非计算机问题，其中包括交通灯、停车计时器、硬件设计和编程语言解析等。</p>......</p>
     </div>
   </div>
@@ -401,43 +434,6 @@
           <i class="remixicon-stack-line"></i>
           
           <a href="https://lovemma.github.io/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">设计模式</a>
-          
-          <a href="https://lovemma.github.io/tags/python/">Python</a>
-          
-        </span>
-        
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="post animated fadeInDown">
-  <div class="post_title">
-    <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F-%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/'>设计模式:解释器模式</a></h2>
-  </div>
-  
-  <div class="list">
-    <div class="post_content markdown">
-      <p><p>解释器模式用于为高级用户和领域专家提供一个类编程的框架，但没有暴露出编程语言那样的复杂性。这是通过实现一个DSL来达到目的的。</p>
-
-<p>DSL是一种针对特定领域、表达能力有限的计算机语言。 DSL有两类，分别是内部DSL和外部DSL。内部DSL构建在一种宿主编程语言之上，依赖宿主编程语言，外部DSL则是从头实现，不依赖某种已有的编程语言。解释器模式仅与内部DSL相关。</p>
-
-<p>例如：乐谱是一个非软件DSL的例子。音乐演奏者像一个解释器那样，使用乐谱演奏出音乐。</p>......</p>
-    </div>
-  </div>
-  
-  <div class="post_footer">
-    <div class="meta">
-      <div class="info">
-        <span class="field">
-          <i class="remixicon-map-pin-time-line"></i>
-          <span class="date">2018.10.28</span>
-        </span>
-        
-        <span class="field tags">
-          <i class="remixicon-stack-line"></i>
-          
-          <a href="https://lovemma.github.io/tags/%E8%A7%A3%E9%87%8A%E5%99%A8%E6%A8%A1%E5%BC%8F/">解释器模式</a>
           
           <a href="https://lovemma.github.io/tags/python/">Python</a>
           

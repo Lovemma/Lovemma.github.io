@@ -80,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -94,119 +98,88 @@
           <span class="date">2019.06.23</span>
         </div>
         <div class="post_content markdown"><p>几乎所有人都知道，在 Python 里读取文件有一种“标准做法”：首先使用 <code>with open(fine_name)</code> 上下文管理器的方式获得一个文件对象，然后使用 <code>for</code> 循环迭代它，逐行获取文件里的内容。</p>
-
 <p>下面是一个使用这种“标准做法”的简单示例函数：</p>
-
-<pre><code class="language-python">def count_nine(fname):
-    &quot;&quot;&quot;计算文件里包含多少个数字 '9'
-    &quot;&quot;&quot;
-    count = 0
-    with open(fname) as file:
-        for line in file:
-            count += line.count('9')
-    return count
-</code></pre>
-
-<p>假如我们有一个文件 <code>small_file.txt</code>，那么使用这个函数可以轻松计算出 9 的数量。</p>
-
-<pre><code class="language-python"># small_file.txt
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">count_nine</span>(fname):
+    <span style="color:#e6db74">&#34;&#34;&#34;计算文件里包含多少个数字 &#39;9&#39;
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">with</span> open(fname) <span style="color:#66d9ef">as</span> file:
+        <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> file:
+            count <span style="color:#f92672">+=</span> line<span style="color:#f92672">.</span>count(<span style="color:#e6db74">&#39;9&#39;</span>)
+    <span style="color:#66d9ef">return</span> count
+</code></pre></div><p>假如我们有一个文件 <code>small_file.txt</code>，那么使用这个函数可以轻松计算出 9 的数量。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># small_file.txt</span>
 feiowe9322nasd9233rl
 aoeijfiowejf8322kaf9a
 
-# OUTPUT: 3
-print(count_nine('small_file.txt'))
-</code></pre>
-
-<p>为什么这种文件读取方式会成为标准？这是因为它有两个好处：</p>
-
+<span style="color:#75715e"># OUTPUT: 3</span>
+<span style="color:#66d9ef">print</span>(count_nine(<span style="color:#e6db74">&#39;small_file.txt&#39;</span>))
+</code></pre></div><p>为什么这种文件读取方式会成为标准？这是因为它有两个好处：</p>
 <ol>
 <li><code>with</code> 上下文管理器会自动关闭打开的文件描述符</li>
 <li>在迭代文件对象时，内容是一行一行返回的，不会占用太多内存</li>
 </ol>
-
 <h3 id="标准做法的缺点">标准做法的缺点</h3>
-
 <p>但这套标准做法并非没有缺点。如果被读取的文件里，根本就没有任何换行符，那么上面的第二个好处就不成立了。<strong>当代码执行到 <code>for line in file</code> 时，line 将会变成一个非常巨大的字符串对象，消耗掉非常可观的内存。</strong></p>
-
 <p>让我们来做个试验：有一个 <strong>5GB</strong> 大的文件 <code>big_file.txt</code>，它里面装满了和 <code>small_file.txt</code> 一样的随机字符串。只不过它存储内容的方式稍有不同，所有的文本都被放在了同一行里：</p>
-
-<pre><code class="language-python"># FILE: big_file.txt
-df2if283rkwefh... &lt;剩余 5GB 大小&gt; ...
-</code></pre>
-
-<p>如果我们继续使用前面的 <code>count_nine</code> 函数去统计这个大文件里 <code>9</code> 的个数。那么在我的笔记本上，这个过程会足足花掉 65 秒，并在执行过程中吃掉机器 2GB 内存<sup class="footnote-ref" id="fnref:1"><a href="#fn:1">1</a></sup></p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># FILE: big_file.txt</span>
+df2if283rkwefh<span style="color:#f92672">...</span> <span style="color:#f92672">&lt;</span><span style="color:#960050;background-color:#1e0010">剩余</span> <span style="color:#ae81ff">5</span>GB <span style="color:#960050;background-color:#1e0010">大小</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">...</span>
+</code></pre></div><p>如果我们继续使用前面的 <code>count_nine</code> 函数去统计这个大文件里 <code>9</code> 的个数。那么在我的笔记本上，这个过程会足足花掉 65 秒，并在执行过程中吃掉机器 2GB 内存<sup id="fnref:1"><a href="#fn:1" class="footnote-ref" role="doc-noteref">1</a></sup></p>
 <h3 id="使用-read-方法分块读取">使用 read 方法分块读取</h3>
-
 <p>为了解决这个问题，我们需要暂时把这个“标准做法”放到一边，使用更底层的 <code>file.read()</code> 方法。与直接循环迭代文件对象不同，每次调用 <code>file.read(chunk_size)</code> 会直接返回从当前位置往后读取 <code>chunk_size</code> 大小的文件内容，不必等待任何换行符出现。</p>
-
 <p>所以，如果使用 <code>file.read()</code> 方法，我们的函数可以改写成这样:</p>
-
-<pre><code class="language-python">def count_nine_v2(fname):
-    &quot;&quot;&quot;计算文件里包含多少个数字 '9'，每次读取 8kb
-    &quot;&quot;&quot;
-    count = 0
-    block_size = 1024 * 8
-    with open(fname) as fp:
-        while True:
-            chunk = fp.read(block_size)
-            # 当文件没有更多内容时，read 调用将会返回空字符串 ''
-            if not chunk:
-                break
-            count += chunk.count('9')
-    return count
-</code></pre>
-
-<p>在新函数中，我们使用了一个 <code>while</code> 循环来读取文件内容，每次最多读取 8kb 大小，这样可以避免之前需要拼接一个巨大字符串的过程，把内存占用降低非常多。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">count_nine_v2</span>(fname):
+    <span style="color:#e6db74">&#34;&#34;&#34;计算文件里包含多少个数字 &#39;9&#39;，每次读取 8kb
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    block_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>
+    <span style="color:#66d9ef">with</span> open(fname) <span style="color:#66d9ef">as</span> fp:
+        <span style="color:#66d9ef">while</span> True:
+            chunk <span style="color:#f92672">=</span> fp<span style="color:#f92672">.</span>read(block_size)
+            <span style="color:#75715e"># 当文件没有更多内容时，read 调用将会返回空字符串 &#39;&#39;</span>
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> chunk:
+                <span style="color:#66d9ef">break</span>
+            count <span style="color:#f92672">+=</span> chunk<span style="color:#f92672">.</span>count(<span style="color:#e6db74">&#39;9&#39;</span>)
+    <span style="color:#66d9ef">return</span> count
+</code></pre></div><p>在新函数中，我们使用了一个 <code>while</code> 循环来读取文件内容，每次最多读取 8kb 大小，这样可以避免之前需要拼接一个巨大字符串的过程，把内存占用降低非常多。</p>
 <h3 id="利用生成器解耦代码">利用生成器解耦代码</h3>
-
 <p>假如我们在讨论的不是 Python，而是其他编程语言。那么可以说上面的代码已经很好了。但是如果你认真分析一下 <code>count_nine_v2</code> 函数，你会发现在循环体内部，存在着两个独立的逻辑：<strong>数据生成（read 调用与 chunk 判断）</strong> 与 <strong>数据消费</strong>。而这两个独立逻辑被耦合在了一起。</p>
-
 <p>为了提升复用能力，我们可以定义一个新的 <code>chunked_file_reader</code> 生成器函数，由它来负责所有与“数据生成”相关的逻辑。这样 <code>count_nine_v3</code> 里面的主循环就只需要负责计数即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chunked_file_reader</span>(fp, block_size<span style="color:#f92672">=</span><span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;生成器函数：分块读取文件内容
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">while</span> True:
+        chunk <span style="color:#f92672">=</span> fp<span style="color:#f92672">.</span>read(block_size)
+        <span style="color:#75715e"># 当文件没有更多内容时，read 调用将会返回空字符串 &#39;&#39;</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> chunk:
+            <span style="color:#66d9ef">break</span>
+        <span style="color:#66d9ef">yield</span> chunk
 
-<pre><code class="language-python">def chunked_file_reader(fp, block_size=1024 * 8):
-    &quot;&quot;&quot;生成器函数：分块读取文件内容
-    &quot;&quot;&quot;
-    while True:
-        chunk = fp.read(block_size)
-        # 当文件没有更多内容时，read 调用将会返回空字符串 ''
-        if not chunk:
-            break
-        yield chunk
 
-
-def count_nine_v3(fname):
-    count = 0
-    with open(fname) as fp:
-        for chunk in chunked_file_reader(fp):
-            count += chunk.count('9')
-    return count
-</code></pre>
-
-<p>进行到这一步，代码似乎已经没有优化的空间了，但其实不然。<a href="https://docs.python.org/3/library/functions.html#iter">iter(iterable)</a> 是一个用来构造迭代器的内建函数，但它还有一个更少人知道的用法。当我们使用 <code>iter(callable, sentinel)</code> 的方式调用它时，会返回一个特殊的对象，迭代它将不断产生可调用对象 callable 的调用结果，直到结果为 setinel 时，迭代终止。</p>
-
-<pre><code class="language-python">def chunked_file_reader(file, block_size=1024 * 8):
-    &quot;&quot;&quot;生成器函数：分块读取文件内容，使用 iter 函数
-    &quot;&quot;&quot;
-    # 首先使用 partial(fp.read, block_size) 构造一个新的无需参数的函数
-    # 循环将不断返回 fp.read(block_size) 调用结果，直到其为 '' 时终止
-    for chunk in iter(partial(file.read, block_size), ''):
-        yield chunk
-</code></pre>
-
-<p>最终，只需要两行代码，我们就完成了一个可复用的分块文件读取函数。那么，这个函数在性能方面的表现如何呢？</p>
-
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">count_nine_v3</span>(fname):
+    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    <span style="color:#66d9ef">with</span> open(fname) <span style="color:#66d9ef">as</span> fp:
+        <span style="color:#66d9ef">for</span> chunk <span style="color:#f92672">in</span> chunked_file_reader(fp):
+            count <span style="color:#f92672">+=</span> chunk<span style="color:#f92672">.</span>count(<span style="color:#e6db74">&#39;9&#39;</span>)
+    <span style="color:#66d9ef">return</span> count
+</code></pre></div><p>进行到这一步，代码似乎已经没有优化的空间了，但其实不然。<a href="https://docs.python.org/3/library/functions.html#iter">iter(iterable)</a> 是一个用来构造迭代器的内建函数，但它还有一个更少人知道的用法。当我们使用 <code>iter(callable, sentinel)</code> 的方式调用它时，会返回一个特殊的对象，迭代它将不断产生可调用对象 callable 的调用结果，直到结果为 setinel 时，迭代终止。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">chunked_file_reader</span>(file, block_size<span style="color:#f92672">=</span><span style="color:#ae81ff">1024</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>):
+    <span style="color:#e6db74">&#34;&#34;&#34;生成器函数：分块读取文件内容，使用 iter 函数
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#75715e"># 首先使用 partial(fp.read, block_size) 构造一个新的无需参数的函数</span>
+    <span style="color:#75715e"># 循环将不断返回 fp.read(block_size) 调用结果，直到其为 &#39;&#39; 时终止</span>
+    <span style="color:#66d9ef">for</span> chunk <span style="color:#f92672">in</span> iter(partial(file<span style="color:#f92672">.</span>read, block_size), <span style="color:#e6db74">&#39;&#39;</span>):
+        <span style="color:#66d9ef">yield</span> chunk
+</code></pre></div><p>最终，只需要两行代码，我们就完成了一个可复用的分块文件读取函数。那么，这个函数在性能方面的表现如何呢？</p>
 <p>和一开始的 2GB 内存/耗时 65 秒 相比，使用生成器的版本只需要 7MB 内存 / 12 秒就能完成计算。效率提升了接近 4 倍，内存占用更是不到原来的 1%。</p>
-<div class="footnotes">
-
-<hr />
-
+<section class="footnotes" role="doc-endnotes">
+<hr>
 <ol>
-<li id="fn:1">视机器空闲内存而定，可能会耗费更多的内存
- <a class="footnote-return" href="#fnref:1"><sup>[return]</sup></a></li>
+<li id="fn:1" role="doc-endnote">
+<p>视机器空闲内存而定，可能会耗费更多的内存 <a href="#fnref:1" class="footnote-backref" role="doc-backlink">&#x21a9;&#xfe0e;</a></p>
+</li>
 </ol>
-</div></div>
+</section></div>
         <div class="post_footer">
           
           <div class="meta">

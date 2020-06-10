@@ -10,7 +10,7 @@
         content="COldish"/>
 
   
-  <meta name="description" content="Q：当我们在浏览器中访问一个网址的时候 ，浏览器背后到底发生了什么呢？ A：DNS域名解析 --&amp;gt; 发起TCP的3次握手 --&amp;gt; 建立TCP连接后发起http请求 --&amp;gt; 服务器响应http请求，浏览器得到html代码 --&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） --&amp;gt; 浏览器对页面进行渲染呈现给用户 --&amp;gt; 进行TCP的4次挥手 这里我在Packet Tracer中模拟一次简单的HTTP请求 环境准备 网络拓扑图"/>
+  <meta name="description" content="Q：当我们在浏览器中访问一个网址的时候 ，浏览器背后到底发生了什么呢？ A：DNS域名解析 &amp;ndash;&amp;gt; 发起TCP的3次握手 &amp;ndash;&amp;gt; 建立TCP连接后发起http请求 &amp;ndash;&amp;gt; 服务器响应http请求，浏览器得到html代码 &amp;ndash;&amp;gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） &amp;ndash;&amp;gt; 浏览器对页面进行渲染呈现给用户 &amp;ndash;&amp;gt; 进行TCP的4次挥手 这里我在Packet Tracer中模拟一次简单的HTTP请求 环境准备 网络拓扑图"/>
   
 
   
@@ -79,6 +79,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,64 +96,43 @@
           <h2><a href='/posts/packet-tracer-%E6%A8%A1%E6%8B%9F%E4%B8%80%E6%AC%A1%E5%AE%8C%E6%95%B4%E7%9A%84http%E8%AF%B7%E6%B1%82/'>Packet Tracer 模拟一次完整的HTTP请求</a></h2>
           <span class="date">2018.02.01</span>
         </div>
-        <div class="post_content markdown">
-
-<p>Q：当我们在浏览器中访问一个网址的时候 ，浏览器背后到底发生了什么呢？
-A：DNS域名解析 --&gt; 发起TCP的3次握手 --&gt; 建立TCP连接后发起http请求 --&gt; 服务器响应http请求，浏览器得到html代码 --&gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） --&gt; 浏览器对页面进行渲染呈现给用户 --&gt; 进行TCP的4次挥手
-<!-- more --></p>
-
+        <div class="post_content markdown"><p>Q：当我们在浏览器中访问一个网址的时候 ，浏览器背后到底发生了什么呢？
+A：DNS域名解析 &ndash;&gt; 发起TCP的3次握手 &ndash;&gt; 建立TCP连接后发起http请求 &ndash;&gt; 服务器响应http请求，浏览器得到html代码 &ndash;&gt; 浏览器解析html代码，并请求html代码中的资源（如js、css、图片等） &ndash;&gt; 浏览器对页面进行渲染呈现给用户 &ndash;&gt; 进行TCP的4次挥手</p>
+<!-- raw HTML omitted -->
 <blockquote>
 <p>这里我在Packet Tracer中模拟一次简单的HTTP请求</p>
 </blockquote>
-
 <h2 id="环境准备">环境准备</h2>
-
 <p>网络拓扑图如下：
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151107%402x.jpg" alt="网络拓扑图" /></p>
-
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151107%402x.jpg" alt="网络拓扑图"></p>
 <h2 id="域名解析">域名解析</h2>
-
 <p>首先浏览器会向DNS服务器发送DNS数据包，请求访问域名所对应的IP地址，这里以在PC1中的浏览器访问www.test.com为例。模拟模式中可以看到PC1产生的DNS数据包以及DNS服务器响应的数据包：
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-152119%402x.jpg" alt="" /> <img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151318%402x.jpg" alt="" /> <img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151410%402x.jpg" alt="" /></p>
-
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-152119%402x.jpg" alt=""> <img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151318%402x.jpg" alt=""> <img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151410%402x.jpg" alt=""></p>
 <h2 id="发起tcp的三次握手">发起TCP的三次握手</h2>
-
 <p>得到域名对应的IP地址之后，浏览器会向web服务器发起TCP连接请求，web服务器收到请求后发出响应，过程如下：
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/3985563-f2fe3775bd2678c2.png" alt="" />
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/3985563-f2fe3775bd2678c2.png" alt="">
 TCP数据包内容如下：
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151447%402x.jpg" alt="" />
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151507%402x.jpg" alt="" />
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151619%402x.jpg" alt="" /></p>
-
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151447%402x.jpg" alt="">
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151507%402x.jpg" alt="">
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151619%402x.jpg" alt=""></p>
 <h2 id="建立tcp连接后发起http请求">建立TCP连接后发起http请求</h2>
-
 <p>经过TCP的3次握手之后，浏览器发起了http的请求，使用的http的方法 GET 方法，请求的URL是 / ,协议是HTTP/1.1
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151646%402x.jpg" alt="" /></p>
-
-<h2 id="服务器端响应http请求-浏览器得到html代码">服务器端响应http请求，浏览器得到html代码</h2>
-
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151646%402x.jpg" alt=""></p>
+<h2 id="服务器端响应http请求浏览器得到html代码">服务器端响应http请求，浏览器得到html代码</h2>
 <p>服务器端WEB程序接收到http请求以后，就开始处理该请求，处理之后就返回给浏览器html文件。
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-153714%402x.jpg" alt="" /></p>
-
-<h2 id="浏览器解析html代码-并请求html代码中的资源">浏览器解析html代码，并请求html代码中的资源</h2>
-
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-153714%402x.jpg" alt=""></p>
+<h2 id="浏览器解析html代码并请求html代码中的资源">浏览器解析html代码，并请求html代码中的资源</h2>
 <p>浏览器拿到服务器返回的html文件后，就开始解析其中的html代码，遇到js/css/image等静态资源时，就向服务器端去请求下载。</p>
-
 <h2 id="浏览器对页面进行渲染呈现给用户">浏览器对页面进行渲染呈现给用户</h2>
-
 <p>这里的html很简单就只有一行文本
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-153904%402x.jpg" alt="" /></p>
-
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-153904%402x.jpg" alt=""></p>
 <h2 id="进行tcp的4次挥手">进行TCP的4次挥手</h2>
-
 <p>当数据传送完毕，浏览器会发起断开连接请求，这就有了TCP的4次挥手的过程。
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/3985563-c1c59148f8b26c43.png" alt="" /></p>
-
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/3985563-c1c59148f8b26c43.png" alt=""></p>
 <p>这里不知道是Packet Tracer版本还是其他什么问题，服务器在收到客户端断开连接请求的时候，只发了FIN+ACK的TCP数据包，没有先发送含有ACK的TCP数据包。
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151717%402x.jpg" alt="" />
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-152055%402x.jpg" alt="" />
-<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-154551%402x.jpg" alt="" /></p>
-
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-151717%402x.jpg" alt="">
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-152055%402x.jpg" alt="">
+<img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20180201-154551%402x.jpg" alt=""></p>
 <p>至此就完成了一次简单的HTTP请求，这里只是简单的描述一下，实际中要比模拟出来的复杂很多。</p>
 </div>
         <div class="post_footer">

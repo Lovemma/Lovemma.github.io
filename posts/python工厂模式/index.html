@@ -80,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -94,141 +98,133 @@
           <span class="date">2018.10.12</span>
         </div>
         <div class="post_content markdown"><p>工厂模式主要是为了解决对象创建问题：客户端可以请求一个对象，而不需要知道这个对象来自哪里，换句话说，客户端在请求一个对象时，不需要知道该对象是被哪一个类创建的。这样做的好处是可以方便的解耦对象的使用和创建，工厂模式有两种实现方式：工厂方法和抽象工厂。</p>
-
-<h2 id="1-工厂方法">1.工厂方法</h2>
-
+<h2 id="1工厂方法">1.工厂方法</h2>
 <p>执行单个函数，通过传递的参数来确定需要的对象信息。</p>
-
-<pre><code class="language-python">import json
-import xml.etree.ElementTree as etree
-
-
-class JSONConnector:
-    def __init__(self, filepath):
-        self.data = dict()
-        with open(filepath, mode='r', encoding='utf-8') as f:
-            self.data = json.load(f)
-
-    @property
-    def parsed_data(self):
-        return self.data
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> json
+<span style="color:#f92672">import</span> xml.etree.ElementTree <span style="color:#f92672">as</span> etree
 
 
-class XMLConnector:
-    def __init__(self, filepath):
-        self.tree = etree.parse(filepath)
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">JSONConnector</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, filepath):
+        self<span style="color:#f92672">.</span>data <span style="color:#f92672">=</span> dict()
+        <span style="color:#66d9ef">with</span> open(filepath, mode<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#66d9ef">as</span> f:
+            self<span style="color:#f92672">.</span>data <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>load(f)
 
-    @property
-    def parsed_data(self):
-        return self.tree
-
-
-def connection_factory(filepath):
-    if filepath.endswith('json'):
-        connector = JSONConnector
-    elif filepath.endswith('xml'):
-        connector = XMLConnector
-    else:
-        raise ValueError('Cannot connect to {}'.format(filepath))
-    return connector(filepath)
+    <span style="color:#a6e22e">@property</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">parsed_data</span>(self):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>data
 
 
-def connect_to(filepath):
-    factory = None
-    try:
-        factory = connection_factory(filepath)
-    except ValueError as e:
-        print(e)
-    return factory
-</code></pre>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">XMLConnector</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, filepath):
+        self<span style="color:#f92672">.</span>tree <span style="color:#f92672">=</span> etree<span style="color:#f92672">.</span>parse(filepath)
 
-<h2 id="2-抽象工厂">2.抽象工厂</h2>
+    <span style="color:#a6e22e">@property</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">parsed_data</span>(self):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>tree
 
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">connection_factory</span>(filepath):
+    <span style="color:#66d9ef">if</span> filepath<span style="color:#f92672">.</span>endswith(<span style="color:#e6db74">&#39;json&#39;</span>):
+        connector <span style="color:#f92672">=</span> JSONConnector
+    <span style="color:#66d9ef">elif</span> filepath<span style="color:#f92672">.</span>endswith(<span style="color:#e6db74">&#39;xml&#39;</span>):
+        connector <span style="color:#f92672">=</span> XMLConnector
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">ValueError</span>(<span style="color:#e6db74">&#39;Cannot connect to {}&#39;</span><span style="color:#f92672">.</span>format(filepath))
+    <span style="color:#66d9ef">return</span> connector(filepath)
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">connect_to</span>(filepath):
+    factory <span style="color:#f92672">=</span> None
+    <span style="color:#66d9ef">try</span>:
+        factory <span style="color:#f92672">=</span> connection_factory(filepath)
+    <span style="color:#66d9ef">except</span> <span style="color:#a6e22e">ValueError</span> <span style="color:#66d9ef">as</span> e:
+        <span style="color:#66d9ef">print</span>(e)
+    <span style="color:#66d9ef">return</span> factory
+</code></pre></div><h2 id="2抽象工厂">2.抽象工厂</h2>
 <p>抽象工厂设计模式是抽象方法的一种泛化。概括来说，一个抽象工厂是（逻辑上的）一组工厂方法，其中的每个工厂方法负责产生不同种类的对象。</p>
-
 <p>工厂方法适合对象种类比较少的情况，当有多种不同类型的对象需要创建时，就需要使用抽象模式。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Frog</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, name):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
 
-<pre><code class="language-python">class Frog:
-    def __init__(self, name):
-        self.name = name
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>name
 
-    def __str__(self):
-        return self.name
-
-    def interact_with(self, obstacle):
-        print('{} the Frog encounters {} and {}!'.format(
-            self, obstacle, obstacle.action()))
-
-
-class Bug:
-    def __str__(self):
-        return 'a bug'
-
-    def action(self):
-        return 'eats it'
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">interact_with</span>(self, obstacle):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;{} the Frog encounters {} and {}!&#39;</span><span style="color:#f92672">.</span>format(
+            self, obstacle, obstacle<span style="color:#f92672">.</span>action()))
 
 
-class FrogWorld:
-    def __init__(self, name):
-        print(self)
-        self.player_name = name
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bug</span>:
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;a bug&#39;</span>
 
-    def __str__(self):
-        return '\n\n\t----Frog World -----'
-
-    def make_characters(self):
-        return Frog(self.player_name)
-
-    def make_obstacle(self):
-        return Bug()
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">action</span>(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;eats it&#39;</span>
 
 
-class Wizard:
-    def __init__(self, name):
-        self.name = name
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FrogWorld</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, name):
+        <span style="color:#66d9ef">print</span>(self)
+        self<span style="color:#f92672">.</span>player_name <span style="color:#f92672">=</span> name
 
-    def __str__(self):
-        return self.name
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n\n\t</span><span style="color:#e6db74">----Frog World -----&#39;</span>
 
-    def interact_with(self, obstacle):
-        print('{} the Wizard battles against {} and {}!'.format(
-            self, obstacle, obstacle.action()))
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">make_characters</span>(self):
+        <span style="color:#66d9ef">return</span> Frog(self<span style="color:#f92672">.</span>player_name)
 
-
-class Ork:
-    def __str__(self):
-        return 'an evil ork'
-
-    def action(self):
-        return 'kill it'
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">make_obstacle</span>(self):
+        <span style="color:#66d9ef">return</span> Bug()
 
 
-class WizardWorld:
-    def __init__(self, name):
-        print(self)
-        self.player_name = name
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Wizard</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, name):
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> name
 
-    def __str__(self):
-        return '\n\n\t----Wizard World -----'
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>name
 
-    def make_characters(self):
-        return Wizard(self.player_name)
-
-    def make_obstacle(self):
-        return Ork()
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">interact_with</span>(self, obstacle):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;{} the Wizard battles against {} and {}!&#39;</span><span style="color:#f92672">.</span>format(
+            self, obstacle, obstacle<span style="color:#f92672">.</span>action()))
 
 
-class GameEnvironment:
-    &quot;&quot;&quot; 抽象工厂，根据不同的玩家类型创建不同的角色和障碍 (游戏环境)
-        这里可以根据年龄判断，成年人返回『巫师』游戏，小孩返回『青蛙过河』游戏&quot;&quot;&quot;
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Ork</span>:
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;an evil ork&#39;</span>
 
-    def __init__(self, factory):
-        self.hero = factory.make_characters
-        self.obstacle = factory.make_obstacle()
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">action</span>(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;kill it&#39;</span>
 
-    def play(self):
-        self.hero.interact_with(self.obstacle)
-</code></pre></div>
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WizardWorld</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, name):
+        <span style="color:#66d9ef">print</span>(self)
+        self<span style="color:#f92672">.</span>player_name <span style="color:#f92672">=</span> name
+
+    <span style="color:#66d9ef">def</span> __str__(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\n\n\t</span><span style="color:#e6db74">----Wizard World -----&#39;</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">make_characters</span>(self):
+        <span style="color:#66d9ef">return</span> Wizard(self<span style="color:#f92672">.</span>player_name)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">make_obstacle</span>(self):
+        <span style="color:#66d9ef">return</span> Ork()
+
+
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GameEnvironment</span>:
+    <span style="color:#e6db74">&#34;&#34;&#34; 抽象工厂，根据不同的玩家类型创建不同的角色和障碍 (游戏环境)
+</span><span style="color:#e6db74">        这里可以根据年龄判断，成年人返回『巫师』游戏，小孩返回『青蛙过河』游戏&#34;&#34;&#34;</span>
+
+    <span style="color:#66d9ef">def</span> __init__(self, factory):
+        self<span style="color:#f92672">.</span>hero <span style="color:#f92672">=</span> factory<span style="color:#f92672">.</span>make_characters
+        self<span style="color:#f92672">.</span>obstacle <span style="color:#f92672">=</span> factory<span style="color:#f92672">.</span>make_obstacle()
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">play</span>(self):
+        self<span style="color:#f92672">.</span>hero<span style="color:#f92672">.</span>interact_with(self<span style="color:#f92672">.</span>obstacle)
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python on I&#39;m Groooooot</title>
@@ -27,15 +27,12 @@
       
       <guid>https://lovemma.github.io/posts/%E9%80%9A%E8%BF%87list-%E5%92%8C-%E5%88%9B%E5%BB%BA%E7%A9%BA%E5%88%97%E8%A1%A8%E7%9A%84%E5%B7%AE%E5%BC%82/</guid>
       <description>&lt;p&gt;我们想创建一个空列表，可以使用如下两种方式：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;color:#75715e&#34;&gt;# option A&lt;/span&gt;
+empty_list &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; list()
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;# option A
-empty_list = list()
-
-# option B
-empty_list = []
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？&lt;/p&gt;</description>
+&lt;span style=&#34;color:#75715e&#34;&gt;# option B&lt;/span&gt;
+empty_list &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; []
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -83,17 +80,15 @@ empty_list = []
       
       <guid>https://lovemma.github.io/posts/%E5%9C%A8%E5%AD%97%E5%85%B8%E4%B8%AD%E5%B0%86%E9%94%AE%E6%98%A0%E5%B0%84%E5%88%B0%E5%A4%9A%E4%B8%AA%E5%80%BC%E4%B8%8A/</guid>
       <description>&lt;h2 id=&#34;问题&#34;&gt;问题&lt;/h2&gt;
-
 &lt;p&gt;我们想要将一个列表，里面是&lt;code&gt;(key, value)&lt;/code&gt;这样的键值对元组，转换成一个&lt;code&gt;key&lt;/code&gt;相同的&lt;code&gt;value&lt;/code&gt;的字典，如下所示：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;data &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; [(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;), (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;), (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;), (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;), (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;)]
 
-&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;data = [(&#39;a&#39;, 1), (&#39;a&#39;, 2), (&#39;a&#39;, 3), (&#39;b&#39;, 4), (&#39;b&#39;, 5)]
-
-# convert to
-d = {
-    &#39;a&#39;: [1, 2, 3],
-    &#39;b&#39;: [4, 5]
+&lt;span style=&#34;color:#75715e&#34;&gt;# convert to&lt;/span&gt;
+d &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; {
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;a&amp;#39;&lt;/span&gt;: [&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;2&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;3&lt;/span&gt;],
+    &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;b&amp;#39;&lt;/span&gt;: [&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;, &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt;]
 }
-&lt;/code&gt;&lt;/pre&gt;</description>
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</description>
     </item>
     
     <item>
@@ -120,7 +115,7 @@ d = {
       <pubDate>Sat, 24 Feb 2018 21:15:02 +0000</pubDate>
       
       <guid>https://lovemma.github.io/posts/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84-nginx-&#43;-uwsgi-&#43;-django/</guid>
-      <description>当我们编写完成 Django 项目后，可以使用python manager.py runserver来运行 Django 自带的服务器，但这只适合于测试环境使用，项目正式上线时，我们需要一个可以稳定并且持续的服务器，比如Apache, Nginx等。手里吃灰很久的树莓派终于可以派上用场了😂。 准备工作 烧写好系统的树莓派，我这里使用的是基于 Debian 的 Raspbian 系统，理论上后续搭建步骤在 Ubuntu/Debian 上都可以用。 &amp;gt; 注意 2016 年 11 月的新版本系统之后，树莓派默认禁用 SSH，你需要手动开启</description>
+      <description>当我们编写完成 Django 项目后，可以使用python manager.py runserver来运行 Django 自带的服务器，但这只适合于测试环境使用，项目正式上线时，我们需要一个可以稳定并且持续的服务器，比如Apache, Nginx等。手里吃灰很久的树莓派终于可以派上用场了😂。 准备工作 烧写好系统的树莓派，我这里使用的是基于 Debian 的 Raspbian 系统，理论上后续搭建步骤在 Ubuntu/Debian 上都可以用。 注意 2016 年 11 月的新版本系统之后，树莓派默认禁用 SSH，你需要手动开启。</description>
     </item>
     
     <item>
@@ -138,7 +133,7 @@ d = {
       <pubDate>Thu, 25 Jan 2018 22:46:22 +0000</pubDate>
       
       <guid>https://lovemma.github.io/posts/python%E4%B8%AD%E7%9A%84%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1%E4%B8%8E%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%AF%B9%E8%B1%A1/</guid>
-      <description>Python中一切皆为对象，每一个对象都有一个唯一的标识符（ id( ) ）、类型（type( )）以及值。而对象根据其值是否能够修改分为可变对象和不可变对象： - 数字、字符串和元组属于不可变对象 - 字典、列表和字节数组属于可变对象 对于不可变对象，任何对其中的元素进行修改的操作都会抛出异常。 &amp;gt;&amp;gt;&amp;gt; test_str = &#39;hello world&#39; &amp;gt;&amp;gt;&amp;gt; test_str[5] = &#39;q&#39; ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-2-8e9684bd3ddc&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_str[5] = &#39;q&#39; TypeError: &#39;str&#39; object does not support item assignment &amp;gt;&amp;gt;&amp;gt; test_tuple = (1, 2, 3) &amp;gt;&amp;gt;&amp;gt; test_tuple[1] = 4 ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-4-dba7800e3210&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_tuple[1] = 4 TypeError: &#39;tuple&#39; object does not</description>
+      <description>Python中一切皆为对象，每一个对象都有一个唯一的标识符（ id( ) ）、类型（type( )）以及值。而对象根据其值是否能够修改分为可变对象和不可变对象： 数字、字符串和元组属于不可变对象 字典、列表和字节数组属于可变对象 对于不可变对象，任何对其中的元素进行修改的操作都会抛出异常。 &amp;gt;&amp;gt;&amp;gt; test_str = &amp;#39;hello world&amp;#39; &amp;gt;&amp;gt;&amp;gt; test_str[5] = &amp;#39;q&amp;#39; ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-2-8e9684bd3ddc&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_str[5] = &amp;#39;q&amp;#39; TypeError: &amp;#39;str&amp;#39; object does not support item assignment &amp;gt;&amp;gt;&amp;gt; test_tuple = (1, 2, 3) &amp;gt;&amp;gt;&amp;gt; test_tuple[1] = 4 ----------------------------------------------------------------------- TypeError Traceback (most recent call last) &amp;lt;ipython-input-4-dba7800e3210&amp;gt; in &amp;lt;module&amp;gt;() &amp;gt; 1 test_tuple[1] = 4 TypeError: &amp;#39;tuple&amp;#39; object does not support item</description>
     </item>
     
     <item>

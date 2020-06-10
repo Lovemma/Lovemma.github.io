@@ -82,6 +82,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -96,34 +100,31 @@
           <span class="date">2018.10.31</span>
         </div>
         <div class="post_content markdown"><p>策略模式是一种非常通用的设计模式，可应用的场景很多。一般来说，不论何时希望动态、透明地应用不同算法，策略模式都是可行之路。这里所说不同算法的意思是，目的相同但实现方案不同的一类算法。这意味着算法结果应该是完全一致的，但每种实现都有不同的性能和代码复杂性（举例来说，对比一下顺序查找和二分查找）。</p>
-
 <p>策略模式的另一个应用是创建不同的样式表现，为了实现可移植性（例如，不同平台之间断行的不同）或动态地改变数据的表现。</p>
-
 <p>另一个值得一提的应用是模拟；例如模拟机器人，一些机器人比另一些更有攻击性，一些机器人速度更快，等等。机器人行为中的所有不同之处都可以使用不同的策略来建模。</p>
-
-<p>以排序算法为例子，挑选一个合适的排序算法的时候，需要考虑待排序数组的以下特征：
-- 需要排序的元素数量。大部分排序算法在输入规模很小的时候效率相差不大，只有一部分O(nlogn)平均时间复杂度的算法适合大规模排序。
-- 算法的最佳/平均/最差时间复杂度。这个往往是挑选排序算法时候优先考虑的。
-- 算法的空间复杂度。是不是原地排序(inplace)，需要额外的空间吗？在内存限制苛刻的时候就需要考虑。
-- 算法的稳定性。排序算法是稳定的吗？稳定是指相同大小的值排序后保持相对顺序。
-- 实现复杂度。算法是否容易实现，其他大致相同的情况下，优先考虑易维护的代码。</p>
-
+<p>以排序算法为例子，挑选一个合适的排序算法的时候，需要考虑待排序数组的以下特征：</p>
+<ul>
+<li>需要排序的元素数量。大部分排序算法在输入规模很小的时候效率相差不大，只有一部分O(nlogn)平均时间复杂度的算法适合大规模排序。</li>
+<li>算法的最佳/平均/最差时间复杂度。这个往往是挑选排序算法时候优先考虑的。</li>
+<li>算法的空间复杂度。是不是原地排序(inplace)，需要额外的空间吗？在内存限制苛刻的时候就需要考虑。</li>
+<li>算法的稳定性。排序算法是稳定的吗？稳定是指相同大小的值排序后保持相对顺序。</li>
+<li>实现复杂度。算法是否容易实现，其他大致相同的情况下，优先考虑易维护的代码。</li>
+</ul>
 <p>示例：</p>
-
-<pre><code class="language-python">def f1(seq):
-    pass
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f1</span>(seq):
+    <span style="color:#66d9ef">pass</span>
     
     
-def f2(seq):
-    pass
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f2</span>(seq):
+    <span style="color:#66d9ef">pass</span>
     
     
-def f(seq):
-    if len(seq) &gt;= threshold_value:    # 大于某个阈值
-        f1(seq)    # 在数量较多时候具有良好的效率
-    else:
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>(seq):
+    <span style="color:#66d9ef">if</span> len(seq) <span style="color:#f92672">&gt;=</span> threshold_value:    <span style="color:#75715e"># 大于某个阈值</span>
+        f1(seq)    <span style="color:#75715e"># 在数量较多时候具有良好的效率</span>
+    <span style="color:#66d9ef">else</span>:
         f2(seq)
-</code></pre></div>
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

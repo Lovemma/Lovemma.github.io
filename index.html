@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zh-cn" >
 <head>
-	<meta name="generator" content="Hugo 0.58.3" />
+	<meta name="generator" content="Hugo 0.72.0" />
   <meta charset="utf-8"/>
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -80,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -89,6 +93,37 @@
   <div class="content">
     
 
+
+<div class="post animated fadeInDown">
+  <div class="post_title">
+    <h2><a href='/posts/iptables-forward/'>iptables 端口转发</a></h2>
+  </div>
+  
+  <div class="list">
+    <div class="post_content markdown">
+      <p>iptables 工作在 OSI 七层模型的二、三、四层，操作的是 Linux 内核中的 netfilter。 netfilter的工作流程大致就是 “当一个数据包到达 Linux 的网络接口（网卡）的时候，对这个数据包进行处理“，而 iptables 可以改变或者控制这个数据包的处理过程。 netfilter 内部分为三个表：filter、nat、mangle，每个表都有不同的操作链(Chains): 在 nat（网络地址翻译表，Network Address Translation）中，也就是用以实现地......</p>
+    </div>
+  </div>
+  
+  <div class="post_footer">
+    <div class="meta">
+      <div class="info">
+        <span class="field">
+          <i class="remixicon-map-pin-time-line"></i>
+          <span class="date">2020.06.09</span>
+        </span>
+        
+        <span class="field tags">
+          <i class="remixicon-stack-line"></i>
+          
+          <a href="https://lovemma.github.io/tags/iptables/">iptables</a>
+          
+        </span>
+        
+      </div>
+    </div>
+  </div>
+</div>
 
 <div class="post animated fadeInDown">
   <div class="post_title">
@@ -192,7 +227,7 @@
   
   <div class="list">
     <div class="post_content markdown">
-      <p>在使用 Celery 4.2 版本时，遇到了内存泄漏问题，话不多说先上运行环境： Python 版本：2.7.5 Celery 版本：4.2.2 系统：CentOS AsyncTask 的内存泄漏 开发环境跑了一段时间之后，出现发布任务的 service 内存占用很高，而且会出现任务发布不了的情况。但发布任务的 service 并没有做什么太过复杂的操作，经过分析之后，将问题定位在了 chord 函数中会使用了 apply_async 来插入大量的 task。 复现 写了一个简单的测试脚本来测试 chord : # -*- coding: utf-8 -*- import resource from celery import Celery, chord backend_url = 'redis://redis:6379/1' broker_url = 'pyamqp://rabbitmq:5672//?heartbeat=30' app = Celery('task',......</p>
+      <p>在使用 Celery 4.2 版本时，遇到了内存泄漏问题，话不多说先上运行环境： Python 版本：2.7.5 Celery 版本：4.2.2 系统：CentOS AsyncTask 的内存泄漏 开发环境跑了一段时间之后，出现发布任务的 service 内存占用很高，而且会出现任务发布不了的情况。但发布任务的 service 并没有做什么太过复杂的操作，经过分析之后，将问题定位在了 chord 函数中会使用了 apply_async 来插入大量的 task。 复现 写了一个简单的测试脚本来测试 chord : # -*- coding: utf-8 -*- import resource from celery import Celery, chord backend_url = &#39;redis://redis:6379/1&#39; broker_url = &#39;pyamqp://rabbitmq:5672//?heartbeat=30&#39; app = Celery(&#39;task&#39;,......</p>
     </div>
   </div>
   
@@ -257,26 +292,26 @@
   <div class="list">
     <div class="post_content markdown">
       <p><h3 id="如何定义-mysql-数据库账号">如何定义 MySQL 数据库账号？</h3>
-
 <ul>
-<li><p>用户名的组成：用户名@可访问控制列表</p>
-
+<li>
+<p>用户名的组成：用户名@可访问控制列表</p>
 <ul>
-<li><p>用户名：5.7版本以前，用户名最大只有16个字节；之后的版本为 32 个字节</p></li>
-
-<li><p>可访问控制列表：用户可以从哪些服务器上对数据库进行访问</p></li>
-</ul>
-
+<li>
+<p>用户名：5.7版本以前，用户名最大只有16个字节；之后的版本为 32 个字节</p>
+</li>
+<li>
+<p>可访问控制列表：用户可以从哪些服务器上对数据库进行访问</p>
 <ol>
 <li>%：代表可以从所有外部主机进行访问</li>
-<li>192.168.1.%：可以从 192.168.1 网段进行访问
-
-<ol>
+<li>192.168.1.%：可以从 192.168.1 网段进行访问</li>
 <li>localhost：DB 服务器本地访问</li>
-</ol></li>
-</ol></li>
-
-<li><p>使用 CREATE USER 命令建立用户</p></li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p>使用 CREATE USER 命令建立用户</p>
+</li>
 </ul>......</p>
     </div>
   </div>
@@ -309,15 +344,12 @@
   <div class="list">
     <div class="post_content markdown">
       <p><p>我们想创建一个空列表，可以使用如下两种方式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># option A</span>
+empty_list <span style="color:#f92672">=</span> list()
 
-<pre><code class="language-python"># option A
-empty_list = list()
-
-# option B
-empty_list = []
-</code></pre>
-
-<p>但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？</p>......</p>
+<span style="color:#75715e"># option B</span>
+empty_list <span style="color:#f92672">=</span> []
+</code></pre></div><p>但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？</p>......</p>
     </div>
   </div>
   
@@ -397,37 +429,6 @@ empty_list = []
           <i class="remixicon-stack-line"></i>
           
           <a href="https://lovemma.github.io/tags/flask/">Flask</a>
-          
-          <a href="https://lovemma.github.io/tags/python/">Python</a>
-          
-        </span>
-        
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="post animated fadeInDown">
-  <div class="post_title">
-    <h2><a href='/posts/%E5%B8%AE%E5%8A%A9%E7%90%86%E8%A7%A3encode%E5%92%8Cdecode%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/'>帮助理解encode和decode的小技巧</a></h2>
-  </div>
-  
-  <div class="list">
-    <div class="post_content markdown">
-      <p>最近公司业务需要做网络数据包处理，总是被字符的编码和解码折磨，一直以来我也不怎么搞得清楚什么时候该用.encode(), 什么时候该用.decode()。 现在发现了一个简单的方法，可帮助自己记住.encode()和.decode()的区别: 可以把字节序列想成晦涩难懂的机器码，把 Unicode 字符想象成“人类可读”的文本，那么，把字节序列变成人类可读的文本字符串就是解码，而把字符串变成用于存储或传输的字节序列就是......</p>
-    </div>
-  </div>
-  
-  <div class="post_footer">
-    <div class="meta">
-      <div class="info">
-        <span class="field">
-          <i class="remixicon-map-pin-time-line"></i>
-          <span class="date">2018.11.29</span>
-        </span>
-        
-        <span class="field tags">
-          <i class="remixicon-stack-line"></i>
           
           <a href="https://lovemma.github.io/tags/python/">Python</a>
           

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Celery on I&#39;m Groooooot</title>
@@ -20,7 +20,6 @@
       <description>&lt;blockquote&gt;
 &lt;p&gt;本文转载自公众号「Python之禅」，原文链接：&lt;a href=&#34;https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA&#34;&gt;https://mp.weixin.qq.com/s/w63Ut5zZjlOypvrhO7YWIA&lt;/a&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-
 &lt;p&gt;在一个应用服务中，对于时效性要求没那么高的业务场景，我们没必要等到所有任务执行完才返回结果，例如用户注册场景中，保存了用户账号密码之后，就可以立即返回，后续的账号激活邮件，可以用一种异步的形式去处理，这种异步操作可以用队列服务来实现。否则，如果等到邮件发送成功可能几秒过去了。&lt;/p&gt;</description>
     </item>
     

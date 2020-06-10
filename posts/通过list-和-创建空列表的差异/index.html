@@ -11,7 +11,7 @@
 
   
   <meta name="description" content="我们想创建一个空列表，可以使用如下两种方式：
-# option A empty_list = list() # option B empty_list = []  但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？
+# option A empty_list = list() # option B empty_list = [] 但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？
 "/>
   
 
@@ -81,6 +81,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -95,26 +99,17 @@
           <span class="date">2019.05.22</span>
         </div>
         <div class="post_content markdown"><p>我们想创建一个空列表，可以使用如下两种方式：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># option A</span>
+empty_list <span style="color:#f92672">=</span> list()
 
-<pre><code class="language-python"># option A
-empty_list = list()
-
-# option B
-empty_list = []
-</code></pre>
-
-<p>但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？</p>
-
+<span style="color:#75715e"># option B</span>
+empty_list <span style="color:#f92672">=</span> []
+</code></pre></div><p>但你有没有想过它们之间在效率上会不会有什么不同呢？我们应该优先使用哪种方式呢？</p>
 <p>最近，看文章碰到了这个问题，就研究了一下，通过命令测试下它们的效率，结果如图</p>
-
-<p><img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20190522-232506.png" alt="list[]和[]的效率差别" /></p>
-
+<p><img src="https://raw.githubusercontent.com/Lovemma/GitHubDrive/master/img/Jietu20190522-232506.png" alt="list[]和[]的效率差别"></p>
 <p>可以看到通过 <code>[]</code> 创建列表明显要比 <code>list()</code> 快，这是为什么呢？</p>
-
 <p>用 <code>list()</code> 方法构造一个空列表使用的是 <code>class list([iterable])</code> 的类型构造器，参数可以是一个<code>iterable</code>，如果没有给出参数，构造器将创建一个空列表 <code>[]</code>，相比较而言多了一步 <code>class</code> 调用和参数判断，所以用 <code>[]</code> 直接构造一个空列表的方法速度更快。</p>
-
 <p><strong>简而言之，主要的区别在于 <code>list()</code> 是一个 function call，Python 的 function call 会创建 stack，并且进行一系列参数检查的操作，中间的开销相对而言就更大了，而 <code>[]</code> 是一个内置的 C 函数，可以直接被调用，因此效率高。</strong></p>
-
 <p>PS：字典（dict）、元组（tuple）等的创建也是如此。</p></div>
         <div class="post_footer">
           

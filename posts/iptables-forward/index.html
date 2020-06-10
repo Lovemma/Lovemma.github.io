@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  
+  <meta name="author"
+        content="COldish"/>
+
+  
+  <meta name="description" content="iptables端口转发与原理讲解"/>
+  
+
+  
+  
+  <meta name="keywords" content="iptables, forward, 端口转发, 端口, 转发"/>
+  
+
+  
+  <link rel="canonical" href="https://lovemma.github.io/posts/iptables-forward/"/>
+
+  
+
+  <title>iptables 端口转发 &middot; I&#39;m Groooooot</title>
+
+  <link rel="shortcut icon" href="https://lovemma.github.io/images/favicon.ico"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/animate.min.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/remixicon.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/zozo.css"/>
+  <link rel="stylesheet" href="https://lovemma.github.io/css/highlight.css"/>
+
+  
+  
+</head>
+
+<body>
+<div class="main animated">
+  <div class="nav_container animated fadeInDown">
+  <div class="site_nav" id="site_nav">
+    <ul>
+      
+      <li>
+        <a href="/">Home</a>
+      </li>
+      
+      <li>
+        <a href="/posts/">Archive</a>
+      </li>
+      
+      <li>
+        <a href="/tags/">Tags</a>
+      </li>
+      
+      <li>
+        <a href="/about/">About</a>
+      </li>
+      
+    </ul>
+  </div>
+  <div class="menu_icon">
+    <a id="menu_icon"><i class="remixicon-links-line"></i></a>
+  </div>
+</div>
+
+  <div class="header animated fadeInDown">
+  <div class="site_title_container">
+    <div class="site_title">
+      <h1>
+        <a href="https://lovemma.github.io">
+          <span>I&#39;m Groooooot</span>
+          <img width="90px" src="https://lovemma.github.io/logo.svg"/>
+        </a>
+      </h1>
+    </div>
+    <div class="description">
+      <p class="sub_title">永恒只需一刹那.</p>
+      <div class="my_socials">
+        
+        
+        <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
+        
+        
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
+        <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <div class="content">
+    <div class="post_page">
+      <div class="post animated fadeInDown">
+        <div class="post_title post_detail_title">
+          <h2><a href='/posts/iptables-forward/'>iptables 端口转发</a></h2>
+          <span class="date">2020.06.09</span>
+        </div>
+        <div class="post_content markdown"><p>iptables 工作在 OSI 七层模型的二、三、四层，操作的是 Linux 内核中的 netfilter。</p>
+<p>netfilter的工作流程大致就是 “当一个数据包到达 Linux 的网络接口（网卡）的时候，对这个数据包进行处理“，而 iptables 可以改变或者控制这个数据包的处理过程。</p>
+<p>netfilter 内部分为三个表：filter、nat、mangle，每个表都有不同的操作链(Chains):</p>
+<ul>
+<li>在 nat（网络地址翻译表，Network Address Translation）中，也就是用以实现地址转换和端口转发功能的这个表，定义了 PREROUTING、POSTROUTING、OUTPUT 这三个链，后续会对这三个链进行详细的说明；</li>
+<li>在 filter（过滤）表中，定义了 INPUT、OUTPUT 和 FORWARD 这三个 Chain，即对数据包的输入、输出和转发三个过滤链，对 filter 表的操作与控制也是我们实现防火墙功能的一个重要手段；</li>
+<li>而 netfilter 的 mangle 表则是一个自定义表，里面包括了上面的所说的 filter 以及 nat 表中的各个 chains，它可以让我们进行一些自定义操作，同时，这个 mangle 表中的 chains 在 netfilter 对数据包的处理流程中，有着更高的优先级。</li>
+</ul>
+<h2 id="iptables-工作流程">iptables 工作流程</h2>
+<p><img src="../../static/iptables_netfilter_chains.png" alt="iptables-chains"></p>
+<h3 id="preroutingdnat">PREROUTING（DNAT）</h3>
+<p>PREROUTING 这个 Chain 在整个处理流程的最前面，当一个数据包到达 Linux 的网络接口（网卡）的时候，先经过 mangle 表的 PREROUTING，然后是 nat 表的PREROUTING ，从这个 chain 的名字可以看出，这个 chain 是在路由之前要过的，即预路由（pre-routing）。</p>
+<p>那么为什么要在路由之前过呢？</p>
+<p>我们可以看上面这个流程图，图中有一个菱形的部分叫 ROUTING，这个 ROUTING 就是 Linux 系统的 Route box，即路由系统，它可以实现一些很高深的功能，如：策略路由之类高级特性，这里我们不多做解释，因为我也没搞懂（逃</p>
+<p>单说 PREROUTING 链，在这个链中，我们对数据包的操作是 DNAT，即改变目的地址 和/或 端口，通常用于端口转发，也就是说一个数据包进来的时候，我们要改变它的目的地址 和/或 端口，这里我们可以先想想，如果一个数据包在改变路由地址之前就被放进了 Route box，让系统选好路之后再改变目的地址，那么选路就可能是错的，或者说是毫无意义了，所以，这个 PREROUTING 一定要在放进 Route box 之前做。</p>
+<p>案例：我们有一台主机的公网 IP 为 223.1.1.1/24，而系统中 eth0 网卡在内网中的 IP 为192.168.1.1/24，与此同时，我们的内网中有一台 Web 服务器，IP 地址为 192.168.1.2/24，那么我们如何通过外网用户通过 223.1.1.1/24 这个公网 IP 来访问我们的 Web 服务器呢？</p>
+<p>此时，我们就可以在这个 PERROUTING 链上定义一个规则，把访问 223.1.1.1:80 的用户的目的 IP 给改变一下，改编为 192.168.1.2:80，这样就实现了外网用户对内网服务器的访问了，当然，这个端口是比较灵活的，我们定义任何一个端口的转发，不一定非得是 80 → 80。</p>
+<h3 id="forward">FORWARD</h3>
+<p>接着往下走，这个包已经通过了两个 PREROUTING 链了，这时候出现了一个分支转折的地方，也就是图中下方的那个菱形 FORWARD，即转发，这里有一个对目的地址的判断（这里同样说明了 PREROUTING 一定要在最先，不仅要在 route box 之前，甚至是这个对目的地址的判断之前，因为我们可能将一个去往 <a href="http://xxx.xxx.xxx.xxx">xxx.xxx.xxx.xxx</a> 的 IP 地址转到我们自己的 IP 规则里，所以 PREROUTING 是最先处理这个数据包的 Chain)。</p>
+<p>如果包的目的地址是本机 IP 的话，那么数据包向上，走入 INPUT 链处理，然后进入 LOCAL PROCESS，如果非本地，那么就进入 FORWARD 链进行过滤。</p>
+<p>FORWARD 处理流程：</p>
+<ol>
+<li>
+<p>当 Linux 系统收到了一个目的 IP 地址不是本机的网络数据包，Linux 系统会把这个包丢弃，因为默认情况下，Linux 系统的三层包转发功能是关闭的，如果要让 Linux 实现转发，则需要打开这个转发功能，通过改变系统参数来实现，命令如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sysctl net.ipv4.ip_forward <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#75715e"># 或者</span>
+echo <span style="color:#e6db74">&#34;1&#34;</span> &gt; /proc/sys/net/ipv4/ip_forward
+</code></pre></div></li>
+<li>
+<p>此时，我们就让 Linux 系统允许转发网络包了，如果这个网络数据包的目的 IP 地址不是本机，那么，它将进入到 FORWARD 链，在 FORWARD 链里面，我们可以详细的规则来处理这个包，如：是否允许它通过、对这个包的方向流程进行一些改变等。这里处理这个包的链的流程为：先是 mangle 表的 FORWARD ，然后是 filter 表的 FORWARD。</p>
+</li>
+</ol>
+<h3 id="postroutingsnat">POSTROUTING（SNAT）</h3>
+<p>假设，一个数据包被我们的过滤规则给放过去了，即 ACCEPT 了，它将进入到 POSTROUTING 部分，同样，我们从这个链的名字可以看出，POSTROUTING 链应该是最后一个链，即一个数据包被发送出 Linux 系统的最后一个环节，这也是及其重要的一个环节，这个时候 Linux 系统已经完成了对这个包的路由（选路工作），已经找到了合适的网络接口发送出这个包了，在这个链里面我们进行重要的操作，即被称为 SNAT 的一个动作：<strong>修改源 IP 地址</strong>。</p>
+<p>那么问题来了，为什么要修改源 IP 地址呢？</p>
+<p>最常见的应该就是上面说的那个案例，在一个内网中的多台机器共享一个或几个公网 IP 来访问外网，因为我们的内网地址是私有的，加入让 Linux 系统给路由出去，源地址不变的情况下，这个包应该是可以到达目的地的，但是却返回不回来，因为 Internet 上的大部分路由节点不会转发私有地址的数据包，也就是说，在不使用合法 IP 的情况下，我们的数据包是有去无回的。</p>
+<p>这时，可能你就会问了：“既然这样，我们就不用私有 IP 了，我自己分配自己的合法 IP 地址不行吗？那样数据包不就可以回来了吗？”我只能说你这就 too young too simple 了，IP 地址是 ICANN 来分配的，你的数据包或许能发到目的地，但是回来的时候，人家可不会转到你那里，Internet 上的路由器中的路由表会把这个返回的数据包送到那个合法的获得了 IP 地址的地方去，你同样收不到，而且这种行为有可能会被定义为一种 IP 欺骗，很多设备会把这样的包在接入端就给过滤掉，可能都到不了要访问的服务器。</p>
+<p>那么 Linux 系统如何做 SNAT 呢？比如一个内网的 192.168.1.1 的 PC 访问 202.2.2.2 的一个 Web 服务器，内网接口在收到这个包之后把原来 PC  的 IP 地址 192.168.1.1 改为 223.1.1.1 的合法地址然后发送出去，同时在自己的 ip_conntrack 表里面做一个记录，记录是内网的哪个 IP 的哪个端口访问了这个 Web 服务器的地址，自己把它的源地址改成多少了，端口改成多少了，以便这个 Web 服务器返回数据包的时候将它准确的发回给请求方，即地址 192.168.1.1 的这台 PC。</p>
+<h2 id="端口转发">端口转发</h2>
+<h3 id="启用转发">启用转发</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sysctl net.ipv4.ip_forward <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+<span style="color:#75715e"># 或者</span>
+echo <span style="color:#e6db74">&#34;1&#34;</span> &gt; /proc/sys/net/ipv4/ip_forward
+</code></pre></div><h3 id="配置-prerouting">配置 PREROUTING</h3>
+<p>把访问 192.168.1.206 的 80 端口的流量转发到 192.168.1.197 的 80 端口：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">iptables -t nat -A PREROUTING -d 192.168.1.206/32 -p tcp -m tcp --dport <span style="color:#ae81ff">80</span> -j DNAT --to-destination 192.168.1.197:80
+</code></pre></div><h3 id="配置-forward">配置 FORWARD</h3>
+<p>设置 filter 表的 FORWARD 规则</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">iptables -I FORWARD -d 192.168.1.197/32 --dport <span style="color:#ae81ff">80</span> -j ACCEPT
+</code></pre></div><h3 id="配置-postrouting">配置 POSTROUTING</h3>
+<p>把访问 192.168.1.197 的 80 端口返回的数据再通过 SNAT 的方式将数据报文的源地址改为 192.168.1.206 发送出去：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">iptables -t nat -A POSTROUTING -d 192.168.1.197/32 -p tcp -m tcp --dport <span style="color:#ae81ff">80</span> -j SNAT --to-source 192.168.1.206
+</code></pre></div><h2 id="参考链接">参考链接</h2>
+<ol>
+<li><a href="http://xstarcd.github.io/wiki/Linux/iptables_forward_internetshare.html">通过iptables实现端口转发和内网共享上网</a></li>
+</ol>
+</div>
+        <div class="post_footer">
+          
+          <div class="meta">
+            <div class="info">
+              <span class="field tags">
+                <i class="remixicon-stack-line"></i>
+                
+                <a href="https://lovemma.github.io/tags/iptables/">iptables</a>
+                
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+
+      
+        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "lovemma" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+      
+      
+      
+    </div>
+  </div>
+  <a id="back_to_top" href="#" class="back_to_top"><span>△</span></a>
+</div>
+<footer class="footer">
+  <div class="powered_by">
+    <a href="https://zeuk.me">Designed by Zeuk,</a>
+    <a href="http://www.gohugo.io/">Proudly published with Hugo</a>
+  </div>
+
+  <div class="footer_slogan">
+    <span></span>
+  </div>
+</footer>
+
+
+
+<script src="https://lovemma.github.io/js/jquery-3.3.1.min.js"></script>
+<script src="https://lovemma.github.io/js/zozo.js"></script>
+<script src="https://lovemma.github.io/js/highlight.pack.js"></script>
+<link  href="https://lovemma.github.io/css/fancybox.min.css" rel="stylesheet">
+<script src="https://lovemma.github.io/js/fancybox.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad()</script>
+
+
+  <script type="text/javascript" async src="https://cdn.bootcss.com/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [['$','$'], ['\\(','\\)']],
+    displayMath: [['$$','$$'], ['\[\[','\]\]']],
+    processEscapes: true,
+    processEnvironments: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    TeX: { equationNumbers: { autoNumber: "AMS" },
+         extensions: ["AMSmath.js", "AMSsymbols.js"] }
+  }
+});
+
+MathJax.Hub.Queue(function() {
+    
+    
+    
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i = 0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<style>
+code.has-jax {
+    font: inherit;
+    font-size: 100%;
+    background: inherit;
+    border: inherit;
+    color: #515151;
+}
+</style>
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-96620668-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>
+</html>

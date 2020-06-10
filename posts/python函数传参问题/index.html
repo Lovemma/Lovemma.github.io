@@ -80,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -94,291 +98,231 @@
           <span class="date">2018.11.28</span>
         </div>
         <div class="post_content markdown"><p>Python 唯一支持的参数传递模式是<strong>共享传参(call for sharing)</strong>。共享传参是指函数的各个形式参数获得实参中各个引用的副本，也就是说，函数内部的形参是实参的别名。</p>
-
 <p>这种方案的结果是，函数可能会修改作为参数传入的可变对象，但是无法修改那些对象的标示(即不能把一个对象替换成另一个对象)。示例如下:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">In [<span style="color:#ae81ff">1</span>]: <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">f</span>(a, b):
+   <span style="color:#f92672">...</span>:     a <span style="color:#f92672">+=</span> b
+   <span style="color:#f92672">...</span>:     <span style="color:#66d9ef">return</span> a
+   <span style="color:#f92672">...</span>: 
 
-<pre><code class="language-python">In [1]: def f(a, b):
-   ...:     a += b
-   ...:     return a
-   ...: 
+In [<span style="color:#ae81ff">2</span>]: x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
 
-In [2]: x = 1
+In [<span style="color:#ae81ff">3</span>]: y <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
 
-In [3]: y = 2
+In [<span style="color:#ae81ff">4</span>]: f(x, y)
+Out[<span style="color:#ae81ff">4</span>]: <span style="color:#ae81ff">3</span>
 
-In [4]: f(x, y)
-Out[4]: 3
+In [<span style="color:#ae81ff">5</span>]: x, y
+Out[<span style="color:#ae81ff">5</span>]: (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)
 
-In [5]: x, y
-Out[5]: (1, 2)
+In [<span style="color:#ae81ff">6</span>]: a <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>]
 
-In [6]: a = [1, 2]
+In [<span style="color:#ae81ff">7</span>]: b <span style="color:#f92672">=</span> [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]
 
-In [7]: b = [3, 4]
+In [<span style="color:#ae81ff">8</span>]: f(a, b)
+Out[<span style="color:#ae81ff">8</span>]: [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]
 
-In [8]: f(a, b)
-Out[8]: [1, 2, 3, 4]
+In [<span style="color:#ae81ff">9</span>]: a, b
+Out[<span style="color:#ae81ff">9</span>]: ([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>], [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>])
 
-In [9]: a, b
-Out[9]: ([1, 2, 3, 4], [3, 4])
+In [<span style="color:#ae81ff">10</span>]: t <span style="color:#f92672">=</span> (<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>)
 
-In [10]: t = (10, 20)
+In [<span style="color:#ae81ff">11</span>]: u <span style="color:#f92672">=</span> (<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">40</span>)
 
-In [11]: u = (30, 40)
+In [<span style="color:#ae81ff">12</span>]: f(t, u)
+Out[<span style="color:#ae81ff">12</span>]: (<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">40</span>)
 
-In [12]: f(t, u)
-Out[12]: (10, 20, 30, 40)
-
-In [13]: t, u
-Out[13]: ((10, 20), (30, 40))
-</code></pre>
-
-<p>简单说明一下: 示例中是一个简单的函数，它在参数上调用<code>+=</code>运算符，分别把数字、列表和元组传给这个函数，实际传入的参数会以不同的方式受到影响。</p>
-
+In [<span style="color:#ae81ff">13</span>]: t, u
+Out[<span style="color:#ae81ff">13</span>]: ((<span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>), (<span style="color:#ae81ff">30</span>, <span style="color:#ae81ff">40</span>))
+</code></pre></div><p>简单说明一下: 示例中是一个简单的函数，它在参数上调用<code>+=</code>运算符，分别把数字、列表和元组传给这个函数，实际传入的参数会以不同的方式受到影响。</p>
 <h2 id="函数传参既不是传值也不是传引用">函数传参既不是传值也不是传引用</h2>
-
 <p>上面已经对函数给出了结论，这里来对<strong>共享传参考</strong>进行具体说明。</p>
-
-<p>对于函数传参的问题，基本上有三种观点:
-1. 传引用
-2. 传值
-3. 可变对象传引用，不可变对象传值</p>
-
+<p>对于函数传参的问题，基本上有三种观点:</p>
+<ol>
+<li>传引用</li>
+<li>传值</li>
+<li>可变对象传引用，不可变对象传值</li>
+</ol>
 <p>这三个观点到底哪个正确呢？我们逐一进行讨论。</p>
-
 <h3 id="传引用">传引用</h3>
-
-<pre><code class="language-python">&gt;&gt;&gt; def inc(n):
-...     print(id(n))
-...     n = n + 1
-...     print(id(n))
-... 
-&gt;&gt;&gt; n = 3
-&gt;&gt;&gt; id(n)
-4418535520
-&gt;&gt;&gt; inc(n)
-4418535520 # 修改之前的 n 的 id 值
-4418535552 # 修改之后的 n 的 id 值
-&gt;&gt;&gt; print(n)
-3
-&gt;&gt;&gt; 
-</code></pre>
-
-<p>按照传引用的概念，上面的例子输出应该是 4，并且 <code>inc()</code> 函数里面执行操作 <code>n = n + 1</code> 的前后 n 的 id 值应该是不变的。可是事实是不是这样的呢？</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">inc</span>(n):
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">print</span>(id(n))
+<span style="color:#f92672">...</span>     n <span style="color:#f92672">=</span> n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">print</span>(id(n))
+<span style="color:#f92672">...</span> 
+<span style="color:#f92672">&gt;&gt;&gt;</span> n <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> id(n)
+<span style="color:#ae81ff">4418535520</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> inc(n)
+<span style="color:#ae81ff">4418535520</span> <span style="color:#75715e"># 修改之前的 n 的 id 值</span>
+<span style="color:#ae81ff">4418535552</span> <span style="color:#75715e"># 修改之后的 n 的 id 值</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">print</span>(n)
+<span style="color:#ae81ff">3</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> 
+</code></pre></div><p>按照传引用的概念，上面的例子输出应该是 4，并且 <code>inc()</code> 函数里面执行操作 <code>n = n + 1</code> 的前后 n 的 id 值应该是不变的。可是事实是不是这样的呢？</p>
 <p>从输出的结果来看 n 的值还是不变，但 id(n) 的值在函数体前后却不一样。显然，传引用这个说法是不恰当的。</p>
-
 <h3 id="传值">传值</h3>
-
-<pre><code class="language-python">&gt;&gt;&gt; def change_list(orginator_list):
-...     print('orginator list is: ', orginator_list)
-...     new_list = orginator_list
-...     new_list.append('I am new item')
-...     print('new list is: ', new_list)
-...     return new_list
-... 
-&gt;&gt;&gt; orginator_list = ['a', 'b', 'c']
-&gt;&gt;&gt; new_list = change_list(orginator_list)
-orginator list is:  ['a', 'b', 'c']
-new list is:  ['a', 'b', 'c', 'I am new item']
-&gt;&gt;&gt; orginator_list
-['a', 'b', 'c', 'I am new item']
-&gt;&gt;&gt; new_list
-['a', 'b', 'c', 'I am new item']
-&gt;&gt;&gt; 
-</code></pre>
-
-<p>传值通俗来讲就是这个意思: 你在内存中有一个位置，我也有一个位置，我把我的值复制给你，以后你做什么就跟我没关系了，你我之间井水不犯河水。可是上面的程序输出根本不是这么一回事，显示<code>change_list()</code>函数没有遵守约定，调用该函数之后<code>orginator_list</code>也发生了改变，这明显侵犯了<code>orginator_list</code>的权利。这么看来传值这个说法也不合适。</p>
-
-<h3 id="可变对象传引用-不可变对象传值">可变对象传引用，不可变对象传值。</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">change_list</span>(orginator_list):
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;orginator list is: &#39;</span>, orginator_list)
+<span style="color:#f92672">...</span>     new_list <span style="color:#f92672">=</span> orginator_list
+<span style="color:#f92672">...</span>     new_list<span style="color:#f92672">.</span>append(<span style="color:#e6db74">&#39;I am new item&#39;</span>)
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;new list is: &#39;</span>, new_list)
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">return</span> new_list
+<span style="color:#f92672">...</span> 
+<span style="color:#f92672">&gt;&gt;&gt;</span> orginator_list <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> new_list <span style="color:#f92672">=</span> change_list(orginator_list)
+orginator list <span style="color:#f92672">is</span>:  [<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>]
+new list <span style="color:#f92672">is</span>:  [<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>, <span style="color:#e6db74">&#39;I am new item&#39;</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> orginator_list
+[<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>, <span style="color:#e6db74">&#39;I am new item&#39;</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> new_list
+[<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>, <span style="color:#e6db74">&#39;I am new item&#39;</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> 
+</code></pre></div><p>传值通俗来讲就是这个意思: 你在内存中有一个位置，我也有一个位置，我把我的值复制给你，以后你做什么就跟我没关系了，你我之间井水不犯河水。可是上面的程序输出根本不是这么一回事，显示<code>change_list()</code>函数没有遵守约定，调用该函数之后<code>orginator_list</code>也发生了改变，这明显侵犯了<code>orginator_list</code>的权利。这么看来传值这个说法也不合适。</p>
+<h3 id="可变对象传引用不可变对象传值">可变对象传引用，不可变对象传值。</h3>
 <p>从上面的例子看来这个说法最靠谱，很多人也是这么理解的，但这个是否真的准确呢？再来看一个示例。</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; def change_me(org_list):
-...     print(id(org_list))
-...     new_list = org_list
-...     print(id(new_list))
-...     if len(new_list) &gt; 5:
-...         new_list = ['a', 'b', 'c']
-...     for i, e in enumerate(new_list):
-...         if isinstance(e, list):
-...             new_list[i] = '***' # 将类型为 list 类型的元素替换为 ***
-...     print(new_list)
-...     print(id(new_list))
-... 
-&gt;&gt;&gt; 
-</code></pre>
-
-<p>传入的参数 org_list 为列表，属于可变类型，按照可变对象传引用的理解，new_list 和 org_list 指向同一块内存，因此两者的 id 值输出一致，任何对 new_list 所执行的内容的操作会直接反应到 org_list，也就是说修改 new_list 会导致 org_list 的直接修改，那么，接下来看看测试的例子:</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; test1 = [1, ['a', 1, 3], [2, 1], 6]
-&gt;&gt;&gt; change_me(test1)        # test1 的元素个数小于 5
-4421003592
-4421003592
-[1, '***', '***', 6]        # test1 中所有 list 类型的元素都被替换成了 ***
-4421003592
-&gt;&gt;&gt; test1
-[1, '***', '***', 6]
-&gt;&gt;&gt; test2 = [1, 2, 3, 4, 5, 6, [1]] # test2 中的元素个数大于 5
-&gt;&gt;&gt; change_me(test2)
-4420665416
-4420665416
-['a', 'b', 'c']
-4421780808
-&gt;&gt;&gt; test2       # test2 并没有发生改变
-[1, 2, 3, 4, 5, 6, [1]]
-</code></pre>
-
-<p>对于 test1、new_list 和 org_list 的表现和我们理解的传引用确实是一致的，最后 test1 被修改为 [1, '***', '***', 6]，但对于输入的 test2、new_list 和 org_list 的 id 输出在进行列表相关的操作前是一致的，但操作之后 new_list 的 id 却变为了 4421780808，整个 test2 在调用函数 change_me 后却没有发生任何改变，可是按照传引用的理解，期望的输出应该是 ['a', 'b', 'c']，似乎可变对象传引用这个说法也不恰当。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">change_me</span>(org_list):
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">print</span>(id(org_list))
+<span style="color:#f92672">...</span>     new_list <span style="color:#f92672">=</span> org_list
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">print</span>(id(new_list))
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">if</span> len(new_list) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">5</span>:
+<span style="color:#f92672">...</span>         new_list <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>]
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">for</span> i, e <span style="color:#f92672">in</span> enumerate(new_list):
+<span style="color:#f92672">...</span>         <span style="color:#66d9ef">if</span> isinstance(e, list):
+<span style="color:#f92672">...</span>             new_list[i] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;***&#39;</span> <span style="color:#75715e"># 将类型为 list 类型的元素替换为 ***</span>
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">print</span>(new_list)
+<span style="color:#f92672">...</span>     <span style="color:#66d9ef">print</span>(id(new_list))
+<span style="color:#f92672">...</span> 
+<span style="color:#f92672">&gt;&gt;&gt;</span> 
+</code></pre></div><p>传入的参数 org_list 为列表，属于可变类型，按照可变对象传引用的理解，new_list 和 org_list 指向同一块内存，因此两者的 id 值输出一致，任何对 new_list 所执行的内容的操作会直接反应到 org_list，也就是说修改 new_list 会导致 org_list 的直接修改，那么，接下来看看测试的例子:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> test1 <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, [<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3</span>], [<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>], <span style="color:#ae81ff">6</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> change_me(test1)        <span style="color:#75715e"># test1 的元素个数小于 5</span>
+<span style="color:#ae81ff">4421003592</span>
+<span style="color:#ae81ff">4421003592</span>
+[<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;***&#39;</span>, <span style="color:#e6db74">&#39;***&#39;</span>, <span style="color:#ae81ff">6</span>]        <span style="color:#75715e"># test1 中所有 list 类型的元素都被替换成了 ***</span>
+<span style="color:#ae81ff">4421003592</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> test1
+[<span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#39;***&#39;</span>, <span style="color:#e6db74">&#39;***&#39;</span>, <span style="color:#ae81ff">6</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> test2 <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, [<span style="color:#ae81ff">1</span>]] <span style="color:#75715e"># test2 中的元素个数大于 5</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> change_me(test2)
+<span style="color:#ae81ff">4420665416</span>
+<span style="color:#ae81ff">4420665416</span>
+[<span style="color:#e6db74">&#39;a&#39;</span>, <span style="color:#e6db74">&#39;b&#39;</span>, <span style="color:#e6db74">&#39;c&#39;</span>]
+<span style="color:#ae81ff">4421780808</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> test2       <span style="color:#75715e"># test2 并没有发生改变</span>
+[<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, [<span style="color:#ae81ff">1</span>]]
+</code></pre></div><p>对于 test1、new_list 和 org_list 的表现和我们理解的传引用确实是一致的，最后 test1 被修改为 [1, &lsquo;***&rsquo;, &lsquo;***&rsquo;, 6]，但对于输入的 test2、new_list 和 org_list 的 id 输出在进行列表相关的操作前是一致的，但操作之后 new_list 的 id 却变为了 4421780808，整个 test2 在调用函数 change_me 后却没有发生任何改变，可是按照传引用的理解，期望的输出应该是 [&lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;]，似乎可变对象传引用这个说法也不恰当。</p>
 <p>那么 Python 函数中参数传递的机制到底是怎么样的呢？要明白这个概念，首先要理解: <strong>Python 中的赋值与我们所理解的 C/C++ 等语言中的意思并不一样。</strong></p>
-
 <p>如果有如下语句:</p>
-
-<pre><code class="language-c">a = 5, b = a, b = 7;
-</code></pre>
-
-<p>我们分别来看一下在 C/C++ 以及 Python 中是如何赋值的。
-<img src="http://note.youdao.com/yws/res/1525/908570FF77E94E79AD519DCA4AC6FEAF" alt="C/C++ 赋值时的内存变化" />
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-c" data-lang="c">a <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>, b <span style="color:#f92672">=</span> a, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>;
+</code></pre></div><p>我们分别来看一下在 C/C++ 以及 Python 中是如何赋值的。
+<img src="http://note.youdao.com/yws/res/1525/908570FF77E94E79AD519DCA4AC6FEAF" alt="C/C++ 赋值时的内存变化">
 如图所示，C/C++ 中当执行 b=a 的时候，在内存中申请一块内存并将 a 的值复制到该内存中；当执行 b=7 之后是将 b 对应的值从 5 修改为 7。</p>
-
 <p>但在 Python 中赋值并不是复制，b=a 操作使得 b 与 a 引用同一个对象。而 b=7 则是将 b 指向对象 7，如下图所示:
-<img src="http://note.youdao.com/yws/res/1522/17ACE0CE4E704EB1B6ED1885A8E2D01B" alt="Python 中赋值语句对应的内存变化" /></p>
-
+<img src="http://note.youdao.com/yws/res/1522/17ACE0CE4E704EB1B6ED1885A8E2D01B" alt="Python 中赋值语句对应的内存变化"></p>
 <p>我们通过以下示例来验证上面所述的过程:</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; a = 5
-&gt;&gt;&gt; id(a)
-4418535584
-&gt;&gt;&gt; b = a
-&gt;&gt;&gt; id(b)   # b = a 之后 b 的 id 值和 a 一样
-4418535584
-&gt;&gt;&gt; b = 7
-&gt;&gt;&gt; id(b)   # b = 7 之后，b 指向对象 7，id 值发生改变
-4418535648
-&gt;&gt;&gt; id(a)
-4418535584
-</code></pre>
-
-<p>从输出可以看到，b = a 赋值后 b 的 id() 输出和 a 一样，但进行 b = 7 操作后，b 指向另外一快空间。可以简单的理解为，b = a 传递的是对象的引用，其过程类似于贴“标签”，5 和 7 是实实在在的内存空间，执行 a = 5 相当于申请一块内存空间代表对象 5，然后在上面贴上标签a，这样 a 和 5 便绑定到一起了。而 b = a 相当于对对象 5 再次贴上了标签 b，因此 a 和 b 实际都指向了 5。b = 7 操作之后，标签b重新贴到 7 所代表的对象上去了，而此时 5 仅有标签 a。</p>
-
-<p>理解了上面的背景，再重新回过头来看前面的例子就很好理解了。对于传值的例子，n = n + 1，由于 n 为数字，是不可变对象，n + 1 会重新申请一块内存，并将变量 n 指向它。当调用完函数 inc(n) 之后，函数体中的局部变量在函数外并不可见，此时的 n 代表函数外面的命名空间中所对应的 n，值还是 3。而在“可变对象传引用，不可变对象传值”的例子中，当 org_list 的长度大于 5 的时候，new_list = ['a', 'b', 'c'] 操作重新创建了一块内存并将 new_list 指向它。当传入参数为 test2 = [1, 2, 3, 4, 5, 6, [1]] 的时候，函数的执行并没有改变该列表的值。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> id(a)
+<span style="color:#ae81ff">4418535584</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> b <span style="color:#f92672">=</span> a
+<span style="color:#f92672">&gt;&gt;&gt;</span> id(b)   <span style="color:#75715e"># b = a 之后 b 的 id 值和 a 一样</span>
+<span style="color:#ae81ff">4418535584</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> b <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> id(b)   <span style="color:#75715e"># b = 7 之后，b 指向对象 7，id 值发生改变</span>
+<span style="color:#ae81ff">4418535648</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> id(a)
+<span style="color:#ae81ff">4418535584</span>
+</code></pre></div><p>从输出可以看到，b = a 赋值后 b 的 id() 输出和 a 一样，但进行 b = 7 操作后，b 指向另外一快空间。可以简单的理解为，b = a 传递的是对象的引用，其过程类似于贴“标签”，5 和 7 是实实在在的内存空间，执行 a = 5 相当于申请一块内存空间代表对象 5，然后在上面贴上标签a，这样 a 和 5 便绑定到一起了。而 b = a 相当于对对象 5 再次贴上了标签 b，因此 a 和 b 实际都指向了 5。b = 7 操作之后，标签b重新贴到 7 所代表的对象上去了，而此时 5 仅有标签 a。</p>
+<p>理解了上面的背景，再重新回过头来看前面的例子就很好理解了。对于传值的例子，n = n + 1，由于 n 为数字，是不可变对象，n + 1 会重新申请一块内存，并将变量 n 指向它。当调用完函数 inc(n) 之后，函数体中的局部变量在函数外并不可见，此时的 n 代表函数外面的命名空间中所对应的 n，值还是 3。而在“可变对象传引用，不可变对象传值”的例子中，当 org_list 的长度大于 5 的时候，new_list = [&lsquo;a&rsquo;, &lsquo;b&rsquo;, &lsquo;c&rsquo;] 操作重新创建了一块内存并将 new_list 指向它。当传入参数为 test2 = [1, 2, 3, 4, 5, 6, [1]] 的时候，函数的执行并没有改变该列表的值。</p>
 <p>因此，对于 Python 函数参数传递的是值还是引用的问题的答案是: 都不是。正确的叫法应该是<strong>传对象</strong>或者说<strong>传对象的引用</strong>。函数参数在传递过程中将整个对象传入，对可变对象的修改在函数外部以及内部都可见，调用者和被调用者之间共享这个对象；而对于不可变对象，由于并不能真正的被修改，一次，修改往往是通过生成一个新的对象然后赋值来实现的。</p>
-
 <h2 id="不要使用可变类型作为参数的默认值">不要使用可变类型作为参数的默认值</h2>
-
 <p>可选参数可以有默认值，这是 Python 函数定义的一个很棒的特性，这样我们的 API 在进化的同时能保证向后兼容，然而，我们应该避免使用可变的对象作为参数的默认值。示例如下:</p>
-
-<pre><code class="language-python">class HauntedBus:
-    def __init__(self, passengers=[]):
-        self.passengers = passengers
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">HauntedBus</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, passengers<span style="color:#f92672">=</span>[]):
+        self<span style="color:#f92672">.</span>passengers <span style="color:#f92672">=</span> passengers
         
-    def pick(self, name):
-        self.passengers.append(name)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pick</span>(self, name):
+        self<span style="color:#f92672">.</span>passengers<span style="color:#f92672">.</span>append(name)
         
-    def drop(self, name):
-        self.passengers.remove(name)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drop</span>(self, name):
+        self<span style="color:#f92672">.</span>passengers<span style="color:#f92672">.</span>remove(name)
         
-运行结果:
-&gt;&gt;&gt; bus1 = HauntedBus(['Alice', 'Bill'])
-&gt;&gt;&gt; bus1.passengers
-['Alice', 'Bill']
-&gt;&gt;&gt; bus1.pick('Charlie')
-&gt;&gt;&gt; bus1,drop('Alice')
-&gt;&gt;&gt; bus1.passengers
-['Bill', 'Charlie']
-&gt;&gt;&gt; bus2 = HauntedBus()
-&gt;&gt;&gt; bus2.pick('Carrie')
-&gt;&gt;&gt; bus2.passengers
-['Carrie']
-&gt;&gt;&gt; bus3 = HauntedBus()
-&gt;&gt;&gt; bus3.passengers
-['Carrie']
-&gt;&gt;&gt; bus3.pick('Dave')
-&gt;&gt;&gt; bus2.passengers
-['Carrie', 'Dave']
-&gt;&gt;&gt; bus2.passengers is bus3.passengers
+<span style="color:#960050;background-color:#1e0010">运行结果</span>:
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus1 <span style="color:#f92672">=</span> HauntedBus([<span style="color:#e6db74">&#39;Alice&#39;</span>, <span style="color:#e6db74">&#39;Bill&#39;</span>])
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus1<span style="color:#f92672">.</span>passengers
+[<span style="color:#e6db74">&#39;Alice&#39;</span>, <span style="color:#e6db74">&#39;Bill&#39;</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus1<span style="color:#f92672">.</span>pick(<span style="color:#e6db74">&#39;Charlie&#39;</span>)
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus1,drop(<span style="color:#e6db74">&#39;Alice&#39;</span>)
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus1<span style="color:#f92672">.</span>passengers
+[<span style="color:#e6db74">&#39;Bill&#39;</span>, <span style="color:#e6db74">&#39;Charlie&#39;</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus2 <span style="color:#f92672">=</span> HauntedBus()
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus2<span style="color:#f92672">.</span>pick(<span style="color:#e6db74">&#39;Carrie&#39;</span>)
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus2<span style="color:#f92672">.</span>passengers
+[<span style="color:#e6db74">&#39;Carrie&#39;</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus3 <span style="color:#f92672">=</span> HauntedBus()
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus3<span style="color:#f92672">.</span>passengers
+[<span style="color:#e6db74">&#39;Carrie&#39;</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus3<span style="color:#f92672">.</span>pick(<span style="color:#e6db74">&#39;Dave&#39;</span>)
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus2<span style="color:#f92672">.</span>passengers
+[<span style="color:#e6db74">&#39;Carrie&#39;</span>, <span style="color:#e6db74">&#39;Dave&#39;</span>]
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus2<span style="color:#f92672">.</span>passengers <span style="color:#f92672">is</span> bus3<span style="color:#f92672">.</span>passengers
 True
-&gt;&gt;&gt; bus1.passengers
-['Bill', 'Charlie']
-</code></pre>
-
-<p>这是因为 self.pasengers 变成了 passengers 参数默认值的别名，出现这个问题的根源是: 默认值在定义函数时计算（通常是加载模块时)，因此默认值变成了函数对象对象的属性。因此，如果默认值是可变对象，而且修改了它的值，那么后续的函数调用都会受到影响。</p>
-
+<span style="color:#f92672">&gt;&gt;&gt;</span> bus1<span style="color:#f92672">.</span>passengers
+[<span style="color:#e6db74">&#39;Bill&#39;</span>, <span style="color:#e6db74">&#39;Charlie&#39;</span>]
+</code></pre></div><p>这是因为 self.pasengers 变成了 passengers 参数默认值的别名，出现这个问题的根源是: 默认值在定义函数时计算（通常是加载模块时)，因此默认值变成了函数对象对象的属性。因此，如果默认值是可变对象，而且修改了它的值，那么后续的函数调用都会受到影响。</p>
 <p>在运行完上面的代码后，可以审查 <code>HauntedBus.__init__</code> 对象，看看它的<code>__defaults__</code>属性中的那些值:</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; dir(HauntedBus.__init__)
-['__annotations__', '__call__', '__class__', '__closure__', '__code__', '__defaults__', ... ]
-&gt;&gt;&gt; HauntedBus.__init__.__defaults__
-(['Carrie', 'Dave'],)
-</code></pre>
-
-<p>最后，我们可以验证 bus2.passengers 是一个别名，它绑定到 <code>HauntedBus.__init__.__defaults__</code>属性的第一个元素上:</p>
-
-<pre><code class="language-python">&gt;&gt;&gt; HauntedBus.__init__.__defaults__[0] is bus2.passengers
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> dir(HauntedBus<span style="color:#f92672">.</span>__init__)
+[<span style="color:#e6db74">&#39;__annotations__&#39;</span>, <span style="color:#e6db74">&#39;__call__&#39;</span>, <span style="color:#e6db74">&#39;__class__&#39;</span>, <span style="color:#e6db74">&#39;__closure__&#39;</span>, <span style="color:#e6db74">&#39;__code__&#39;</span>, <span style="color:#e6db74">&#39;__defaults__&#39;</span>, <span style="color:#f92672">...</span> ]
+<span style="color:#f92672">&gt;&gt;&gt;</span> HauntedBus<span style="color:#f92672">.</span>__init__<span style="color:#f92672">.</span>__defaults__
+([<span style="color:#e6db74">&#39;Carrie&#39;</span>, <span style="color:#e6db74">&#39;Dave&#39;</span>],)
+</code></pre></div><p>最后，我们可以验证 bus2.passengers 是一个别名，它绑定到 <code>HauntedBus.__init__.__defaults__</code>属性的第一个元素上:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">&gt;&gt;&gt;</span> HauntedBus<span style="color:#f92672">.</span>__init__<span style="color:#f92672">.</span>__defaults__[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">is</span> bus2<span style="color:#f92672">.</span>passengers
 True
-</code></pre>
-
-<p>可变默认值导致的这个问题说明了为什么通常使用 None 作为接受可变值的参数的默认值。如下所示:</p>
-
-<pre><code class="language-python">class Bus:
-    def __init__(self, passengers=None):
-        if passengers is None:
-            self.passengers = []
-        else:
-            self.passengers = list(passengers)
+</code></pre></div><p>可变默认值导致的这个问题说明了为什么通常使用 None 作为接受可变值的参数的默认值。如下所示:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bus</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, passengers<span style="color:#f92672">=</span>None):
+        <span style="color:#66d9ef">if</span> passengers <span style="color:#f92672">is</span> None:
+            self<span style="color:#f92672">.</span>passengers <span style="color:#f92672">=</span> []
+        <span style="color:#66d9ef">else</span>:
+            self<span style="color:#f92672">.</span>passengers <span style="color:#f92672">=</span> list(passengers)
         
-    def pick(self, name):
-        self.passengers.append(name)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pick</span>(self, name):
+        self<span style="color:#f92672">.</span>passengers<span style="color:#f92672">.</span>append(name)
         
-    def drop(self, name):
-        self.passengers.remove(name)
-</code></pre>
-
-<h2 id="防御可变参数">防御可变参数</h2>
-
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drop</span>(self, name):
+        self<span style="color:#f92672">.</span>passengers<span style="color:#f92672">.</span>remove(name)
+</code></pre></div><h2 id="防御可变参数">防御可变参数</h2>
 <p>如果定义的函数接受可变参数，应该谨慎考虑调用方是否期望修改传入的参数。</p>
-
 <p>例如，如果函数接受一个字典，而且在处理的过程中要修改它，那么这个副作用要不要体现到函数外部？具体情况具体分析。这其实需要函数的编写者和调用方达成共识。</p>
-
 <p>在下面这个示例中，TwilightBus 实例与客户共享乘客列表，这回产生意料之外的结果。</p>
-
-<pre><code class="language-python">class TwilightBus:
-    def __init__(self, passengers=None):
-        if passengers is None:
-            self.passengers = []
-        else:
-            self.passengers = passengers
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TwilightBus</span>:
+    <span style="color:#66d9ef">def</span> __init__(self, passengers<span style="color:#f92672">=</span>None):
+        <span style="color:#66d9ef">if</span> passengers <span style="color:#f92672">is</span> None:
+            self<span style="color:#f92672">.</span>passengers <span style="color:#f92672">=</span> []
+        <span style="color:#66d9ef">else</span>:
+            self<span style="color:#f92672">.</span>passengers <span style="color:#f92672">=</span> passengers
             
-    def pick(self, name):
-        self.passengers.append(name)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pick</span>(self, name):
+        self<span style="color:#f92672">.</span>passengers<span style="color:#f92672">.</span>append(name)
         
-    def drop(self, name):
-        self.passengers.remove(name)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">drop</span>(self, name):
+        self<span style="color:#f92672">.</span>passengers<span style="color:#f92672">.</span>remove(name)
 
 
-basketball_team = ['Sue', 'Tina', 'Maya', 'Diana', 'Pat']
-bus = TwilightBus(basketball_team)
-bus.drop('Tina')
-bus.drop('Pat')
-# basketball_team的内容
-print(baskekball_team)
-out: ['Sue', 'Maya', 'Diana']
-</code></pre>
-
-<p>TwilightBus 违反了设计接口的最佳实践，即“最少惊讶原则(Principle of least astonishment)”。篮球队员从校车中下车后，名字就从篮球队的名单中消失了，这确实让人惊讶。</p>
-
+basketball_team <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;Sue&#39;</span>, <span style="color:#e6db74">&#39;Tina&#39;</span>, <span style="color:#e6db74">&#39;Maya&#39;</span>, <span style="color:#e6db74">&#39;Diana&#39;</span>, <span style="color:#e6db74">&#39;Pat&#39;</span>]
+bus <span style="color:#f92672">=</span> TwilightBus(basketball_team)
+bus<span style="color:#f92672">.</span>drop(<span style="color:#e6db74">&#39;Tina&#39;</span>)
+bus<span style="color:#f92672">.</span>drop(<span style="color:#e6db74">&#39;Pat&#39;</span>)
+<span style="color:#75715e"># basketball_team的内容</span>
+<span style="color:#66d9ef">print</span>(baskekball_team)
+out: [<span style="color:#e6db74">&#39;Sue&#39;</span>, <span style="color:#e6db74">&#39;Maya&#39;</span>, <span style="color:#e6db74">&#39;Diana&#39;</span>]
+</code></pre></div><p>TwilightBus 违反了设计接口的最佳实践，即“最少惊讶原则(Principle of least astonishment)”。篮球队员从校车中下车后，名字就从篮球队的名单中消失了，这确实让人惊讶。</p>
 <p>这里的问题是，校车为传给构造方法的列表创建了别名。正确的做法是，校车自己维护乘客的列表，修正的方法很简单: 在<code>__init__</code>方法中，传入 passengers 参数时，应该把参数值的副本赋值给 self.passengers，如下所示:</p>
-
-<pre><code class="language-python">def __init__(self, passengers):
-    if passengers is None:
-        self.passengers = []
-    else:
-        self.passengers = list(passengers)
-</code></pre>
-
-<p>在内部像这样处理乘客列表，就不会影响初始化校车时传入的参数了。此外，这种处理方式还更灵活: 现在，传给 passengers 参数的值可以是元组或任何其他可选迭代对象，例如<code>set</code>对象，甚至数据库查询结果，因为<code>list</code>构造方法接受任何可迭代对象。自己创建并管理列表可以确保支持所需的<code>.remove()</code>和<code>.append()</code>操作，这样<code>.pick()</code>和<code>.drop()</code>方法才能正常运作。</p></div>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> __init__(self, passengers):
+    <span style="color:#66d9ef">if</span> passengers <span style="color:#f92672">is</span> None:
+        self<span style="color:#f92672">.</span>passengers <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">else</span>:
+        self<span style="color:#f92672">.</span>passengers <span style="color:#f92672">=</span> list(passengers)
+</code></pre></div><p>在内部像这样处理乘客列表，就不会影响初始化校车时传入的参数了。此外，这种处理方式还更灵活: 现在，传给 passengers 参数的值可以是元组或任何其他可选迭代对象，例如<code>set </code>对象，甚至数据库查询结果，因为<code>list</code>构造方法接受任何可迭代对象。自己创建并管理列表可以确保支持所需的<code>.remove()</code>和<code>.append()</code>操作，这样<code>.pick()</code>和<code>.drop()</code>方法才能正常运作。</p></div>
         <div class="post_footer">
           
           <div class="meta">

@@ -80,6 +80,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -94,82 +98,55 @@
           <span class="date">2019.10.11</span>
         </div>
         <div class="post_content markdown"><p>最近项目在MongoDB写入数据这块有瓶颈，以此记录一下优化过程中的技巧。</p>
-
 <h2 id="查询">查询</h2>
-
 <h3 id="索引">索引</h3>
-
 <p>首先，最简单粗暴的就是加索引，这没什么问题吧（逃</p>
-
-<h3 id="检查一个文档是否存在-find-limit-1-vs-find-one">检查一个文档是否存在: find().limit(1) vs find_one()</h3>
-
+<h3 id="检查一个文档是否存在-findlimit1-vs-find_one">检查一个文档是否存在: find().limit(1) vs find_one()</h3>
 <p>最开始我是使用 <code>find_one()</code> 来判断一个文档是否存在，然后查了下资料发现 <code>find_one</code> 实际上是使用了 <code>find().limit(N)</code> ，然后取一条，在这个过程中，<code>find_one</code> 会读取所有匹配条件的文档；而 <code>find().limit(1)</code> 只会读取 1 条匹配条件的文档，这里就是他们的差距所在。<code>PyMongo</code> 的源码:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">find_one</span>(self, filter<span style="color:#f92672">=</span>None, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+        <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">        省略注释
+</span><span style="color:#e6db74">        &#34;&#34;&#34;</span>
+        <span style="color:#66d9ef">if</span> (filter <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None <span style="color:#f92672">and</span> <span style="color:#f92672">not</span>
+                isinstance(filter, abc<span style="color:#f92672">.</span>Mapping)):
+            filter <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;_id&#34;</span>: filter}
 
-<pre><code class="language-python">    def find_one(self, filter=None, *args, **kwargs):
-        &quot;&quot;&quot;
-        省略注释
-        &quot;&quot;&quot;
-        if (filter is not None and not
-                isinstance(filter, abc.Mapping)):
-            filter = {&quot;_id&quot;: filter}
+        cursor <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>find(filter, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+        <span style="color:#66d9ef">for</span> result <span style="color:#f92672">in</span> cursor<span style="color:#f92672">.</span>limit(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+            <span style="color:#66d9ef">return</span> result
+        <span style="color:#66d9ef">return</span> None
 
-        cursor = self.find(filter, *args, **kwargs)
-        for result in cursor.limit(-1):
-            return result
-        return None
-
-</code></pre>
-
-<p>资料：</p>
-
+</code></pre></div><p>资料：</p>
 <ol>
 <li><a href="https://blog.serverdensity.com/checking-if-a-document-exists-mongodb-slow-findone-vs-find/">Checking if a document exists – MongoDB slow findOne vs find</a></li>
-<li><a href="https://dba.stackexchange.com/questions/7573/difference-between-mongodbs-find-and-findone-calls">Difference between MongoDB's find and findone calls</a></li>
+<li><a href="https://dba.stackexchange.com/questions/7573/difference-between-mongodbs-find-and-findone-calls">Difference between MongoDB&rsquo;s find and findone calls</a></li>
 </ol>
-
 <h2 id="写入">写入</h2>
-
 <h3 id="使用批量插入代替单次插入">使用批量插入代替单次插入</h3>
-
-<pre><code class="language-python">for ip, port in addr.items():
-    db.collection.insert_one({'ip': ip, 'port': port})
-</code></pre>
-
-<p>这样写在数据量小的时候没什么问题，但数据量大了之后，会异常的慢，因为每次插入都是一次网络 I/O。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">for</span> ip, port <span style="color:#f92672">in</span> addr<span style="color:#f92672">.</span>items():
+    db<span style="color:#f92672">.</span>collection<span style="color:#f92672">.</span>insert_one({<span style="color:#e6db74">&#39;ip&#39;</span>: ip, <span style="color:#e6db74">&#39;port&#39;</span>: port})
+</code></pre></div><p>这样写在数据量小的时候没什么问题，但数据量大了之后，会异常的慢，因为每次插入都是一次网络 I/O。</p>
 <p>此时需要使用批量插入的方式：</p>
-
-<pre><code class="language-python">db.collection.insert_many(({'ip': ip, 'port': port} for ip, port in addr.items()))
-</code></pre>
-
-<h3 id="调整-insert-many-的参数">调整 <code>insert_many</code> 的参数</h3>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">db<span style="color:#f92672">.</span>collection<span style="color:#f92672">.</span>insert_many(({<span style="color:#e6db74">&#39;ip&#39;</span>: ip, <span style="color:#e6db74">&#39;port&#39;</span>: port} <span style="color:#66d9ef">for</span> ip, port <span style="color:#f92672">in</span> addr<span style="color:#f92672">.</span>items()))
+</code></pre></div><h3 id="调整-insert_many-的参数">调整 <code>insert_many</code> 的参数</h3>
 <p>其中还可以通过 <code>insert_many</code> 的参数来进一步优化插入的性能。</p>
-
-<pre><code class="language-python">def insert_many(self, documents, ordered=True,
-                bypass_document_validation=False, session=None)
-</code></pre>
-
-<ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">insert_many</span>(self, documents, ordered<span style="color:#f92672">=</span>True,
+                bypass_document_validation<span style="color:#f92672">=</span>False, session<span style="color:#f92672">=</span>None)
+</code></pre></div><ul>
 <li><strong>ordered</strong>: 这个参数为 True 时，迫使 MongoDB 按顺序同步插入数据；而如果为 False，则 MongoDB 会并发的不按固定顺序进行批量插入。显然当我们对性能有要求时，将该参数设为False是非常必要的。</li>
 <li><strong>bypass_document_validation</strong>: MongoDB 3.2 之后加入了 document validation 功能，用于验证写入的文档是否符合 collection 制定的规则。而既然是验证就肯定需要花费时间，当我们对性能有极致要求时，也可以将此参数设为True，从而越过验证，直接写入。具体可查看该链接：<a href="https://docs.mongodb.com/master/release-notes/3.2/#document-validation">Document Validation</a></li>
 <li><strong>session</strong>: 关于 session, 还请移步 <a href="https://docs.mongodb.com/manual/core/read-isolation-consistency-recency/#client-sessions-and-causal-consistency-guarantees">Client Sessions and Causal Consistency Guarantees</a></li>
 </ul>
-
 <h3 id="批量更新">批量更新</h3>
-
 <p>前面的例子在插入操作时非常有效，但是对于更新操作由于 <code>update_many</code> 无法针对每一个 doc 进行更新，如本例中针对每一个 ip 进行更新，那么就需要使用 <code>bulk_write</code> 操作。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pymongo <span style="color:#f92672">import</span> UpdateOne
 
-<pre><code class="language-python">from pymongo import UpdateOne
-
-db.collection.bulk_write(
-    [UpdateOne({'ip': ip}, {'$set': {'port': port}}, upsert=True)
-     for ip, port in addr.items()], ordered=False,
-    bypass_document_validation=True
+db<span style="color:#f92672">.</span>collection<span style="color:#f92672">.</span>bulk_write(
+    [UpdateOne({<span style="color:#e6db74">&#39;ip&#39;</span>: ip}, {<span style="color:#e6db74">&#39;$set&#39;</span>: {<span style="color:#e6db74">&#39;port&#39;</span>: port}}, upsert<span style="color:#f92672">=</span>True)
+     <span style="color:#66d9ef">for</span> ip, port <span style="color:#f92672">in</span> addr<span style="color:#f92672">.</span>items()], ordered<span style="color:#f92672">=</span>False,
+    bypass_document_validation<span style="color:#f92672">=</span>True
 )
-</code></pre>
-
-<blockquote>
+</code></pre></div><blockquote>
 <p>PS: 在我的主观感受下，使用 <code>bulk_write</code> 来做插入操作好像速度还要更快一点🤔</p>
 </blockquote></div>
         <div class="post_footer">

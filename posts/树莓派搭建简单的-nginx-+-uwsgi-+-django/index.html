@@ -10,7 +10,7 @@
         content="COldish"/>
 
   
-  <meta name="description" content="当我们编写完成 Django 项目后，可以使用python manager.py runserver来运行 Django 自带的服务器，但这只适合于测试环境使用，项目正式上线时，我们需要一个可以稳定并且持续的服务器，比如Apache, Nginx等。手里吃灰很久的树莓派终于可以派上用场了😂。 准备工作 烧写好系统的树莓派，我这里使用的是基于 Debian 的 Raspbian 系统，理论上后续搭建步骤在 Ubuntu/Debian 上都可以用。 &amp;gt; 注意 2016 年 11 月的新版本系统之后，树莓派默认禁用 SSH，你需要手动开启"/>
+  <meta name="description" content="当我们编写完成 Django 项目后，可以使用python manager.py runserver来运行 Django 自带的服务器，但这只适合于测试环境使用，项目正式上线时，我们需要一个可以稳定并且持续的服务器，比如Apache, Nginx等。手里吃灰很久的树莓派终于可以派上用场了😂。 准备工作 烧写好系统的树莓派，我这里使用的是基于 Debian 的 Raspbian 系统，理论上后续搭建步骤在 Ubuntu/Debian 上都可以用。 注意 2016 年 11 月的新版本系统之后，树莓派默认禁用 SSH，你需要手动开启。"/>
   
 
   
@@ -79,6 +79,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,98 +96,64 @@
           <h2><a href='/posts/%E6%A0%91%E8%8E%93%E6%B4%BE%E6%90%AD%E5%BB%BA%E7%AE%80%E5%8D%95%E7%9A%84-nginx-&#43;-uwsgi-&#43;-django/'>树莓派搭建简单的 Nginx &#43; uWSGI &#43; Django</a></h2>
           <span class="date">2018.02.24</span>
         </div>
-        <div class="post_content markdown">
-
-<p>当我们编写完成 Django 项目后，可以使用<code>python manager.py runserver</code>来运行 Django 自带的服务器，但这只适合于测试环境使用，项目正式上线时，我们需要一个可以稳定并且持续的服务器，比如Apache, Nginx等。手里吃灰很久的树莓派终于可以派上用场了😂。</p>
-
-<!-- more -->
-
+        <div class="post_content markdown"><p>当我们编写完成 Django 项目后，可以使用<code>python manager.py runserver</code>来运行 Django 自带的服务器，但这只适合于测试环境使用，项目正式上线时，我们需要一个可以稳定并且持续的服务器，比如Apache, Nginx等。手里吃灰很久的树莓派终于可以派上用场了😂。</p>
+<!-- raw HTML omitted -->
 <h2 id="准备工作">准备工作</h2>
-
 <ul>
-<li>烧写好系统的树莓派，我这里使用的是基于 Debian 的 Raspbian 系统，理论上后续搭建步骤在 Ubuntu/Debian 上都可以用。
-&gt; <em>注意 2016 年 11 月的新版本系统之后，树莓派默认禁用 SSH，你需要手动开启。如果没有屏幕，则在boot分区的根目录下创建一个名为 ssh 的文件即可开启</em></li>
+<li>烧写好系统的树莓派，我这里使用的是基于 Debian 的 Raspbian 系统，理论上后续搭建步骤在 Ubuntu/Debian 上都可以用。</li>
 </ul>
-
+<blockquote>
+<p><em>注意 2016 年 11 月的新版本系统之后，树莓派默认禁用 SSH，你需要手动开启。如果没有屏幕，则在boot分区的根目录下创建一个名为 ssh 的文件即可开启</em></p>
+</blockquote>
 <h2 id="安装nginx">安装Nginx</h2>
-
-<pre><code class="language-shell">sudo apt install nginx
-</code></pre>
-
-<p>安装完成后 nginx 服务器默认就启动了。</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo apt install nginx
+</code></pre></div><p>安装完成后 nginx 服务器默认就启动了。</p>
 <p>nginx 相关命令：</p>
-
-<pre><code class="language-shell">sudo service nginx start # 启动 nginx
-sudo service nginx stop  # 停止 nginx
-sudo service nginx restart # 重启 nginx
-</code></pre>
-
-<h2 id="安装uwsgi">安装uWSGI</h2>
-
-<pre><code class="language-Shell">pip install uwsgi
-</code></pre>
-
-<p>测试 uWSGI 是否正常：</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo service nginx start <span style="color:#75715e"># 启动 nginx</span>
+sudo service nginx stop  <span style="color:#75715e"># 停止 nginx</span>
+sudo service nginx restart <span style="color:#75715e"># 重启 nginx</span>
+</code></pre></div><h2 id="安装uwsgi">安装uWSGI</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">pip install uwsgi
+</code></pre></div><p>测试 uWSGI 是否正常：</p>
 <p>建立一个 test.py 文件，内容如下：</p>
-
-<pre><code class="language-Python">def application(env, start_response):
-    start_response('200 OK', [('Content-Type','text/html')])
-    return &quot;Hello World&quot;
-</code></pre>
-
-<p>然后在命令行运行以下命令：</p>
-
-<pre><code class="language-Shell">uwsgi --http :8000 --wsgi-file test.py
-</code></pre>
-
-<p><code>--http :8000</code>：表示使用的是 http 协议，端口号为8000</p>
-
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Python" data-lang="Python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">application</span>(env, start_response):
+    start_response(<span style="color:#e6db74">&#39;200 OK&#39;</span>, [(<span style="color:#e6db74">&#39;Content-Type&#39;</span>,<span style="color:#e6db74">&#39;text/html&#39;</span>)])
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Hello World&#34;</span>
+</code></pre></div><p>然后在命令行运行以下命令：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">uwsgi --http :8000 --wsgi-file test.py
+</code></pre></div><p><code>--http :8000</code>：表示使用的是 http 协议，端口号为8000</p>
 <p><code>--wsgi-file test.py</code>：表示要运行的 wsgi 应用程序文件</p>
-
 <p>更多参数使用请看：<a href="http://uwsgi-docs.readthedocs.io/en/latest/Options.html">uWSGI 参数详解</a></p>
-
 <p>uwsgi 命令运行后，在浏览器访问<code>[服务器IP地址]:8000</code>，若看到<code>Hello World</code>则表明 uWSGI 运行正常。</p>
-
 <h2 id="uwsgi配置">uWSGI配置</h2>
-
 <p>uWSGI 支持 ini、xml 等多种配置方式，这里以 ini 配置为例。在<code>/var/www/html/[项目名]</code>目录下创建一个 mysite_uwsgi.ini 文件，内容如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#f92672">[</span>uwsgi<span style="color:#f92672">]</span>
 
-<pre><code class="language-shell">[uwsgi]
-
-# Django-related settings
-# the base directory (full path)
-chdir           = /var/www/html/your_project_name
-# Django's wsgi file
-module          = your_project_name.wsgi
-# the virtualenv (full path)
-home            = /path/to/virtualenv
-# process-related settings
-# master
-master          = true
-# maximum number of worker processes
-processes       = 10
-# the socket (use the full path to be safe
-socket          = :8000
-# ... with appropriate permissions - may be needed
-# chmod-socket    = 664
-# clear environment on exit
-vacuum          = true
-# background the process &amp; log
-daemonize = /var/www/html/your_project_name/uwsgi.log
-pidfile		= /tmp/uwsgi.pid
-</code></pre>
-
-<p>然后就可以使用配置文件的方式来使用 uWSGI ：</p>
-
-<pre><code class="language-shell">uwsgi --ini mysite_uwsgi.ini
-</code></pre>
-
-<h2 id="nginx配置">nginx配置</h2>
-
+<span style="color:#75715e"># Django-related settings</span>
+<span style="color:#75715e"># the base directory (full path)</span>
+chdir           <span style="color:#f92672">=</span> /var/www/html/your_project_name
+<span style="color:#75715e"># Django&#39;s wsgi file</span>
+module          <span style="color:#f92672">=</span> your_project_name.wsgi
+<span style="color:#75715e"># the virtualenv (full path)</span>
+home            <span style="color:#f92672">=</span> /path/to/virtualenv
+<span style="color:#75715e"># process-related settings</span>
+<span style="color:#75715e"># master</span>
+master          <span style="color:#f92672">=</span> true
+<span style="color:#75715e"># maximum number of worker processes</span>
+processes       <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+<span style="color:#75715e"># the socket (use the full path to be safe</span>
+socket          <span style="color:#f92672">=</span> :8000
+<span style="color:#75715e"># ... with appropriate permissions - may be needed</span>
+<span style="color:#75715e"># chmod-socket    = 664</span>
+<span style="color:#75715e"># clear environment on exit</span>
+vacuum          <span style="color:#f92672">=</span> true
+<span style="color:#75715e"># background the process &amp; log</span>
+daemonize <span style="color:#f92672">=</span> /var/www/html/your_project_name/uwsgi.log
+pidfile		<span style="color:#f92672">=</span> /tmp/uwsgi.pid
+</code></pre></div><p>然后就可以使用配置文件的方式来使用 uWSGI ：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">uwsgi --ini mysite_uwsgi.ini
+</code></pre></div><h2 id="nginx配置">nginx配置</h2>
 <p>新建一个名为<code>mysite_nginx.conf</code>的文件，内容如下：</p>
-
 <pre><code># mysite_nginx.conf
 
 # the upstream component nginx needs to connect to
@@ -218,22 +188,12 @@ server {
         include     /etc/nginx/uwsgi_params; # the uwsgi_params file you installed
     }
 }
-</code></pre>
-
-<p>替换完成文件中的相关文件路径后，在<code>/etc/nginx/sites-enabled</code>目录下，建立该文件的符号链接：</p>
-
-<pre><code class="language-Shell">sudo ln -s ~/[你的文件所在路径]/mysite_nginx.conf /etc/nginx/sites-enabled/
-</code></pre>
-
-<p>重启 nginx 服务器：</p>
-
-<pre><code class="language-Shell">sudo service nginx restart
-</code></pre>
-
-<p>最后，将 uWSGI 运行起来，就看到你的 Django 项目已经跑起来了。</p>
-
+</code></pre><p>替换完成文件中的相关文件路径后，在<code>/etc/nginx/sites-enabled</code>目录下，建立该文件的符号链接：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">sudo ln -s ~/<span style="color:#f92672">[</span>你的文件所在路径<span style="color:#f92672">]</span>/mysite_nginx.conf /etc/nginx/sites-enabled/
+</code></pre></div><p>重启 nginx 服务器：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-Shell" data-lang="Shell">sudo service nginx restart
+</code></pre></div><p>最后，将 uWSGI 运行起来，就看到你的 Django 项目已经跑起来了。</p>
 <p>参考文章：</p>
-
 <p><a href="http://uwsgi-docs.readthedocs.io/en/latest/tutorials/Django_and_nginx.html">Setting up Django and your web server with uWSGI and nginx</a></p>
 </div>
         <div class="post_footer">

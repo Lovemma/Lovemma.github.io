@@ -10,8 +10,8 @@
         content="COldish"/>
 
   
-  <meta name="description" content="OOP中容易出现对象创建带来的性能和内存占用问题，当我们想要优化内存使用提高应用性能之时，可以使用享元模式。而想要使享元模式有效，需要满足以下几个条件： - 需要使用大量对象（Python 中可以使用__slots__节省内存使用） - 对象太多难以存储或解析大量对象 - 对象识别不是特别重要，共享对象中对象比较会失败
-通常情况下，会使用对象池技术来实现共享对象，比如数据库中经常使用连接池来减少开销，预先建立一些连接池，每次取一个连接和数据库交互。
+  <meta name="description" content="OOP中容易出现对象创建带来的性能和内存占用问题，当我们想要优化内存使用提高应用性能之时，可以使用享元模式。而想要使享元模式有效，需要满足以下几个条件：
+ 需要使用大量对象（Python 中可以使用__slots__节省内存使用） 对象太多难以存储或解析大量对象 对象识别不是特别重要，共享对象中对象比较会失败  通常情况下，会使用对象池技术来实现共享对象，比如数据库中经常使用连接池来减少开销，预先建立一些连接池，每次取一个连接和数据库交互。
 "/>
   
 
@@ -81,6 +81,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -94,76 +98,75 @@
           <h2><a href='/posts/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E4%BA%AB%E5%85%83%E6%A8%A1%E5%BC%8F/'>设计模式之享元模式</a></h2>
           <span class="date">2018.10.19</span>
         </div>
-        <div class="post_content markdown"><p>OOP中容易出现对象创建带来的性能和内存占用问题，当我们想要优化内存使用提高应用性能之时，可以使用享元模式。而想要使享元模式有效，需要满足以下几个条件：
-- 需要使用大量对象（Python 中可以使用<code>__slots__</code>节省内存使用）
-- 对象太多难以存储或解析大量对象
-- 对象识别不是特别重要，共享对象中对象比较会失败</p>
-
+        <div class="post_content markdown"><p>OOP中容易出现对象创建带来的性能和内存占用问题，当我们想要优化内存使用提高应用性能之时，可以使用享元模式。而想要使享元模式有效，需要满足以下几个条件：</p>
+<ul>
+<li>需要使用大量对象（Python 中可以使用<code>__slots__</code>节省内存使用）</li>
+<li>对象太多难以存储或解析大量对象</li>
+<li>对象识别不是特别重要，共享对象中对象比较会失败</li>
+</ul>
 <p>通常情况下，会使用对象池技术来实现共享对象，比如数据库中经常使用连接池来减少开销，预先建立一些连接池，每次取一个连接和数据库交互。</p>
-
 <p>一般来说，在应用需要创建大量的计算代价大但共享许多属性的对象时，可以使用享元。重点在于将不可变（可共享）的属性与可变的属性区分开。这里以一个树渲染器，支持三种不同的树家族为例：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> random
+<span style="color:#f92672">from</span> enum <span style="color:#f92672">import</span> Enum
 
-<pre><code class="language-python">import random
-from enum import Enum
-
-TreeType = Enum('TreeType', ('apple_tree', 'cherry_tree', 'peach_tree'))
-
-
-class Tree:
-    pool = dict()
-
-    def __new__(cls, tree_type):
-        obj = cls.pool.get(tree_type, None)
-        if not obj:
-            obj = object.__new__(cls)
-            cls.pool[tree_type] = obj
-            obj.tree_type = tree_type
-        return obj
-
-    def render(self, age, x, y):
-        print(f'render a tree of type {self.tree_type}'
-              f' and age {age} at ({x}, {y})')
+TreeType <span style="color:#f92672">=</span> Enum(<span style="color:#e6db74">&#39;TreeType&#39;</span>, (<span style="color:#e6db74">&#39;apple_tree&#39;</span>, <span style="color:#e6db74">&#39;cherry_tree&#39;</span>, <span style="color:#e6db74">&#39;peach_tree&#39;</span>))
 
 
-def main():
-    rnd = random.Random()
-    age_min, age_max = 1, 30  # 单位为年
-    min_point, max_point = 0, 100
-    tree_counter = 0
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Tree</span>:
+    pool <span style="color:#f92672">=</span> dict()
 
-    for _ in range(10):
-        t1 = Tree(TreeType.apple_tree)
-        t1.render(rnd.randint(age_min, age_max),
-                  rnd.randint(min_point, max_point),
-                  rnd.randint(min_point, max_point))
-        tree_counter += 1
+    <span style="color:#66d9ef">def</span> __new__(cls, tree_type):
+        obj <span style="color:#f92672">=</span> cls<span style="color:#f92672">.</span>pool<span style="color:#f92672">.</span>get(tree_type, None)
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> obj:
+            obj <span style="color:#f92672">=</span> object<span style="color:#f92672">.</span>__new__(cls)
+            cls<span style="color:#f92672">.</span>pool[tree_type] <span style="color:#f92672">=</span> obj
+            obj<span style="color:#f92672">.</span>tree_type <span style="color:#f92672">=</span> tree_type
+        <span style="color:#66d9ef">return</span> obj
 
-    for _ in range(3):
-        t2 = Tree(TreeType.cherry_tree)
-        t2.render(rnd.randint(age_min, age_max),
-                  rnd.randint(min_point, max_point),
-                  rnd.randint(min_point, max_point))
-        tree_counter += 1
-
-    for _ in range(5):
-        t3 = Tree(TreeType.peach_tree)
-        t3.render(rnd.randint(age_min, age_max),
-                  rnd.randint(min_point, max_point),
-                  rnd.randint(min_point, max_point))
-        tree_counter += 1
-
-    print('trees rendered: {}'.format(tree_counter))
-    print('trees actually created: {}'.format(len(Tree.pool)))
-    t4 = Tree(TreeType.cherry_tree)
-    t5 = Tree(TreeType.cherry_tree)
-    t6 = Tree(TreeType.apple_tree)
-    print('{} == {}? {}'.format(id(t4), id(t5), id(t4) == id(t5)))
-    print('{} == {}? {}'.format(id(t5), id(t6), id(t5) == id(t6)))
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">render</span>(self, age, x, y):
+        <span style="color:#66d9ef">print</span>(f<span style="color:#e6db74">&#39;render a tree of type {self.tree_type}&#39;</span>
+              f<span style="color:#e6db74">&#39; and age {age} at ({x}, {y})&#39;</span>)
 
 
-if __name__ == '__main__':
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    rnd <span style="color:#f92672">=</span> random<span style="color:#f92672">.</span>Random()
+    age_min, age_max <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">30</span>  <span style="color:#75715e"># 单位为年</span>
+    min_point, max_point <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">100</span>
+    tree_counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+
+    <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">10</span>):
+        t1 <span style="color:#f92672">=</span> Tree(TreeType<span style="color:#f92672">.</span>apple_tree)
+        t1<span style="color:#f92672">.</span>render(rnd<span style="color:#f92672">.</span>randint(age_min, age_max),
+                  rnd<span style="color:#f92672">.</span>randint(min_point, max_point),
+                  rnd<span style="color:#f92672">.</span>randint(min_point, max_point))
+        tree_counter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+    <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">3</span>):
+        t2 <span style="color:#f92672">=</span> Tree(TreeType<span style="color:#f92672">.</span>cherry_tree)
+        t2<span style="color:#f92672">.</span>render(rnd<span style="color:#f92672">.</span>randint(age_min, age_max),
+                  rnd<span style="color:#f92672">.</span>randint(min_point, max_point),
+                  rnd<span style="color:#f92672">.</span>randint(min_point, max_point))
+        tree_counter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+    <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>):
+        t3 <span style="color:#f92672">=</span> Tree(TreeType<span style="color:#f92672">.</span>peach_tree)
+        t3<span style="color:#f92672">.</span>render(rnd<span style="color:#f92672">.</span>randint(age_min, age_max),
+                  rnd<span style="color:#f92672">.</span>randint(min_point, max_point),
+                  rnd<span style="color:#f92672">.</span>randint(min_point, max_point))
+        tree_counter <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;trees rendered: {}&#39;</span><span style="color:#f92672">.</span>format(tree_counter))
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;trees actually created: {}&#39;</span><span style="color:#f92672">.</span>format(len(Tree<span style="color:#f92672">.</span>pool)))
+    t4 <span style="color:#f92672">=</span> Tree(TreeType<span style="color:#f92672">.</span>cherry_tree)
+    t5 <span style="color:#f92672">=</span> Tree(TreeType<span style="color:#f92672">.</span>cherry_tree)
+    t6 <span style="color:#f92672">=</span> Tree(TreeType<span style="color:#f92672">.</span>apple_tree)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;{} == {}? {}&#39;</span><span style="color:#f92672">.</span>format(id(t4), id(t5), id(t4) <span style="color:#f92672">==</span> id(t5)))
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;{} == {}? {}&#39;</span><span style="color:#f92672">.</span>format(id(t5), id(t6), id(t5) <span style="color:#f92672">==</span> id(t6)))
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
     main()
-</code></pre></div>
+</code></pre></div></div>
         <div class="post_footer">
           
           <div class="meta">

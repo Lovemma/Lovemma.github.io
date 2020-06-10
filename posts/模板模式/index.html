@@ -82,6 +82,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -98,56 +102,45 @@
         <div class="post_content markdown"><blockquote>
 <p>模板模式：抽象出算法公共部分从而实现代码复用。</p>
 </blockquote>
-
 <p>编写优秀代码的一个要素是避免冗余。在面向对象编程中，方法和函数是我们用来避免编写冗余代码的重要工具。</p>
-
 <p>模板设计模式旨在消除代码重复。如果我们发现结构相近的（多个）算法中有重复代码，则可以把算法的不变（通用）部分留在一个模板方法/函数中，把易变（不同）的部分移到动作/钩子方法/函数中。</p>
-
 <p>实际上这种模式在代码重构的时候是经常使用的 ，这里以一个例子来进行说明:</p>
-
 <p>首先安装<code>cowpy</code>(ps: 竟然有人编写这个)：</p>
-
-<pre><code class="language-shell">pip install cowpy
-</code></pre>
-
-<p>代码如下：</p>
-
-<pre><code class="language-python">from cowpy import cow
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">pip install cowpy
+</code></pre></div><p>代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> cowpy <span style="color:#f92672">import</span> cow
 
 
-def dots_style(msg):
-    msg = msg.capitalize()
-    msg = '.' * 10 + msg + '.' * 10
-    return msg
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dots_style</span>(msg):
+    msg <span style="color:#f92672">=</span> msg<span style="color:#f92672">.</span>capitalize()
+    msg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">+</span> msg <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;.&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span>
+    <span style="color:#66d9ef">return</span> msg
 
 
-def admire_style(msg):
-    msg = msg.upper()
-    return '!'.join(msg)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">admire_style</span>(msg):
+    msg <span style="color:#f92672">=</span> msg<span style="color:#f92672">.</span>upper()
+    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;!&#39;</span><span style="color:#f92672">.</span>join(msg)
 
 
-def cow_style(msg):
-    msg = cow.milk_random_cow(msg)
-    return msg
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">cow_style</span>(msg):
+    msg <span style="color:#f92672">=</span> cow<span style="color:#f92672">.</span>milk_random_cow(msg)
+    <span style="color:#66d9ef">return</span> msg
 
 
-def generate_banner(msg, style=dots_style):
-    print('-- start of banner --')
-    print(style(msg))
-    print('-- end of banner --\n\n')
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">generate_banner</span>(msg, style<span style="color:#f92672">=</span>dots_style):
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;-- start of banner --&#39;</span>)
+    <span style="color:#66d9ef">print</span>(style(msg))
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;-- end of banner --</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#39;</span>)
 
 
-def main():
-    msg = 'happy coding'
-    [generate_banner(msg, style) for style in (dots_style, admire_style,
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">main</span>():
+    msg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;happy coding&#39;</span>
+    [generate_banner(msg, style) <span style="color:#66d9ef">for</span> style <span style="color:#f92672">in</span> (dots_style, admire_style,
                                             cow_style)]
 
-if __name__ == &quot;__main__&quot;:
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;__main__&#34;</span>:
     main()
-</code></pre>
-
-<p>运行结果：</p>
-
+</code></pre></div><p>运行结果：</p>
 <pre><code>-- start of banner --
 ..........Happy coding..........
 -- end of banner --

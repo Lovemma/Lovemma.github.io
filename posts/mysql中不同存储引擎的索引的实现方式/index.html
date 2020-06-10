@@ -10,7 +10,7 @@
         content="COldish"/>
 
   
-  <meta name="description" content="对于不同的 MySQL 存储引擎，索引的具体实现细节也有所不同。 1. 对于 MyISAM 表，其数据行保存在数据文件中，而索引值则保存在索引文件里。一个表可以有多个索引，但它们都保存在同一个索引文件里。索引文件里的每一个索引都由一组有序的关键字行构成，这个组中的关键字行主要用于快速访问数据文件。 2. InnoDB 存储引擎没有按照上面的方法将行和索引值分开放置，尽管它也是把索引值当作是一组有序值。默认情况下，InnoDB 存储引擎只使用一个表空"/>
+  <meta name="description" content="对于不同的 MySQL 存储引擎，索引的具体实现细节也有所不同。 对于 MyISAM 表，其数据行保存在数据文件中，而索引值则保存在索引文件里。一个表可以有多个索引，但它们都保存在同一个索引文件里。索引文件里的每一个索引都由一组有序的关键字行构成，这个组中的关键字行主要用于快速访问数据文件。 InnoDB 存储引擎没有按照上面的方法将行和索引值分开放置，尽管它也是把索引值当作是一组有序值。默认情况下，InnoDB 存储引擎只使用一个表空间，"/>
   
 
   
@@ -79,6 +79,10 @@
         <a href="https://github.com/lovemma" title="github" target="_blank"><i class="remixicon-github-fill"></i></a>
         
         
+        
+        <a href="true" title="uglyurls" target="_blank"><i class="remixicon-uglyurls-fill"></i></a>
+        
+        
         <a href="https://lovemma.github.io/index.xml" type="application/rss+xml" title="rss" target="_blank"><i class="remixicon-rss-fill"></i></a>
       </div>
     </div>
@@ -92,9 +96,11 @@
           <h2><a href='/posts/mysql%E4%B8%AD%E4%B8%8D%E5%90%8C%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E7%9A%84%E7%B4%A2%E5%BC%95%E7%9A%84%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F/'>MySQL中不同存储引擎的索引的实现方式</a></h2>
           <span class="date">2018.11.25</span>
         </div>
-        <div class="post_content markdown"><p>对于不同的 MySQL 存储引擎，索引的具体实现细节也有所不同。
-1. 对于 <strong>MyISAM</strong> 表，其数据行保存在数据文件中，而索引值则保存在索引文件里。一个表可以有多个索引，但它们都保存在同一个索引文件里。索引文件里的每一个索引都由一组有序的关键字行构成，这个组中的关键字行主要用于快速访问数据文件。
-2. <strong>InnoDB</strong> 存储引擎没有按照上面的方法将行和索引值分开放置，尽管它也是把索引值当作是一组有序值。默认情况下，<strong>InnoDB</strong> 存储引擎只使用一个表空间，在这个表空间的内部，管理着所有 <strong>InnoDB</strong> 表的数据存储和索引存储。可以通过配置 <strong>InnoDB</strong>，让它创建的每个表都有自己的表空间，但即使如此，给定表的数据和索引也同样保存在同一个表空间文件里。</p>
+        <div class="post_content markdown"><p>对于不同的 MySQL 存储引擎，索引的具体实现细节也有所不同。</p>
+<ol>
+<li>对于 <strong>MyISAM</strong> 表，其数据行保存在数据文件中，而索引值则保存在索引文件里。一个表可以有多个索引，但它们都保存在同一个索引文件里。索引文件里的每一个索引都由一组有序的关键字行构成，这个组中的关键字行主要用于快速访问数据文件。</li>
+<li><strong>InnoDB</strong> 存储引擎没有按照上面的方法将行和索引值分开放置，尽管它也是把索引值当作是一组有序值。默认情况下，<strong>InnoDB</strong> 存储引擎只使用一个表空间，在这个表空间的内部，管理着所有 <strong>InnoDB</strong> 表的数据存储和索引存储。可以通过配置 <strong>InnoDB</strong>，让它创建的每个表都有自己的表空间，但即使如此，给定表的数据和索引也同样保存在同一个表空间文件里。</li>
+</ol>
 </div>
         <div class="post_footer">
           
