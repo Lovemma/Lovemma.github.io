@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>tshark on I&#39;m Groooooot</title>
+    <link>https://lovemma.github.io/tags/tshark/</link>
+    <description>Recent content in tshark on I&#39;m Groooooot</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Sat, 10 Oct 2020 14:57:29 +0800</lastBuildDate>
+    
+	<atom:link href="https://lovemma.github.io/tags/tshark/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CentOS 7 编译最新的 wireshark/tshark 3.2.7 安装包</title>
+      <link>https://lovemma.github.io/posts/build-tshark-centos-7/</link>
+      <pubDate>Sat, 10 Oct 2020 14:57:29 +0800</pubDate>
+      
+      <guid>https://lovemma.github.io/posts/build-tshark-centos-7/</guid>
+      <description>系统环境 Docker CentOS 7.5.1804 编译步骤 1. 安装 CentOS epel yum 仓库 yum install -y epel-release 2. 下载 Wireshark 源码并解压 # 下载源码 wget https://github.com/wireshark/wireshark/archive/v3.2.7.tar.gz # 解压 tar -xzf wireshark-3.2.7.tar.gz 3. 安装编译所需工具 yum install -y libgcrypt-devel glib2-devel qt-devel qt5-qtbase-devel qt5-linguist qt5-qtmultimedia-devel qt5-qtsvg-devel libcap-devel libcap-ng-devel gnutls-devel krb5-devel libxml2-devel lua-devel lz4-devel snappy-devel spandsp-devel libssh2-devel bcg729-devel libmaxminddb-devel sbc-devel libsmi-devel libnl3-devel libnghttp2-devel libssh-devel libpcap-devel c-ares-devel redhat-rpm-config rpm-build gtk+-devel gtk3-devel desktop-file-utils portaudio-devel rubygem-asciidoctor docbook5-style-xsl docbook-style-xsl systemd-devel python34 cmake3 git gcc gcc-c++ flex bison doxygen gettext-devel libxslt cmake 4. Wireshark 源码 git 管理 # 进入到解压后的 Wireshark 源码目录 cd wireshark-3.2.7 # 初始化 git git init # 提交 git add . git commit -m &amp;#34;First commit.&amp;#34; 5. 编译 rpm 安装包 cmake3 ./ make rpm-package</description>
+    </item>
+    
+  </channel>
+</rss>
